@@ -1,0 +1,30 @@
+{% extends "template/template.twig" %}
+{% block content %}
+<div class="ed-container">
+    <div class="ed-item s-100 l-offset-15 l-70">
+        <h2 class="text-left text-info">Panel de control</h2>
+    </div>
+    <div class="ed-item s-100 l-offset-15 l-70">
+        <div class="ed-container full no-padding">
+            <div class="ed-item s-100 l-50 text-center">
+                <i class="big-icon icon icon-book"></i> <br>
+                <a href="">Módulo de programas</a>
+            </div>
+            <div class="ed-item s-100 l-50 text-center">
+                <i class="big-icon icon icon-graduation-cap"></i> <br>
+                <a href="">Módulo de cursos</a>
+            </div>
+            <br>
+            <br>
+            <div class="ed-item s-100 l-50 text-center">
+                <i class="big-icon icon icon-user"></i> <br>
+                <a href="{{ path_for('admin.users') }}">Módulo de usuarios</a>
+            </div>
+            <div class="ed-item s-100 l-50 text-center">
+                <i class="big-icon icon icon-tools"></i><br>
+                <a href="">Herramientas</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

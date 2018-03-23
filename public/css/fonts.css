@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+
+body, *{
+  font-family: 'Roboto' !important;
+}
+.text-white{
+  color: #fff;
+}
+@charset "UTF-8";
+
+@font-face {
+  font-family: "monitorarroba";
+  src:url("../fonts/monitorarroba.eot");
+  src:url("../fonts/monitorarroba.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/monitorarroba.woff") format("woff"),
+    url("../fonts/monitorarroba.ttf") format("truetype"),
+    url("../fonts/monitorarroba.svg#monitorarroba") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "monitorarroba" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "monitorarroba" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-book:before {
+  content: "\61";
+}
+.icon-graduation-cap:before {
+  content: "\62";
+}
+.icon-user:before {
+  content: "\63";
+}
+.icon-tools:before {
+  content: "\64";
+}
+.icon-lock:before {
+  content: "\65";
+}
+.icon-plus-circle:before {
+  content: "\66";
+}
+.icon-trash:before {
+  content: "\67";
+}
+.icon-file-text-o:before {
+  content: "\68";
+}
+.icon-upload:before {
+  content: "\69";
+}
