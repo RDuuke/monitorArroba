@@ -21,8 +21,13 @@ class AppController extends Controller
 
     public function users(Request $request,Response $response)
     {
-        $students = Student::getForInstitution($this->auth->getInstitution());
-        $institutions = Institution::all();
-        return $this->view->render($response, "users.twig", ['students' => $students, 'institutions' => 'institutions']);
+        //$students = Student::getForInstitution($this->auth->getInstitution());
+        //$institutions = Institution::all();
+        return $this->view->render($response, "users.twig");
+    }
+
+    function upload(Request $request, Response $response)
+    {
+        return $this->view->render($response, "uploadusers.twig");
     }
 }

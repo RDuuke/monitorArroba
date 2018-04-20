@@ -1,6 +1,14 @@
 {% extends "template/template.twig" %}
 {% block styles %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
+<style>
+  @media (min-width: 992px){
+    .modal-lg {
+      max-width: 1075px;
+    }
+  }
+</style>
 {% endblock %}
 {% block content %}
 <div class="ed-container full">
@@ -8,7 +16,7 @@
         <h2 class="text-left text-info">Módulo estudiantes</h2>
     </div>
     <div class="ed-item s-100">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#userCreateModal"><i class="icon icon-plus-circle"></i> Agregar estudiante</button>  -  <button class="btn btn-success" data-toggle="modal" data-target="#userExcelModal"> <i class="icon icon-file-text-o"></i> Cargar archivo con usuarios</button>
+        <button class="btn btn-primary addstudent" data-href="{{ path_for('admin.users.store') }}"><i class="icon icon-plus-circle"></i> Agregar estudiante</button>  -  <a class="btn btn-success" href="{{ path_for('admin.view.user.upload') }}"> <i class="icon icon-file-text-o"></i> Cargar archivo</a>
         <br>
     </div>
     <div class="ed-item s-100">
@@ -24,38 +32,18 @@
                     <th> {{ "Apellidos" | title }}</th>
                     <th> {{ "Correo" | title }}</th>
                     <th> {{ "Documento" | title }}</th>
-                    <th> {{ "Institucion" | title }}</th>
+                    <th></th>
+                    <!--<th> {{ "Institucion" | title }}</th>
                     <th> {{ "Genero" | title }}</th>
                     <th> {{ "Ciudad" | title }}</th>
                     <th> {{ "Departamento" | title }}</th>
                     <th> {{ "Pais" | title }}</th>
                     <th> {{ "Telefono" | title }}</th>
                     <th> {{ "Celular" | title }}</th>
-                    <th> {{ "Direccion" | title }}</th>
+                    <th> {{ "Direccion" | title }}</th>-->
                 </tr>
             </thead>
             <tbody>
-                {% for student in students %}
-                <tr>
-                    <td> <a href="{{ path_for('admin.users.delete', {id : student.id}) }}" class="studentEliminar pointer"><i class="icon icon-trash text-danger"></i></a></td>
-                    <td>{{student.usuario | trim }}</td>
-                    {% if auth.isAdmin %}
-                    <td>{{student.clave}} </td>
-                    {% endif %}
-                    <td>{{student.nombres | trim | title }}</td>
-                    <td>{{student.apellidos | trim | title }}</td>
-                    <td>{{student.correo | trim }}</td>
-                    <td>{{student.documento | trim | title }}</td>
-                    <td>{{student.institucion | trim | title }}</td>
-                    <td>{{student.genero | trim | title }}</td>
-                    <td>{{student.ciudad | trim | title }}</td>
-                    <td>{{student.departamento | trim | title }}</td>
-                    <td>{{student.pais | trim | title }}</td>
-                    <td>{{student.telefono | trim | title }}</td>
-                    <td>{{student.celular | trim | title }}</td>
-                    <td>{{student.direccion | trim | title }}</td>
-                </tr>
-                {% endfor %}
             </tbody>
         </table>
     </div>
@@ -71,90 +59,96 @@
         </div>
         <div id="message_form"></div>
         <form id="userCreateForm" action="{{ path_for('admin.users.store') }}">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Usuario</label>
-            <input name="usuario" type="text" class="form-control" >
+        <div class="ed-container">
+          <div class="ed-item s-100 l-50">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Usuario</label>
+              <input name="usuario" type="text" class="form-control" >
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Clave</label>
+              <input name="clave" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Nombres</label>
+              <input name="nombres" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Apellidos</label>
+              <input name="apellidos" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Correo</label>
+              <input name="correo" type="email" class="form-control" placeholder="usuario@institucion.edu.co">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Documento</label>
+              <input name="documento" type="number" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="institucion">Institucion</label>
+              {% if auth.isAdmin == false %}
+                <input name="institucion" type="text" class="form-control" value="{{ auth.user.institution.nombre }}" readonly >
+              {% else %}
+                <select name="institucion" id="institucion" class="form-control">
+                  <option value="Institución Universitaria Pascual Bravo">Institución Universitaria Pascual Bravo</option>
+                  <option value="Institución Universitaria Colegio Mayor de Antioquia">Institución Universitaria Colegio Mayor de Antioquia</option>
+                  <option value="Institución Universitaria ITM">Institución Universitaria ITM</option>
+                  <option value="Ruta N">Ruta N</option>
+                  <option value="@Medellín">@Medellín</option>
+                </select>
+              {% endif %}
+            </div>
           </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Clave</label>
-            <input name="clave" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Nombres</label>
-            <input name="nombres" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Apellidos</label>
-            <input name="apellidos" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Correo</label>
-            <input name="correo" type="email" class="form-control" placeholder="usuario@institucion.edu.co">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Documento</label>
-            <input name="documento" type="number" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="institucion">Institucion</label>
-            {% if auth.isAdmin == false %}
-              <input name="institucion" type="text" class="form-control" value="{{ auth.user.institution.nombre }}" readonly >
-            {% else %}
-              <select name="institucion" id="institucion" class="form-control">
-                <option value="Institución Universitaria Pascual Bravo">Institución Universitaria Pascual Bravo</option>
-                <option value="Institución Universitaria Colegio Mayor de Antioquia">Institución Universitaria Colegio Mayor de Antioquia</option>
-                <option value="Institución Universitaria ITM">Institución Universitaria ITM</option>
-                <option value="Ruta N">Ruta N</option>
-                <option value="@Medellín">@Medellín</option>
+          <div class="ed-item s-100 l-50">
+            <div class="form-group">
+              <label for="genero">Genero</label>
+              <select name="genero" id="genero" class="form-control">
+                <option value="F">Femenino</option>
+                <option value="M">Masculino</option>
               </select>
-            {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Ciudad</label>
+              <input name="ciudad" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Departamento</label>
+              <input name="departamento" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Pais</label>
+              <input name="pais" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Telefono</label>
+              <input name="telefono" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Celular</label>
+              <input name="celular" type="number" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Direccion</label>
+              <input name="direccion" type="text" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
-          <div class="form-group">
-            <label for="genero">Genero</label>
-            <select name="genero" id="genero" class="form-control">
-              <option value="F">Femenino</option>
-              <option value="M">Masculino</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Ciudad</label>
-            <input name="ciudad" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Departamento</label>
-            <input name="departamento" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Pais</label>
-            <input name="pais" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Telefono</label>
-            <input name="telefono" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Celular</label>
-            <input name="celular" type="number" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Direccion</label>
-            <input name="direccion" type="text" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
         </form>
     </div>
   </div>
 </div>
-
 {% endblock %}
 {% block script %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 <script>
+
 var getUri = "http://"+window.location.host;
+var _td = null;
 var table = $('table').DataTable({
-        "language": {
+        language: {
             "lengthMenu": "Mostrar _MENU_ registros por pagina",
             "zeroRecords": "No hay resultados",
             "info": "Pagina _PAGE_ de _PAGES_",
@@ -170,16 +164,37 @@ var table = $('table').DataTable({
                 "next":       "Siguiente",
                 "previous":   "Anterior"
             },
-        }
+        },
+        ajax: {
+            url: getUri + '/panel/users/all',
+            dataSrc: ''
+        },
+        columns: [
+            { data: 'id' },
+            { data: 'usuario' },
+            { data: 'clave' },
+            { data: 'nombres' },
+            { data: 'apellidos' },
+            { data: 'documento' },
+            { data: null,
+              defaultContent:"<a href='{{ path_for('admin.users.delete', {id : id}) }}' class='studentEliminar pointer'><i class='icon icon-trash text-danger'></i></a><a href='{{ path_for('admin.users.show', {id : data.id}) }}' class='studentShow pointer' data-href='{{ path_for('admin.users.update', {id : data.id}) }}'><i class='icon icon-user text-sucess'></i></a>"
+            }
+          ]
     });
 $("#userCreateForm").on( "submit", function( event ) {
   event.preventDefault();
   var userForm = $(this).serialize();
-  $.post(getUri + $(this).attr('action'), userForm).done( function(response){
-    if (response == 1){
-      toastr.success('Estudiante resgistrado correctamente.', 'Estupendo!!!', {timeOut: 3000});
-    } else {
-      console.log('1');
+  $.post(getUri + $(this).attr('action'), userForm).done( function(r){
+    var response = JSON.parse(r);
+    if (response.message == 1){
+      table.row.add(response.user).draw(false);
+      toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+    } else if(response.message == 2) {
+      console.log(_td);
+      table.row(_td.parents('tr')).data(response.user);
+      toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+    }else {
+      console.log('0');
     }
   }).
   fail(function(response){
@@ -189,12 +204,14 @@ $("#userCreateForm").on( "submit", function( event ) {
 });
 $("#tb_user").on('click', '.studentEliminar', function(event) {
     event.preventDefault();
-    var _this = $(this);
-    $.get(_this.attr('href')).done( function(response){
+    _td = $(this);
+    var _data = getDataTable(_td);
+    var url = _td.attr('href') + _data.id
+    $.get(url).done( function(response){
     if (response == 1){
       toastr.success('Estudiante eliminado correctamente.', 'Estupendo!!!', {timeOut: 3000});
       table
-        .row( _this.parents('tr') )
+        .row( _td.parents('tr') )
         .remove()
         .draw();    }
   }).
@@ -202,5 +219,28 @@ $("#tb_user").on('click', '.studentEliminar', function(event) {
     toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
   });
 });
+$("#tb_user").on('click', '.studentShow', function(event){
+    event.preventDefault();
+    _td = $(this);
+    var _data = getDataTable(_td);
+    var url = _td.attr('href') + _data.id
+    $.get(url).done(function(response){
+      console.log(JSON.parse(response));
+      $.each( JSON.parse(response), function( key, value ) {
+        $('input[name="'+key+'"]').val(value);
+        $('#userCreateForm').attr('action', _td.attr('data-href') + _data.id);
+        $('#userCreateModal').modal('show');
+      });
+    });
+});
+$(".addstudent").on('click', function(event){
+    event.preventDefault();
+    $('#userCreateForm')[0].reset();
+    $('#userCreateForm').attr('action',$(this).attr('data-href'));
+    $('#userCreateModal').modal('show');
+});
+function getDataTable(tr) {
+   return table.row(tr.parents('tr')).data();
+}
 </script>
 {% endblock %}

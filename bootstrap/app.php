@@ -11,8 +11,6 @@ use App\Controllers\StudentController;
 use App\Auth\Auth;
 use Slim\Flash\Messages;
 
-
-
 $app = new App([
     'settings' => [
         'determineRouteBeforeAppMiddeware' => false,
@@ -43,7 +41,9 @@ $container['flash'] = function ($container) {
 $container['auth'] = function ($container) {
     return new Auth($container);
 };
-
+$container['tmp'] = function($container) {
+    return dirname(__DIR__) . DS . "resource" . DS . "tmp" . DS;
+};
 $container['view'] = function ($container) {
     $view = new Twig(__DIR__ . "/../views",[
         'cache' => false

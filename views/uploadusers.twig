@@ -1,0 +1,45 @@
+{% extends "template/template.twig" %}
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
+{% endblock %}
+{% block content %}
+<div class="ed-container full">
+    <div class="ed-item s-100 l-offset-15 l-70">
+        <h2>Análisis de archivo de carga de usuarios</h2>
+        <p>
+            Esta aplicación, permitirá analizar un archivo Anexo 1, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
+        </p>
+        <form action="{{ path_for('admin.upload.users') }}" enctype="multipart/form-data" method="post" id="formFile">
+            <input type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            <button class="btn">Cargar</button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+<script>
+    $("#formFile").on('submit', function(event){
+        event.preventDefault();
+        var _this = $(this);
+        var form = new FormData(_this[0]);
+        console.log(form);
+        $.ajax({
+            type : "POST",
+            url : _this.attr('action'),
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            data: form
+        }).done(response => {
+            console.log(response);
+        }).fail(error => {
+
+        });
+    });
+</script>
+{% endblock %}
