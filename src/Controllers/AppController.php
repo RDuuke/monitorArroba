@@ -26,7 +26,12 @@ class AppController extends Controller
         return $this->view->render($response, "users.twig");
     }
 
-    function upload(Request $request, Response $response)
+    public function registers(Request $request, Response $response)
+    {
+        return $this->view->render($response, "register.twig");
+    }
+
+    function upload_users(Request $request, Response $response)
     {
         return $this->view->render($response, "uploadusers.twig");
     }

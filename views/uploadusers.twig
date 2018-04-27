@@ -2,10 +2,11 @@
 {% block styles %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
+<link rel="stylesheet" href="{{ base_url}}/css/modules/uploaduser.css">
 {% endblock %}
 {% block content %}
 <div class="ed-container full">
-    <div class="ed-item s-100 l-offset-15 l-70">
+    <div class="ed-item s-100 l-100">
         <h2>Análisis de archivo de carga de usuarios</h2>
         <p>
             Esta aplicación, permitirá analizar un archivo Anexo 1, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
@@ -14,32 +15,40 @@
             <input type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
             <button class="btn">Cargar</button>
         </form>
+        <br>
+        <p class="none fadein">Registros: <span id="registros"></span> - Usuarios creados: <span id="totalR"></span> - Usuarios no registrados: <span id="totalE"></span> - <button class="btn none fadein download_archive">Descargar</button></p>
+        <br>
+        <table id="tableResult" class="fadein">
+            <thead>
+                <tr>
+                    <th> {{ "Usuario" | title }}</th>
+                    <th> {{ "Clave" | title }}</th>
+                    <th> {{ "nombres" | title }}</th>
+                    <th> {{ "Apellidos" | title }}</th>
+                    <th> {{ "Correo" | title }}</th>
+                    <th> {{ "Documento" | title }}</th>
+                    <th> {{ "Genero" | title }}</th>
+                    <th> {{ "ciudad" | title }}</th>
+                    <th> {{ "institucion" | title }}</th>
+                    <th> {{ "Departamento" | title }}</th>
+                    <th> {{ "pais" | title }}</th>
+                    <th> {{ "telefono" | title }}</th>
+                    <th> {{ "celular" | title }}</th>
+                    <th> {{ "direccion" | title }}</th>
+                    <th> {{ "Mensaje" | title }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 
 </div>
 {% endblock %}
-{% block script %}
+{% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-<script>
-    $("#formFile").on('submit', function(event){
-        event.preventDefault();
-        var _this = $(this);
-        var form = new FormData(_this[0]);
-        console.log(form);
-        $.ajax({
-            type : "POST",
-            url : _this.attr('action'),
-            cache: false,
-            processData: false,
-            contentType: false,
-            enctype: 'multipart/form-data',
-            data: form
-        }).done(response => {
-            console.log(response);
-        }).fail(error => {
-
-        });
-    });
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+<script src="{{ base_url }}/js/modules/upload_users.js"></script>
 {% endblock %}

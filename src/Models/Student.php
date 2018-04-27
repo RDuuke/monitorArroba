@@ -15,4 +15,10 @@ class Student extends Model
 
         return Student::where('institucion', 'Like', $where)->get()->toArray();
     }
+
+    public function registers()
+    {
+        return $this->hasMany('App\Models\Register', 'usuario');
+    }
+
 }

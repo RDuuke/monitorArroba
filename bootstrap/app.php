@@ -8,6 +8,7 @@ use Slim\Views\TwigExtension;
 use App\Controllers\AppController;
 use App\Controllers\AuthController;
 use App\Controllers\StudentController;
+use App\Controllers\RegisterController;
 use App\Auth\Auth;
 use Slim\Flash\Messages;
 
@@ -58,6 +59,8 @@ $container['view'] = function ($container) {
         'user' => $container->auth->user()
     ]);
 
+    $view->getEnvironment()->addGlobal('base_url', (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST']. "");
+
     $view->getEnvironment()->addGlobal('flash', $container->flash);
 
     return $view;
@@ -77,4 +80,10 @@ $container['StudentController'] = function($container)
 {
     return new StudentController($container);
 };
+
+$container['RegisterController'] = function($container)
+{
+    return new RegisterController($container);
+};
+
 require_once dirname(__DIR__) . "/src/routes.php";

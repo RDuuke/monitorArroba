@@ -1,6 +1,8 @@
 <?php
 namespace App\Auth;
 use App\Models\User;
+use App\Tools\Tools;
+
 class Auth
 {
     public function attempt($email, $password)
@@ -37,7 +39,7 @@ class Auth
 
     public function getInstitution()
     {
-        if ( $this->user()->institution->codigo == '05') {
+        if ( $this->user()->institution->codigo == Tools::codigoMedellin()) {
               return "%";
         }
         return $this->user()->institution->nombre;

@@ -1,0 +1,51 @@
+#tableResult
+{
+    width: 100%;
+    display: none;
+}
+#tableResult tr {
+    border: 1px solid black;
+    background: #2C9FC2;
+    color: #fff;
+    box-sizing: border-box;
+}
+#tableResult td,
+#tableResult th {
+    box-sizing: border-box;
+    padding: 1em .5em;
+    text-align: center;
+    border-right-color: #fff;
+    border-right-width: 1px;
+    border-right-style: solid;
+
+}
+#tableResult td:last-child,
+#tableResult th:last-child
+{
+    border-right-style: none;
+}
+.errors
+{
+    background-color: tomato !important;
+}
+.creators
+{
+    background-color: yellowgreen !important;
+}
+#registros
+{
+    background:  yellow;
+    padding: .5em;
+    font-weight: bold;
+}
+#totalR{
+    background: yellowgreen;
+    padding: .5em;
+    font-weight: bold;
+}
+
+#totalE{
+    background: tomato;
+    padding: .5em;
+    font-weight: bold;
+}
