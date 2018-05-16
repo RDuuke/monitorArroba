@@ -29,4 +29,15 @@ class Register extends Model
     {
         return array_shift(explode(" ", $value));
     }
+
+    function scopePublic($query)
+    {
+        return $query->whereIn('instancia', [1, 2, 3]);
+    }
+
+    public function scopeRuta($query)
+    {
+        return $query->where('instancia', 4);
+    }
+
 }

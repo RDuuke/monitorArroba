@@ -9,10 +9,12 @@
         <h2 class="text-left text-info">Módulo matriculas</h2>
     </div>
     <div class="ed-item s-100">
-        <button class="btn btn-primary addregister" data-href="{{ path_for('admin.store.register') }}"><i class="icon icon-plus-circle"></i> Agregar matricula</button>  -  <a class="btn btn-success" href="{{ path_for('admin.view.user.upload') }}"> <i class="icon icon-file-text-o"></i> Cargar archivo</a>
+        <button class="btn btn-primary addregister" data-href="{{ path_for('admin.store.register') }}"><i class="icon icon-plus-circle"></i> Agregar matricula</button>  -  <a class="btn btn-success" href="{{ path_for('admin.upload.register') }}"> <i class="icon icon-file-text-o"></i> Cargar archivo</a>
         <br>
+    <br>
     </div>
     <div class="ed-item s-100">
+    <br>
         <table id="tb_register" class="display">
             <thead>
                 <tr>
@@ -43,8 +45,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 <script>
 var getUri = "http://"+window.location.host;
+const instancias = ['Pregado', 'Posgrado', 'FTDH', 'Ruta N', 'Sandbox'];
 var _td = null;
 var table = $('table').DataTable({
+    lengthMenu: [ 25, 50, 75, 100 ],
     language: {
         "lengthMenu": "Mostrar _MENU_ registros por pagina",
         "zeroRecords": "No hay resultados",
@@ -69,15 +73,29 @@ var table = $('table').DataTable({
     columns: [
         { data: 'id' },
         { data: 'curso' },
-        { data: 'instancia' },
-        { data: 'usuario' },
+        { "data": 'instancia',
+          "render" : function(data, type, row, meta) {
+            return ""+instancias[data - 1]+"";
+          }
+        },
+        { data: 'usuario',
+          "render" : function(data, type, row, meta) {
+              return '<a href="{{ path_for("admin.users.update", {id : data.id}) }}" data-usuario="'+data+'" class="showUserRegister pointer">'+data+'</a>';
+          }
+        },
         { data: 'rol' },
         { data: 'fecha' },
-        { data: null,
-          defaultContent:"<a href='{{ path_for('admin.delete.register', {id : id}) }}' class='registertEliminar pointer'><i class='icon icon-trash text-danger'></i></a><a href='{{ path_for('admin.show.register', {id : data.id}) }}' class='registerShow pointer' data-href='{{ path_for('admin.update.register', {id : data.id}) }}'><i class='icon icon-user text-sucess'></i></a>"
+        { "data": "id",
+          "render": function (data, type, row, meta) {
+                return '<a href="'+getUri+'/panel/register/delete/'+data+'" class="registertEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/register/show/'+data+'" class="registerShow pointer" data-href="{{ path_for("admin.update.register", {id : data.id}) }}"><i class="icon icon-user text-sucess"></i></a>';
+                //return '<a>'+data+'<a>';
+            }
         }
       ]
 });
+//http://localhost:8080/panel/register/delete/id
+//http://localhost:8080/panel/register/show/id
 </script>
+<script src="{{ base_url }}/js/function.js"></script>
 <script src="{{ base_url }}/js/modules/register.js"></script>
 {% endblock %}

@@ -7,35 +7,25 @@
 {% block content %}
 <div class="ed-container full">
     <div class="ed-item s-100 l-100">
-        <h2>Análisis de archivo de carga de usuarios</h2>
+        <h2>Análisis de archivo de carga de matriculas</h2>
         <p>
             Esta aplicación, permitirá analizar un archivo Anexo 1, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
         </p>
-        <form action="{{ path_for('admin.upload.users') }}" enctype="multipart/form-data" method="post" id="formFile">
-            <input type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        <form action="{{ path_for('admin.upload.register') }}" enctype="multipart/form-data" method="post" id="formFile">
+            <input  type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
             <button class="btn btn-primary">Cargar</button>
         </form>
         <br>
-        <p class="none fadein">Registros: <span id="registros"></span> - Usuarios creados: <span id="totalR"></span> - Usuarios no registrados: <span id="totalE"></span> - <button class="btn none fadein download_archive btn-success">Descargar</button></p>
+        <p class="none fadein">Registros: <span id="registros"></span> - Mariculas registradas: <span id="totalR"></span> - Matriculas no registrados: <span id="totalE"></span> - <button class="btn none fadein download_archive btn-success">Descargar</button></p>
         <br>
         <table id="tableResult" class="fadein">
             <thead>
                 <tr>
-                    <th> {{ "Usuario" | title }}</th>
-                    <th> {{ "Clave" | title }}</th>
-                    <th> {{ "nombres" | title }}</th>
-                    <th> {{ "Apellidos" | title }}</th>
-                    <th> {{ "Correo" | title }}</th>
-                    <th> {{ "Documento" | title }}</th>
-                    <th> {{ "Genero" | title }}</th>
-                    <th> {{ "ciudad" | title }}</th>
-                    <th> {{ "institucion" | title }}</th>
-                    <th> {{ "Departamento" | title }}</th>
-                    <th> {{ "pais" | title }}</th>
-                    <th> {{ "telefono" | title }}</th>
-                    <th> {{ "celular" | title }}</th>
-                    <th> {{ "direccion" | title }}</th>
-                    <th> {{ "Mensaje" | title }}</th>
+                    <th> {{ "curso" | title }}</th>
+                    <th> {{ "instancia" | title }}</th>
+                    <th> {{ "usuario" | title }}</th>
+                    <th> {{ "rol" | title }}</th>
+                    <th> {{ "fecha" | title }}</th>
                 </tr>
             </thead>
             <tbody>

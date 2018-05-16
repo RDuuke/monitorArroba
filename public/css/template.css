@@ -88,3 +88,11 @@ header > div:last-child a {
 {
     cursor: pointer;
 }
+.button:hover, button:hover
+{
+    background-color: transparent;
+}
+#tb_user_length label,
+#tb_register_length label {
+    text-transform: unset;
+}

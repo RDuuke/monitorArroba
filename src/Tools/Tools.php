@@ -5,7 +5,7 @@ class Tools {
 
     static public $UserMessage = [
         0 => "El usuario fue creado correctamente.",
-        1 => "El usuario existe, pero con otro correo.",
+        1 => "El usuario existe, pero con otro documento.",
         2 => "El usuario no pertenece a tu institución.",
         3 => "El usuario existe con ese documento y correo."
     ];
@@ -24,6 +24,17 @@ class Tools {
             2 => "03",
             3 => "04",
             4 => "05"
+        ]
+    ];
+
+    static public $Instance = [
+        "nombre" => [
+            1 => "Pregrado",
+            2 => "Posgrado",
+            3 => "FTDH",
+            4 => "Ruta N",
+            5 => "SandBox",
+            6 => "Mainsite"
         ]
     ];
 
@@ -94,6 +105,36 @@ class Tools {
     static function codigoMedellin()
     {
         return self::$Institution['codigo'][4];
+    }
+
+    static function Pregado()
+    {
+        return self::$Institution['nombre'][1];
+    }
+
+    static function Posgrado()
+    {
+        return self::$Institution['nombre'][2];
+    }
+
+    static function FTDH()
+    {
+        return self::$Institution['nombre'][3];
+    }
+
+    static function RutaN()
+    {
+        return self::$Institution['nombre'][4];
+    }
+
+    static function Sandbox()
+    {
+        return self::$Institution['nombre'][5];
+    }
+
+    static function Mainsite()
+    {
+        return self::$Institution['nombre'][6];
     }
 
 }

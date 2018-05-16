@@ -23,7 +23,7 @@ $("#userCreateForm").on( "submit", function( event ) {
 $("#tb_user").on('click', '.studentEliminar', function(event) {
     event.preventDefault();
     _td = $(this);
-    var _data = getDataTable(_td);
+    var _data = functions.getDataTable(_td);
     var url = _td.attr('href') + _data.id
     $.get(url).done( function(response){
     if (response == 1){
@@ -40,7 +40,7 @@ $("#tb_user").on('click', '.studentEliminar', function(event) {
 $("#tb_user").on('click', '.studentShow', function(event){
     event.preventDefault();
     _td = $(this);
-    var _data = getDataTable(_td);
+    var _data = functions.getDataTable(_td);
     var url = _td.attr('href') + _data.id
     $.get(url).done(function(response){
       console.log(JSON.parse(response));
@@ -57,6 +57,3 @@ $(".addstudent").on('click', function(event){
     $('#userCreateForm').attr('action',$(this).attr('data-href'));
     $('#userCreateModal').modal('show');
 });
-function getDataTable(tr) {
-   return table.row(tr.parents('tr')).data();
-}

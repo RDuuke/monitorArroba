@@ -31,10 +31,10 @@ class Auth
     }
     public function isAdmin()
     {
-        if ($this->user()->role == 2) {
-            return true;
+        if ($this->user()->id_rol == 1) {
+            return 1;
         }
-        return false;
+        return 0;
     }
 
     public function getInstitution()
@@ -43,5 +43,10 @@ class Auth
               return "%";
         }
         return $this->user()->institution->nombre;
+    }
+
+    public function getCodigoInstitution()
+    {
+        return $this->user()->id_institucion;
     }
 }

@@ -5,12 +5,21 @@ namespace App\Controllers;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Register;
+use App\Tools\Tools;
 
 class RegisterController extends Controller
 {
     function all(Request $request, Response $response) : Response
     {
-
+            if(! $this->auth->isAdmin() ) {
+                if($this->auth->user()->id_institucion != Tools::codigoRutaN()) {
+                    $registers = Register::public()->get()->toArray();
+                }else{
+                    $registers = Register::ruta()->get()->toArray();
+                }
+                $newResponse = $response->withHeader('Content-type', 'application/json');
+                return $newResponse->withJson($registers, 200);
+            }
             $registers = Register::all()->toArray();
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($registers, 200);
@@ -79,5 +88,6 @@ class RegisterController extends Controller
             return $response->withStatus(500)->write('0');
         }
     }
+
 
 }

@@ -106,9 +106,8 @@ class StudentController extends Controller
                             "direccion" => trim($worksheet->getCell('M'. $row)->getvalue())
                         ];
                         $student = Student::where([
-                                                    ['documento', '=', $data['documento']]
+                                                    ['usuario', '=', $data['usuario']]
                                                 ])->get();
-
                         if ($student->count() == 0) {
                             if((strtolower($data['institucion']) == strtolower($this->auth->user()->institution->nombre) || ($this->auth->user()->institution->codigo == Tools::codigoMedellin()))) {
                                 $data['message'] = Tools::getMessageUser(0);
@@ -119,7 +118,7 @@ class StudentController extends Controller
                                 array_push($this->errors, $data);
                             }
                         } else {
-                            $filter = $student->where('usuario', $data['usuario']);
+                            $filter = $student->where('documento', $data['documento']);
                             if($filter->count() == 0) {
                                 $data['message'] = Tools::getMessageUser(1);
                             }else {
@@ -150,4 +149,13 @@ class StudentController extends Controller
         return $newResponse->withJson(['message' => 0], 200);
     }
 
+    function getDataForEmailUser(Request $request, Response $response)
+    {
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        $data = Student::where('usuario', '=', $request->getParam('usuario'))->get()->first();
+        if($data != false) {
+            return $newResponse->withJson($data, 200);
+        }
+        return $newResponse->withJson(['message' => 0, 'student' => null], 200);
+    }
 }
