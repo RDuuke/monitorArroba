@@ -15,7 +15,11 @@ class StudentController extends Controller
     function store(Request $request, Response $response) : Response
     {
         try{
-            $student = Student::create($request->getParams());
+            $student = Student::create(array_map('trim', $request->getParams()));
+            $student->clave = trim($request->getParam('documento'));
+            $student->correo = trim($request->getParam('usuario'));
+            $student->save();
+
             if ($student !== false) {
                 $data_array = ["message" => 1, "user" => $student];
                 $newResponse = $response->withHeader('Content-type', 'application/json');
@@ -55,7 +59,7 @@ class StudentController extends Controller
     function update(Request $request, Response $response) : Response
     {
         $router = $request->getAttribute('route');
-        $student = Student::updateOrCreate(['id' => $router->getArguments()['id']],$request->getParams());
+        $student = Student::updateOrCreate(['id' => $router->getArguments()['id']],array_map('trim',$request->getParams()));
         try{
             if ($student != false) {
                 $data_array = ["message" => 2, "user" => $student];
@@ -69,8 +73,17 @@ class StudentController extends Controller
     function all(Request $request, Response $response) : Response
     {
 
-            $students = Student::getForInstitution($this->auth->getInstitution());
-            $student = json_encode($json, JSON_FORCE_OBJECT);
+            if($this->auth->user()->id_institucion == '01') {
+                $students = Student::pascualbravo();
+            } else if ($this->auth->user()->id_institucion == '02') {
+                $students = Student::colegiomayor();
+            } else if ($this->auth->user()->id_institucion == '03') {
+                $students = Student::itm();
+            } else if ($this->auth->user()->id_institucion == '04') {
+                $students = Student::rutann();
+            } else {
+                $students = Student::all();
+            }
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($students, 200);
     }
@@ -140,7 +153,7 @@ class StudentController extends Controller
         return false;
     }
 
-    function checkEmailUser(Request $request, Response $response)
+    function checkEmailStudents(Request $request, Response $response)
     {
         $newResponse = $response->withHeader('Content-type', 'application/json');
         if(Student::where('usuario', '=', $request->getParam('usuario'))->count() > 0 ) {
@@ -149,7 +162,7 @@ class StudentController extends Controller
         return $newResponse->withJson(['message' => 0], 200);
     }
 
-    function getDataForEmailUser(Request $request, Response $response)
+    function getDataForEmailStudents(Request $request, Response $response)
     {
         $newResponse = $response->withHeader('Content-type', 'application/json');
         $data = Student::where('usuario', '=', $request->getParam('usuario'))->get()->first();

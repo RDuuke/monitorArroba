@@ -14,4 +14,11 @@ class Course extends Model
     {
         return $this->hasMany('App\Models\Register', 'curso');
     }
+
+    public function scopePascual($query)
+    {
+        return $query->where('codigo','LIKE', "101%")
+            ->orWhere('codigo','LIKE', "201%")
+            ->orWhere('codigo','LIKE', "301%");
+    }
 }

@@ -2,6 +2,8 @@
 {% block styles %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{{ base_url }}/css/select2-bootstrap4.min.css">
 {% endblock %}
 {% block content %}
 <div class="ed-container full">
@@ -31,7 +33,6 @@
             </tbody>
         </table>
     </div>
-
 </div>
 {% endblock %}
 
@@ -43,6 +44,8 @@
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
 <script>
 var getUri = "http://"+window.location.host;
 const instancias = ['Pregado', 'Posgrado', 'FTDH', 'Ruta N', 'Sandbox'];
@@ -80,7 +83,7 @@ var table = $('table').DataTable({
         },
         { data: 'usuario',
           "render" : function(data, type, row, meta) {
-              return '<a href="{{ path_for("admin.users.update", {id : data.id}) }}" data-usuario="'+data+'" class="showUserRegister pointer">'+data+'</a>';
+              return '<a href="{{ path_for("admin.students.update", {id : data.id}) }}" data-usuario="'+data+'" class="showUserRegister pointer">'+data+'</a>';
           }
         },
         { data: 'rol' },

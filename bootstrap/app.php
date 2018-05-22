@@ -9,6 +9,7 @@ use App\Controllers\AppController;
 use App\Controllers\AuthController;
 use App\Controllers\StudentController;
 use App\Controllers\RegisterController;
+use App\Controllers\UserController;
 use App\Auth\Auth;
 use Slim\Flash\Messages;
 
@@ -84,6 +85,11 @@ $container['StudentController'] = function($container)
 $container['RegisterController'] = function($container)
 {
     return new RegisterController($container);
+};
+
+$container['UserController'] = function($container)
+{
+    return new UserController($container);
 };
 
 require_once dirname(__DIR__) . "/src/routes.php";

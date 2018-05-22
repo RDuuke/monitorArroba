@@ -21,4 +21,24 @@ class Student extends Model
         return $this->hasMany('App\Models\Register', 'usuario');
     }
 
+    public function scopeRutaN($query)
+    {
+        return $query->where('institucion', 'RutaN')->get()->toArray();
+    }
+
+    public function scopePascualBravo($query)
+    {
+        return $query->where('institucion', 'Institución Universitaria Pascual Bravo')->get()->toArray();
+    }
+
+    public function scopeColegioMayor($query)
+    {
+        return $query->where('institucion', 'Institución Universitaria Colegio Mayor de Antioquia')->get()->toArray();
+    }
+
+    public function scopeITM($query)
+    {
+        return $query->where('institucion', 'Institución Universitaria ITM')->get()->toArray();
+    }
+
 }

@@ -8,16 +8,16 @@
             </button>
         </div>
         <div id="message_form"></div>
-        <form id="registerCreateForm" action="{{ path_for('admin.users.store') }}">
+        <form id="registerCreateForm" action="{{ path_for('admin.students.store') }}">
         <div class="ed-container">
           <div class="ed-item s-100">
             <div class="form-group">
               <label for="curso">curso</label>
-              <input name="curso" type="text" class="form-control">
+              <select name="curso" id="curso" class="form-control"></select>
             </div>
             <div class="form-group">
               <label for="instancia">instancia</label>
-              <select name="instancia" id="instancia">
+              <select name="instancia" id="instancia" class="form-control" readonly>
                 <option value="1">Pregrado</option>
                 <option value="2">Posgrado</option>
                 <option value="3">FTDH</option>
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
               <label for="rol">rol</label>
-              <select name="rol" id="rol">
+              <select name="rol" id="rol" class="form-control" >
                 <option value="student">student</option>
                 <option value="teacher">teacher</option>
                 <option value="editingteacher">editingteacher</option>
@@ -44,10 +44,7 @@
                 {% endif %}
               </select>
             </div>
-            <div class="form-group">
-              <label for="fecha">fecha</label>
-              <input name="fecha" type="date" class="form-control">
-            </div>
+            <input type="hidden" name="fecha" value="{{ "now"|date("d-m-Y") }}">
             <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </div>

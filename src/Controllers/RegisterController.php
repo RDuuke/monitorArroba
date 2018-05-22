@@ -6,6 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Register;
 use App\Tools\Tools;
+use App\Models\Course;
 
 class RegisterController extends Controller
 {
@@ -31,6 +32,7 @@ class RegisterController extends Controller
             ['curso', '=', $request->getParam('curso')],
             ['usuario', '=', $request->getParam('usuario')]
         ])->get();
+
         if ($validate->count() != 0) {
             $data_array = ["message" => 3, "register" => null];
             $newResponse = $response->withHeader('Content-type', 'application/json');
@@ -89,5 +91,14 @@ class RegisterController extends Controller
         }
     }
 
-
+    function getCourses(Request $request, Response $response) : Response
+    {
+        $courses= Course::pascual()->get()->toArray();
+        try {
+            $newResponse = $response->withHeader('Content-type', 'application/json');
+            return $newResponse->withJson($courses, 200);
+        } catch(\Exception $e) {
+            return $response->withStatus(500)->write('0');
+        }
+    }
 }

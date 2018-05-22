@@ -15,11 +15,11 @@ $("#registerCreateForm").on( "submit", function( event ) {
 
     if(_this.hasClass('create')) {
       var usuario = $("#registerCreateForm input[name='usuario']").val();
-      $.get(getUri + '/panel/users/check', {'usuario' : usuario}).done( function(r) {
+      $.get(getUri + '/panel/students/check', {'usuario' : usuario}).done( function(r) {
         var response = JSON.parse(r);
         if( response.message == 0 || response.message == '0') {
           console.log(response.message);
-          $('#userCreateForm').attr('action', getUri + '/panel/users');
+          $('#userCreateForm').attr('action', getUri + '/panel/students');
           $('#userCreateForm')[0].reset();
           $("#userCreateModal input[name='usuario']").val(usuario).attr('readonly', true);
           $("#userCreateModal").modal('show');
@@ -32,11 +32,13 @@ $("#registerCreateForm").on( "submit", function( event ) {
             if (response.message == 1){
               console.log(response);
               table.row.add(response.register).draw(false);
-              toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+              toastr.success('Matricula registrada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+              $("#registerCreateModal").modal('hide');
             } else if(response.message == 2) {
               console.log(_td);
               table.row(_td.parents('tr')).data(response.register);
-              toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+              toastr.success('Matricula registrada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+              $("#registerCreateModal").modal('hide');
             } else if(response.message == 3) {
               toastr.info('Ya se esta matriculado', 'Info', {timeOut: 3000});
             }else {
@@ -55,11 +57,13 @@ $("#registerCreateForm").on( "submit", function( event ) {
             if (response.message == 1){
               console.log(response);
               table.row.add(response.register).draw(false);
-              toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+              toastr.success('Matricula registrada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+              $('#registerCreateModal').modal('hide');
             } else if(response.message == 2) {
               console.log(_td);
               table.row(_td.parents('tr')).data(response.register);
-              toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+              toastr.success('Matricula actualizada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+              $('#registerCreateModal').modal('hide');
             } else if(response.message == 3) {
               toastr.info('Ya se esta matriculado', 'Info', {timeOut: 3000});
             }else {
@@ -114,11 +118,12 @@ $("#userCreateForm").on( "submit", function( event ) {
   $.post($(this).attr('action'), userForm).done( function(r){
     var response = JSON.parse(r);
     if (response.message == 1){
-      toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
-      $("#userCreateModal").modal('hiden');
+      toastr.success('Usuario registrado correctamente.', 'Estupendo!!!', {timeOut: 3000});
+      $("#userCreateModal").modal('hide');
     } else if(response.message == 2) {
       //table.row(_td.parents('tr')).data(response.user);
-      toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+      toastr.success('Usuario actualizado correctamente.', 'Estupendo!!!', {timeOut: 3000});
+      $("#userCreateModal").modal('hide');
     }else {
       console.log('0');
     }
@@ -131,10 +136,10 @@ $("#userCreateForm").on( "submit", function( event ) {
 
 $("#tb_register").on('click', '.showUserRegister', function(event){
   event.preventDefault();
-  var url = getUri + "/panel/users/email";
+  var url = getUri + "/panel/students/email";
   $.get(url, {'usuario' : $(this).attr('data-usuario')}).done(function(response){
     var r = JSON.parse(response);
-    $('#userCreateForm').attr('action', getUri + '/panel/users/update/' + r.id);
+    $('#userCreateForm').attr('action', getUri + '/panel/students/update/' + r.id);
     $.each( r, function( key, value ) {
       console.log(value);
       $('input[name="'+key+'"]').val(value);
@@ -142,4 +147,19 @@ $("#tb_register").on('click', '.showUserRegister', function(event){
     $("#userCreateForm input[name='usuario']").attr('readonly', true);
     $('#userCreateModal').modal('show');
   });
+});
+$('#curso').on('change', function(e){
+  var a = $(this).val().substring(0, 1);
+  console.log(a);
+  $("#instancia > option").each(function(){
+    if($(this).val() == a) {
+      console.log($(this).val());
+      $(this).attr("selected","selected");
+    }
+  });
+})
+$(function(){
+  functions.getCourses();
+  //functions.select_search("#curso");
+
 });

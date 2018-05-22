@@ -14,6 +14,8 @@ $("#userCreateForm").on( "submit", function( event ) {
     }else {
       console.log('0');
     }
+    $('#userCreateModal').modal('hide');
+
   }).
   fail(function(response){
     toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});

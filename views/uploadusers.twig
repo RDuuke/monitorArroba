@@ -11,7 +11,7 @@
         <p>
             Esta aplicación, permitirá analizar un archivo Anexo 1, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
         </p>
-        <form action="{{ path_for('admin.upload.users') }}" enctype="multipart/form-data" method="post" id="formFile">
+        <form action="{{ path_for('admin.upload.students') }}" enctype="multipart/form-data" method="post" id="formFile">
             <input type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
             <button class="btn btn-primary">Cargar</button>
         </form>
