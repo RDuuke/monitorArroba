@@ -10,6 +10,9 @@ use App\Controllers\AuthController;
 use App\Controllers\StudentController;
 use App\Controllers\RegisterController;
 use App\Controllers\UserController;
+use App\Controllers\InstanceController;
+use App\Controllers\ProgramController;
+use App\Controllers\InstitutionController;
 use App\Auth\Auth;
 use Slim\Flash\Messages;
 
@@ -92,4 +95,18 @@ $container['UserController'] = function($container)
     return new UserController($container);
 };
 
+$container['InstanceController'] = function($container)
+{
+    return new InstanceController($container);
+};
+
+$container['ProgramController'] = function($container)
+{
+    return new ProgramController($container);
+};
+
+$container['InstitutionController'] = function($container)
+{
+    return new InstitutionController($container);
+};
 require_once dirname(__DIR__) . "/src/routes.php";

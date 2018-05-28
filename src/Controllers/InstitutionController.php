@@ -3,16 +3,16 @@ namespace App\Controllers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use App\Models\Instance;
+use App\Models\Institution;
 
 
-class InstanceController extends Controller
+class InstitutionController extends Controller
 {
-    function all(Request $request, Response $response)
+    function all (Request $request, Response $response)
     {
-        $instance = Instance::all();
+        $institutions = Institution::all();
         $newResponse = $response->withHeader('Content-type', 'application/json');
-        return $newResponse->withJson($instance, 200);
+        return $newResponse->withJson($institutions, 200);
     }
 
     function store(Request $request, Response $response)
@@ -22,9 +22,9 @@ class InstanceController extends Controller
         $newResponse = $response->withHeader('Content-type', 'application/json');
         try {
 
-            if (Instance::checkCodigo(trim($request->getParam('codigo')))) {
-                $instance = Instance::create(array_map('trim', $request->getParams()));
-                $data = ['message' => 1, 'instance' => $instance];
+            if (Institution::checkCodigo(trim($request->getParam('codigo')))) {
+                $institution = Institution::create(array_map('trim', $request->getParams()));
+                $data = ['message' => 1, 'institution' => $institution];
                 return $newResponse->withJson($data, 200);
             }
             return $newResponse->withJson($data, 200);
@@ -36,11 +36,26 @@ class InstanceController extends Controller
     function show(Request $request, Response $response)
     {
         $router = $request->getAttribute('route');
-        $instance = Instance::find($router->getArguments()['id'])->toArray();
+        $institution = Institution::find($router->getArguments()['id'])->toArray();
         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');
-            return $newResponse->withJson($instance, 200);
+            return $newResponse->withJson($institution, 200);
         } catch (\Exception $e) {
+            return $response->withStatus(500)->write('0');
+        }
+    }
+
+    function delete(Request $request, Response $response) : Response
+    {
+        $router = $request->getAttribute('route');
+        $institution = Institution::find($router->getArguments()['id']);
+        try {
+            if ($institution->delete()) {
+                //Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+                return $response->withStatus(200)->write('1');
+            }
+        } catch(\Exception $e) {
+            //Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
             return $response->withStatus(500)->write('0');
         }
     }
@@ -49,30 +64,15 @@ class InstanceController extends Controller
     {
         $router = $request->getAttribute('route');
         try {
-            $instance = Instance::updateOrCreate(['id' => $router->getArguments()['id']], $request->getParams());
+            $institution = Institution::updateOrCreate(['id' => $router->getArguments()['id']], $request->getParams());
 
-            $data_array = ["message" => 2, "instance" => $instance];
+            $data_array = ["message" => 2, "institution" => $institution];
                 //Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($data_array, 200);
 
         } catch (\Exception $e) {
             //Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
-            return $response->withStatus(500)->write('0');
-        }
-    }
-
-    function delete(Request $request, Response $response) : Response
-    {
-        $router = $request->getAttribute('route');
-        $instance= Instance::find($router->getArguments()['id']);
-        try {
-            if ($instance->delete()) {
-                //Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
-                return $response->withStatus(200)->write('1');
-            }
-        } catch(\Exception $e) {
-            //Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
             return $response->withStatus(500)->write('0');
         }
     }

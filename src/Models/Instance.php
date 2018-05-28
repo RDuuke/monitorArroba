@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 class Instance extends Model
 {
     protected $table = "instancia";
@@ -13,5 +14,21 @@ class Instance extends Model
     public function registers()
     {
         return $this->hasMany('App\Models\Register', 'instancia');
+    }
+
+    static function getLastCodigo()
+    {
+        $all = Instance::all();
+        $last = $all->last();
+        return $last->codigo;
+    }
+
+    static function checkCodigo($codigo)
+    {
+        $result = Instance::where('codigo', '=', $codigo)->get();
+        if ($result->count() < 1) {
+            return true;
+        }
+        return false;
     }
 }

@@ -1,0 +1,13 @@
+INFO[23-05-2018 11:27:55]: [Actualización] usuario juuanduuke@gmail.com actualizo al juanduke@gmail.com en el módulo de usuarios plataforma 
+INFO[23-05-2018 11:35:47]: [Actualización] usuario juuanduuke@gmail.com actualizo al juanduke@gmail.com en el módulo usuarios plataforma 
+INFO[23-05-2018 04:41:18]: [Actualización] usuario juuanduuke@gmail.com actualizo al juanduke@gmail.com en el módulo usuarios plataforma 
+INFO[23-05-2018 04:44:04]: [Eliminación] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[23-05-2018 04:44:37]: [Creación] usuario juuanduuke@gmail.com registro al juanduke@gmail.com en el módulo usuarios plataforma 
+INFO[23-05-2018 04:44:51]: [Actualización] usuario juuanduuke@gmail.com actualizo al juanduke@gmail.com en el módulo usuarios plataforma 
+INFO[23-05-2018 04:45:00]: [Eliminación] usuario juuanduuke@gmail.com elimino al  en el módulo usuarios plataforma 
+ERROR[24-05-2018 03:06:16]: [Creación] usuario juuanduuke@gmail.com registro al  en el módulo usuarios plataforma 
+ERROR[24-05-2018 03:06:39]: [Creación] usuario juuanduuke@gmail.com registro al  en el módulo usuarios plataforma 
+ERROR[24-05-2018 03:07:32]: [Creación] usuario juuanduuke@gmail.com registro al  en el módulo usuarios plataforma 
+ERROR[24-05-2018 03:08:09]: [Creación] usuario juuanduuke@gmail.com registro al  en el módulo usuarios plataforma 
+ERROR[24-05-2018 03:08:19]: [Creación] usuario juuanduuke@gmail.com registro al  en el módulo usuarios plataforma 
+ERROR[24-05-2018 03:09:28]: [Creación] usuario juuanduuke@gmail.com registro al  en el módulo usuarios plataforma 

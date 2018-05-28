@@ -11,10 +11,11 @@ $("#userCreateForm").on( "submit", function( event ) {
         console.log(_td);
         table.row(_td.parents('tr')).data(response.user);
         toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+        $('#userCreateModal').modal('hide');
       }else {
         console.log('0');
+        toastr.error('No sé pudo registrar correctamente.', 'Error!!', {timeOut: 3000});
       }
-      $('#userCreateModal').modal('hide');
 
     }).
     fail(function(response){
@@ -48,7 +49,7 @@ $("#tb_user").on('click', '.userShow', function(event){
 
 $("#tb_user").on('click', '.userEliminar', function(event) {
   event.preventDefault();
-    var r = confirm("¿Está seguro que desea eliminar este archivo de forma permanente?");
+    var r = confirm("¿Está seguro que desea eliminar este registro de forma permanente?");
     if (r == true) {
       _td = $(this);
       var _data = functions.getDataTable(_td);
@@ -65,7 +66,7 @@ $("#tb_user").on('click', '.userEliminar', function(event) {
         toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
       });
     } else {
-
+      return false;
     }
 });
 

@@ -10,7 +10,10 @@ $app->group("/panel", function (){
     $this->get("/students/upload", "AppController:upload_students")->setName("admin.view.students.upload");
     $this->get("/register/upload", "AppController:upload_registers")->setName("admin.upload.register");
     $this->get("/register", "AppController:registers")->setName("admin.register");
-    $this->get('/users', 'AppController:users')->setName('admin.users');
+    $this->get("/users", "AppController:users")->setName("admin.users");
+    $this->get("/instances", "AppController:instance")->setName("admin.instance");
+    $this->get("/programs", "AppController:program")->setName("admin.program");
+    $this->get("/institutions", "AppController:institution")->setName("admin.institution");
 
     /** Controller actions estudiante */
     $this->post("/students/upload", "StudentController:upload")->setName("admin.upload.students");
@@ -34,6 +37,28 @@ $app->group("/panel", function (){
     $this->get('/users/delete/{id}', 'UserController:delete')->setName('admin.users.delete');
     $this->get('/users/show/{id}', 'UserController:show')->setName('admin.users.show');
     $this->post('/users/update/{id}', 'UserController:update')->setName('admin.users.update');
+
+    /** Controller actions instance */
+    $this->get("/instances/all", "InstanceController:all")->setName('admin.instance.all');
+    $this->post("/instances", "InstanceController:store")->setName('admin.instance.store');
+    $this->get("/instances/show/{id}", "InstanceController:show")->setName('admin.instance.show');
+    $this->post("/instances/update/{id}", "InstanceController:update")->setName('admin.instance.update');
+    $this->get("/instances/delete/{id}", "InstanceController:delete")->setName('admin.instance.delete');
+
+    /** Controller actions programs */
+    $this->get("/programs/all", "ProgramController:all")->setName('admin.program.all');
+    $this->post("/programs", "ProgramController:store")->setName('admin.program.store');
+    $this->get("/programs/delete/{id}", "ProgramController:delete")->setName('admin.program.delete');
+    $this->post("/programs/update/{id}", "ProgramController:update")->setName('admin.program.update');
+    $this->get("/programs/show/{id}", "ProgramController:show")->setName('admin.program.show');
+
+
+    /** Controller actions institution */
+    $this->get("/institutions/all", "InstitutionController:all")->setName('admin.institution.all');
+    $this->post("/institutions", "InstitutionController:store")->setName('admin.institution.store');
+    $this->get("/institutions/delete/{id}", "InstitutionController:delete")->setName('admin.institution.delete');
+    $this->get("/institutions/show/{id}", "InstitutionController:show")->setName('admin.institution.show');
+    $this->post("/institutions/update/{id}", "InstitutionController:update")->setName('admin.institution.update');
 
     /** Controller helpers */
     $this->get("/students/check", "StudentController:checkEmailStudents")->setName('admin.check.students');

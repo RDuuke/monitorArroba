@@ -13,24 +13,20 @@
 {% block content %}
 <div class="ed-container full">
     <div class="ed-item s-100 l-offset-15 l-70">
-        <h2 class="text-left text-info">Módulo usuarios plataforma</h2>
+        <h2 class="text-left text-info">Módulo instituciones</h2>
     </div>
     <div class="ed-item s-100">
-        <button class="btn btn-primary addstudent" data-href="{{ path_for('admin.users.store') }}"><i class="icon icon-plus-circle"></i> Agregar usuario</button>
+        <button class="btn btn-primary addinstitution" data-href="{{ path_for('admin.institution.store') }}"><i class="icon icon-plus-circle"></i> Agregar instituci&oacute;n</button>
     </div>
 
     <div class="ed-item s-100">
     <br>
-        <table id="tb_user" class="display">
+        <table id="tb_institution" class="display">
             <thead>
                 <tr>
                     <th>ID:</th>
-                    <th> {{ "Usuario" | title }}</th>
-                    <th> {{ "nombres" | title }}</th>
-                    <th> {{ "Apellidos" | title }}</th>
-                    <th> {{ "Documento" | title }}</th>
-                    <th> {{ "Rol" | title }}</th>
-                    <th> {{ "Institución" | title }}</th>
+                    <th> {{ "codigo" | title }}</th>
+                    <th> {{ "nombre" | title }}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -41,15 +37,13 @@
 </div>
 {% endblock %}
 {% block modales %}
-{% include "formularios/user.twig" %}
+{% include "formularios/institution.twig" %}
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 <script>
 var getUri = "http://"+window.location.host;
-const roles = ['Super Administrador', 'Administrador', 'Super Moderador', 'Moderador', 'Super Normal', 'Normal'];
-const institutions = ['Institución Universitaria Pascual Bravo', 'Institución Universitaria Colegio Mayor de Antioquia', 'Institución Universitaria ITM', 'Ruta N', '@Medellín'];
 var _td = null;
 var table = $('table').DataTable({
         lengthMenu: [ 25, 50, 75, 100 ],
@@ -71,36 +65,23 @@ var table = $('table').DataTable({
             },
         },
         ajax: {
-            url: getUri + '/panel/users/all',
+            url: getUri + '/panel/institutions/all',
             dataSrc: ''
         },
         columns: [
             { data: 'id' },
-            { data: 'usuario' },
-            { data: 'nombres' },
-            { data: 'apellidos' },
-            { data: 'documento' },
-            { "data": 'id_rol',
-                "render" : function(data, type, row, meta) {
-                    return ""+roles[data - 1]+"";
-                }
-            },
-            { "data": 'id_institucion',
-                "render" : function(data, type, row, meta) {
-
-                    return ""+institutions[data.substr(1,1)-1]+"";
-                }
-            },
+            { data: 'codigo' },
+            { data: 'nombre' },
             {% if auth.user.id_rol  < 3  %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<a href="'+getUri+'/panel/users/delete/'+data+'" class="userEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/users/show/'+data+'" class="userShow pointer" data-href="{{ path_for("admin.users.update", {id: id}) }}"><i class="icon icon-user text-sucess"></i></a>';
+                    return '<a href="'+getUri+'/panel/institutions/delete/'+data+'" class="institutionEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/institutions/show/'+data+'" class="institutionshow pointer" data-href="{{ path_for("admin.institution.update", {id: id}) }}"><i class="icon icon-user text-sucess"></i></a>';
                 }
             }
             {% else %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<a href="'+getUri+'/panel/users/delete/'+data+'" class="userEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/users/show/'+data+'" class="userShow pointer" data-href="{{ path_for("admin.users.update", {id: id}) }}"><i class="icon icon-user text-sucess"></i></a>';
+                    return '<a href="'+getUri+'/panel/institutions/delete/'+data+'" class="institutionEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/institutions/show/'+data+'" class="institutionshow pointer" data-href="{{ path_for("admin.institution.update", {id: id}) }}"><i class="icon icon-user text-sucess"></i></a>';
                 }
             }
             {% endif %}
@@ -108,5 +89,5 @@ var table = $('table').DataTable({
     });
 </script>
 <script src="{{ base_url }}/js/function.js"></script>
-<script src="{{ base_url }}/js/modules/user.js"></script>
+<script src="{{ base_url }}/js/modules/institution.js"></script>
 {% endblock %}

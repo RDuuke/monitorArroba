@@ -38,6 +38,10 @@ class Tools {
         ]
     ];
 
+    static public $Modules = [
+        "usuarios plataforma" , "usuarios campus", "matriculas", "instancias", "instituciones", "programas"
+    ];
+
     static function moveUploadedFile($uploadedFile, $dir)
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
@@ -57,6 +61,10 @@ class Tools {
         return self::$UserMessage[$i];
     }
 
+    static function getMessageModule($i)
+    {
+        return "módulo ".self::$Modules[$i];
+    }
     static function nombreColegioMayor()
     {
         return self::$Institution['nombre'][1];

@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=ISO-8859-1');
+date_default_timezone_set("America/Bogota");
 session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 define("DS", DIRECTORY_SEPARATOR);

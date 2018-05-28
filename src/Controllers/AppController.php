@@ -6,6 +6,7 @@ use Slim\Http\Response;
 use App\Models\Student;
 use App\Models\Institution;
 use App\Models\Rol;
+use App\Models\Instance;
 
 class AppController extends Controller
 {
@@ -42,6 +43,18 @@ class AppController extends Controller
     public function instance(Request $request, Response $response)
     {
         return $this->view->render($response, "instance.twig");
+    }
+
+    public function program(Request $request, Response $response)
+    {
+        $institutions =Institution::all();
+        $instances =Instance::all();
+        return $this->view->render($response, "program.twig", ["instituciones" => $institutions, 'instances' => $instances]);
+    }
+
+    public function institution(Request $request, Response $response)
+    {
+        return $this->view->render($response, "institution.twig");
     }
 
     function upload_students(Request $request, Response $response)

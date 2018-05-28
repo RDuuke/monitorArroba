@@ -39,7 +39,7 @@ class RegisterController extends Controller
             return $newResponse->withJson($data_array, 200);
         }
         try{
-            $register = Register::create($request->getParams());
+            $register = Register::create(array_map('trim', $request->getParams()));
             if ($register !== false) {
                 $data_array = ["message" => 1, "register" => $register];
                 $newResponse = $response->withHeader('Content-type', 'application/json');
