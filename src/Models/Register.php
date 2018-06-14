@@ -12,17 +12,17 @@ class Register extends Model
 
     function usuario()
     {
-        return $this->belongsTo("App\Models\Student", 'usuario', 'usuario');
+        return $this->belongsTo(Student::class, 'usuario', 'usuario');
     }
 
     function instancia()
     {
-        return $this->belongsTo("App\Model\Instance", 'instancia', 'codigo');
+        return $this->belongsTo(Instance::class, 'instancia', 'codigo');
     }
 
     function course()
     {
-        return $this->belongsTo("App\Model\Course", 'curso', 'codigo');
+        return $this->belongsTo(Course::class, 'curso', 'codigo');
     }
 
     function getFechaAttribute($value)

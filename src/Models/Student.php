@@ -18,7 +18,7 @@ class Student extends Model
 
     public function registers()
     {
-        return $this->hasMany('App\Models\Register', 'usuario');
+        return $this->hasMany(Register::class, 'usuario');
     }
 
     public function scopeRutaN($query)

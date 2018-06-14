@@ -12,6 +12,11 @@ class Program extends Model
     public $timestamps = false;
 
 
+    public function courses()
+    {
+        return $this->hasMany(Course::class, 'id_programa');
+    }
+
     static function checkCodigo($codigo)
     {
         $result = Program::where('codigo', '=', $codigo)->get();

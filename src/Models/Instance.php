@@ -13,7 +13,7 @@ class Instance extends Model
 
     public function registers()
     {
-        return $this->hasMany('App\Models\Register', 'instancia');
+        return $this->hasMany(Register::class, 'instancia');
     }
 
     static function getLastCodigo()

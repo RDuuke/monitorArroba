@@ -10,6 +10,6 @@ class User extends Model
 
     function institution()
     {
-        return $this->belongsTo("App\Models\Institution", 'id_institucion', 'codigo');
+        return $this->belongsTo(Institution::class, 'id_institucion', 'codigo');
     }
 }

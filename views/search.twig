@@ -1,0 +1,24 @@
+{% extends "template/template.twig" %}
+{% block content %}
+<div class="ed-container">
+    <div class="ed-item s-100 l-offset-15 l-70">
+        <h2 class="text-left text-info">Módulo de búsqueda</h2>
+    </div>
+    <div class="ed-item s-100 l-offset-15 l-70">
+        <div class="ed-container full no-padding">
+            <div class="ed-item s-100 l-1-3 text-center">
+                <i class="big-icon icon icon-book"></i> <br>
+                <a href="{{ path_for('admin.search.program') }}">Búsqueda de programas</a>
+            </div>
+            <div class="ed-item s-100 l-1-3 text-center">
+                <i class="big-icon icon icon-graduation-cap"></i> <br>
+                <a href="{{ path_for('admin.search.course') }}">Búsqueda de cursos</a>
+            </div>
+            <div class="ed-item s-100 l-1-3 text-center">
+                <i class="big-icon icon icon-user"></i> <br>
+                <a href="{{ path_for('admin.search.student') }}">Búsqueda de usuarios</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

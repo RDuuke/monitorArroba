@@ -14,6 +14,11 @@ $app->group("/panel", function (){
     $this->get("/instances", "AppController:instance")->setName("admin.instance");
     $this->get("/programs", "AppController:program")->setName("admin.program");
     $this->get("/institutions", "AppController:institution")->setName("admin.institution");
+    $this->get("/courses", "AppController:courses")->setName("admin.courses");
+    $this->get("/search", "AppController:search")->setName("admin.search");
+    $this->get("/search/student", "AppController:searchStudent")->setName("admin.search.student");
+    $this->get("/search/course", "AppController:searchCourse")->setName("admin.search.course");
+    $this->get("/search/program", "AppController:searchProgram")->setName("admin.search.program");
 
     /** Controller actions estudiante */
     $this->post("/students/upload", "StudentController:upload")->setName("admin.upload.students");
@@ -60,8 +65,17 @@ $app->group("/panel", function (){
     $this->get("/institutions/show/{id}", "InstitutionController:show")->setName('admin.institution.show');
     $this->post("/institutions/update/{id}", "InstitutionController:update")->setName('admin.institution.update');
 
+    /** Controller actions courses */
+
+    $this->get("/courses/all", "CourseController:all")->setName('admin.courses.all');
+    $this->post("/courses", "CourseController:store")->setName('admin.courses.store');
+    $this->get("/courses/delete/{id}", "CourseController:delete")->setName('admin.courses.delete');
+    $this->get("/courses/show/{id}", "CourseController:show")->setName('admin.courses.show');
+    $this->post("/courses/update/{id}", "CourseController:update")->setName('admin.courses.update');
+
     /** Controller helpers */
     $this->get("/students/check", "StudentController:checkEmailStudents")->setName('admin.check.students');
     $this->get("/students/email", "StudentController:getDataForEmailStudents")->setName('admin.data.email.students');
     $this->get("/register/courses", "RegisterController:getCourses")->setName('admin.register.courses');
+    $this->get("/courses/search[/{params}]", "CourseController:search")->setName('admin.courses.search');
  });

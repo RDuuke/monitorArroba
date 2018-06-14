@@ -1,0 +1,43 @@
+<div class="modal fade bd-example-modal-lg" id="programCreateModal"tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"><h3>Formulario de registro</h3></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div id="message_form"></div>
+        <form id="programCreateForm" action="{{ path_for('admin.courses.store') }}">
+        <div class="ed-container">
+          <div class="ed-item s-100 l-100">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input name="nombre" type="text" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }}>
+            </div>
+            <div class="form-group">
+              <label for="nombre_corto">Nombre corto</label>
+              <input name="nombre_corto" type="text" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }}>
+            </div>
+            <label for="programa">Programa</label>
+            <select name="programa" id="programa" class="form-control">
+            {% for program in programs %}
+                <option value="{{ program.codigo }}">{{ program.nombre }}</option>
+            {% endfor %}
+            </select>
+            {% if auth.user.id_rol  < 5  %}
+            <div class="form-group">
+              <label for="codigo">Codigo</label>
+              <input name="codigo" type="number" placeholder="00000" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }} min="00000" max="99999">
+            </div>
+            <div class="form-group">
+            <br>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        </form>
+    </div>
+  </div>
+</div>

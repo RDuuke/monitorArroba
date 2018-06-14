@@ -11,7 +11,9 @@ label {
 .flex{
     display: flex !important;
 }
-
+.block{
+    display: block;
+}
 header {
     height: 100px;
 }
