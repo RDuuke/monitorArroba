@@ -1,1 +1,53 @@
-<h3>Studiante</h3>
+{% extends "template/template.twig" %}
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="{{ base_url }}/css/animate.css"/>
+<style>
+  @media (min-width: 992px){
+    .modal-lg {
+      max-width: 1075px;
+    }
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="ed-container full">
+    <div class="ed-item s-100 l-offset-15 l-70">
+        <h2 class="text-left text-info">Módulo busqueda usuarios</h2>
+    </div>
+    <div class="ed-item s-100 l-70 l-offset-15">
+        <div class="form-group">
+            <input id="box-search" type="text" class="form-control" route-get="/panel/students/search/" base-route-item="/panel/search/program/courses/usuarios/info/" tipo="students">
+        </div>
+    </div>
+    <div class="ed-item s-100 l-70 l-offset-15">
+        <div class="list-group">
+            <div id="load" class="none">
+                <div class="sk-circle">
+                    <div class="sk-circle1 sk-child"></div>
+                    <div class="sk-circle2 sk-child"></div>
+                    <div class="sk-circle3 sk-child"></div>
+                    <div class="sk-circle4 sk-child"></div>
+                    <div class="sk-circle5 sk-child"></div>
+                    <div class="sk-circle6 sk-child"></div>
+                    <div class="sk-circle7 sk-child"></div>
+                    <div class="sk-circle8 sk-child"></div>
+                    <div class="sk-circle9 sk-child"></div>
+                    <div class="sk-circle10 sk-child"></div>
+                    <div class="sk-circle11 sk-child"></div>
+                    <div class="sk-circle12 sk-child"></div>
+                </div>
+            </div>
+            <ul id="list_result"></ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+<script>var getUri = "http://"+window.location.host;</script>
+<script src="{{ base_url }}/js/function.js"></script>
+<script src="{{ base_url }}/js/modules/search.js"></script>
+{% endblock %}

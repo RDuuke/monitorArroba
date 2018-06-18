@@ -8,6 +8,8 @@ use App\Models\Institution;
 use App\Models\Rol;
 use App\Models\Instance;
 use App\Models\Program;
+use App\Models\Course;
+use App\Models\Register;
 
 class AppController extends Controller
 {
@@ -82,6 +84,37 @@ class AppController extends Controller
     public function searchProgram(Request $request, Response $response)
     {
         return $this->view->render($response, "search_program.twig");
+    }
+
+    public function searchStudentsForCourse(Request $request, Response $response)
+    {
+
+        $router = $request->getAttribute('route');
+        $course = Register::where('curso', $router->getArguments()['id'])->get();
+        return $this->view->render($response, 'result_student_for_course.twig', ["course"=>$course]);
+    }
+
+    public function searhDataForStudent(Request $request, Response $response)
+    {
+
+        $router = $request->getAttribute('route');
+        $student = Student::find($router->getArguments()['id']);
+        $student_data = Register::where('usuario', $student->usuario)->get();
+        return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data]);
+    }
+
+    public function searchCoursesForPogram(Request $request, Response $response)
+    {
+
+        $router = $request->getAttribute('route');
+        if(! is_numeric($router->getArguments()['id'])) {
+            $program = Program::where('nombre','=', $router->getArguments()['id'])->first();
+        } else {
+            $program = Program::where('codigo', $router->getArguments()['id'])->first();
+        }
+        $curses = Course::where('programa', $program->codigo)->get();
+
+        return $this->view->render($response, 'result_curses_for_program.twig', ["curses"=> $curses]);
     }
 
     function upload_students(Request $request, Response $response)

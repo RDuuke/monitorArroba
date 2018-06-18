@@ -171,4 +171,19 @@ class StudentController extends Controller
         }
         return $newResponse->withJson(['message' => 0, 'student' => null], 200);
     }
+
+    function search(Request $request, Response $response)
+    {
+        $router = $request->getAttribute('route');
+        $param = $router->getArguments()['params']. "%";
+        $courses = Student::where("usuario","LIKE", $param)
+                            ->orWhere("documento", "LIKE", $param)
+                            ->get()->toArray();
+        try {
+            $newResponse = $response->withHeader('Content-type', 'application/json');
+            return $newResponse->withJson($courses, 200);
+        } catch (\Exception $e) {
+            return $response->withStatus(500)->write('0');
+        }
+    }
 }

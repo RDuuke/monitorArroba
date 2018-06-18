@@ -10,7 +10,7 @@ class Register extends Model
 
     public $timestamps = false;
 
-    function usuario()
+    function student()
     {
         return $this->belongsTo(Student::class, 'usuario', 'usuario');
     }
@@ -29,7 +29,10 @@ class Register extends Model
     {
         return array_shift(explode(" ", $value));
     }
-
+    function getRolAttribute($value)
+    {
+        return $value == 'student' ? 'Estudiante' : 'Profesor';
+    }
     function scopePublic($query)
     {
         return $query->whereIn('instancia', [1, 2, 3]);

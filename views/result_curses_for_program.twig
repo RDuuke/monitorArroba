@@ -1,0 +1,52 @@
+{% extends "template/template.twig" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
+{% endblock %}
+{% block content %}
+{% set n = 1 %}
+    <table>
+        <thead>
+            <tr>
+                <th>Nro</th>
+                <th>Programa</th>
+                <th>Cursos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in curses %}
+            <tr>
+                <td>{{ n }}</td>
+                <td><a href="/panel/search/program/courses/{{course.programa}}">{{ course.programa }}</a></td>
+                <td><a href="/panel/search/program/courses/usuarios/{{course.codigo}}">{{ course.nombre }}</a></td>
+            </tr>
+            {% set n = n + 1 %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
+
+<script>
+     $('table').DataTable({
+        lengthMenu: [ 25, 50, 75, 100 ],
+        language: {
+            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "zeroRecords": "No hay resultados",
+            "info": "Pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No registros disponible",
+            "infoFiltered": "(Busqueda de _MAX_ total registros)",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "loadingRecords": "Cargando...",
+            "next" : "Siguiente",
+            "paginate": {
+                "first":      "Primera",
+                "last":       "Ultima",
+                "next":       "Siguiente",
+                "previous":   "Anterior"
+            },
+        }
+     });
+</script>
+{% endblock %}

@@ -80,4 +80,17 @@ class ProgramController extends Controller
             return $response->withStatus(500)->write('0');
         }
     }
+
+    function search(Request $request, Response $response)
+    {
+        $router = $request->getAttribute('route');
+        $param = $router->getArguments()['params']. "%";
+        $courses = Program::where("nombre","LIKE", $param)->get()->toArray();
+        try {
+            $newResponse = $response->withHeader('Content-type', 'application/json');
+            return $newResponse->withJson($courses, 200);
+        } catch (\Exception $e) {
+            return $response->withStatus(500)->write('0');
+        }
+    }
 }

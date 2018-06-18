@@ -12,9 +12,9 @@ class Program extends Model
     public $timestamps = false;
 
 
-    public function courses()
+    public function course()
     {
-        return $this->hasMany(Course::class, 'id_programa');
+        return $this->hasMany(Course::class, 'programa', 'codigo');
     }
 
     static function checkCodigo($codigo)

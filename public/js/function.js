@@ -12,20 +12,26 @@ $(function(){
             });
         },
         search : function (param) {
-            $.get(getUri + "/panel/courses/search/" + param ).done( function(response){
+            $.get(getUri + param ).done( function(response){
                 data = response;
             });
             return data;
         },
-        render : function(tag, data, type="list") {
+        render : function(tag, data, route="", type="") {
             switch(type){
                 case 'list':
                     $(tag).html("");
                     $.each(JSON.parse(data), function(key, value){
-                        $(tag).append("<li class='list-group-item list-group'><a href='" + value.id + "'>"+ value.nombre +"</a></li>");
+                        $(tag).append("<li class='list-group-item list-group'><a href='"+getUri+ route + value.codigo + "'>"+ value.nombre +"</a></li>");
                     });
-                break;
-                case 'table':
+                    break;
+                    case 'table':
+                    break;
+                    case 'students':
+                    $(tag).html("");
+                    $.each(JSON.parse(data), function(key, value){
+                        $(tag).append("<li class='list-group-item list-group'><a href='"+getUri+ route + value.id + "'>"+ value.nombres + " " + value.apellidos +"</a></li>");
+                    });
                 break;
             }
         }
