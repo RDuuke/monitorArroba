@@ -50,6 +50,7 @@
 {% endblock %}
 {% block modales %}
 {% include "formularios/student.twig" %}
+{% include "formularios/register_student.twig" %}
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
@@ -57,7 +58,7 @@
 <script>
 var getUri = "http://"+window.location.host;
 var _td = null;
-var table = $('table').DataTable({
+var table = $('table#tb_user').DataTable({
         lengthMenu: [ 25, 50, 75, 100 ],
         language: {
             "lengthMenu": "Mostrar _MENU_ registros por pagina",
@@ -89,15 +90,37 @@ var table = $('table').DataTable({
             { data: 'institucion' },
             {% if auth.user.id_rol  < 3  %}
             { data: null,
-              defaultContent:"<a href='{{ path_for('admin.students.delete', {id : id}) }}' class='studentEliminar pointer'><i class='icon icon-trash text-danger'></i></a><a href='{{ path_for('admin.students.show', {id : data.id}) }}' class='studentShow pointer' data-href='{{ path_for('admin.students.update', {id : data.id}) }}'><i class='icon icon-user text-sucess'></i></a>"
+              defaultContent:"<a href='{{ path_for('admin.search.program.course.student.data', {id : id}) }}' class='green icon_a pointer searchRegister' ><i class='fa fa-search'></i></a>&nbsp;<a href='{{ path_for('admin.students.delete', {id : id}) }}' class='studentEliminar pointer icon_a'><i class='fa fa-trash text-danger'></i></a>&nbsp;<a href='{{ path_for('admin.students.show', {id : data.id}) }}' class='studentShow pointer icon_a' data-href='{{ path_for('admin.students.update', {id : data.id}) }}'><i class='fa fa-pencil text-sucess'></i></a>"
             }
             {% else %}
             { data: null,
-              defaultContent:"<a href='{{ path_for('admin.students.show', {id : data.id}) }}' class='studentShow pointer' data-href='{{ path_for('admin.students.update', {id : data.id}) }}'><i class='icon icon-user text-sucess'></i></a>"
+              defaultContent:"<a href='{{ path_for('admin.students.show', {id : data.id}) }}' class='studentShow pointer icon_a' data-href='{{ path_for('admin.students.update', {id : data.id}) }}'><i class='icon icon-user text-sucess icon_a'></i></a>"
             }
             {% endif %}
           ]
     });
+
+    var table_register = $('table#result_student_register_table').DataTable({
+        lengthMenu: [ 25, 50, 75, 100 ],
+        language: {
+            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "zeroRecords": "No hay resultados",
+            "info": "Pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No registros disponible",
+            "infoFiltered": "(Busqueda de _MAX_ total registros)",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "loadingRecords": "Cargando...",
+            "next" : "Siguiente",
+            "paginate": {
+                "first":      "Primera",
+                "last":       "Ultima",
+                "next":       "Siguiente",
+                "previous":   "Anterior"
+            },
+        }
+     });
+</script>
 </script>
 <script src="{{ base_url }}/js/function.js"></script>
 <script src="{{ base_url }}/js/modules/student.js"></script>

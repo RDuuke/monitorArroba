@@ -106,7 +106,8 @@ $("#tb_register").on('click', '.registertEliminar', function(event) {
     table
       .row( _td.parents('tr') )
       .remove()
-      .draw();    }
+      .draw();
+    }
   }).
   fail(function(response){
     toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
@@ -158,6 +159,21 @@ $('#curso').on('change', function(e){
     }
   });
 })
+$("#tb_register").on("click", ".archive_register", function(event){
+  event.preventDefault();
+  _this = $(this);
+  $.get($(this).attr('href')).done(function (response){
+    r = JSON.parse(response);
+    console.log(r);
+    if (r.message == 1 || r.message == '1') {
+      table
+      .row( _this.parents('tr') )
+      .remove()
+      .draw();
+      toastr.success("Matricula archivada", "¡¡ Estupendo!!", {timeOut: 3000});
+    }
+  });
+});
 $(function(){
   functions.getCourses();
   //functions.select_search("#curso");

@@ -73,12 +73,20 @@ class CourseController extends Controller
         try {
             $codigo_evaluate = $request->getParam('programa') . $request->getParam('codigo');
             $course = Course::updateOrCreate(['id' => $router->getArguments()['id']], $request->getParams());
-            $course->codigo = $codigo_evaluate;
-            $course->save();
-            $data_array = ["message" => 2, "course" => $course];
-                //Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            if ($codigo_evaluate != $course->codigo) {
+                if (Course::checkCodigo($codigo_evaluate)) {
+                    $course->codigo = $codigo_evaluate;
+                    $course->save();
+                    $data_array = ["message" => 2, "course" => $course];
+                } else {
+                    $data_array = ["message" => 4, "course" => $course];
+                }
+                $newResponse = $response->withHeader('Content-type', 'application/json');
+                return $newResponse->withJson($data_array, 200);
+            }
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($data_array, 200);
+                //Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
 
         } catch (\Exception $e) {
             //Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);

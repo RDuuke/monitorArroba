@@ -1,0 +1,11 @@
+{% set n = 1 %}
+{% if student_data | length > 1 %}
+    {% for course in student_data %}
+        <tr>
+            <td>{{ n }}</td>
+            <td><a href="/panel/search/program/courses/usuarios/{{course.course.codigo}}">{{ course.course.nombre }}</a></td>
+            <td><a style="font-size: 1.5em;color:chocolate;"href="{{ path_for('admin.register.archive', {id: course.id}) }}" class="archive_register"><i class="fa fa-folder"></i></a></td>
+        {% set n = n + 1 %}
+        </tr>
+    {% endfor %}
+{% endif %}

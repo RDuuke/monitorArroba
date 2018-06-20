@@ -90,7 +90,7 @@ var table = $('table').DataTable({
         { data: 'fecha' },
         { "data": "id",
           "render": function (data, type, row, meta) {
-                return '<a href="'+getUri+'/panel/register/delete/'+data+'" class="registertEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/register/show/'+data+'" class="registerShow pointer" data-href="{{ path_for("admin.update.register", {id : data.id}) }}"><i class="icon icon-user text-sucess"></i></a>';
+                return '<a class="archive_register icon_a chocolate" href="'+getUri+'/panel/register/archive/'+data+'" ><i class="fa fa-folder"></i></a>&nbsp;<a href="'+getUri+'/panel/register/delete/'+data+'" class="registertEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/register/show/'+data+'" class="registerShow pointer icon_a" data-href="{{ path_for("admin.update.register", {id : data.id}) }}"><i class="fa fa-pencil green"></i></a>';
                 //return '<a>'+data+'<a>';
             }
         }

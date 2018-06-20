@@ -94,6 +94,18 @@ header > div:last-child a {
 {
     background-color: transparent;
 }
+.green{
+    color: green !important;
+}
+.chocolate{
+    color: chocolate !important;
+}
+a.icon_a>i.icon, a.icon_a > i.fa{
+    font-size: 1.5em;
+}
+a:hover{
+    text-decoration: none;
+}
 #tb_user_length label,
 #tb_register_length label {
     text-transform: unset;

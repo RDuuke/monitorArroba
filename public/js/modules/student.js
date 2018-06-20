@@ -53,6 +53,33 @@ $("#tb_user").on('click', '.studentShow', function(event){
       });
     });
 });
+$("#tb_user").on('click', '.searchRegister', function(event){
+  let n = 0;
+  event.preventDefault();
+  _td = $(this);
+  var _data = functions.getDataTable(_td);
+  $("#name_student").html(_data.nombres + ' ' + _data.apellidos);
+  var url = _td.attr('href') + _data.id
+  $.get(url).done(function(response){
+      $("#result_student_register_table tbody").html("");
+      $("#result_student_register_table tbody").html(response);
+      $("#studentRegister").modal('show');
+  });
+
+});
+$("#result_student_register_table").on("click", ".archive_register", function(event){
+  event.preventDefault();
+  _this = $(this);
+  //$("#name_student").html(data.nombres + ' ' + data.apellidos);
+  $.get($(this).attr('href')).done(function (response){
+    r = JSON.parse(response);
+    console.log(r);
+    if (r.message == 1 || r.message == '1') {
+      _this.parent().parent().remove();
+      toastr.success("Matricula archivada", "¡¡ Estupendo!!", {timeOut: 3000});
+    }
+  });
+});
 $(".addstudent").on('click', function(event){
     event.preventDefault();
     $('#userCreateForm')[0].reset();

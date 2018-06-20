@@ -56,6 +56,7 @@ $(".addcourse").on('click', function (event) {
   $("#tb_courses").on('click', '.courseshow', function (event) {
     event.preventDefault();
     _td = $(this);
+    var codigo = null;
     var _data = functions.getDataTable(_td);
     var url = _td.attr('href');
     $.get(url).done(function (response) {
@@ -63,16 +64,28 @@ $(".addcourse").on('click', function (event) {
       console.log(JSON.parse(response));
       $.each(JSON.parse(response), function (key, value) {
         if (key == 'codigo') {
+          codigo = value;
           $('select#programa option[value='+value.toString().substr(0, 5)+']').attr('selected','selected');
           console.log(value.toString().substr(5));
           $('input[name="' + key + '"]').val(value.toString().substr(5));
         } else {
           $('input[name="' + key + '"]').val(value);
         }
+        $('input[name="codigo_forma"]').val(codigo);
       });
       $('#programCreateForm').attr('action', _td.attr('data-href') + _data.id);
       $('#programCreateForm').removeClass();
       $('#programCreateForm').addClass('update');
       $('#programCreateModal').modal('show');
     });
+  });
+  $("#programa").change(function(e){
+    console.log('S');
+    let codigo = $(this).val() + $('input[name="codigo"]').val();
+    $('input[name="codigo_forma"]').val(codigo);
+  });
+
+  $('input[name="codigo"]').blur(function(e){
+    let codigo =  $('#programa').val() + $(this).val();
+    $('input[name="codigo_forma"]').val(codigo);
   });

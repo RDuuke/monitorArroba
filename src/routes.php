@@ -79,11 +79,15 @@ $app->group("/panel", function (){
     $this->get("/search/program/courses/usuarios/{id}", "AppController:searchStudentsForCourse")->setName('admin.search.program.course.student');
     $this->get("/search/program/courses/usuarios/info/{id}", "AppController:searhDataForStudent")->setName('admin.search.program.course.student.data');
 
+    /** Controller archive */
+
+    $this->get("/register/archive/{id}", "AppController:registerArchive")->setName("admin.register.archive");
+
     /** Controller helpers */
     $this->get("/students/check", "StudentController:checkEmailStudents")->setName('admin.check.students');
     $this->get("/students/email", "StudentController:getDataForEmailStudents")->setName('admin.data.email.students');
     $this->get("/register/courses", "RegisterController:getCourses")->setName('admin.register.courses');
     $this->get("/courses/search[/{params}]", "CourseController:search")->setName('admin.courses.search');
-    $this->get("/program/search[/{params}]", "ProgramController:search")->setName('admin.courses.search');
-    $this->get("/students/search[/{params}]", "StudentController:search")->setName('admin.courses.search');
+    $this->get("/program/search[/{params}]", "ProgramController:search")->setName('admin.program.search');
+    $this->get("/students/search[/{params}]", "StudentController:search")->setName('admin.student.search');
  });

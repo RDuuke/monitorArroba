@@ -31,6 +31,9 @@
               <input name="codigo" type="number" placeholder="00000" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }} min="00000" max="99999">
             </div>
             <div class="form-group">
+              <input name="codigo_forma" type="number"  disabled placeholder="00000" class="form-control" min="00000" max="99999">
+            </div>
+            <div class="form-group">
             <br>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>

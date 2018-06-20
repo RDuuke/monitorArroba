@@ -10,6 +10,7 @@ use App\Models\Instance;
 use App\Models\Program;
 use App\Models\Course;
 use App\Models\Register;
+use App\Models\RegisterArchive;
 
 class AppController extends Controller
 {
@@ -96,11 +97,14 @@ class AppController extends Controller
 
     public function searhDataForStudent(Request $request, Response $response)
     {
-
         $router = $request->getAttribute('route');
         $student = Student::find($router->getArguments()['id']);
         $student_data = Register::where('usuario', $student->usuario)->get();
-        return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data]);
+        if (! $request->isXhr()) {
+            // Do something
+            return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data]);
+        }
+        return $this->view->render($response, '_partials/register_student.twig', ["student_data"=>$student_data]);
     }
 
     public function searchCoursesForPogram(Request $request, Response $response)
@@ -117,6 +121,22 @@ class AppController extends Controller
         return $this->view->render($response, 'result_curses_for_program.twig', ["curses"=> $curses]);
     }
 
+    public function registerArchive(Request $request,Response $response)
+    {
+        $router = $request->getAttribute('route');
+        $register = Register::find($router->getArguments()['id']);
+        try {
+            if(RegisterArchive::updateOrCreate(['usuario' => $register->usuario, 'curso' => $register->curso], $register->toArray())) {
+                if ($register->delete()) {
+                    $newResponse = $response->withHeader('Content-type', 'application/json');
+                    return $newResponse->withJson(['message' => 1], 200);
+                }
+
+            }
+        } catch(\Exception $e) {
+            return $response->withStatus(500)->write('0');
+        }
+    }
     function upload_students(Request $request, Response $response)
     {
         return $this->view->render($response, "uploadusers.twig");
