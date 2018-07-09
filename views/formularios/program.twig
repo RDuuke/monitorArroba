@@ -37,7 +37,10 @@
               {% endif %}
             <div class="form-group">
               <label for="codigo_program">Codigo</label>
-              <input name="codigo_program" type="number" placeholder="0000" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }} min="0000" max="9999">
+              <input name="codigo_program" type="number" placeholder="00" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }} min="00" max="99">
+            </div>
+            <div class="form-group">
+              <input name="codigo_forma" type="number"  disabled class="form-control" min="00000" max="99999">
             </div>
             {% if auth.user.id_rol  < 5  %}
               <button type="submit" class="btn btn-primary">Guardar</button>

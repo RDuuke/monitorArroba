@@ -90,4 +90,5 @@ $app->group("/panel", function (){
     $this->get("/courses/search[/{params}]", "CourseController:search")->setName('admin.courses.search');
     $this->get("/program/search[/{params}]", "ProgramController:search")->setName('admin.program.search');
     $this->get("/students/search[/{params}]", "StudentController:search")->setName('admin.student.search');
+    $this->post("/students/upload/proccess", "StudentController:proccess")->setName('admin.student.proccess');
  });

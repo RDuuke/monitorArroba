@@ -1,3 +1,8 @@
+$("form").keypress(function(e) {
+  if (e.which == 13) {
+      return false;
+  }
+});
 $(".addprogram").on('click', function (event) {
   event.preventDefault();
   $('#programCreateForm')[0].reset();
@@ -76,4 +81,15 @@ $("#tb_programs").on('click', '.programshow', function (event) {
     $('#programCreateForm').addClass('update');
     $('#programCreateModal').modal('show');
   });
+});
+$("#codigo_institucion").change(function(e){
+  console.log('S');
+  $('input[name="codigo_forma"]').html("");
+  let codigo = $(this).val() + $('input[name="codigo_program"]').val();
+  $('input[name="codigo_forma"]').val(codigo);
+});
+$('input[name="codigo_program"]').blur(function(e){
+  $('input[name="codigo_forma"]').html("");
+  let codigo =  $('#codigo_institucion').val() + $(this).val();
+  $('input[name="codigo_forma"]').val(codigo);
 });

@@ -1,4 +1,9 @@
 
+ $("form").keypress(function(e) {
+  if (e.which == 13) {
+      return false;
+  }
+});
 $(".addregister").on('click', function(event){
     event.preventDefault();
     $('#registerCreateForm')[0].reset();
@@ -97,21 +102,26 @@ $("#registerCreateForm").on( "submit", function( event ) {
 
 $("#tb_register").on('click', '.registertEliminar', function(event) {
   event.preventDefault();
-  _td = $(this);
-  var _data = functions.getDataTable(_td);
-  var url = _td.attr('href');
-  $.get(url).done( function(response){
-  if (response == 1){
-    toastr.success('Matricula eliminado correctamente.', 'Estupendo!!!', {timeOut: 3000});
-    table
-      .row( _td.parents('tr') )
-      .remove()
-      .draw();
-    }
-  }).
-  fail(function(response){
-    toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
-  });
+  var r = confirm("¿Está seguro que desea eliminar este registro de forma permanente?");
+  if (r == true) {
+    _td = $(this);
+    var _data = functions.getDataTable(_td);
+    var url = _td.attr('href');
+    $.get(url).done( function(response){
+    if (response == 1){
+      toastr.success('Matricula eliminado correctamente.', 'Estupendo!!!', {timeOut: 3000});
+      table
+        .row( _td.parents('tr') )
+        .remove()
+        .draw();
+      }
+    }).
+    fail(function(response){
+      toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+    });
+  } else {
+    return true;
+  }
 });
 $("#userCreateForm").on( "submit", function( event ) {
   event.preventDefault();
@@ -160,19 +170,24 @@ $('#curso').on('change', function(e){
   });
 })
 $("#tb_register").on("click", ".archive_register", function(event){
-  event.preventDefault();
-  _this = $(this);
-  $.get($(this).attr('href')).done(function (response){
-    r = JSON.parse(response);
-    console.log(r);
-    if (r.message == 1 || r.message == '1') {
-      table
-      .row( _this.parents('tr') )
-      .remove()
-      .draw();
-      toastr.success("Matricula archivada", "¡¡ Estupendo!!", {timeOut: 3000});
-    }
-  });
+  var r = confirm("¿Está seguro que desea archivar este registro de forma permanente?");
+  if (r == true) {
+    event.preventDefault();
+    _this = $(this);
+    $.get($(this).attr('href')).done(function (response){
+      r = JSON.parse(response);
+      console.log(r);
+      if (r.message == 1 || r.message == '1') {
+        table
+        .row( _this.parents('tr') )
+        .remove()
+        .draw();
+        toastr.success("Matricula archivada", "¡¡ Estupendo!!", {timeOut: 3000});
+      }
+    });
+  } else {
+    return false;
+  }
 });
 $(function(){
   functions.getCourses();

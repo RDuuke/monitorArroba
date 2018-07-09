@@ -50,10 +50,14 @@ class InstitutionController extends Controller
         $router = $request->getAttribute('route');
         $institution = Institution::find($router->getArguments()['id']);
         try {
-            if ($institution->delete()) {
-                //Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
-                return $response->withStatus(200)->write('1');
+            if ($institution->programs->count() < 1) {
+
+                if ($institution->delete()) {
+                    //Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+                    return $response->withStatus(200)->write('1');
+                }
             }
+            return $response->withStatus(500)->write('0');
         } catch(\Exception $e) {
             //Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
             return $response->withStatus(500)->write('0');

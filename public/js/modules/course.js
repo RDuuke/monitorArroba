@@ -1,3 +1,8 @@
+$("form").keypress(function(e) {
+  if (e.which == 13) {
+      return false;
+  }
+});
 $(".addcourse").on('click', function (event) {
     event.preventDefault();
     $('#programCreateForm')[0].reset();

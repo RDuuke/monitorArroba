@@ -4,6 +4,9 @@ namespace App\Controllers;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Instance;
+use App\Models\Institution;
+use App\Tools\Tools;
+use App\Tools\Log;
 
 
 class InstanceController extends Controller
@@ -24,11 +27,13 @@ class InstanceController extends Controller
 
             if (Instance::checkCodigo(trim($request->getParam('codigo')))) {
                 $instance = Instance::create(array_map('trim', $request->getParams()));
+                Log::i("usuario " . $this->auth->user()->usuario . " creo la " . $instance->nombre . " en el " . Tools::getMessageModule(3), 0);
                 $data = ['message' => 1, 'instance' => $instance];
                 return $newResponse->withJson($data, 200);
             }
             return $newResponse->withJson($data, 200);
         } catch (\Exception $e) {
+            Log::i("usuario " . $this->auth->user()->usuario . " creo la " . $instance->nombre . " en el " . Tools::getMessageModule(3), 0);
             return $newResponse->withJson($data, 200);
         }
     }
@@ -52,12 +57,12 @@ class InstanceController extends Controller
             $instance = Instance::updateOrCreate(['id' => $router->getArguments()['id']], $request->getParams());
 
             $data_array = ["message" => 2, "instance" => $instance];
-                //Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::i("usuario " . $this->auth->user()->usuario . " actualizo la " . $instance->nombre . " en el " . Tools::getMessageModule(3), 1);
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($data_array, 200);
 
         } catch (\Exception $e) {
-            //Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(3), 1);
             return $response->withStatus(500)->write('0');
         }
     }
@@ -67,12 +72,15 @@ class InstanceController extends Controller
         $router = $request->getAttribute('route');
         $instance= Instance::find($router->getArguments()['id']);
         try {
-            if ($instance->delete()) {
-                //Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
-                return $response->withStatus(200)->write('1');
+            if(Institution::checkinstance($instance->codigo)) {
+                if ($instance->delete()) {
+                    Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $instance->nombre . " en el " . Tools::getMessageModule(3), 2);
+                    return $response->withStatus(200)->write('1');
+                }
             }
+            return $response->withStatus(500)->write('0');
         } catch(\Exception $e) {
-            //Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+            Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $instance->nombre . " en el " . Tools::getMessageModule(3), 2);
             return $response->withStatus(500)->write('0');
         }
     }

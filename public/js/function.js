@@ -30,7 +30,7 @@ $(function(){
                     case 'students':
                     $(tag).html("");
                     $.each(JSON.parse(data), function(key, value){
-                        $(tag).append("<li class='list-group-item list-group'><a href='"+getUri+ route + value.id + "'>"+ value.nombres + " " + value.apellidos +"</a></li>");
+                        $(tag).append("<li class='list-group-item list-group'><a href='"+getUri+ route + value.id + "'>"+ value.nombres + " " + value.apellidos +"  - "+ value.documento +" - "+value.usuario+"</a></li>");
                     });
                 break;
             }

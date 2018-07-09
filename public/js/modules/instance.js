@@ -1,3 +1,9 @@
+$("form").keypress(function(e) {
+  if (e.which == 13) {
+      return false;
+  }
+});
+
 $(".addinstance").on('click', function (event) {
   event.preventDefault();
   $('#instanceCreateForm')[0].reset();

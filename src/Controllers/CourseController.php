@@ -11,7 +11,24 @@ class CourseController extends Controller
 {
     function all(Request $request, Response $response)
     {
-        $courses = Course::all();
+        switch($this->auth->user()->id_institucion)
+            {
+                case "01":
+                    $courses = Course::pascual()->get();
+                    break;
+                case "02":
+                    $Courses = Course::colegio()->get();
+                    break;
+                case "03":
+                    $Courses = Course::itm()->get();
+                break;
+                case  "04":
+                    $Courses = Course::ruta()->get();
+                break;
+                default :
+                    $Courses = Course::all();
+                break;
+            }
         $newResponse = $response->withHeader('Content-type', 'application/json');
         return $response->withJson($courses, 200);
     }

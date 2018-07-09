@@ -75,13 +75,13 @@ var table = $('table').DataTable({
             {% if auth.user.id_rol  < 3  %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<a href="'+getUri+'/panel/institutions/delete/'+data+'" class="institutionEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/institutions/show/'+data+'" class="institutionshow pointer" data-href="{{ path_for("admin.institution.update", {id: id}) }}"><i class="icon icon-user text-sucess"></i></a>';
+                    return '<a href="'+getUri+'/panel/institutions/delete/'+data+'" class="institutionEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/institutions/show/'+data+'" class="institutionshow pointer icon_a" data-href="{{ path_for("admin.institution.update", {id: id}) }}"><i class="fa fa-pencil text-sucess"></i></a>';
                 }
             }
             {% else %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<a href="'+getUri+'/panel/institutions/delete/'+data+'" class="institutionEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/institutions/show/'+data+'" class="institutionshow pointer" data-href="{{ path_for("admin.institution.update", {id: id}) }}"><i class="icon icon-user text-sucess"></i></a>';
+                    return '<a href="'+getUri+'/panel/institutions/delete/'+data+'" class="institutionEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/institutions/show/'+data+'" class="institutionshow pointer icon_a" data-href="{{ path_for("admin.institution.update", {id: id}) }}"><i class="fa fa-pencil text-sucess"></i></a>';
                 }
             }
             {% endif %}

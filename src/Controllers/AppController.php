@@ -91,8 +91,9 @@ class AppController extends Controller
     {
 
         $router = $request->getAttribute('route');
-        $course = Register::where('curso', $router->getArguments()['id'])->get();
-        return $this->view->render($response, 'result_student_for_course.twig', ["course"=>$course]);
+        $course = Course::where('codigo', $router->getArguments()['id'])->first();
+        $students = Register::where('curso', $router->getArguments()['id'])->get();
+        return $this->view->render($response, 'result_student_for_course.twig', ["students"=>$students, "course" => $course]);
     }
 
     public function searhDataForStudent(Request $request, Response $response)
@@ -102,7 +103,7 @@ class AppController extends Controller
         $student_data = Register::where('usuario', $student->usuario)->get();
         if (! $request->isXhr()) {
             // Do something
-            return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data]);
+            return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data, "student_name" => $student->nombres." ".$student->apellidos]);
         }
         return $this->view->render($response, '_partials/register_student.twig', ["student_data"=>$student_data]);
     }
@@ -118,7 +119,7 @@ class AppController extends Controller
         }
         $curses = Course::where('programa', $program->codigo)->get();
 
-        return $this->view->render($response, 'result_curses_for_program.twig', ["curses"=> $curses]);
+        return $this->view->render($response, 'result_curses_for_program.twig', ["curses"=> $curses, "program" => $program]);
     }
 
     public function registerArchive(Request $request,Response $response)

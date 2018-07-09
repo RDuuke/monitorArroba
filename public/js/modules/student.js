@@ -24,20 +24,26 @@ $("#userCreateForm").on( "submit", function( event ) {
 });
 $("#tb_user").on('click', '.studentEliminar', function(event) {
     event.preventDefault();
-    _td = $(this);
-    var _data = functions.getDataTable(_td);
-    var url = _td.attr('href') + _data.id
-    $.get(url).done( function(response){
-    if (response == 1){
-      toastr.success('Estudiante eliminado correctamente.', 'Estupendo!!!', {timeOut: 3000});
-      table
-        .row( _td.parents('tr') )
-        .remove()
-        .draw();    }
-  }).
-  fail(function(response){
-    toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
-  });
+    var r = confirm("¿Está seguro que desea eliminar este registro de forma permanente?");
+    if (r == true) {
+
+        _td = $(this);
+        var _data = functions.getDataTable(_td);
+        var url = _td.attr('href') + _data.id
+        $.get(url).done( function(response){
+        if (response == 1){
+          toastr.success('Estudiante eliminado correctamente.', 'Estupendo!!!', {timeOut: 3000});
+          table
+            .row( _td.parents('tr') )
+            .remove()
+            .draw();    }
+        }).
+        fail(function(response){
+          toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+        });
+      } else {
+        return false;
+      }
 });
 $("#tb_user").on('click', '.studentShow', function(event){
     event.preventDefault();
@@ -69,16 +75,21 @@ $("#tb_user").on('click', '.searchRegister', function(event){
 });
 $("#result_student_register_table").on("click", ".archive_register", function(event){
   event.preventDefault();
-  _this = $(this);
-  //$("#name_student").html(data.nombres + ' ' + data.apellidos);
-  $.get($(this).attr('href')).done(function (response){
-    r = JSON.parse(response);
-    console.log(r);
-    if (r.message == 1 || r.message == '1') {
-      _this.parent().parent().remove();
-      toastr.success("Matricula archivada", "¡¡ Estupendo!!", {timeOut: 3000});
-    }
-  });
+  var r = confirm("¿Está seguro que desea archivar este registro de forma permanente?");
+  if (r == true) {
+    _this = $(this);
+    //$("#name_student").html(data.nombres + ' ' + data.apellidos);
+    $.get($(this).attr('href')).done(function (response){
+      r = JSON.parse(response);
+      console.log(r);
+      if (r.message == 1 || r.message == '1') {
+        _this.parent().parent().remove();
+        toastr.success("Matricula archivada", "¡¡ Estupendo!!", {timeOut: 3000});
+      }
+    });
+  } else {
+    return false;
+  }
 });
 $(".addstudent").on('click', function(event){
     event.preventDefault();

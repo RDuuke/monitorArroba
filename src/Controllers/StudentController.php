@@ -35,9 +35,11 @@ class StudentController extends Controller
         $router = $request->getAttribute('route');
         $student= Student::find($router->getArguments()['id']);
         try {
+            if ($student->registers->count() < 1) {
 
-            if ($student->delete()) {
-                return $response->withStatus(200)->write('1');
+                if ($student->delete()) {
+                    return $response->withStatus(200)->write('1');
+                }
             }
         } catch(\Exception $e) {
             return $response->withStatus(500)->write('0');
@@ -97,10 +99,10 @@ class StudentController extends Controller
             if ($filename != false) {
                 try {
                     $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
-                    $reader->setReadDataOnly(TRUE);
+                    $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
                     $worksheet = $spreadsheet->getActiveSheet();
-                    $highestRow = $worksheet->getHighestRow(); // e.g. 10
+                    $highestRow = $worksheet->getHighestDataRow();
                     for ($row=2; $row <= $highestRow; $row++) {
                         $data = [
                             "usuario" => trim($worksheet->getCell('A'. $row)->getvalue()),
@@ -125,7 +127,7 @@ class StudentController extends Controller
                             if((strtolower($data['institucion']) == strtolower($this->auth->user()->institution->nombre) || ($this->auth->user()->institution->codigo == Tools::codigoMedellin()))) {
                                 $data['message'] = Tools::getMessageUser(0);
                                 array_push($this->creators, $data);
-                                Student::create($data);
+                                //Student::create($data);
                             }else {
                                 $data['message'] = Tools::getMessageUser(2);
                                 array_push($this->errors, $data);
@@ -176,14 +178,23 @@ class StudentController extends Controller
     {
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params']. "%";
-        $courses = Student::where("usuario","LIKE", $param)
+        $students = Student::where("usuario","LIKE", $param)
                             ->orWhere("documento", "LIKE", $param)
                             ->get()->toArray();
         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');
-            return $newResponse->withJson($courses, 200);
+            return $newResponse->withJson($students, 200);
         } catch (\Exception $e) {
             return $response->withStatus(500)->write('0');
         }
     }
+
+    function proccess(Request $request, Response $response)
+    {
+        $dataOK = $request->getParam('data');
+        for($i = 0; $i < count($dataOK); $i++){
+            Student::create($dataOK[$i]);
+        }
+    }
+
 }

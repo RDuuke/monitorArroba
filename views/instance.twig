@@ -13,8 +13,11 @@
 {% block content %}
 <div class="ed-container full">
     <div class="ed-item s-100 l-offset-15 l-70">
+    <br>
         <h2 class="text-left text-info">Módulo instancias</h2>
     </div>
+        <div class="separator"></div>
+
     <div class="ed-item s-100">
         <button class="btn btn-primary addinstance" data-href="{{ path_for('admin.instance.store') }}"><i class="icon icon-plus-circle"></i> Agregar instancia</button>
     </div>
@@ -77,13 +80,13 @@ var table = $('table').DataTable({
             {% if auth.user.id_rol  < 3  %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<a href="'+getUri+'/panel/instances/delete/'+data+'" class="instanceEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/instances/show/'+data+'" class="instanceShow pointer" data-href="{{ path_for("admin.instance.update", {id: id}) }}"><i class="icon icon-user text-sucess"></i></a>';
+                    return '<a href="'+getUri+'/panel/instances/delete/'+data+'" class="instanceEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/instances/show/'+data+'" class="instanceShow pointer icon_a" data-href="{{ path_for("admin.instance.update", {id: id}) }}"><i class="fa fa-pencil text-sucess"></i></a>';
                 }
             }
             {% else %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<a href="'+getUri+'/panel/instances/delete/'+data+'" class="instanceEliminar pointer"><i class="icon icon-trash text-danger"></i></a><a href="'+getUri+'/panel/instances/show/'+data+'" class="instanceShow pointer" data-href="{{ path_for("admin.instance.update", {id: id}) }}"><i class="icon icon-user text-sucess"></i></a>';
+                    return '<a href="'+getUri+'/panel/instances/delete/'+data+'" class="instanceEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/instances/show/'+data+'" class="instanceShow pointer icon_a" data-href="{{ path_for("admin.instance.update", {id: id}) }}"><i class="fa fa-pencil text-sucess"></i></a>';
                 }
             }
             {% endif %}

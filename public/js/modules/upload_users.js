@@ -1,3 +1,4 @@
+var formOk = new Array;
 $("#formFile").on('submit', function(event){
     event.preventDefault();
     var _this = $(this);
@@ -12,8 +13,9 @@ $("#formFile").on('submit', function(event){
         enctype: 'multipart/form-data',
         data: form
     }).done(response => {
+        let i = 0;
         response = JSON.parse(response);
-        /*$.each(response.creators, function(key, value) {
+        $.each(response.creators, function(key, value) {
             $("#tableResult tbody").append("<tr class='creators'>"+
                     "<td>"+value.usuario+"</td>"+
                     "<td>"+value.clave+"</td>"+
@@ -31,8 +33,10 @@ $("#formFile").on('submit', function(event){
                     "<td>"+value.direccion+"</td>"+
                     "<td>"+value.message+"</td>"+
                     "</tr>");
-        });
-        */
+
+                     formOk[i] = {"usuario": value.usuario, "clave": value.clave, "nombres": value.nombres, "apellidos": value.apellidos, "correo": value.correo, "documento": value.documento, "genero": value.genero, "institucion": value.institucion, "ciudad": value.ciudad, "departamento": value.departamento, "pais": value.pais, "telefono": value.telefono, "celular": value.celular, "direccion": value.direccion};
+                     i++;
+                });
         $.each(response.errors, function(key, value) {
             $("#tableResult tbody").append("<tr class='errors'>"+
                     "<td>"+value.usuario+"</td>"+
@@ -68,5 +72,16 @@ $(".download_archive").on('click', function(event){
     var wopts = { bookType:'xlsx', bookSST:false, type:'array' };
     var wbout = XLSX.write(wb,wopts);
     saveAs(new Blob([wbout],{type:"application/octet-stream"}), "usuarios_no_registrados.xlsx");
-
+});
+$("#cargar").on('click', function(event){
+    let _this = $(this);
+    event.preventDefault();
+    console.log(formOk);
+   $.ajax({
+       method : "POST",
+       url : _this.attr('data-action'),
+       enctype: 'multipart/form-data',
+       data: {data : formOk}
+   }).done(function(response){
+   });
 });

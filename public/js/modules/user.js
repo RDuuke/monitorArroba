@@ -7,6 +7,7 @@ $("#userCreateForm").on( "submit", function( event ) {
       if (response.message == 1){
         table.row.add(response.user).draw(false);
         toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
+        $('#userCreateModal').modal('hide');
       } else if(response.message == 2) {
         console.log(_td);
         table.row(_td.parents('tr')).data(response.user);

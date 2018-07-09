@@ -33,6 +33,27 @@ class Course extends Model
             ->orWhere('codigo','LIKE', "301%");
     }
 
+    public function scopeColegio($query)
+    {
+        return $query->where('codigo','LIKE', "102%")
+            ->orWhere('codigo','LIKE', "202%")
+            ->orWhere('codigo','LIKE', "302%");
+    }
+
+    public function scopeITM($query)
+    {
+        return $query->where('codigo','LIKE', "103%")
+            ->orWhere('codigo','LIKE', "203%")
+            ->orWhere('codigo','LIKE', "303%");
+    }
+
+    public function scopeRuta($query)
+    {
+        return $query->where('codigo','LIKE', "104%")
+            ->orWhere('codigo','LIKE', "204%")
+            ->orWhere('codigo','LIKE', "304%");
+    }
+
 
     static function checkCodigo($codigo)
     {

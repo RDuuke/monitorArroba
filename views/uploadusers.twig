@@ -13,10 +13,11 @@
         </p>
         <form action="{{ path_for('admin.upload.students') }}" enctype="multipart/form-data" method="post" id="formFile">
             <input type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-            <button class="btn btn-primary">Cargar</button>
+            <button class="btn btn-primary">Analizar</button>
         </form>
         <br>
-        <p class="none fadein">Registros: <span id="registros"></span> - Usuarios creados: <span id="totalR"></span> - Usuarios no registrados: <span id="totalE"></span> - <button class="btn none fadein download_archive btn-success">Descargar</button></p>
+        <p class="none fadein">Registros: <span id="registros"></span> - Usuarios correctos: <span id="totalR"></span> - Usuarios incorrectos: <span id="totalE"></span> - <button class="btn none fadein download_archive btn-info">Descargar</button> - <button id="cargar" class="btn btn-success" data-action="{{ path_for('admin.student.proccess') }}">Cargar</button>
+</p>
         <br>
         <table id="tableResult" class="fadein">
             <thead>
@@ -41,6 +42,7 @@
             <tbody>
             </tbody>
         </table>
+        <table></table>
     </div>
 
 </div>

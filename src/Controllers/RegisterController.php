@@ -12,14 +12,23 @@ class RegisterController extends Controller
 {
     function all(Request $request, Response $response) : Response
     {
-            if(! $this->auth->isAdmin() ) {
-                if($this->auth->user()->id_institucion != Tools::codigoRutaN()) {
-                    $registers = Register::public()->get()->toArray();
-                }else{
-                    $registers = Register::ruta()->get()->toArray();
-                }
-                $newResponse = $response->withHeader('Content-type', 'application/json');
-                return $newResponse->withJson($registers, 200);
+            switch($this->auth->user()->id_institucion)
+            {
+                case "01":
+                    $Registers = Register::public()->pascual()->get();
+                    break;
+                case "02":
+                    $Registers = Register::public()->colegio()->get();
+                    break;
+                case "03":
+                    $Registers = Register::public()->itm()->get();
+                break;
+                case  "04":
+                    $Registers = Register::ruta()->rutan()->get();
+                break;
+                default :
+                    $Registers = Register::all();
+                break;
             }
             $registers = Register::all()->toArray();
             $newResponse = $response->withHeader('Content-type', 'application/json');

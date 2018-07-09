@@ -13,7 +13,24 @@ class UserController extends Controller
 {
     public function all(Request $request, Response $response)
     {
-        $users = User::all();
+        switch($this->auth->user()->id_institucion)
+            {
+                case "01":
+                    $users = User::pascual();
+                    break;
+                case "02":
+                    $users = User::colegio();
+                    break;
+                case "03":
+                    $users = User::itm();
+                break;
+                case  "04":
+                    $users = User::ruta();
+                break;
+                default :
+                    $users = User::all();
+                break;
+            }
         $newResponse = $response->withHeader('Content-type', 'application/json');
         return $newResponse->withJson($users, 200);
     }
@@ -55,7 +72,7 @@ class UserController extends Controller
         try{
             if ($student != false) {
                 $data_array = ["message" => 2, "user" => $student];
-                Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+                Log::i("<<<<<<<<< " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
                 $newResponse = $response->withHeader('Content-type', 'application/json');
                 return $newResponse->withJson($data_array, 200);
             }
@@ -69,14 +86,14 @@ class UserController extends Controller
     function delete(Request $request, Response $response) : Response
     {
         $router = $request->getAttribute('route');
-        $register= User::find($router->getArguments()['id']);
+        $usuario= User::find($router->getArguments()['id']);
         try {
-            if ($register->delete()) {
-                Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+            if ($usuario->delete()) {
+                Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $usuario->usuario . " en el " . Tools::getMessageModule(0), 2);
                 return $response->withStatus(200)->write('1');
             }
         } catch(\Exception $e) {
-            Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+            Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $usuario->usuario . " en el " . Tools::getMessageModule(0), 2);
             return $response->withStatus(500)->write('0');
         }
     }

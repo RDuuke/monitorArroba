@@ -1,28 +1,47 @@
 {% extends "template/template.twig" %}
 {% block content %}
 <div class="ed-container">
-    <div class="ed-item s-100 l-offset-15 l-70">
+    <div class="ed-item s-100 l-offset-5 l-90">
+        <br>
         <h2 class="text-left text-info">Panel de control</h2>
     </div>
-    <div class="ed-item s-100 l-offset-15 l-70">
+    <div class="separator"></div>
+    <div class="ed-item s-100 l-offset-5 l-90">
         <div class="ed-container full no-padding">
-            <div class="ed-item s-100 l-50 text-center">
-                <i class="big-icon icon icon-book"></i> <br>
-                <a href="">Módulo de programas</a>
+            <div class="ed-item s-100 l-25 text-center">
+                <i class="size_3em fa fa-user"></i> <br>
+                <a href="{{ path_for('admin.users') }}">Módulo de usuarios monitor</a>
             </div>
-            <div class="ed-item s-100 l-50 text-center">
-                <i class="big-icon icon icon-graduation-cap"></i> <br>
-                <a href="">Módulo de cursos</a>
+            <div class="ed-item s-100 l-25 text-center">
+                <i class="size_3em fa fa-users"></i> <br>
+                <a href="{{ path_for('admin.students') }}">Módulo de usuarios plataforma</a>
             </div>
-            <br>
-            <br>
-            <div class="ed-item s-100 l-50 text-center">
-                <i class="big-icon icon icon-user"></i> <br>
-                <a href="{{ path_for('admin.students') }}">Módulo de usuarios</a>
+            <div class="ed-item s-100 l-25 text-center">
+                <i class="size_3em fa fa-cube"></i> <br>
+                <a href="{{ path_for('admin.instance') }}">Módulo de instancias</a>
             </div>
-            <div class="ed-item s-100 l-50 text-center">
-                <i class="big-icon icon icon-tools"></i><br>
-                <a href="">Herramientas</a>
+            <div class="ed-item s-100 l-25 text-center">
+                <i class="size_3em fa fa-institution	"></i> <br>
+                <a href="{{ path_for('admin.institution') }}">Módulo de instituciones</a>
+            </div>
+        </div>
+        <div class="separator"></div>
+        <div class="ed-container full no-padding">
+            <div class="ed-item s-100 l-25 text-center">
+                <i class="size_3em fa fa-leanpub"></i> <br>
+                <a href="{{ path_for('admin.program') }}">Módulo de programas</a>
+            </div>
+            <div class="ed-item s-100 l-25 text-center">
+                <i class="size_3em fa fa-list-alt"></i> <br>
+                <a href="{{ path_for('admin.courses') }}">Módulo de cursos</a>
+            </div>
+            <div class="ed-item s-100 l-25 text-center">
+                <i class="size_3em fa fa fa-drivers-license-o"></i> <br>
+                <a href="{{ path_for('admin.register') }}">Módulo de matriculas</a>
+            </div>
+            <div class="ed-item s-100 l-25 text-center">
+                <i class="size_3em fa fa-search"></i><br>
+                <a href="{{ path_for('admin.search') }}">Módulo de busqueda</a>
             </div>
         </div>
     </div>

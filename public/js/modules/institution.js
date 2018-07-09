@@ -1,3 +1,8 @@
+$("form").keypress(function(e) {
+  if (e.which == 13) {
+      return false;
+  }
+});
 $(".addinstitution").on('click', function (event) {
     event.preventDefault();
     $('#institutionCreateForm')[0].reset();

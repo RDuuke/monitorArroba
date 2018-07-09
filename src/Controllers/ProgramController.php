@@ -5,13 +5,32 @@ namespace App\Controllers;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Program;
+use App\Tools\Log;
+use App\Tools\Tools;
 
 class ProgramController extends Controller
 {
     function all(Request $request, Response $response)
     {
-        $programs = Program::all();
-        $newResponse = $response->withHeader('Content-type', 'application/json');
+            switch($this->auth->user()->id_institucion)
+            {
+                case "01":
+                    $programs = Program::pascual();
+                    break;
+                case "02":
+                    $programs = Program::colegio();
+                    break;
+                case "03":
+                    $programs = Program::itm();
+                break;
+                case  "04":
+                    $programs = Program::ruta();
+                break;
+                default :
+                    $programs = Program::all();
+                break;
+            }
+            $newResponse = $response->withHeader('Content-type', 'application/json');
         return $newResponse->withJson($programs, 200);
     }
 
@@ -52,12 +71,16 @@ class ProgramController extends Controller
         $router = $request->getAttribute('route');
         $programs= Program::find($router->getArguments()['id']);
         try {
-            if ($programs->delete()) {
-                //Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
-                return $response->withStatus(200)->write('1');
+            if ($programs->course->count() < 1) {
+
+                if ($programs->delete()) {
+                    Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $programs->nombre . " en el " . Tools::getMessageModule(5), 2);
+                    return $response->withStatus(200)->write('1');
+                }
             }
+            return $response->withStatus(500)->write('0');
         } catch(\Exception $e) {
-            //Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+            Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $programs->nombre . " en el " . Tools::getMessageModule(5), 2);
             return $response->withStatus(500)->write('0');
         }
     }
@@ -71,12 +94,12 @@ class ProgramController extends Controller
             $program->codigo = $codigo_evaluate;
             $program->save();
             $data_array = ["message" => 2, "program" => $program];
-                //Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($data_array, 200);
 
         } catch (\Exception $e) {
-            //Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
             return $response->withStatus(500)->write('0');
         }
     }
