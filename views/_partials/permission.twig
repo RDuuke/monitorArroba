@@ -1,0 +1,17 @@
+
+    {% for permission in permissions %}
+        <tr data-id="{{ permission.id }}">
+            <td>{{ permission.module.nombre }}</td>
+            {% if (permission.permiso == 3) %}
+                <td class="text-center">Sí</td>
+                <td class="text-center">Sí</td>
+            {% elseif (permission.permiso == 1) %}
+                <td class="text-center">Sí</td>
+                <td class="text-center">No</td>
+            {% else %}
+                <td class="text-center">No</td>
+                <td class="text-center">No</td>
+            {% endif %}
+            <td class="text-right"><a class="permissionRemove" href="{{ path_for('admin.student.remove', { 'id' : permission.id}) }}" class="text-danger"><i class="fa fa-remove"></i></a></td>
+        </tr>
+    {% endfor %}

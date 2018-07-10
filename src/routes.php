@@ -91,4 +91,7 @@ $app->group("/panel", function (){
     $this->get("/program/search[/{params}]", "ProgramController:search")->setName('admin.program.search');
     $this->get("/students/search[/{params}]", "StudentController:search")->setName('admin.student.search');
     $this->post("/students/upload/proccess", "StudentController:proccess")->setName('admin.student.proccess');
+    $this->post("/users/permission[/{id}]", "StudentController:permission")->setName('admin.student.permission');
+    $this->get("/users/permission/view/{id}", "StudentController:permissionAll")->setName('admin.student.permissionAll');
+    $this->get("/users/permission/remove/{id}", "StudentController:remove")->setName('admin.student.remove');
  });

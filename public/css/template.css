@@ -117,3 +117,25 @@ a:hover{
 #tb_register_length label {
     text-transform: unset;
 }
+#tablePermission thead {
+    background: #17a2b8;
+    font-weight: bold;
+    color: #fff;
+}
+
+#tablePermission tbody tr:nth-child(odd)
+{
+    background-color: #f9f9f9;
+}
+#tablePermission tbody tr:nth-child(even)
+{
+    background-color: #ffff;
+}
+#tablePermission tbody tr:hover{
+    background-color: #f6f6f6;
+}
+
+#tablePermission thead td,
+#tablePermission tbody td{
+    padding: .5em;
+}

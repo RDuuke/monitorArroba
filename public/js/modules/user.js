@@ -76,4 +76,51 @@ $(".addstudent").on('click', function(event){
     $('#userCreateForm')[0].reset();
     $('#userCreateForm').attr('action',$(this).attr('data-href'));
     $('#userCreateModal').modal('show');
+  });
+
+$("#tb_user").on("click", ".userPermission", function(event){
+  event.preventDefault();
+  let _this = $(this);
+  var _data = functions.getDataTable(_this);
+  $("#permission").attr("data-id", _data.id);
+  $.get(_this.attr('href')).done(function(response){
+    $("#tablePermission tbody").append(response);
+    $('#addPermissionModal').modal('show');
+  });
+});
+$("#writing").on('change', function (event) {
+  $("#reading").prop('checked', true);
+});
+$("#permission").on('click', function(event){
+  event.preventDefault();
+  var data = $("#addPermissionForm").serialize();
+  let _this = $(this);
+  $.ajax({
+    url : _this.attr('href') + "/" +  _this.attr('data-id'),
+    data : data,
+    method : "POST"
+  }).done( function(response){
+    let jsonResponse = JSON.parse(response);
+    if(jsonResponse.writing == 2){ w = "Sí"}else{w = "No"};
+    if(jsonResponse.reading == 1){ r = "Sí"}else{r = "No"};
+    if(jsonResponse.status == 1){
+      if ($("#tablePermission tbody tr[data-id="+jsonResponse.id+"]").length != 1){
+        $("#tablePermission tbody").append("<tr data-id="+jsonResponse.id+"><td class='text-left'>"+jsonResponse.module+"</td><td class='text-center'>"+r+"</td><td class='text-center'>"+w+"</td><td class='text-right'><a class='permissionRemove' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"' class='text-danger'><i class='fa fa-remove'></i></a></td></tr>");
+      } else {
+        $("#tablePermission tbody").html("<tr><td class='text-left'>"+jsonResponse.module+"</td><td class='text-center'>"+r+"</td><td class='text-center'>"+w+"</td><td class='text-right'><a class='permissionRemove' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"' class='text-danger'><i class='fa fa-remove'></i></a></td><tr>");
+      }
+      console.log(jsonResponse);
+    }
+  });
+});
+
+$("#addPermissionModal").on('click', '.permissionRemove', function(event){
+  event.preventDefault();
+  let _this = $(this);
+  $.get(_this.attr('href')).done(function (response){
+    r = JSON.parse(response);
+    if (r.status == 1) {
+      _this.parents('tr').remove();
+    }
+  })
 });

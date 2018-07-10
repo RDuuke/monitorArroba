@@ -5,6 +5,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Student;
 use App\Tools\Tools;
+use App\Models\Permission;
 
 class StudentController extends Controller
 {
@@ -196,5 +197,39 @@ class StudentController extends Controller
             Student::create($dataOK[$i]);
         }
     }
+    function permissionAll(Request $request, Response $response){
+        $router = $request->getAttribute('route');
+        $permissions = Permission::where('user_id',"=",$router->getArguments()['id'])->get();
+        return $this->view->render($response, "_partials/permission.twig", ['permissions' => $permissions]);
+    }
+    function permission(Request $request, Response $response)
+    {
+        $data = [];
 
+        $dataOK = $request->getParams();
+        $router = $request->getAttribute('route');
+        $id = $router->getArguments()['id'];
+        $writing  = isset($dataOK['writing']) ? $dataOK['writing'] : 0;
+        $reading  = isset($dataOK['reading']) ? $dataOK['reading'] : 0;
+        $data = ['permiso' => ($writing + $reading), 'modulo_id' => $dataOK['modules'], 'user_id' => $id];
+        $permission = Permission::updateOrCreate(['modulo_id' => $dataOK['modules'], 'user_id' => $id], $data);
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        if ($permission != false){
+            $message = ["status" => 1, "module" => $permission->module->nombre, "writing" => $writing, "reading" => $reading, "id" => $permission->id];
+            return $newResponse->withJson($message, 200);
+        }
+        return "no";
+    }
+
+    function remove(Request $request, Response $response)
+    {
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        $router = $request->getAttribute('route');
+        $permission = Permission::find($router->getArguments()['id']);
+        if ($permission->delete()){
+            $message = ["status" => 1];
+            return $newResponse->withJson($message, 200);
+        }
+
+    }
 }

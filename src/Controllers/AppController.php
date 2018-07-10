@@ -11,6 +11,7 @@ use App\Models\Program;
 use App\Models\Course;
 use App\Models\Register;
 use App\Models\RegisterArchive;
+use App\Models\Module;
 
 class AppController extends Controller
 {
@@ -36,7 +37,8 @@ class AppController extends Controller
     {
         $rols = Rol::all();
         $institutions =Institution::all();
-        return $this->view->render($response, "user.twig", ['roles' => $rols, "instituciones" => $institutions]);
+        $modules = Module::all();
+        return $this->view->render($response, "user.twig", ['roles' => $rols, "instituciones" => $institutions, "modules" => $modules]);
     }
 
     public function registers(Request $request, Response $response)

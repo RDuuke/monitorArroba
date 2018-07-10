@@ -31,7 +31,6 @@
                     <th> {{ "nombres" | title }}</th>
                     <th> {{ "Apellidos" | title }}</th>
                     <th> {{ "Documento" | title }}</th>
-                    <th> {{ "Rol" | title }}</th>
                     <th> {{ "Institución" | title }}</th>
                     <th></th>
                 </tr>
@@ -44,6 +43,7 @@
 {% endblock %}
 {% block modales %}
 {% include "formularios/user.twig" %}
+{% include "formularios/permission.twig" %}
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
@@ -53,7 +53,7 @@ var getUri = "http://"+window.location.host;
 const roles = ['Super Administrador', 'Administrador', 'Super Moderador', 'Moderador', 'Super Normal', 'Normal'];
 const institutions = ['Institución Universitaria Pascual Bravo', 'Institución Universitaria Colegio Mayor de Antioquia', 'Institución Universitaria ITM', 'Ruta N', '@Medellín'];
 var _td = null;
-var table = $('table').DataTable({
+var table = $('#tb_user').DataTable({
         lengthMenu: [ 25, 50, 75, 100 ],
         language: {
             "lengthMenu": "Mostrar _MENU_ registros por pagina",
@@ -82,11 +82,6 @@ var table = $('table').DataTable({
             { data: 'nombres' },
             { data: 'apellidos' },
             { data: 'documento' },
-            { "data": 'id_rol',
-                "render" : function(data, type, row, meta) {
-                    return ""+roles[data - 1]+"";
-                }
-            },
             { "data": 'id_institucion',
                 "render" : function(data, type, row, meta) {
 
@@ -96,7 +91,7 @@ var table = $('table').DataTable({
             {% if auth.user.id_rol  < 3  %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<a href="'+getUri+'/panel/users/delete/'+data+'" class="userEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/users/show/'+data+'" class="userShow pointer icon_a" data-href="{{ path_for("admin.users.update", {id: id}) }}"><i class="fa fa-pencil text-sucess"></i></a>';
+                    return '<a href="'+getUri+'/panel/users/permission/view/'+data+'" class="userPermission pointer icon_a"><i class="fa fa-lock"></i></a>&nbsp;<a href="'+getUri+'/panel/users/delete/'+data+'" class="userEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/users/show/'+data+'" class="userShow pointer icon_a" data-href="{{ path_for("admin.users.update", {id: id}) }}"><i class="fa fa-pencil text-sucess"></i></a>';
                 }
             }
             {% else %}
