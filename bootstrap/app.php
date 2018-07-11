@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__DIR__) . DS . "vendor" . DS ."autoload.php";
 
+use App\Tools\Tools;
 use Slim\App;
 use Illuminate\Database\Capsule\Manager;
 use Slim\Views\Twig;
@@ -58,15 +59,29 @@ $container['view'] = function ($container) {
         $container->router,
         $container->request->getUri()
     ));
+    $view->getEnvironment()->addGlobal('modulo_plataforma', Tools::codigoUsuarioPlataforma);
+    $view->getEnvironment()->addGlobal('modulo_campus', Tools::codigoUsuarioCampus);
+    $view->getEnvironment()->addGlobal('modulo_instancias', Tools::codigoInstancias);
+    $view->getEnvironment()->addGlobal('modulo_instituciones', Tools::codigoInstituciones);
+    $view->getEnvironment()->addGlobal('modulo_programas', Tools::codigoProgramas);
+    $view->getEnvironment()->addGlobal('modulo_cursos', Tools::codigoCursos);
+    $view->getEnvironment()->addGlobal('modulo_matriculas', Tools::codigoMatriculas);
+    $view->getEnvironment()->addGlobal('modulo_busqueda', Tools::codigoBusqueda);
 
     $view->getEnvironment()->addGlobal('auth', [
         'check' => $container->auth->check(),
-        'user' => $container->auth->user()
+        'user' => $container->auth->user(),
     ]);
 
     $view->getEnvironment()->addGlobal('base_url', (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST']. "");
 
     $view->getEnvironment()->addGlobal('flash', $container->flash);
+
+    $function = new Twig_SimpleFunction('getPermission', function ($module, $user) {
+        $permission = \App\Models\Permission::where("modulo_id", $module)->where("user_id", $user)->first();
+        return $permission->permiso;
+    });
+    $view->getEnvironment()->addFunction($function);
 
     return $view;
 };

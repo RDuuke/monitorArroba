@@ -7,42 +7,58 @@
     </div>
     <div class="separator"></div>
     <div class="ed-item s-100 l-offset-5 l-90">
+        <div class="separator"></div>
         <div class="ed-container full no-padding">
-            <div class="ed-item s-100 l-25 text-center">
-                <i class="size_3em fa fa-user"></i> <br>
-                <a href="{{ path_for('admin.users') }}">Módulo de usuarios monitor</a>
-            </div>
+            {%  if (getPermission(modulo_plataforma, auth.user.id) == 1 or getPermission(modulo_plataforma, auth.user.id) == 3) %}
+                <div class="ed-item s-100 l-25 text-center">
+                    <i class="size_3em fa fa-user"></i> <br>
+                    <a href="{{ path_for('admin.users') }}">Módulo de usuarios monitor</a>
+                </div>
+            {% endif %}
+            {%  if (getPermission(modulo_campus, auth.user.id) == 1 or getPermission(modulo_campus, auth.user.id) == 3) %}
             <div class="ed-item s-100 l-25 text-center">
                 <i class="size_3em fa fa-users"></i> <br>
                 <a href="{{ path_for('admin.students') }}">Módulo de usuarios plataforma</a>
             </div>
+            {% endif %}
+            {%  if (getPermission(modulo_instancias, auth.user.id) == 1 or getPermission(modulo_instancias, auth.user.id) == 3) %}
             <div class="ed-item s-100 l-25 text-center">
                 <i class="size_3em fa fa-cube"></i> <br>
                 <a href="{{ path_for('admin.instance') }}">Módulo de instancias</a>
             </div>
+            {% endif %}
+            {%  if (getPermission(modulo_instituciones, auth.user.id) == 1 or getPermission(modulo_instituciones, auth.user.id) == 3) %}
             <div class="ed-item s-100 l-25 text-center">
                 <i class="size_3em fa fa-institution	"></i> <br>
                 <a href="{{ path_for('admin.institution') }}">Módulo de instituciones</a>
             </div>
+            {% endif %}
         </div>
-        <div class="separator"></div>
         <div class="ed-container full no-padding">
+            {%  if (getPermission(modulo_programas, auth.user.id) == 1 or getPermission(modulo_programas, auth.user.id) == 3) %}
             <div class="ed-item s-100 l-25 text-center">
                 <i class="size_3em fa fa-leanpub"></i> <br>
                 <a href="{{ path_for('admin.program') }}">Módulo de programas</a>
             </div>
+            {% endif %}
+            {%  if (getPermission(modulo_cursos, auth.user.id) == 1 or getPermission(modulo_cursos, auth.user.id) == 3) %}
             <div class="ed-item s-100 l-25 text-center">
                 <i class="size_3em fa fa-list-alt"></i> <br>
                 <a href="{{ path_for('admin.courses') }}">Módulo de cursos</a>
             </div>
+            {% endif %}
+            {%  if (getPermission(modulo_matriculas, auth.user.id) == 1 or getPermission(modulo_matriculas, auth.user.id) == 3) %}
             <div class="ed-item s-100 l-25 text-center">
                 <i class="size_3em fa fa fa-drivers-license-o"></i> <br>
                 <a href="{{ path_for('admin.register') }}">Módulo de matriculas</a>
             </div>
+            {% endif %}
+            {%  if (getPermission(modulo_busqueda, auth.user.id) == 1 or getPermission(modulo_busqueda, auth.user.id) == 3) %}
             <div class="ed-item s-100 l-25 text-center">
                 <i class="size_3em fa fa-search"></i><br>
                 <a href="{{ path_for('admin.search') }}">Módulo de busqueda</a>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

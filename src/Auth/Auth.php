@@ -1,5 +1,6 @@
 <?php
 namespace App\Auth;
+use App\Models\Module;
 use App\Models\User;
 use App\Tools\Tools;
 
@@ -29,12 +30,10 @@ class Auth
     {
         unset($_SESSION['user']);
     }
-    public function isAdmin()
+
+    public function getPermission($module)
     {
-        if ($this->user()->id_rol == 1) {
-            return 1;
-        }
-        return 0;
+        return $module;
     }
 
     public function getInstitution()

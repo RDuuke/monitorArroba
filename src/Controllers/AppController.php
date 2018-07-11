@@ -23,6 +23,7 @@ class AppController extends Controller
 
     public function home(Request $request,Response $response)
     {
+
         return $this->view->render($response, "home.twig");
     }
 

@@ -3,6 +3,15 @@ namespace App\Tools;
 
 class Tools {
 
+    const codigoUsuarioPlataforma = 1;
+    const codigoUsuarioCampus = 2;
+    const codigoInstancias = 3;
+    const codigoInstituciones = 4;
+    const codigoProgramas = 5;
+    const codigoCursos = 6;
+    const codigoMatriculas = 7;
+    const codigoBusqueda = 8;
+
     static public $UserMessage = [
         0 => "El usuario fue creado correctamente.",
         1 => "El usuario existe, pero con otro documento.",
@@ -41,6 +50,7 @@ class Tools {
     static public $Modules = [
         "usuarios plataforma" , "usuarios campus", "matriculas", "instancias", "instituciones", "programas"
     ];
+
 
     static function moveUploadedFile($uploadedFile, $dir)
     {
