@@ -17,16 +17,16 @@ class CourseController extends Controller
                     $courses = Course::pascual()->get();
                     break;
                 case "02":
-                    $Courses = Course::colegio()->get();
+                    $courses = Course::colegio()->get();
                     break;
                 case "03":
-                    $Courses = Course::itm()->get();
+                    $courses = Course::itm()->get();
                 break;
                 case  "04":
-                    $Courses = Course::ruta()->get();
+                    $courses = Course::ruta()->get();
                 break;
                 default :
-                    $Courses = Course::all();
+                    $courses = Course::all();
                 break;
             }
         $newResponse = $response->withHeader('Content-type', 'application/json');

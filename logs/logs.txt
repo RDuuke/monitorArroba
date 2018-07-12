@@ -25,3 +25,6 @@ INFO[22-06-2018 04:01:08]: [Creación] usuario juuanduuke@gmail.com creo la TesT
 INFO[22-06-2018 04:01:45]: [Eliminación] usuario juuanduuke@gmail.com elimino al TesT Instancia en el módulo instancias 
 INFO[22-06-2018 04:06:41]: [Eliminación] usuario juuanduuke@gmail.com elimino al Test programa en el módulo programas 
 INFO[09-07-2018 02:39:43]: [Eliminación] usuario juuanduuke@gmail.com elimino al  en el módulo programas 
+INFO[12-07-2018 03:24:50]: [Creación] usuario juuanduuke@gmail.com registro al juan.duque@gmail.com en el módulo usuarios plataforma 
+INFO[12-07-2018 03:27:46]: [Creación] usuario juan.duque@gmail.com creo la test en el módulo instancias 
+INFO[12-07-2018 03:27:52]: [Eliminación] usuario juan.duque@gmail.com elimino al test en el módulo instancias 

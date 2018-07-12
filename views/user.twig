@@ -14,7 +14,7 @@
 <div class="ed-container full">
     <div class="ed-item s-100 l-offset-15 l-70">
         <br>
-        <h2 class="text-left text-info">Módulo usuarios plataforma</h2>
+        <h2 class="text-left text-info">Usuarios @Monitor</h2>
     </div>
     <div class="separator"></div>
     <div class="ed-item s-100">
@@ -32,7 +32,7 @@
                     <th> {{ "Apellidos" | title }}</th>
                     <th> {{ "Documento" | title }}</th>
                     <th> {{ "Institución" | title }}</th>
-                    <th></th>
+                    <th> {{ "Acciones" | title }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,16 +88,16 @@ var table = $('#tb_user').DataTable({
                     return ""+institutions[data.substr(1,1)-1]+"";
                 }
             },
-            {% if auth.user.id_rol  < 3  %}
+            {% if getPermission(modulo_plataforma, auth.user.id) == 3  %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<a href="'+getUri+'/panel/users/permission/view/'+data+'" class="userPermission pointer icon_a"><i class="fa fa-lock"></i></a>&nbsp;<a href="'+getUri+'/panel/users/delete/'+data+'" class="userEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/users/show/'+data+'" class="userShow pointer icon_a" data-href="{{ path_for("admin.users.update", {id: id}) }}"><i class="fa fa-pencil text-sucess"></i></a>';
+                    return '<a data-toggle="tooltip" title="Permisos"  href="'+getUri+'/panel/users/permission/view/'+data+'" class="userPermission pointer icon_a"><i class="fa fa-lock text-success"></i></a>&nbsp;<a data-toggle="tooltip" title="Eliminar" href="'+getUri+'/panel/users/delete/'+data+'" class="userEliminar pointer icon_a delete_tooltip"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a data-toggle="tooltip" title="Actualizar" href="'+getUri+'/panel/users/show/'+data+'" class="userShow pointer icon_a" data-href="{{ path_for("admin.users.update", {id: id}) }}"><i class="fa fa-pencil text-sucess"></i></a>';
                 }
             }
             {% else %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<a href="'+getUri+'/panel/users/delete/'+data+'" class="userEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/users/show/'+data+'" class="userShow pointer icon_a" data-href="{{ path_for("admin.users.update", {id: id}) }}"><i class="fa fa-pencil text-sucess"></i></a>';
+                    return '<a data-toggle="tooltip" title="Permisos" href="'+getUri+'/panel/users/permission/view/'+data+'" class="userPermission pointer icon_a"><i class="fa fa-lock text-success"></i></a>';
                 }
             }
             {% endif %}

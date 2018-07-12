@@ -13,6 +13,7 @@ $("#formFile").on('submit', function(event){
         enctype: 'multipart/form-data',
         data: form
     }).done(response => {
+        $("#tableResult tbody").html("");
         let i = 0;
         response = JSON.parse(response);
         $.each(response.creators, function(key, value) {
@@ -71,17 +72,19 @@ $(".download_archive").on('click', function(event){
     var wb = XLSX.utils.table_to_book(tbl);
     var wopts = { bookType:'xlsx', bookSST:false, type:'array' };
     var wbout = XLSX.write(wb,wopts);
-    saveAs(new Blob([wbout],{type:"application/octet-stream"}), "usuarios_no_registrados.xlsx");
+    saveAs(new Blob([wbout],{type:"application/octet-stream"}), "usuarios_analizados.xlsx");
 });
 $("#cargar").on('click', function(event){
     let _this = $(this);
     event.preventDefault();
     console.log(formOk);
-   $.ajax({
+    toastr.info('Cargando usuarios.', 'Cargando...', {timeOut: 3000});
+    $.ajax({
        method : "POST",
        url : _this.attr('data-action'),
        enctype: 'multipart/form-data',
        data: {data : formOk}
    }).done(function(response){
+        toastr.success('Carga terminada.', 'Finalizado', {timeOut: 3000});
    });
 });

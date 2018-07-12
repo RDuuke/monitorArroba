@@ -3,8 +3,14 @@
     {% for course in student_data %}
         <tr>
             <td>{{ n }}</td>
-            <td><a href="/panel/search/program/courses/usuarios/{{course.course.codigo}}">{{ course.course.nombre }}</a></td>
-            <td><a style="font-size: 1.5em;color:chocolate;"href="{{ path_for('admin.register.archive', {id: course.id}) }}" class="archive_register"><i class="fa fa-folder"></i></a></td>
+            {%  if (getPermission(modulo_busqueda, auth.user.id) == 1 or getPermission(modulo_busqueda, auth.user.id) == 3) %}
+                <td><a data-toggle="tooltip" title="Ver información" href="/panel/search/program/courses/usuarios/{{course.course.codigo}}">{{ course.course.nombre }}</a></td>
+            {% else %}
+                <td>{{ course.course.nombre }}</a></td>
+            {% endif %}
+            {% if getPermission(modulo_campus, auth.user.id) == 3 %}
+                <td><a data-toggle="tooltip" title="Desmatricular" style="font-size: 1.5em;color:chocolate;"href="{{ path_for('admin.register.archive', {id: course.id}) }}" class="archive_register"><i class="fa fa-folder"></i></a></td>
+            {% endif %}
         {% set n = n + 1 %}
         </tr>
     {% endfor %}

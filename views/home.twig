@@ -11,7 +11,7 @@
         <div class="ed-container full no-padding">
             {%  if (getPermission(modulo_plataforma, auth.user.id) == 1 or getPermission(modulo_plataforma, auth.user.id) == 3) %}
                 <div class="ed-item s-100 l-25 text-center">
-                    <i class="size_3em fa fa-user"></i> <br>
+                    <i data-toggle="tooltip" data-placement="top" title="Usuario monitor" class="size_3em fa fa-user"></i> <br>
                     <a href="{{ path_for('admin.users') }}">Módulo de usuarios monitor</a>
                 </div>
             {% endif %}

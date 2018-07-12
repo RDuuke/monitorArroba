@@ -13,7 +13,7 @@ class Tools {
     const codigoBusqueda = 8;
 
     static public $UserMessage = [
-        0 => "El usuario fue creado correctamente.",
+        0 => "El usuario correcto.",
         1 => "El usuario existe, pero con otro documento.",
         2 => "El usuario no pertenece a tu institución.",
         3 => "El usuario existe con ese documento y correo."

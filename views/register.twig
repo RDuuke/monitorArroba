@@ -11,12 +11,14 @@
     <br>
         <h2 class="text-left text-info">Módulo matriculas</h2>
     </div>
-        <div class="separator"></div>
+    <div class="separator"></div>
+    {% if getPermission(modulo_matriculas, auth.user.id) == 3 %}
     <div class="ed-item s-100">
         <button class="btn btn-primary addregister" data-href="{{ path_for('admin.store.register') }}"><i class="icon icon-plus-circle"></i> Agregar matricula</button>  -  <a class="btn btn-success" href="{{ path_for('admin.upload.register') }}"> <i class="icon icon-file-text-o"></i> Cargar archivo</a>
         <br>
-    <br>
+        <br>
     </div>
+    {% endif %}
     <div class="ed-item s-100">
     <br>
         <table id="tb_register" class="display">
@@ -28,7 +30,7 @@
                     <th> {{ "usuario" | title }}</th>
                     <th> {{ "rol" | title }}</th>
                     <th> {{ "fecha" | title }}</th>
-                    <th></th>
+                    <th> {{ "acciones" | title }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,17 +87,19 @@ var table = $('table').DataTable({
         },
         { data: 'usuario',
           "render" : function(data, type, row, meta) {
-              return '<a href="{{ path_for("admin.students.update", {id : data.id}) }}" data-usuario="'+data+'" class="showUserRegister pointer">'+data+'</a>';
+              return '<a data-toggle="tooltip" title="Ver información" href="{{ path_for("admin.students.update", {id : data.id}) }}" data-usuario="'+data+'" class="showUserRegister pointer">'+data+'</a>';
           }
         },
         { data: 'rol' },
         { data: 'fecha' },
+        {% if getPermission(modulo_matriculas, auth.user.id) == 3 %}
         { "data": "id",
           "render": function (data, type, row, meta) {
-                return '<a class="archive_register icon_a chocolate" href="'+getUri+'/panel/register/archive/'+data+'" ><i class="fa fa-folder"></i></a>&nbsp;<a href="'+getUri+'/panel/register/delete/'+data+'" class="registertEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a href="'+getUri+'/panel/register/show/'+data+'" class="registerShow pointer icon_a" data-href="{{ path_for("admin.update.register", {id : data.id}) }}"><i class="fa fa-pencil green"></i></a>';
+                return '<a data-toggle="tooltip" title="Desmatricular" class="archive_register icon_a chocolate" href="'+getUri+'/panel/register/archive/'+data+'" ><i class="fa fa-folder"></i></a>&nbsp;<a data-toggle="tooltip" title="Eliminar" href="'+getUri+'/panel/register/delete/'+data+'" class="registertEliminar pointer icon_a"><i class="fa fa-trash text-danger"></i></a>&nbsp;<a data-toggle="tooltip" title="Actualizar" href="'+getUri+'/panel/register/show/'+data+'" class="registerShow pointer icon_a" data-href="{{ path_for("admin.update.register", {id : data.id}) }}"><i class="fa fa-pencil green"></i></a>';
                 //return '<a>'+data+'<a>';
             }
         }
+        {% endif %}
       ]
 });
 //http://localhost:8080/panel/register/delete/id
