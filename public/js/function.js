@@ -22,7 +22,7 @@ $(function(){
                 case 'list':
                     $(tag).html("");
                     $.each(JSON.parse(data), function(key, value){
-                        $(tag).append("<li class='list-group-item list-group'><a href='"+getUri+ route + value.codigo + "'>"+ value.nombre +"</a></li>");
+                        $(tag).append("<li class='list-group-item list-group'>codigo: "+value.codigo+" nombre: <a href='"+getUri+ route + value.codigo + "'>"+ value.nombre +"</a></li>");
                     });
                     break;
                     case 'table':
@@ -34,6 +34,9 @@ $(function(){
                     });
                 break;
             }
+        },
+        lowercase : function ($str) {
+            return str.toLowerCase();
         }
     }
 });

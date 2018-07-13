@@ -121,9 +121,19 @@ class StudentController extends Controller
                             "celular" => trim($worksheet->getCell('L'. $row)->getvalue()),
                             "direccion" => trim($worksheet->getCell('M'. $row)->getvalue())
                         ];
+                        $student_document = Student::where('documento', $data['documento'])->first();
+                        if ($student_document->count() == 0){
+                            $filter = $student_document->where('usuario', $data['usuario']);
+                            if ($filter->count() == 1){
+                                $data['message'] = str_replace(':usuario', Tools::getMessageUser(4), $student_document->usuario);
+                                array_push($this->errors, $data);
+                                unset($data);
+                                continue;
+                            }
+                        }
                         $student = Student::where([
-                                                    ['usuario', '=', $data['usuario']]
-                                                ])->get();
+                            ['usuario', '=', $data['usuario']]
+                        ])->get();
                         if ($student->count() == 0) {
                             if((strtolower($data['institucion']) == strtolower($this->auth->user()->institution->nombre) || ($this->auth->user()->institution->codigo == Tools::codigoMedellin()))) {
                                 $data['message'] = Tools::getMessageUser(0);
@@ -131,12 +141,12 @@ class StudentController extends Controller
                                 //Student::create($data);
                             }else {
                                 $data['message'] = Tools::getMessageUser(2);
-                                array_push($this->errors, $data);
+                                array_push($this->errors, $data);;
                             }
                         } else {
                             $filter = $student->where('documento', $data['documento']);
                             if($filter->count() == 0) {
-                                $data['message'] = Tools::getMessageUser(1);
+                                $data['message'] = str_replace(":documento", $student, Tools::getMessageUser(1));
                             }else {
                                 $data['message'] = Tools::getMessageUser(3);
                             }

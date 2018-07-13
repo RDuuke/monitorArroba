@@ -17,6 +17,11 @@ class Program extends Model
         return $this->hasMany(Course::class, 'programa', 'codigo');
     }
 
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class, 'codigo_institucion', 'codigo');
+    }
+
     public function scopeITM($query)
     {
         return $query->where("codigo_institucion", "=", 03)->get();

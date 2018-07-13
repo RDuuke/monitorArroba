@@ -4,19 +4,24 @@
 {% endblock %}
 {% block content %}
 {% set n = 1 %}
-<h2>Cursos del programa {{ program.nombre | lower}}</h2>
+    <p>Cursos del programa {{ program.nombre | lower}}</p>
+    <p>Codigo: {{ program.codigo }}</p>
     <table>
         <thead>
             <tr>
                 <th>Nro</th>
+                <th>Codigo</th>
                 <th>Cursos</th>
+                <th>Institución</th>
             </tr>
         </thead>
         <tbody>
             {% for course in curses %}
             <tr>
                 <td>{{ n }}</td>
+                <td>{{ course.codigo }}</td>
                 <td><a href="/panel/search/program/courses/usuarios/{{course.codigo}}">{{ course.nombre }}</a></td>
+                <td>{{ program.institution.nombre }}</td>
             </tr>
             {% set n = n + 1 %}
             {% endfor %}

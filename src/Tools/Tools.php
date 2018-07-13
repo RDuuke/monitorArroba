@@ -14,9 +14,10 @@ class Tools {
 
     static public $UserMessage = [
         0 => "El usuario correcto.",
-        1 => "El usuario existe, pero con otro documento.",
+        1 => "El usuario existe, pero con este :documento.",
         2 => "El usuario no pertenece a tu institución.",
-        3 => "El usuario existe con ese documento y correo."
+        3 => "El usuario existe con ese documento y correo.",
+        4 => "El usuario existe, pero con este correo :correo"
     ];
 
     static public $Institution = [

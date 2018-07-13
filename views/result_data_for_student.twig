@@ -4,22 +4,35 @@
 {% endblock %}
 {% block content %}
     {% set n = 1 %}
-    <h2>Cursos matriculados de {{ student_name | lower }}</h2>
+    <p>Listado de cursos del usuario: {{ student.nombres | lower }} {{ student.apellidos | lower }}</p>
+    <p>Documento: {{ student.documento }}</p>
+    <p>Telefono: {{ student.telefono }}</p>
+    <p>Correo: {{ student.usuario }}</p>
     <table>
         <thead>
             <tr>
                 <th>Nro</th>
+                <th>Codigo</th>
                 <th>Nombre</th>
+                <th>Rol</th>
+                <th>Instancia</th>
                 <th>Programa</th>
+                <th>Institución</th>
+                <th>Último acceso</th>
             </tr>
         </thead>
         <tbody>
             {% for course in student_data %}
             <tr>
                 <td>{{ n }}</td>
+                <td>{{ course.course.codigo }}</td>
                 <td><a href="/panel/search/program/courses/usuarios/{{course.course.codigo}}">{{ course.course.nombre }}</a></td>
+                <td>{{ course.rol }}</td>
+                <td>{{ getInstance(course.course.codigo) }}</td>
                 <td><a href="/panel/search/program/courses/{{ course.course.programa}}">{{ course.course.programa }}</a></td>
-            {% set n = n + 1 %}
+                <td>{{ getInstitution(course.course.codigo) }}</td>
+                <td></td>
+                {% set n = n + 1 %}
             </tr>
             {% endfor %}
         </tbody>

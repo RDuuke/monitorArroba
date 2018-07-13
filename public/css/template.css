@@ -5,6 +5,9 @@
 label {
     text-transform: capitalize;
 }
+table td, table td a{
+    text-transform: lowercase !important;
+}
 .none {
     display: none;
 }

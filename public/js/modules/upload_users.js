@@ -77,7 +77,10 @@ $(".download_archive").on('click', function(event){
 $("#cargar").on('click', function(event){
     let _this = $(this);
     event.preventDefault();
-    console.log(formOk);
+    if (formOk.length == 0) {
+        toastr.warning('No hay registros para cargar.', 'Noticia', {timeOut: 3000});
+        return false;
+    }
     toastr.info('Cargando usuarios.', 'Cargando...', {timeOut: 3000});
     $.ajax({
        method : "POST",

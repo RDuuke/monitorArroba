@@ -83,6 +83,19 @@ $container['view'] = function ($container) {
     });
     $view->getEnvironment()->addFunction($function);
 
+    $function = new Twig_SimpleFunction('getInstance', function ($codigo) {
+        $i = substr($codigo,0, 1);
+        $nombre = \App\Models\Instance::where("codigo", $i)->first();
+        return $nombre->nombre;
+    });
+    $view->getEnvironment()->addFunction($function);
+
+    $function = new Twig_SimpleFunction('getInstitution', function ($codigo) {
+        $i = substr($codigo,1, 2);
+        $nombre = \App\Models\Institution::where("codigo", $i)->first();
+        return $nombre->nombre;
+    });
+    $view->getEnvironment()->addFunction($function);
     return $view;
 };
 

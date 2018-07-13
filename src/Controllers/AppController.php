@@ -106,7 +106,7 @@ class AppController extends Controller
         $student_data = Register::where('usuario', $student->usuario)->get();
         if (! $request->isXhr()) {
             // Do something
-            return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data, "student_name" => $student->nombres." ".$student->apellidos]);
+            return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data, "student" => $student]);
         }
         return $this->view->render($response, '_partials/register_student.twig', ["student_data"=>$student_data]);
     }

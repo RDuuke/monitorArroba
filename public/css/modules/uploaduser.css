@@ -6,7 +6,7 @@
 #tableResult tr {
     border: 1px solid black;
     background: #2C9FC2;
-    color: #fff;
+    color: black;
     box-sizing: border-box;
 }
 #tableResult td,
@@ -19,6 +19,9 @@
     border-right-style: solid;
 
 }
+#tableResult th{
+    color: #fff;
+}
 #tableResult td:last-child,
 #tableResult th:last-child
 {
@@ -26,11 +29,11 @@
 }
 .errors
 {
-    background-color: tomato !important;
+    background-color: #f2dede !important;
 }
 .creators
 {
-    background-color: yellowgreen !important;
+    background-color: #dff0d8 !important;
 }
 #registros
 {
@@ -39,13 +42,13 @@
     font-weight: bold;
 }
 #totalR{
-    background: yellowgreen;
+    background: #dff0d8;
     padding: .5em;
     font-weight: bold;
 }
 
 #totalE{
-    background: tomato;
+    background: #f2dede;
     padding: .5em;
     font-weight: bold;
 }

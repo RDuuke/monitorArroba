@@ -13,13 +13,13 @@
           <div class="ed-item s-100 l-100">
             <div class="form-group">
               <label for="nombre">Nombre</label>
-              <input name="nombre" type="text" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }}>
+              <input name="nombre" type="text" class="form-control" {{ getPermission(modulo_instituciones, auth.user.id) == 3 ? '' : 'readonly' }}>
             </div>
             <div class="form-group">
               <label for="codigo">Codigo</label>
-              <input name="codigo" type="number" placeholder="00" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }} min="00" max="99">
+              <input name="codigo" type="number" placeholder="00" class="form-control" {{ getPermission(modulo_instituciones, auth.user.id) == 3 ? '' : 'readonly' }} min="00" max="99">
             </div>
-            {% if auth.user.id_rol  < 5  %}
+            {% if getPermission(modulo_instituciones, auth.user.id) == 3  %}
               <button type="submit" class="btn btn-primary">Guardar</button>
             {% endif %}
           </div>

@@ -4,23 +4,33 @@
 {% endblock %}
 {% block content %}
 {% set n = 1 %}
-<h2>Estudiantes del curso {{ course.nombre | lower }}</h2>
+    <p>Listado de usuarios matriculados</p>
+    <p>{{ course.nombre | lower }}</p>
+    <p>Código: {{ course.codigo }}</p>
     <table>
         <thead>
             <tr>
                 <th>id</th>
+                <th>Documento</th>
                 <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Teléfono</th>
                 <th>Usuario</th>
-                <th>Tipo</th>
+                <th>Rol</th>
+                <th>Último ingreso Curso</th>
             </tr>
         </thead>
         <tbody>
             {% for student in students %}
             <tr>
                 <td>{{ n }}</td>
-                <td>{{ student.student.nombres }} {{ student.student.apellidos }}</td>
+                <td>{{ student.student.documento }}</td>
+                <td>{{ student.student.nombres }} </td>
+                <td>{{ student.student.apellidos }}</td>
+                <td>{{ student.student.telefono }}</td>
                 <td><a href="/panel/search/program/courses/usuarios/info/{{student.student.id}}">{{ student.student.usuario }}</a></td>
                 <td>{{ student.rol }}</td>
+                <td></td>
             </tr>
             {% set n = n + 1 %}
             {% endfor %}
