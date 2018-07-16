@@ -16,6 +16,16 @@ class Student extends Model
         return Student::where('institucion', 'Like', $where)->get()->toArray();
     }
 
+    public function getGeneroAttribute($value)
+    {
+        if (!empty($value)) {
+            if ($value == '1' || $value == '2') {
+                return $value == '1' ? 'M' : 'F';
+            }
+        }
+        return strtoupper($value);
+    }
+
     public function registers()
     {
         return $this->hasMany(Register::class, 'usuario', 'usuario');

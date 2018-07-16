@@ -5,7 +5,7 @@
 }
 #tableResult tr {
     border: 1px solid black;
-    background: #2C9FC2;
+    background: #d9edf7;
     color: black;
     box-sizing: border-box;
 }
@@ -14,13 +14,13 @@
     box-sizing: border-box;
     padding: 1em .5em;
     text-align: center;
-    border-right-color: #fff;
+    border-right-color: #000000;
     border-right-width: 1px;
     border-right-style: solid;
 
 }
 #tableResult th{
-    color: #fff;
+    color: black;
 }
 #tableResult td:last-child,
 #tableResult th:last-child
@@ -35,9 +35,15 @@
 {
     background-color: #dff0d8 !important;
 }
+.alerts {
+    background-color: #fcf8e3 !important;
+}
+.info{
+    background-color: #d9edf7 !important;
+}
 #registros
 {
-    background:  yellow;
+    background:  #d9edf7;
     padding: .5em;
     font-weight: bold;
 }
@@ -49,6 +55,11 @@
 
 #totalE{
     background: #f2dede;
+    padding: .5em;
+    font-weight: bold;
+}
+#totalA{
+    background: #fcf8e3;
     padding: .5em;
     font-weight: bold;
 }

@@ -16,7 +16,8 @@
             <button class="btn btn-primary">Analizar</button>
         </form>
         <br>
-        <p class="none fadein">Registros: <span data-toggle='tooltip' title='Matriculas' id="registros"></span> - Usuarios correctos: <span id="totalR"></span> - Usuarios incorrectos: <span id="totalE"></span> - <button data-toggle='tooltip' title='Descargar registros de la tabla' class="btn none fadein download_archive btn-info">Descargar</button> - <button data-toggle='tooltip' title='Registrar usuarios correctos' id="cargar" class="btn btn-success" data-action="{{ path_for('admin.student.proccess') }}">Cargar</button>
+        <p class="none fadein">Registros: <span data-toggle='tooltip' title='Matriculas' id="registros"></span> - Correctos: <span id="totalR"></span> - Alertas: <span id="totalA"></span>  - Errores: <span id="totalE"></span> - <button data-toggle='tooltip' title='Descargar registros de la tabla' class="btn none fadein download_archive btn-info">Descargar</button> - <button data-toggle='tooltip' title='Registrar usuarios correctos' id="cargar" class="btn btn-success" data-action="{{ path_for('admin.student.proccess') }}">Cargar</button> -
+            <label for="alertsT">¿Cargar las alertas? <input type="checkbox" name="alertsT" value="1" id="alertsT" /></label>
 </p>
         <br>
         <table id="tableResult" class="fadein">

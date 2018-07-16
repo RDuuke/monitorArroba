@@ -1,4 +1,5 @@
 var formOk = new Array;
+var formAlert = new Array;
 $("#formFile").on('submit', function(event){
     event.preventDefault();
     var _this = $(this);
@@ -14,7 +15,7 @@ $("#formFile").on('submit', function(event){
         data: form
     }).done(response => {
         $("#tableResult tbody").html("");
-        let i = 0;
+        let i = 0, a = 0;
         response = JSON.parse(response);
         $.each(response.creators, function(key, value) {
             $("#tableResult tbody").append("<tr class='creators'>"+
@@ -38,6 +39,27 @@ $("#formFile").on('submit', function(event){
                      formOk[i] = {"usuario": value.usuario, "clave": value.clave, "nombres": value.nombres, "apellidos": value.apellidos, "correo": value.correo, "documento": value.documento, "genero": value.genero, "institucion": value.institucion, "ciudad": value.ciudad, "departamento": value.departamento, "pais": value.pais, "telefono": value.telefono, "celular": value.celular, "direccion": value.direccion};
                      i++;
                 });
+        $.each(response.alerts, function(key, value) {
+            $("#tableResult tbody").append("<tr class='alerts'>"+
+                "<td>"+value.usuario+"</td>"+
+                "<td>"+value.clave+"</td>"+
+                "<td>"+value.nombres+"</td>"+
+                "<td>"+value.apellidos+"</td>"+
+                "<td>"+value.correo+"</td>"+
+                "<td>"+value.documento+"</td>"+
+                "<td>"+value.genero+"</td>"+
+                "<td>"+value.institucion+"</td>"+
+                "<td>"+value.ciudad+"</td>"+
+                "<td>"+value.departamento+"</td>"+
+                "<td>"+value.pais+"</td>"+
+                "<td>"+value.telefono+"</td>"+
+                "<td>"+value.celular+"</td>"+
+                "<td>"+value.direccion+"</td>"+
+                "<td>"+value.message+"</td>"+
+                "</tr>");
+            formAlert[a] = {"usuario": value.usuario, "clave": value.clave, "nombres": value.nombres, "apellidos": value.apellidos, "correo": value.correo, "documento": value.documento, "genero": value.genero, "institucion": value.institucion, "ciudad": value.ciudad, "departamento": value.departamento, "pais": value.pais, "telefono": value.telefono, "celular": value.celular, "direccion": value.direccion};
+        });
+
         $.each(response.errors, function(key, value) {
             $("#tableResult tbody").append("<tr class='errors'>"+
                     "<td>"+value.usuario+"</td>"+
@@ -60,6 +82,7 @@ $("#formFile").on('submit', function(event){
         $("#registros").html(response.totalr);
         $("#totalR").html(response.totalc);
         $("#totalE").html(response.totale);
+        $("#totalA").html(response.totala);
         $(".fadein").fadeIn();
         $("form")[0].reset();
     }).fail(error => {
@@ -77,17 +100,33 @@ $(".download_archive").on('click', function(event){
 $("#cargar").on('click', function(event){
     let _this = $(this);
     event.preventDefault();
-    if (formOk.length == 0) {
-        toastr.warning('No hay registros para cargar.', 'Noticia', {timeOut: 3000});
-        return false;
+    console.log($("#alertsT").prop('checked'));
+    if ($("#alertsT").prop('checked')) {
+        if (formOk.length == 0 && formAlert.length == 0) {
+            toastr.error('No hay registros para cargar.', 'Error', {timeOut: 3000});
+            return false;
+        } else {
+            formOk = formOk.concat(formAlert);
+            proccess(formOk, _this.attr('data-action'));
+        }
+    }else {
+        if(formOk.length == 0) {
+            toastr.error('No hay registros para cargar.', 'Error', {timeOut: 3000});
+            return false;
+        } else {
+            proccess(formOk, _this.attr('data-action'));
+        }
     }
+});
+
+function proccess(data, url) {
     toastr.info('Cargando usuarios.', 'Cargando...', {timeOut: 3000});
     $.ajax({
-       method : "POST",
-       url : _this.attr('data-action'),
-       enctype: 'multipart/form-data',
-       data: {data : formOk}
-   }).done(function(response){
+        method : "POST",
+        url : url,
+        enctype: 'multipart/form-data',
+        data: {data : data}
+    }).done(function(response){
         toastr.success('Carga terminada.', 'Finalizado', {timeOut: 3000});
-   });
-});
+    });
+}

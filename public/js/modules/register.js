@@ -152,8 +152,11 @@ $("#tb_register").on('click', '.showUserRegister', function(event){
     var r = JSON.parse(response);
     $('#userCreateForm').attr('action', getUri + '/panel/students/update/' + r.id);
     $.each( r, function( key, value ) {
-      console.log(value);
       $('input[name="'+key+'"]').val(value);
+      if (key =='genero' && value != '') {
+        console.log(key);
+        $("select#genero option[value="+value+"]").prop("selected", true);
+      }
     });
     $("#userCreateForm input[name='usuario']").attr('readonly', true);
     $('#userCreateModal').modal('show');
@@ -170,7 +173,7 @@ $('#curso').on('change', function(e){
   });
 })
 $("#tb_register").on("click", ".archive_register", function(event){
-  var r = confirm("¿Está seguro que desea archivar este registro de forma permanente?");
+  var r = confirm("¿Está seguro que desea desmatricular este estudiante?");
   if (r == true) {
     event.preventDefault();
     _this = $(this);

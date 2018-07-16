@@ -11,6 +11,7 @@ class StudentController extends Controller
 {
     protected $errors = [];
     protected $creators = [];
+    protected $alerts = [];
 
 
     function store(Request $request, Response $response) : Response
@@ -121,19 +122,19 @@ class StudentController extends Controller
                             "celular" => trim($worksheet->getCell('L'. $row)->getvalue()),
                             "direccion" => trim($worksheet->getCell('M'. $row)->getvalue())
                         ];
-                        $student_document = Student::where('documento', $data['documento'])->first();
-                        if ($student_document->count() == 0){
+                        $student_document = Student::where('documento', $data['documento'])->get();
+
+                        if ($student_document->count() == 1){
                             $filter = $student_document->where('usuario', $data['usuario']);
-                            if ($filter->count() == 1){
-                                $data['message'] = str_replace(':usuario', Tools::getMessageUser(4), $student_document->usuario);
-                                array_push($this->errors, $data);
+                            if ($filter->count() == 0){
+                                $data['message'] = str_replace(':usuario', $student_document[0]->usuario, Tools::getMessageUser(4));
+                                array_push($this->alerts, $data);
                                 unset($data);
                                 continue;
                             }
                         }
-                        $student = Student::where([
-                            ['usuario', '=', $data['usuario']]
-                        ])->get();
+                        $student = Student::where('usuario', '=', $data['usuario'])->get();
+
                         if ($student->count() == 0) {
                             if((strtolower($data['institucion']) == strtolower($this->auth->user()->institution->nombre) || ($this->auth->user()->institution->codigo == Tools::codigoMedellin()))) {
                                 $data['message'] = Tools::getMessageUser(0);
@@ -144,9 +145,10 @@ class StudentController extends Controller
                                 array_push($this->errors, $data);;
                             }
                         } else {
-                            $filter = $student->where('documento', $data['documento']);
+                            $filter = $student->where('documento',$data['documento']);
+
                             if($filter->count() == 0) {
-                                $data['message'] = str_replace(":documento", $student, Tools::getMessageUser(1));
+                                $data['message'] = str_replace(":documento", $student[0]->documento, Tools::getMessageUser(1));
                             }else {
                                 $data['message'] = Tools::getMessageUser(3);
                             }
@@ -154,7 +156,7 @@ class StudentController extends Controller
                         }
                         unset($data);
                     }
-                    $responseData = ['message' => 1, 'creators' => $this->creators, 'errors' => $this->errors, 'totalr' => ($highestRow-1), 'totalc' => count($this->creators), 'totale' => count($this->errors)];
+                    $responseData = ['message' => 1, 'creators' => $this->creators, 'errors' => $this->errors, 'alerts' => $this->alerts,'totalr' => ($highestRow-1), 'totalc' => count($this->creators), 'totale' => count($this->errors), 'totala' => count($this->alerts)];
                     $newResponse = $response->withHeader('Content-type', 'application/json');
                     return $newResponse->withJson($responseData, 200);
                 } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {

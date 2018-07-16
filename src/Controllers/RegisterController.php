@@ -15,22 +15,21 @@ class RegisterController extends Controller
             switch($this->auth->user()->id_institucion)
             {
                 case "01":
-                    $Registers = Register::public()->pascual()->get();
+                    $registers = Register::public()->pascual()->get();
                     break;
                 case "02":
-                    $Registers = Register::public()->colegio()->get();
+                    $registers = Register::public()->colegio()->get();
                     break;
                 case "03":
-                    $Registers = Register::public()->itm()->get();
+                    $registers = Register::public()->itm()->get();
                 break;
                 case  "04":
-                    $Registers = Register::ruta()->rutan()->get();
+                    $registers = Register::ruta()->rutan()->get();
                 break;
                 default :
-                    $Registers = Register::all();
+                    $registers = Register::all();
                 break;
             }
-            $registers = Register::all()->toArray();
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($registers, 200);
     }

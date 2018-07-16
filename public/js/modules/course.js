@@ -1,3 +1,4 @@
+
 $("form").keypress(function(e) {
   if (e.which == 13) {
       return false;
@@ -7,6 +8,7 @@ $(".addcourse").on('click', function (event) {
     event.preventDefault();
     $('#programCreateForm')[0].reset();
     $('#programCreateForm').attr('action', $(this).attr('data-href'));
+    $("#input_codigo").prop('readonly', false);
     $('#programCreateModal').modal('show');
   });
 
@@ -66,8 +68,8 @@ $(".addcourse").on('click', function (event) {
     var url = _td.attr('href');
     $.get(url).done(function (response) {
       $('#programCreateForm')[0].reset();
-      console.log(JSON.parse(response));
-      $.each(JSON.parse(response), function (key, value) {
+      let r = JSON.parse(response);
+      $.each(r.courses, function (key, value) {
         if (key == 'codigo') {
           codigo = value;
           $('select#programa option[value='+value.toString().substr(0, 5)+']').attr('selected','selected');
@@ -78,6 +80,10 @@ $(".addcourse").on('click', function (event) {
         }
         $('input[name="codigo_forma"]').val(codigo);
       });
+      if (r.flag > 0) {
+          console.log(r.flag);
+          $("#input_codigo").prop('readonly', true);
+      }
       $('#programCreateForm').attr('action', _td.attr('data-href') + _data.id);
       $('#programCreateForm').removeClass();
       $('#programCreateForm').addClass('update');

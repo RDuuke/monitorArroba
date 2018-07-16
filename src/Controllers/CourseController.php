@@ -56,9 +56,12 @@ class CourseController extends Controller
     {
         $router = $request->getAttribute('route');
         $courses = Course::find($router->getArguments()['id'])->toArray();
+        $c = Course::find($router->getArguments()['id']);
+        $flag = $c->registers->count();
+        $data = ['courses' => $courses, 'flag' => $flag];
         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');
-            return $newResponse->withJson($courses, 200);
+            return $newResponse->withJson($data, 200);
         } catch (\Exception $e) {
             return $response->withStatus(500)->write('0');
         }

@@ -17,7 +17,7 @@ class Tools {
         1 => "El usuario existe, pero con este :documento.",
         2 => "El usuario no pertenece a tu institución.",
         3 => "El usuario existe con ese documento y correo.",
-        4 => "El usuario existe, pero con este correo :correo"
+        4 => "El usuario existe con ese documento, pero con este correo :usuario"
     ];
 
     static public $Institution = [
