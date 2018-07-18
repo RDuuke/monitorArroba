@@ -288,5 +288,5 @@ __pycache__/
 *.xsd.cs
 
 /vendor/
-/logs/
+/logs
 /resource/tmp
