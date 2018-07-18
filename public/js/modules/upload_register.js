@@ -1,3 +1,6 @@
+var formOk = new Array();
+//var formAlert = new Array();
+
 $("#formFile").on('submit', function(event){
     event.preventDefault();
     var _this = $(this);
@@ -12,41 +15,49 @@ $("#formFile").on('submit', function(event){
         enctype: 'multipart/form-data',
         data: form
     }).done(response => {
+        let i = 0, a = 0;
         response = JSON.parse(response);
-        /*$.each(response.creators, function(key, value) {
+        console.log(response);
+        $("#tableResult tbody").html("");
+        $.each(response.creators, function(key, value) {
             $("#tableResult tbody").append("<tr class='creators'>"+
-                    "<td>"+value.usuario+"</td>"+
-                    "<td>"+value.clave+"</td>"+
-                    "<td>"+value.nombres+"</td>"+
-                    "<td>"+value.apellidos+"</td>"+
-                    "<td>"+value.correo+"</td>"+
-                    "<td>"+value.documento+"</td>"+
-                    "<td>"+value.genero+"</td>"+
-                    "<td>"+value.institucion+"</td>"+
-                    "<td>"+value.ciudad+"</td>"+
-                    "<td>"+value.departamento+"</td>"+
-                    "<td>"+value.pais+"</td>"+
-                    "<td>"+value.telefono+"</td>"+
-                    "<td>"+value.celular+"</td>"+
-                    "<td>"+value.direccion+"</td>"+
-                    "<td>"+value.message+"</td>"+
-                    "</tr>");
-        });
-        */
-        $.each(response.errors, function(key, value) {
-            $("#tableResult tbody").append("<tr class='errors'>"+
                     "<td>"+value.curso+"</td>"+
                     "<td>"+value.instancia+"</td>"+
                     "<td>"+value.usuario+"</td>"+
                     "<td>"+value.rol+"</td>"+
-                    "<td>"+value.fecha+"</td>"+
+                    "<td>"+value.message+"</td>"+
                     "</tr>");
+            formOk[i] = {'curso' : value.curso, 'instancia' : value.instancia, 'usuario' : value.usuario, 'rol' : value.rol};
+            i++;
         });
-        $("#registros").html(response.totalr);
-        $("#totalR").html(response.totalc);
-        $("#totalE").html(response.totale);
+        $.each(response.alerts, function(key, value) {
+            $("#tableResult tbody").append("<tr class='alerts'>"+
+                "<td>"+value.curso+"</td>"+
+                "<td>"+value.instancia+"</td>"+
+                "<td>"+value.usuario+"</td>"+
+                "<td>"+value.rol+"</td>"+
+                "<td>"+value.message+"</td>"+
+                "</tr>");
+            //formAlert[a] = {'curso' : value.curso, 'instancia' : value.instancia, 'usuario' : value.usuario, 'rol' : value.rol};
+            //a++;
+        });
+
+        $.each(response.errors, function(key, value) {
+            $("#tableResult tbody").append("<tr class='errors'>"+
+                "<td>"+value.curso+"</td>"+
+                "<td>"+value.instancia+"</td>"+
+                "<td>"+value.usuario+"</td>"+
+                "<td>"+value.rol+"</td>"+
+                "<td>"+value.message+"</td>"+
+                "</tr>");
+        });
+        $("#registros").html(response.totalR);
+        $("#totalR").html(response.totalC);
+        $("#totalA").html(response.totalA);
+        $("#totalE").html(response.totalE);
         $(".fadein").fadeIn();
         $("form")[0].reset();
+
     }).fail(error => {
 
     });
@@ -59,4 +70,14 @@ $(".download_archive").on('click', function(event){
     var wbout = XLSX.write(wb,wopts);
     saveAs(new Blob([wbout],{type:"application/octet-stream"}), "usuarios_no_registrados.xlsx");
 
+});
+$("#cargar").on('click', function(event){
+    let _this = $(this);
+    event.preventDefault();
+    if (formOk.length == 0) {
+        toastr.error('No hay registros para cargar.', 'Error', {timeOut: 3000});
+        return false;
+    }
+    functions.proccess(formOk, _this.attr('data-action'));
+    return true;
 });

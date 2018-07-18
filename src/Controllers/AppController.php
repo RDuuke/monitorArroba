@@ -38,7 +38,11 @@ class AppController extends Controller
     {
         $rols = Rol::all();
         $institutions =Institution::all();
-        $modules = Module::all();
+        if ($this->auth->user()->id_institucion != 05) {
+            $modules = Module::public();
+        } else {
+            $modules = Module::all();
+        }
         return $this->view->render($response, "user.twig", ['roles' => $rols, "instituciones" => $institutions, "modules" => $modules]);
     }
 

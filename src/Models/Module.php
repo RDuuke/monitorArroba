@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Capsule;
 class Module extends Model
 {
     protected $table = "modulos";
@@ -10,4 +11,10 @@ class Module extends Model
 
     public $timestamps = false;
 
+    public function scopePublic()
+    {
+        return Capsule\Manager::table('modulos')
+            ->whereNotIn('id', [3, 4, 5])
+            ->get();
+    }
 }

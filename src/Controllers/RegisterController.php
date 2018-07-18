@@ -2,6 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Models\Instance;
+use App\Models\Student;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Respect\Validation\Exceptions\PhpLabelException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Register;
@@ -10,6 +14,10 @@ use App\Models\Course;
 
 class RegisterController extends Controller
 {
+    protected $errors = [];
+    protected $creators = [];
+    protected $alerts = [];
+
     function all(Request $request, Response $response) : Response
     {
             switch($this->auth->user()->id_institucion)
@@ -96,6 +104,92 @@ class RegisterController extends Controller
             }
         } catch(\Exception $e) {
             return $response->withStatus(500)->write('0');
+        }
+    }
+
+    function upload(Request $request, Response $response) : Response
+    {
+        $uploadedFiles = $request->getUploadedFiles();
+        $archive = $uploadedFiles['archive'];
+        if ($archive->getError() == UPLOAD_ERR_OK) {
+            $filename = Tools::moveUploadedFile($archive, $this->tmp);
+            if ($filename != false) {
+                try {
+                    $reader = IOFactory::createReader('Xlsx');
+                    $reader->setReadDataOnly(true);
+                    $spreadsheet = $reader->load($this->tmp . DS . $filename);
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $highestRow = $worksheet->getHighestDataRow();
+                    for ($row = 2; $row <= $highestRow; $row++) {
+                        $data = [
+                            "curso" => trim($worksheet->getCell('A' . $row)->getvalue()),
+                            "instancia" => trim($worksheet->getCell('B' . $row)->getvalue()),
+                            "usuario" => trim($worksheet->getCell('C' . $row)->getvalue()),
+                            "rol" => trim($worksheet->getCell('D' . $row)->getvalue()),
+                        ];
+                        if (!filter_var($data['usuario'], FILTER_VALIDATE_EMAIL)) {
+                            $data['message'] = Tools::getMessageRegister(0);
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+                        $student = Student::where('usuario', $data['usuario'])->get();
+
+                        if ($student->count() == 0) {
+                            $data['message'] = str_replace(':usuario', $data['usuario'], Tools::getMessageRegister(5));
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+                        $course = Course::where('codigo', $data['curso'])->get();
+                        if ($course->count() == 0) {
+                            $data['message'] = str_replace(':codigo', $data['curso'], Tools::getMessageRegister(1));
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+                        $register = Register::where(['curso' => $data['curso'], 'usuario' => $data['usuario']])->get();
+                        if ($register->count() == 1) {
+                            $data['message'] = str_replace(":usuario", $data['usuario'], str_replace(":curso", $data['curso'], Tools::getMessageRegister(6)));
+                            array_push($this->alerts, $data);
+                            unset($data);
+                            continue;
+                        }
+
+                        $instance = Instance::where('codigo', $data['instancia'])->get();
+                        if ($instance->count() == 0) {
+                            $data['message'] = str_replace(':instancia', $data['instancia'], Tools::getMessageRegister(3));
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+                        if (array_search($data['rol'], Tools::$Roles) === false) {
+                            $data['message'] = str_replace(':rol', $data['rol'], Tools::getMessageRegister(2));
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+                        $data['message'] = Tools::getMessageRegister(4);
+                        array_push($this->creators, $data);
+                        unset($data);
+                    }
+                    $responseData = ['message' => 1, 'totalR' => ($highestRow - 1), 'totalC' => count($this->creators), 'totalA' => count($this->alerts), 'totalE' => count($this->errors), 'creators' => $this->creators, 'alerts' => $this->alerts, 'errors' => $this->errors];
+                    $newResponse = $response->withHeader('Content-type', 'application/json');
+                    return $newResponse->withJson($responseData, 200);
+
+                } catch ( PhpLabelException $exception) {
+                    die( "Error :" . $exception->getMessage());
+                }
+            }
+        }
+        return false;
+    }
+
+    function proccess(Request $request, Response $response)
+    {
+        $dataOK = $request->getParam('data');
+        for($i = 0; $i < count($dataOK); $i++){
+            Register::create($dataOK[$i]);
         }
     }
 

@@ -122,6 +122,12 @@ class StudentController extends Controller
                             "celular" => trim($worksheet->getCell('L'. $row)->getvalue()),
                             "direccion" => trim($worksheet->getCell('M'. $row)->getvalue())
                         ];
+                        if (!filter_var($data['usuario'], FILTER_VALIDATE_EMAIL)) {
+                            $data['message'] = Tools::getMessageUser(5);
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
                         $student_document = Student::where('documento', $data['documento'])->get();
 
                         if ($student_document->count() == 1){

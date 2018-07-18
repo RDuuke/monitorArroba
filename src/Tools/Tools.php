@@ -14,10 +14,21 @@ class Tools {
 
     static public $UserMessage = [
         0 => "El usuario correcto.",
-        1 => "El usuario existe, pero con este :documento.",
+        1 => "El usuario existe, pero con este documento de identidad :documento.",
         2 => "El usuario no pertenece a tu institución.",
         3 => "El usuario existe con ese documento y correo.",
-        4 => "El usuario existe con ese documento, pero con este correo :usuario"
+        4 => "El usuario existe con ese documento, pero con este correo :usuario",
+        5 => "El registro no tiene la estructura de un correo valido en el campo usuario"
+    ];
+
+    static public $RegisterMessage = [
+        "El registro no tiene la estructura de un correo valido en el campo usuario",
+        "El codigo :codigo no tiene ningun curso asociado",
+        "El rol tiene que ser student, teacher y editingteacher, no :rol",
+        "La instancia :instancia no es valida",
+        "La matricula es correcta",
+        "El usuario con el correo :usuario no existe",
+        "El usuario :usuario ya esta matriculado en el curso :curso"
     ];
 
     static public $Institution = [
@@ -52,7 +63,9 @@ class Tools {
         "usuarios plataforma" , "usuarios campus", "matriculas", "instancias", "instituciones", "programas"
     ];
 
-
+    static public $Roles = [
+      "student", "teacher", "editingteacher"
+    ];
     static function moveUploadedFile($uploadedFile, $dir)
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
@@ -72,6 +85,10 @@ class Tools {
         return self::$UserMessage[$i];
     }
 
+    static function getMessageRegister($id)
+    {
+        return self::$RegisterMessage[$id];
+    }
     static function getMessageModule($i)
     {
         return "módulo ".self::$Modules[$i];

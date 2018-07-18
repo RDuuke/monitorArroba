@@ -107,26 +107,14 @@ $("#cargar").on('click', function(event){
             return false;
         } else {
             formOk = formOk.concat(formAlert);
-            proccess(formOk, _this.attr('data-action'));
+            functions.proccess(formOk, _this.attr('data-action'));
         }
     }else {
         if(formOk.length == 0) {
             toastr.error('No hay registros para cargar.', 'Error', {timeOut: 3000});
             return false;
         } else {
-            proccess(formOk, _this.attr('data-action'));
+            functions.proccess(formOk, _this.attr('data-action'));
         }
     }
 });
-
-function proccess(data, url) {
-    toastr.info('Cargando usuarios.', 'Cargando...', {timeOut: 3000});
-    $.ajax({
-        method : "POST",
-        url : url,
-        enctype: 'multipart/form-data',
-        data: {data : data}
-    }).done(function(response){
-        toastr.success('Carga terminada.', 'Finalizado', {timeOut: 3000});
-    });
-}

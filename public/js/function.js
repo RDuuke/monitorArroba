@@ -35,8 +35,21 @@ $(function(){
                 break;
             }
         },
-        lowercase : function ($str) {
+        lowercase : function (str) {
             return str.toLowerCase();
+        },
+
+        proccess : function (data, url) {
+            toastr.info('Cargando usuarios.', 'Cargando...', {timeOut: 3000});
+            $.ajax({
+                method : "POST",
+                url : url,
+                enctype: 'multipart/form-data',
+                data: {data : data}
+            }).done(function(response){
+                toastr.success('Carga terminada.', 'Finalizado', {timeOut: 3000});
+            });
         }
+
     }
 });

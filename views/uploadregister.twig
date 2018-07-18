@@ -9,14 +9,14 @@
     <div class="ed-item s-100 l-100">
         <h2>Análisis de archivo de carga de matriculas</h2>
         <p>
-            Esta aplicación, permitirá analizar un archivo Anexo 1, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
+            Esta aplicación, permitirá analizar un archivo Anexo 2, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
         </p>
         <form action="{{ path_for('admin.upload.register') }}" enctype="multipart/form-data" method="post" id="formFile">
             <input  type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-            <button class="btn btn-primary">Cargar</button>
+            <button class="btn btn-primary">Analizar</button>
         </form>
         <br>
-        <p class="none fadein">Registros: <span id="registros"></span> - Mariculas registradas: <span id="totalR"></span> - Matriculas no registrados: <span id="totalE"></span> - <button class="btn none fadein download_archive btn-success">Descargar</button></p>
+        <p class="none fadein">Registros: <span id="registros"></span> - Correctas: <span id="totalR"></span> - Alertas: <span id="totalA"></span> - Errores: <span id="totalE"></span> - <button class="btn none fadein download_archive btn-info">Descargar</button> - <button data-toggle='tooltip' title='Registrar usuarios correctos' id="cargar" class="btn btn-success" data-action="{{ path_for('admin.register.proccess') }}">Cargar</button></p>
         <br>
         <table id="tableResult" class="fadein">
             <thead>
@@ -40,5 +40,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-<script src="{{ base_url }}/js/modules/upload_users.js"></script>
+    <script src="{{ base_url }}/js/function.js"></script>
+<script src="{{ base_url }}/js/modules/upload_register.js"></script>
 {% endblock %}

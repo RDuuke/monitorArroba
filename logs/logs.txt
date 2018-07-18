@@ -28,3 +28,5 @@ INFO[09-07-2018 02:39:43]: [Eliminación] usuario juuanduuke@gmail.com elimino a
 INFO[12-07-2018 03:24:50]: [Creación] usuario juuanduuke@gmail.com registro al juan.duque@gmail.com en el módulo usuarios plataforma 
 INFO[12-07-2018 03:27:46]: [Creación] usuario juan.duque@gmail.com creo la test en el módulo instancias 
 INFO[12-07-2018 03:27:52]: [Eliminación] usuario juan.duque@gmail.com elimino al test en el módulo instancias 
+INFO[18-07-2018 02:39:14]: [Creación] usuario juuanduuke@gmail.com creo la a en el módulo instancias 
+INFO[18-07-2018 02:39:30]: [Eliminación] usuario juuanduuke@gmail.com elimino al a en el módulo instancias 

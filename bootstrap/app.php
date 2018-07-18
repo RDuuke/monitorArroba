@@ -98,6 +98,19 @@ $container['view'] = function ($container) {
     $view->getEnvironment()->addFunction($function);
     return $view;
 };
+$container['notFoundHandler'] = function ($container) {
+    return function ($request, $response) use ($container) {
+        return $container['view']
+            ->render($container['response'], "errors/404.twig");
+    };
+};
+/*$container['phpErrorHandler'] = function ($container) {
+    return function ($request, $response) use ($container) {
+        return $container['view']
+            ->render($container['response'], "errors/404.twig");
+    };
+};
+*/
 
 $container['AppController'] = function ($container)
 {
