@@ -12,6 +12,7 @@ use App\Models\Course;
 use App\Models\Register;
 use App\Models\RegisterArchive;
 use App\Models\Module;
+use Slim\Http\Stream;
 
 class AppController extends Controller
 {
@@ -154,4 +155,33 @@ class AppController extends Controller
     {
         return $this->view->render($response, "uploadregister.twig");
     }
+
+    function downloadArchive(Request $request, Response $response)
+    {
+        return $this->download('Anexo2.xlsx', $response);
+
+    }
+
+    function downloadStudent(Request $request, Response $response)
+    {
+        return $this->download('Anexo1.xlsx', $response);
+    }
+
+    protected function download(String $filename, Response $response) : Response
+    {
+        $fh = fopen($this->files . $filename, "rb");
+        $stream = new Stream($fh);
+
+        return $response->withHeader('Content-Type', 'application/octet-stream')
+            ->withHeader('Content-Type', 'application/download')
+            ->withHeader('Content-Description', 'File Transfer')
+            ->withHeader('Content-Transfer-Encoding', 'binary')
+            ->withHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->withHeader('Expires', '0')
+            ->withHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+            ->withHeader('Pragma', 'public')
+            ->withBody($stream);
+    }
+
+
 }

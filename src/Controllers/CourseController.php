@@ -116,6 +116,8 @@ class CourseController extends Controller
 
     function search(Request $request, Response $response)
     {
+        #TODO Cursos por institucion
+        #TODO Consultar por codigo
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params']. "%";
         $courses = Course::where("nombre","LIKE", $param)->get()->toArray();

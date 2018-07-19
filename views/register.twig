@@ -12,6 +12,10 @@
         <h2 class="text-left text-info">Módulo matriculas</h2>
     </div>
     <div class="separator"></div>
+    <div class="ed-item s-100">
+        <a href="{{ path_for('admin.home') }}" class="btn btn-info"> <i class="fa fa-long-arrow-left"></i> Volver</a>
+    </div>
+    <div class="separator"></div>
     {% if getPermission(modulo_matriculas, auth.user.id) == 3 %}
     <div class="ed-item s-100">
         <button class="btn btn-primary addregister" data-href="{{ path_for('admin.store.register') }}"><i class="icon icon-plus-circle"></i> Agregar matricula</button>  -  <a class="btn btn-success" href="{{ path_for('admin.upload.register') }}"> <i class="icon icon-file-text-o"></i> Cargar archivo</a>

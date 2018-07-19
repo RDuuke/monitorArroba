@@ -17,6 +17,10 @@
         <h2 class="text-left text-info">Módulo instancias</h2>
     </div>
     <div class="separator"></div>
+    <div class="ed-item s-100">
+        <a href="{{ path_for('admin.home') }}" class="btn btn-info"> <i class="fa fa-long-arrow-left"></i> Volver</a>
+    </div>
+    <div class="separator"></div>
     {% if getPermission(modulo_instancias, auth.user.id) == 3 %}
     <div class="ed-item s-100">
         <button class="btn btn-primary addinstance" data-href="{{ path_for('admin.instance.store') }}"><i class="icon icon-plus-circle"></i> Agregar instancia</button>

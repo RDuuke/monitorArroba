@@ -16,6 +16,11 @@
     <div class="ed-item s-100 l-offset-15 l-70">
         <h2 class="text-left text-info">Módulo busqueda cursos</h2>
     </div>
+    <div class="separator"></div>
+    <div class="ed-item s-100">
+        <a href="{{ path_for('admin.search') }}" class="btn btn-info"> <i class="fa fa-long-arrow-left"></i> Volver</a>
+    </div>
+    <div class="separator"></div>
     <div class="ed-item s-100 l-70 l-offset-15">
         <div class="form-group">
             <input id="box-search" type="text" class="form-control" route-get="/panel/courses/search/" base-route-item="/panel/search/program/courses/usuarios/" tipo="list">
@@ -39,6 +44,7 @@
                     <div class="sk-circle12 sk-child"></div>
                 </div>
             </div>
+            {# TODO cambiar lista por tabla #}
             <ul id="list_result"></ul>
         </div>
     </div>

@@ -30,7 +30,7 @@ $(function(){
                     case 'students':
                     $(tag).html("");
                     $.each(JSON.parse(data), function(key, value){
-                        $(tag).append("<li class='list-group-item list-group'><a href='"+getUri+ route + value.id + "'>"+ value.nombres + " " + value.apellidos +"  - "+ value.documento +" - "+value.usuario+"</a></li>");
+                        $(tag).append("<tr><td>"+value.documento+"</td><td>"+ value.nombres + "</td><td>" + value.apellidos +"</td><td>"+ value.telefono +"</td><td><a href='"+getUri+ route + value.id +"'>"+value.usuario+"</a></td></tr>");
                     });
                 break;
             }
@@ -40,13 +40,15 @@ $(function(){
         },
 
         proccess : function (data, url) {
-            toastr.info('Cargando usuarios.', 'Cargando...', {timeOut: 3000});
+            toastr.info('Cargando usuarios.', 'Cargando...', {timeOut: 500000});
             $.ajax({
                 method : "POST",
                 url : url,
                 enctype: 'multipart/form-data',
-                data: {data : data}
+                data: {data : data},
+                cache: false
             }).done(function(response){
+                toastr.remove();
                 toastr.success('Carga terminada.', 'Finalizado', {timeOut: 3000});
             });
         }

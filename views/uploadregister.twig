@@ -9,7 +9,7 @@
     <div class="ed-item s-100 l-100">
         <h2>Análisis de archivo de carga de matriculas</h2>
         <p>
-            Esta aplicación, permitirá analizar un archivo Anexo 2, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
+            Esta aplicación, permitirá analizar un archivo <a download href="{{ path_for('admin.archive.anexo') }}">Anexo 2</a>, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 2 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
         </p>
         <form action="{{ path_for('admin.upload.register') }}" enctype="multipart/form-data" method="post" id="formFile">
             <input  type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">

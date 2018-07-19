@@ -51,6 +51,9 @@ $container['auth'] = function ($container) {
 $container['tmp'] = function($container) {
     return dirname(__DIR__) . DS . "resource" . DS . "tmp" . DS;
 };
+$container['files'] = function($container) {
+    return dirname(__DIR__) . DS . "resource" . DS . "files" . DS;
+};
 $container['view'] = function ($container) {
     $view = new Twig(__DIR__ . "/../views",[
         'cache' => false

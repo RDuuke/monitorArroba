@@ -9,7 +9,7 @@
     <div class="ed-item s-100 l-100">
         <h2>Análisis de archivo de carga de usuarios</h2>
         <p>
-            Esta aplicación, permitirá analizar un archivo Anexo 1, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
+            Esta aplicación, permitirá analizar un archivo <a download href="{{ path_for('admin.student.anexo') }}">Anexo 1</a>, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
         </p>
         <form action="{{ path_for('admin.upload.students') }}" enctype="multipart/form-data" method="post" id="formFile">
             <input type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -43,10 +43,10 @@
             <tbody>
             </tbody>
         </table>
-        <table></table>
     </div>
 
 </div>
+
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>

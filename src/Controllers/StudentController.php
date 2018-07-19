@@ -195,6 +195,8 @@ class StudentController extends Controller
 
     function search(Request $request, Response $response)
     {
+        #TODO Estudiantes por institucion
+
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params']. "%";
         $students = Student::where("usuario","LIKE", $param)

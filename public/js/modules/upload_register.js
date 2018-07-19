@@ -13,44 +13,20 @@ $("#formFile").on('submit', function(event){
         processData: false,
         contentType: false,
         enctype: 'multipart/form-data',
+        beforeSend: function () {
+            toastr.info("Analizando el archivo... ", "Info", {timeOut: 5000000});
+        },
         data: form
     }).done(response => {
+        toastr.remove();
         let i = 0, a = 0;
         response = JSON.parse(response);
         console.log(response);
         $("#tableResult tbody").html("");
-        $.each(response.creators, function(key, value) {
-            $("#tableResult tbody").append("<tr class='creators'>"+
-                    "<td>"+value.curso+"</td>"+
-                    "<td>"+value.instancia+"</td>"+
-                    "<td>"+value.usuario+"</td>"+
-                    "<td>"+value.rol+"</td>"+
-                    "<td>"+value.message+"</td>"+
-                    "</tr>");
-            formOk[i] = {'curso' : value.curso, 'instancia' : value.instancia, 'usuario' : value.usuario, 'rol' : value.rol};
-            i++;
-        });
-        $.each(response.alerts, function(key, value) {
-            $("#tableResult tbody").append("<tr class='alerts'>"+
-                "<td>"+value.curso+"</td>"+
-                "<td>"+value.instancia+"</td>"+
-                "<td>"+value.usuario+"</td>"+
-                "<td>"+value.rol+"</td>"+
-                "<td>"+value.message+"</td>"+
-                "</tr>");
-            //formAlert[a] = {'curso' : value.curso, 'instancia' : value.instancia, 'usuario' : value.usuario, 'rol' : value.rol};
-            //a++;
-        });
+        renderData(response.creators, 'creators', formOk);
+        renderData(response.alerts, 'alerts');
+        renderData(response.errors, 'errors');
 
-        $.each(response.errors, function(key, value) {
-            $("#tableResult tbody").append("<tr class='errors'>"+
-                "<td>"+value.curso+"</td>"+
-                "<td>"+value.instancia+"</td>"+
-                "<td>"+value.usuario+"</td>"+
-                "<td>"+value.rol+"</td>"+
-                "<td>"+value.message+"</td>"+
-                "</tr>");
-        });
         $("#registros").html(response.totalR);
         $("#totalR").html(response.totalC);
         $("#totalA").html(response.totalA);
@@ -81,3 +57,18 @@ $("#cargar").on('click', function(event){
     functions.proccess(formOk, _this.attr('data-action'));
     return true;
 });
+
+function renderData(value, classes, saveData = []) {
+    let i = 0;
+    $.each(value, function(key, value) {
+        $("#tableResult tbody").append("<tr class='"+classes+"'>"+
+            "<td>"+value.curso+"</td>"+
+            "<td>"+value.instancia+"</td>"+
+            "<td>"+value.usuario+"</td>"+
+            "<td>"+value.rol+"</td>"+
+            "<td>"+value.message+"</td>"+
+            "</tr>");
+        saveData[i] = {'curso' : value.curso, 'instancia' : value.instancia, 'usuario' : value.usuario, 'rol' : value.rol};
+        i++;
+    });
+}

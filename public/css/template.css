@@ -66,6 +66,9 @@ header > div:last-child a {
     font-family: 'Roboto';
     font-weight: 100;
 }
+a{
+    color: #0093AE;
+}
 .banner_logo
 {
     min-height: 300px;
@@ -141,4 +144,8 @@ a:hover{
 #tablePermission thead td,
 #tablePermission tbody td{
     padding: .5em;
+}
+.content-home .fa {
+    color: #4a215c;
+    font-size: 4em;
 }

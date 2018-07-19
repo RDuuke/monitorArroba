@@ -95,4 +95,6 @@ $app->group("/panel", function (){
     $this->post("/users/permission[/{id}]", "StudentController:permission")->setName('admin.student.permission');
     $this->get("/users/permission/view/{id}", "StudentController:permissionAll")->setName('admin.student.permissionAll');
     $this->get("/users/permission/remove/{id}", "StudentController:remove")->setName('admin.student.remove');
+    $this->get("/student/download/archive", "AppController:downloadStudent")->setName('admin.student.anexo');
+    $this->get("/register/download/archive", "AppController:downloadArchive")->setName('admin.archive.anexo');
  })->add(new \App\Middleware\AuthMiddleware($container));
