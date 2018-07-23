@@ -34,6 +34,24 @@ $app = new App([
         ]
     ]
 ]);
+/*
+$app = new App([
+    'settings' => [
+        'determineRouteBeforeAppMiddeware' => false,
+        'displayErrorDetails' => true,
+        'db' => [
+            'driver' => 'mysql',
+            'host' => '195.190.82.247',
+            'database' => 'gestion_arroba',
+            'username' => 'arrobamedellin',
+            'password' => 'vex3SP83xLeGQFNZ',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ]
+    ]
+]);
+*/
 $container = $app->getContainer();
 $capsule = new Manager;
 $capsule->addConnection($container['settings']['db']);

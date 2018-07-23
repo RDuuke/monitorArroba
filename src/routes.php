@@ -97,4 +97,5 @@ $app->group("/panel", function (){
     $this->get("/users/permission/remove/{id}", "StudentController:remove")->setName('admin.student.remove');
     $this->get("/student/download/archive", "AppController:downloadStudent")->setName('admin.student.anexo');
     $this->get("/register/download/archive", "AppController:downloadArchive")->setName('admin.archive.anexo');
- })->add(new \App\Middleware\AuthMiddleware($container));
+ });
+//->add(new \App\Middleware\AuthMiddleware($container));

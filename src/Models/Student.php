@@ -10,6 +10,8 @@ class Student extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
+    public $timestamps = false;
+
     static function getForInstitution($where)
     {
 

@@ -106,13 +106,12 @@ class ProgramController extends Controller
 
     function search(Request $request, Response $response)
     {
-        #TODO consultar por codigo
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params']. "%";
         if ($this->auth->user()->id_institucion != "05") {
-            $programs = Program::where("nombre","LIKE", $param)->where("codigo_institucion", $this->auth->user()->id_institucion)->get()->toArray();
+            $programs = Program::where("nombre","LIKE", $param)->orWhere("codigo", "LIKE", $param)->where("codigo_institucion", $this->auth->user()->id_institucion)->get()->toArray();
         } else {
-            $programs = Program::where("nombre","LIKE", $param)->get()->toArray();
+            $programs = Program::where("nombre","LIKE", $param)->orWhere("codigo", "LIKE", $param)->get()->toArray();
         }
         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');

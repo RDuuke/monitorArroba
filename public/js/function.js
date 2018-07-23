@@ -18,22 +18,22 @@ $(function(){
             return data;
         },
         render : function(tag, data, route="", type="") {
+            let html = "";
             switch(type){
                 case 'list':
-                    $(tag).html("");
                     $.each(JSON.parse(data), function(key, value){
-                        $(tag).append("<li class='list-group-item list-group'>codigo: "+value.codigo+" nombre: <a href='"+getUri+ route + value.codigo + "'>"+ value.nombre +"</a></li>");
+                        html = html + "<tr><td>"+value.codigo+"</td><td><a href='"+getUri+ route + value.codigo + "'>"+ value.nombre +"</a></td></tr>";
                     });
                     break;
                     case 'table':
                     break;
                     case 'students':
-                    $(tag).html("");
                     $.each(JSON.parse(data), function(key, value){
-                        $(tag).append("<tr><td>"+value.documento+"</td><td>"+ value.nombres + "</td><td>" + value.apellidos +"</td><td>"+ value.telefono +"</td><td><a href='"+getUri+ route + value.id +"'>"+value.usuario+"</a></td></tr>");
+                        html =  html + "<tr><td>"+value.documento+"</td><td>"+ value.nombres + "</td><td>" + value.apellidos +"</td><td>"+ value.telefono +"</td><td><a href='"+getUri+ route + value.id +"'>"+value.usuario+"</a></td></tr>";
                     });
-                break;
+                    break;
             }
+            return html;
         },
         lowercase : function (str) {
             return str.toLowerCase();
@@ -51,6 +51,9 @@ $(function(){
                 toastr.remove();
                 toastr.success('Carga terminada.', 'Finalizado', {timeOut: 3000});
             });
+        },
+        sleep : function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
     }

@@ -69,6 +69,9 @@ header > div:last-child a {
 a{
     color: #0093AE;
 }
+input:focus{
+    outline: none;
+}
 .banner_logo
 {
     min-height: 300px;
@@ -96,10 +99,7 @@ a{
 {
     cursor: pointer;
 }
-.button:hover, button:hover
-{
-    background-color: transparent;
-}
+
 .green{
     color: green !important;
 }
@@ -148,4 +148,26 @@ a:hover{
 .content-home .fa {
     color: #4a215c;
     font-size: 4em;
+}
+.flex {
+    display: flex;
+}
+#table_result thead td {
+    padding: .5em;
+    background-color: #f9f9f9;
+    color: #000000;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+#table_result tbody td {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    padding: .5em;
+}
+#table_result tbody tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+.no-border-radius{
+    border-radius: 0 !important;
 }

@@ -195,13 +195,36 @@ class StudentController extends Controller
 
     function search(Request $request, Response $response)
     {
-        #TODO Estudiantes por institucion
 
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params']. "%";
-        $students = Student::where("usuario","LIKE", $param)
-                            ->orWhere("documento", "LIKE", $param)
-                            ->get()->toArray();
+
+        if($this->auth->user()->id_institucion == '01') {
+            Student::where("usuario","LIKE", $param)
+                ->where("","Institución Universitaria Pascual Bravo")
+                ->orWhere("documento", "LIKE", $param)
+                ->get()->toArray();
+        } else if ($this->auth->user()->id_institucion == '02') {
+            Student::where("usuario","LIKE", $param)
+                ->where("","Institución Universitaria Colegio Mayor de Antioquia")
+                ->orWhere("documento", "LIKE", $param)
+                ->get()->toArray();
+        } else if ($this->auth->user()->id_institucion == '03') {
+            Student::where("usuario","LIKE", $param)
+                ->where("","Institución Universitaria ITM")
+                ->orWhere("documento", "LIKE", $param)
+                ->get()->toArray();
+        } else if ($this->auth->user()->id_institucion == '04') {
+            Student::where("usuario","LIKE", $param)
+                ->where("","Ruta N")
+                ->orWhere("documento", "LIKE", $param)
+                ->get()->toArray();
+        } else {
+            $students = Student::where("usuario","LIKE", $param)
+                ->orWhere("documento", "LIKE", $param)
+                ->get()->toArray();
+        }
+
         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($students, 200);

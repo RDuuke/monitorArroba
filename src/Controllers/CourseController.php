@@ -116,11 +116,29 @@ class CourseController extends Controller
 
     function search(Request $request, Response $response)
     {
-        #TODO Cursos por institucion
-        #TODO Consultar por codigo
         $router = $request->getAttribute('route');
-        $param = $router->getArguments()['params']. "%";
-        $courses = Course::where("nombre","LIKE", $param)->get()->toArray();
+        $param = $router->getArguments()['params'] . "%";
+
+        switch($this->auth->user()->id_institucion)
+        {
+                case "01":
+                    $all_coruses = Course::pascual()->where("codigo", "LIKE", $param)->get()->toArray();
+                    break;
+                case "02":
+                    $all_coruses = Course::colegio()->where("codigo","LIKE", $param)->get();
+                    break;
+                case "03":
+                    $all_coruses = Course::itm()->where("codigo","LIKE", $param)->get();
+                    break;
+                case  "04":
+                    $all_coruses = Course::ruta()->where("codigo","LIKE", $param)->get();
+                default :
+                    $all_coruses = Course::where("codigo","LIKE", $param)->get()->toArray();
+
+                    break;
+            }
+            $courses = $all_coruses;
+
         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($courses, 200);

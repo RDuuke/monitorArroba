@@ -22,8 +22,9 @@
     </div>
     <div class="separator"></div>
     <div class="ed-item s-100 l-70 l-offset-15">
-        <div class="form-group">
-            <input id="box-search" type="text" class="form-control" route-get="/panel/courses/search/" base-route-item="/panel/search/program/courses/usuarios/" tipo="list">
+        <div class="form-group flex">
+            <input type="text" class="form-control box-search no-border-radius" placeholder="Codigo del curso">
+            <button id="box-search" class="bg_naranja text-white" route-get="/panel/courses/search/" base-route-item="/panel/search/program/courses/usuarios/" tipo="list">Enviar</button>
         </div>
     </div>
     <div class="ed-item s-100 l-70 l-offset-15">
@@ -44,8 +45,15 @@
                     <div class="sk-circle12 sk-child"></div>
                 </div>
             </div>
-            {# TODO cambiar lista por tabla #}
-            <ul id="list_result"></ul>
+            <table id="table_result">
+                <thead>
+                    <tr>
+                        <td>Código</td>
+                        <td>Nombre</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
 </div>

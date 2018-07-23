@@ -17,7 +17,7 @@
 {
     background-color: #b76eda;
 }
-.bg_naranja{
+.bg_naranja, .bg_naranja:hover{
   background: #FF9900;
 }
 
