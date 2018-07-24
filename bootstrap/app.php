@@ -17,7 +17,7 @@ use App\Controllers\InstitutionController;
 use App\Controllers\CourseController;
 use App\Auth\Auth;
 use Slim\Flash\Messages;
-
+/*
 $app = new App([
     'settings' => [
         'determineRouteBeforeAppMiddeware' => false,
@@ -34,7 +34,7 @@ $app = new App([
         ]
     ]
 ]);
-/*
+*/
 $app = new App([
     'settings' => [
         'determineRouteBeforeAppMiddeware' => false,
@@ -51,7 +51,7 @@ $app = new App([
         ]
     ]
 ]);
-*/
+
 $container = $app->getContainer();
 $capsule = new Manager;
 $capsule->addConnection($container['settings']['db']);
