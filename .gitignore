@@ -289,3 +289,4 @@ __pycache__/
 /vendor/
 /logs
 /resource/tmp
+/public
