@@ -287,6 +287,6 @@ __pycache__/
 *.xsd.cs
 
 /vendor/
-/logs
-/resource/tmp
-/public
+logs
+resource/tmp
+views/template/*.twig
