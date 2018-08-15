@@ -12,7 +12,7 @@ class Tools {
     const codigoMatriculas = 7;
     const codigoBusqueda = 8;
 
-    static public $UserMessage = [
+    static protected $UserMessage = [
         0 => "El usuario correcto.",
         1 => "El usuario existe, pero con este documento de identidad :documento.",
         2 => "El usuario no pertenece a tu institución.",
@@ -21,7 +21,11 @@ class Tools {
         5 => "El registro no tiene la estructura de un correo valido en el campo usuario"
     ];
 
-    static public $RegisterMessage = [
+    static protected $UserCodigo = [
+        "C01", "A01", "E01", "E02", "E03", "E04"
+    ];
+
+    static protected $RegisterMessage = [
         "El registro no tiene la estructura de un correo valido en el campo usuario",
         "El codigo :codigo no tiene ningun curso asociado",
         "El rol tiene que ser student, teacher y editingteacher, no :rol",
@@ -30,8 +34,21 @@ class Tools {
         "El usuario con el correo :usuario no existe",
         "El usuario :usuario ya esta matriculado en el curso :curso"
     ];
+    static protected $RegisterCodigo = [
+        "E01", "E02", "E03", "E04", "C01", "E05", "A01"
+    ];
 
-    static public $Institution = [
+    static protected $CourseMessage = [
+        "El programa con el codigo :codigo no existe",
+        "El curso con el codigo :codigo ya existe",
+        "El curso con el codigo :codigo creado correctamente"
+    ];
+
+    static protected $CourseCodigo = [
+        "E01", "E02", "A01"
+    ];
+
+    static protected $Institution = [
         "nombres" => [
             0 => "Institución Universitaria Pascual Bravo",
             1 => "Institución Universitaria Colegio Mayor de Antioquia",
@@ -48,7 +65,15 @@ class Tools {
         ]
     ];
 
-    static public $Instance = [
+    static protected $InstitutionForCodigo = [
+        "01" => "Institución Universitaria Pascual Bravo",
+        "02" => "Institución Universitaria Colegio Mayor de Antioquia",
+        "03" => "Institución Universitaria ITM",
+        "04" => "Ruta N",
+        "05" => "@Medellín"
+    ];
+
+    static protected $Instance = [
         "nombre" => [
             1 => "Pregrado",
             2 => "Posgrado",
@@ -73,11 +98,17 @@ class Tools {
         $filename = sprintf('%s.%0.8s', $basename, $extension);
         $filename = date("d-m-y") ." _ ". $filename;
         try{
-            $uploadedFile->moveTo($dir . DIRECTORY_SEPARATOR . $filename);
+            $uploadedFile->moveTo($dir  . $filename);
             return $filename;
         } catch (\Exception $e) {
+            echo $e->getMessage();
             return false;
         }
+    }
+
+    static function getInstitutionForCodigo(String $codigo)
+    {
+        return self::$InstitutionForCodigo[$codigo];
     }
 
     static function getMessageUser($i)
@@ -85,10 +116,30 @@ class Tools {
         return self::$UserMessage[$i];
     }
 
+    static function getCodigoUser($i)
+    {
+        return self::$UserCodigo[$i];
+    }
+
+    static function getCodigoRegister($i)
+    {
+        return self::$RegisterCodigo[$i];
+    }
     static function getMessageRegister($id)
     {
         return self::$RegisterMessage[$id];
     }
+
+    static function getMessageCourse($i)
+    {
+        return self::$CourseMessage[$i];
+    }
+
+    static function getCodigoCourse($id)
+    {
+        return self::$CourseCodigo[$id];
+    }
+
     static function getMessageModule($i)
     {
         return "módulo ".self::$Modules[$i];

@@ -109,15 +109,14 @@ class ProgramController extends Controller
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params']. "%";
         if ($this->auth->user()->id_institucion != "05") {
-            $programs = Program::where("nombre","LIKE", $param)->orWhere("codigo", "LIKE", $param)->where("codigo_institucion", $this->auth->user()->id_institucion)->get()->toArray();
+            $programs = Program::where("nombre","LIKE", $param)->orWhere("codigo", "LIKE", $param)->where("codigo_institucion", $this->auth->user()->id_institucion)->get();
         } else {
-            $programs = Program::where("nombre","LIKE", $param)->orWhere("codigo", "LIKE", $param)->get()->toArray();
+            $programs = Program::where("nombre","LIKE", $param)->orWhere("codigo", "LIKE", $param)->get();
         }
         try {
-            $newResponse = $response->withHeader('Content-type', 'application/json');
-            return $newResponse->withJson($programs, 200);
+            return $this->view->render($response, "_partials/search_program.twig", ['programs' => $programs]);
         } catch (\Exception $e) {
-            return $response->withStatus(500)->write('0');
+            return $response->withStatus(500)->write($e->getMessage());
         }
     }
 }

@@ -8,6 +8,7 @@ class Institution extends Model
 
     protected $fillable = ['codigo', 'nombre', 'img'];
 
+    public $timestamps = false;
 
     public function programs()
     {

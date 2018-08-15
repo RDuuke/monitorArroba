@@ -2,7 +2,7 @@
 {% block styles %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
-<link rel="stylesheet" type="text/css" href="{{ base_url }}/css/animate.css"/>
+<link rel="stylesheet" type="text/css" href="{{ base_url }}/monitor/public/css/animate.css"/>
 <style>
   @media (min-width: 992px){
     .modal-lg {
@@ -50,6 +50,7 @@
                     <tr>
                         <td>Código</td>
                         <td>Nombre</td>
+                        <td>Institución</td>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -61,7 +62,6 @@
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-<script>var getUri = "http://"+window.location.host;</script>
-<script src="{{ base_url }}/js/function.js"></script>
-<script src="{{ base_url }}/js/modules/search.js"></script>
+<script src="{{ base_url }}/monitor/public/js/function.js"></script>
+<script src="{{ base_url }}/monitor/public/js/modules/search.js"></script>
 {% endblock %}

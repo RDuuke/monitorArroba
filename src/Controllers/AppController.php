@@ -113,7 +113,7 @@ class AppController extends Controller
             // Do something
             return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data, "student" => $student]);
         }
-        return $this->view->render($response, '_partials/register_student.twig', ["student_data"=>$student_data]);
+        return $this->view->render($response, '_partials/register_student.twig', ["student_data"=>$student_data, "total" => $student_data->count()]);
     }
 
     public function searchCoursesForPogram(Request $request, Response $response)
@@ -125,7 +125,7 @@ class AppController extends Controller
         } else {
             $program = Program::where('codigo', $router->getArguments()['id'])->first();
         }
-        $curses = Course::where('programa', $program->codigo)->get();
+        $curses = Course::where('id_programa', $program->codigo)->get();
 
         return $this->view->render($response, 'result_curses_for_program.twig', ["curses"=> $curses, "program" => $program]);
     }
@@ -155,6 +155,10 @@ class AppController extends Controller
     {
         return $this->view->render($response, "uploadregister.twig");
     }
+    function upload_courses(Request $request, Response $response)
+    {
+        return $this->view->render($response, "uploadcourse.twig");
+    }
 
     function downloadArchive(Request $request, Response $response)
     {
@@ -165,6 +169,11 @@ class AppController extends Controller
     function downloadStudent(Request $request, Response $response)
     {
         return $this->download('Anexo1.xlsx', $response);
+    }
+
+    function downloadCourse(Request $request, Response $response)
+    {
+        return $this->download('Anexo3.xlsx', $response);
     }
 
     protected function download(String $filename, Response $response) : Response

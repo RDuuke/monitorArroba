@@ -26,10 +26,10 @@
             <tr>
                 <td>{{ n }}</td>
                 <td>{{ course.course.codigo }}</td>
-                <td><a href="/panel/search/program/courses/usuarios/{{course.course.codigo}}">{{ course.course.nombre }}</a></td>
+                <td><a href="{{ path_for("admin.search.program.course.student", { 'id' : course.course.codigo} )}}">{{ course.course.nombre }}</a></td>
                 <td>{{ course.rol }}</td>
                 <td>{{ getInstance(course.course.codigo) }}</td>
-                <td><a href="/panel/search/program/courses/{{ course.course.programa}}">{{ course.course.programa }}</a></td>
+                <td><a href="{{ path_for("admin.search.program.course", { 'id' : course.course.programa} ) }}">{{ course.course.programa }}</a></td>
                 <td>{{ getInstitution(course.course.codigo) }}</td>
                 <td></td>
                 {% set n = n + 1 %}
@@ -55,7 +55,7 @@
             text: '<i class="icon icon-file-text-o"></i> Descargar en excel',
             className: 'btn btn-success'
         }],
-        lengthMenu: [ 25, 50, 75, 100 ],
+        lengthMenu: [15, 25, 50, 75, 100 ],
         language: {
             "lengthMenu": "Mostrar _MENU_ registros por pagina",
             "zeroRecords": "No hay resultados",

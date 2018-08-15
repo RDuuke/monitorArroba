@@ -30,3 +30,9 @@ INFO[12-07-2018 03:27:46]: [Creación] usuario juan.duque@gmail.com creo la test
 INFO[12-07-2018 03:27:52]: [Eliminación] usuario juan.duque@gmail.com elimino al test en el módulo instancias 
 INFO[18-07-2018 02:39:14]: [Creación] usuario juuanduuke@gmail.com creo la a en el módulo instancias 
 INFO[18-07-2018 02:39:30]: [Eliminación] usuario juuanduuke@gmail.com elimino al a en el módulo instancias 
+INFO[30-07-2018 03:54:49]: [Actualización] El usuario_monitor juuanduuke@gmail.com actualizo al usuario_campus juan.duque@arrobamedellin.edu.co en módulo usuarios campus 
+INFO[30-07-2018 03:55:26]: [Actualización] El usuario_monitor juuanduuke@gmail.com actualizo al usuario_campus juan.duque@arrobamedellin.edu.co en módulo usuarios campus 
+INFO[10-08-2018 03:16:20]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus w.montes5793@pascualbravo.edu.co en módulo usuarios campus 
+INFO[10-08-2018 03:28:40]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus y.molinare@pascualbravo.edu.co en módulo usuarios campus 
+ERROR[13-08-2018 05:20:35]: [Creación] usuario giselle.tamayo@arrobamedellin.edu.co registro al samayda.herrera@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[13-08-2018 05:21:01]: [Creación] usuario giselle.tamayo@arrobamedellin.edu.co registro al samayda.herrera@arrobamedellin.edu.co en el módulo usuarios plataforma 

@@ -21,7 +21,6 @@ $("#formFile").on('submit', function(event){
         toastr.remove();
         $("#tableResult tbody").html("");
         let i = 0, a = 0;
-        response = JSON.parse(response);
         renderData(response.creators, 'creators', formOk);
         renderData(response.alerts, 'alerts', formAlert);
         renderData(response.errors, 'errors');
@@ -32,6 +31,9 @@ $("#formFile").on('submit', function(event){
         $(".fadein").fadeIn();
         $("form")[0].reset();
     }).fail(error => {
+        toastr.remove();
+        toastr.error("Error analizando el archivo, vuelve a intentarlo", "Error", {timeOut: 5000000});
+
 
     });
 });
@@ -41,7 +43,7 @@ $(".download_archive").on('click', function(event){
     var wb = XLSX.utils.table_to_book(tbl);
     var wopts = { bookType:'xlsx', bookSST:false, type:'array' };
     var wbout = XLSX.write(wb,wopts);
-    saveAs(new Blob([wbout],{type:"application/octet-stream"}), "usuarios_analizados.xlsx");
+    saveAs(new Blob([wbout],{type:"application/octet-stream"}), "resultado_analisis_del_anexo1.xlsx");
 });
 $("#cargar").on('click', function(event){
     let _this = $(this);
@@ -84,6 +86,7 @@ function renderData(value, classes, saveData = []) {
             "<td>"+value.telefono+"</td>"+
             "<td>"+value.celular+"</td>"+
             "<td>"+value.direccion+"</td>"+
+            "<td>"+value.codigo+"</td>"+
             "<td>"+value.message+"</td>"+
             "</tr>");
 

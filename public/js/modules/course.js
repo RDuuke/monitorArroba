@@ -15,11 +15,11 @@ $(".addcourse").on('click', function (event) {
   $("#programCreateForm").on("submit", function (event) {
     event.preventDefault();
     var userForm = $(this).serialize();
-    $.post(getUri + $(this).attr('action'), userForm).done(function (r) {
-      var response = JSON.parse(r);
+    $.post($(this).attr('action'), userForm).done(function (response) {
       if (response.message == 1) {
         table.row.add(response.course).draw(false);
         toastr.success('Accion completada correctamente.', 'Estupendo!!!', { timeOut: 3000 });
+        $('#programCreateModal').modal('hide');
       } else if (response.message == 2) {
         console.log(_td);
         table.row(_td.parents('tr')).data(response.course);
@@ -45,12 +45,13 @@ $(".addcourse").on('click', function (event) {
         var _data = functions.getDataTable(_td);
         var url = _td.attr('href');
         $.get(url).done( function(response){
-        if (response == 1){
-          toastr.success('Instancia eliminado correctamente.', 'Estupendo!!!', {timeOut: 3000});
-          table
-            .row( _td.parents('tr') )
-            .remove()
-            .draw();    }
+          if (response == 1){
+            toastr.success('Curso eliminado correctamente.', 'Estupendo!!!', {timeOut: 3000});
+            table
+              .row( _td.parents('tr') )
+              .remove()
+              .draw();
+          }
         }).
         fail(function(response){
           toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
@@ -66,13 +67,12 @@ $(".addcourse").on('click', function (event) {
     var codigo = null;
     var _data = functions.getDataTable(_td);
     var url = _td.attr('href');
-    $.get(url).done(function (response) {
+    $.get(url).done(function (r) {
       $('#programCreateForm')[0].reset();
-      let r = JSON.parse(response);
       $.each(r.courses, function (key, value) {
         if (key == 'codigo') {
           codigo = value;
-          $('select#programa option[value='+value.toString().substr(0, 5)+']').attr('selected','selected');
+          $('select#id_programa option[value='+value.toString().substr(0, 5)+']').attr('selected','selected');
           console.log(value.toString().substr(5));
           $('input[name="' + key + '"]').val(value.toString().substr(5));
         } else {
@@ -90,13 +90,13 @@ $(".addcourse").on('click', function (event) {
       $('#programCreateModal').modal('show');
     });
   });
-  $("#programa").change(function(e){
+  $("#id_programa").change(function(e){
     console.log('S');
     let codigo = $(this).val() + $('input[name="codigo"]').val();
     $('input[name="codigo_forma"]').val(codigo);
   });
 
   $('input[name="codigo"]').blur(function(e){
-    let codigo =  $('#programa').val() + $(this).val();
+    let codigo =  $('#id_programa').val() + $(this).val();
     $('input[name="codigo_forma"]').val(codigo);
   });

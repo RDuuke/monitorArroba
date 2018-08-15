@@ -29,6 +29,7 @@ class InstitutionController extends Controller
             }
             return $newResponse->withJson($data, 200);
         } catch (\Exception $e) {
+            $data['text'] = $e->getMessage();
             return $newResponse->withJson($data, 200);
         }
     }

@@ -9,6 +9,7 @@ $app->group("/panel", function (){
     $this->get("/students", "AppController:students")->setName("admin.students");
     $this->get("/students/upload", "AppController:upload_students")->setName("admin.view.students.upload");
     $this->get("/register/upload", "AppController:upload_registers")->setName("admin.upload.register");
+    $this->get("/courses/upload", "AppController:upload_courses")->setName("admin.upload.courses");
     $this->get("/register", "AppController:registers")->setName("admin.register");
     $this->get("/users", "AppController:users")->setName("admin.users");
     $this->get("/instances", "AppController:instance")->setName("admin.instance");
@@ -72,6 +73,7 @@ $app->group("/panel", function (){
     $this->get("/courses/delete/{id}", "CourseController:delete")->setName('admin.courses.delete');
     $this->get("/courses/show/{id}", "CourseController:show")->setName('admin.courses.show');
     $this->post("/courses/update/{id}", "CourseController:update")->setName('admin.courses.update');
+    $this->post("/courses/upload", "CourseController:upload")->setName("admin.upload.courses");
 
     /** Controller search general */
 
@@ -92,10 +94,16 @@ $app->group("/panel", function (){
     $this->get("/students/search[/{params}]", "StudentController:search")->setName('admin.student.search');
     $this->post("/students/upload/proccess", "StudentController:proccess")->setName('admin.student.proccess');
     $this->post("/register/upload/proccess", "RegisterController:proccess")->setName('admin.register.proccess');
+    $this->post("/courses/upload/proccess", "CourseController:proccess")->setName('admin.course.proccess');
     $this->post("/users/permission[/{id}]", "StudentController:permission")->setName('admin.student.permission');
     $this->get("/users/permission/view/{id}", "StudentController:permissionAll")->setName('admin.student.permissionAll');
     $this->get("/users/permission/remove/{id}", "StudentController:remove")->setName('admin.student.remove');
     $this->get("/student/download/archive", "AppController:downloadStudent")->setName('admin.student.anexo');
     $this->get("/register/download/archive", "AppController:downloadArchive")->setName('admin.archive.anexo');
- });
-//->add(new \App\Middleware\AuthMiddleware($container));
+    $this->get("/course/download/archive", "AppController:downloadCourse")->setName('admin.course.anexo');
+ })->add(new \App\Middleware\AuthMiddleware($container));
+
+$app->get("/test", function () {
+    echo '<pre>';
+    print_r(\App\Models\MoodleCourse::all()->toArray());
+});

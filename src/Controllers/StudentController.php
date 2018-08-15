@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Tools\Log;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Student;
@@ -25,10 +26,12 @@ class StudentController extends Controller
             if ($student !== false) {
                 $data_array = ["message" => 1, "user" => $student];
                 $newResponse = $response->withHeader('Content-type', 'application/json');
+                Log::i("El usuario_monitor " . $this->auth->user()->usuario . " registro al usuario_campus " . $student->usuario . " en " . Tools::getMessageModule(1));
                 return $newResponse->withJson($data_array, 200);
             }
         }catch(\Exception $e) {
-            return $response->withStatus(500)->write('0');
+            Log::e("El usuario_monitor " . $this->auth->user()->usuario . " no registro al usuario_campus ".$student->usuario." por " +$e->getMessage() + " en " + Tools::getMessageModule(1));
+            return $response->withStatus(500)->write($e->getMessage());
         }
     }
 
@@ -40,10 +43,13 @@ class StudentController extends Controller
             if ($student->registers->count() < 1) {
 
                 if ($student->delete()) {
+                    Log::i("El usuario_monitor " . $this->auth->user()->usuario . " elimino al usuario_campus " . $student->usuario . " en " . Tools::getMessageModule(1), 2);
+
                     return $response->withStatus(200)->write('1');
                 }
             }
         } catch(\Exception $e) {
+            Log::e("El usuario_monitor " . $this->auth->user()->usuario . " no elimino al usuario_campus ".$student->usuario." por " + $e->getMessage() + " en " + Tools::getMessageModule(1), 2);
             return $response->withStatus(500)->write('0');
         }
     }
@@ -68,9 +74,11 @@ class StudentController extends Controller
             if ($student != false) {
                 $data_array = ["message" => 2, "user" => $student];
                 $newResponse = $response->withHeader('Content-type', 'application/json');
+                Log::i("El usuario_monitor " . $this->auth->user()->usuario . " actualizo al usuario_campus " . $student->usuario . " en " . Tools::getMessageModule(1), 1);
                 return $newResponse->withJson($data_array, 200);
             }
         }catch(\Exception $e) {
+            Log::e("El usuario_monitor " . $this->auth->user()->usuario . " no actualizo al usuario_campus ".$student->usuario." por " + $e->getMessage() + " en " + Tools::getMessageModule(1), 1);
             return $response->withStatus(500)->write('0');
         }
     }
@@ -96,6 +104,7 @@ class StudentController extends Controller
     {
         $uploadedFiles = $request->getUploadedFiles();
         $archive = $uploadedFiles['archive'];
+
         if ($archive->getError() == UPLOAD_ERR_OK) {
             $filename = Tools::moveUploadedFile($archive, $this->tmp);
             if ($filename != false) {
@@ -122,8 +131,9 @@ class StudentController extends Controller
                             "celular" => trim($worksheet->getCell('L'. $row)->getvalue()),
                             "direccion" => trim($worksheet->getCell('M'. $row)->getvalue())
                         ];
-                        if (!filter_var($data['usuario'], FILTER_VALIDATE_EMAIL)) {
+                        if (!filter_var(trim($data['usuario']), FILTER_VALIDATE_EMAIL)) {
                             $data['message'] = Tools::getMessageUser(5);
+                            $data['codigo'] = Tools::getCodigoUser(5);
                             array_push($this->errors, $data);
                             unset($data);
                             continue;
@@ -134,6 +144,7 @@ class StudentController extends Controller
                             $filter = $student_document->where('usuario', $data['usuario']);
                             if ($filter->count() == 0){
                                 $data['message'] = str_replace(':usuario', $student_document[0]->usuario, Tools::getMessageUser(4));
+                                $data['codigo'] = Tools::getCodigoUser(4);
                                 array_push($this->alerts, $data);
                                 unset($data);
                                 continue;
@@ -142,12 +153,14 @@ class StudentController extends Controller
                         $student = Student::where('usuario', '=', $data['usuario'])->get();
 
                         if ($student->count() == 0) {
-                            if((strtolower($data['institucion']) == strtolower($this->auth->user()->institution->nombre) || ($this->auth->user()->institution->codigo == Tools::codigoMedellin()))) {
+                            if($this->auth->user()->id_institucion == Tools::codigoMedellin() || Tools::getInstitutionForCodigo($this->user()->id_institucion == $data['institucion'])) {
                                 $data['message'] = Tools::getMessageUser(0);
+                                $data['codigo'] = Tools::getCodigoUser(0);
                                 array_push($this->creators, $data);
                                 //Student::create($data);
                             }else {
                                 $data['message'] = Tools::getMessageUser(2);
+                                $data['codigo'] = Tools::getCodigoUser(2);
                                 array_push($this->errors, $data);;
                             }
                         } else {
@@ -155,8 +168,10 @@ class StudentController extends Controller
 
                             if($filter->count() == 0) {
                                 $data['message'] = str_replace(":documento", $student[0]->documento, Tools::getMessageUser(1));
+                                $data['codigo'] = Tools::getCodigoUser(1);
                             }else {
                                 $data['message'] = Tools::getMessageUser(3);
+                                $data['codigo'] = Tools::getCodigoUser(3);
                             }
                             array_push($this->errors, $data);
                         }
@@ -171,6 +186,7 @@ class StudentController extends Controller
 
             }
         }
+        echo $archive->getError();
         return false;
     }
 
@@ -226,8 +242,7 @@ class StudentController extends Controller
         }
 
         try {
-            $newResponse = $response->withHeader('Content-type', 'application/json');
-            return $newResponse->withJson($students, 200);
+            return $this->view->render($response, "_partials/search_student.twig", ["students" => $students]);
         } catch (\Exception $e) {
             return $response->withStatus(500)->write('0');
         }

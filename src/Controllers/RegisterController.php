@@ -127,8 +127,9 @@ class RegisterController extends Controller
                             "usuario" => trim($worksheet->getCell('C' . $row)->getvalue()),
                             "rol" => trim($worksheet->getCell('D' . $row)->getvalue()),
                         ];
-                        if (!filter_var($data['usuario'], FILTER_VALIDATE_EMAIL)) {
+                        if (!filter_var(trim($data['usuario']), FILTER_VALIDATE_EMAIL)) {
                             $data['message'] = Tools::getMessageRegister(0);
+                            $data['codigo'] = Tools::getCodigoRegister(0);
                             array_push($this->errors, $data);
                             unset($data);
                             continue;
@@ -137,6 +138,7 @@ class RegisterController extends Controller
 
                         if ($student->count() == 0) {
                             $data['message'] = str_replace(':usuario', $data['usuario'], Tools::getMessageRegister(5));
+                            $data['codigo'] = Tools::getCodigoRegister(5);
                             array_push($this->errors, $data);
                             unset($data);
                             continue;
@@ -144,6 +146,7 @@ class RegisterController extends Controller
                         $course = Course::where('codigo', $data['curso'])->get();
                         if ($course->count() == 0) {
                             $data['message'] = str_replace(':codigo', $data['curso'], Tools::getMessageRegister(1));
+                            $data['codigo'] = Tools::getCodigoRegister(1);
                             array_push($this->errors, $data);
                             unset($data);
                             continue;
@@ -151,6 +154,7 @@ class RegisterController extends Controller
                         $register = Register::where(['curso' => $data['curso'], 'usuario' => $data['usuario']])->get();
                         if ($register->count() == 1) {
                             $data['message'] = str_replace(":usuario", $data['usuario'], str_replace(":curso", $data['curso'], Tools::getMessageRegister(6)));
+                            $data['codigo'] = Tools::getCodigoRegister(6);
                             array_push($this->alerts, $data);
                             unset($data);
                             continue;
@@ -159,17 +163,20 @@ class RegisterController extends Controller
                         $instance = Instance::where('codigo', $data['instancia'])->get();
                         if ($instance->count() == 0) {
                             $data['message'] = str_replace(':instancia', $data['instancia'], Tools::getMessageRegister(3));
+                            $data['codigo'] = Tools::getCodigoRegister(3);
                             array_push($this->errors, $data);
                             unset($data);
                             continue;
                         }
                         if (array_search($data['rol'], Tools::$Roles) === false) {
                             $data['message'] = str_replace(':rol', $data['rol'], Tools::getMessageRegister(2));
+                            $data['codigo'] = Tools::getCodigoRegister(2);
                             array_push($this->errors, $data);
                             unset($data);
                             continue;
                         }
                         $data['message'] = Tools::getMessageRegister(4);
+                        $data['codigo'] = Tools::getCodigoRegister(4);
                         array_push($this->creators, $data);
                         unset($data);
                     }
@@ -189,14 +196,31 @@ class RegisterController extends Controller
     {
         $dataOK = $request->getParam('data');
         for($i = 0; $i < count($dataOK); $i++){
-            Register::create($dataOK[$i]);
+            Register::updateOrCreate(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']], $dataOK[$i]);
         }
     }
 
     function getCourses(Request $request, Response $response) : Response
     {
-        $courses= Course::pascual()->get()->toArray();
-        try {
+        switch($this->auth->user()->id_institucion)
+        {
+            case "01":
+                $courses = Course::pascual()->get();
+                break;
+            case "02":
+                $courses = Course::colegio()->get();
+                break;
+            case "03":
+                $courses = Course::itm()->get();
+                break;
+            case  "04":
+                $courses = Course::ruta()->get();
+                break;
+            default :
+                $courses = Course::all();
+                break;
+        }
+         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($courses, 200);
         } catch(\Exception $e) {

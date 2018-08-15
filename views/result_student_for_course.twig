@@ -28,7 +28,7 @@
                 <td>{{ student.student.nombres }} </td>
                 <td>{{ student.student.apellidos }}</td>
                 <td>{{ student.student.telefono }}</td>
-                <td><a href="/panel/search/program/courses/usuarios/info/{{student.student.id}}">{{ student.student.usuario }}</a></td>
+                <td><a href="{{ path_for( "admin.search.program.course.student.data", { 'id' : student.student.id }) }}">{{ student.student.usuario }}</a></td>
                 <td>{{ student.rol }}</td>
                 <td></td>
             </tr>
@@ -54,7 +54,7 @@
             text: '<i class="icon icon-file-text-o"></i> Descargar en excel',
             className: 'btn btn-success'
         }],
-        lengthMenu: [ 25, 50, 75, 100 ],
+        lengthMenu: [ 10, 25, 50, 75, 100 ],
         language: {
             "lengthMenu": "Mostrar _MENU_ registros por pagina",
             "zeroRecords": "No hay resultados",

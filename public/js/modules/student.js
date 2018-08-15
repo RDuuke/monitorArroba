@@ -2,8 +2,7 @@
 $("#userCreateForm").on( "submit", function( event ) {
   event.preventDefault();
   var userForm = $(this).serialize();
-  $.post(getUri + $(this).attr('action'), userForm).done( function(r){
-    var response = JSON.parse(r);
+  $.post($(this).attr('action'), userForm).done( function(response){
     if (response.message == 1){
       table.row.add(response.user).draw(false);
       toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
@@ -51,8 +50,7 @@ $("#tb_user").on('click', '.studentShow', function(event){
     var _data = functions.getDataTable(_td);
     var url = _td.attr('href') + _data.id
     $.get(url).done(function(response){
-      console.log(JSON.parse(response));
-      $.each( JSON.parse(response), function( key, value ) {
+      $.each(response, function( key, value ) {
         $('input[name="'+key+'"]').val(value);
         $('#userCreateForm').attr('action', _td.attr('data-href') + _data.id);
         $('#userCreateModal').modal('show');
@@ -79,9 +77,8 @@ $("#result_student_register_table").on("click", ".archive_register", function(ev
   if (r == true) {
     _this = $(this);
     //$("#name_student").html(data.nombres + ' ' + data.apellidos);
-    $.get($(this).attr('href')).done(function (response){
-      r = JSON.parse(response);
-      console.log(r);
+    $.get($(this).attr('href')).done(function (r){
+
       if (r.message == 1 || r.message == '1') {
         _this.parent().parent().remove();
         toastr.success("Matricula archivada", "¡¡ Estupendo!!", {timeOut: 3000});

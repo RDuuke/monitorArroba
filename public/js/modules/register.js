@@ -20,8 +20,7 @@ $("#registerCreateForm").on( "submit", function( event ) {
 
     if(_this.hasClass('create')) {
       var usuario = $("#registerCreateForm input[name='usuario']").val();
-      $.get(getUri + '/panel/students/check', {'usuario' : usuario}).done( function(r) {
-        var response = JSON.parse(r);
+      $.get(getUri + '/panel/students/check', {'usuario' : usuario}).done( function(response) {
         if( response.message == 0 || response.message == '0') {
           console.log(response.message);
           $('#userCreateForm').attr('action', getUri + '/panel/students');
@@ -31,9 +30,8 @@ $("#registerCreateForm").on( "submit", function( event ) {
           flag = true;
           _this.removeClass('create');
         } else {
-          $.post(getUri + _this.attr('action'), userForm)
-          .done( function(r){
-            var response = JSON.parse(r);
+          $.post(_this.attr('action'), userForm)
+          .done( function(response){
             if (response.message == 1){
               console.log(response);
               table.row.add(response.register).draw(false);
@@ -56,9 +54,8 @@ $("#registerCreateForm").on( "submit", function( event ) {
         }
       });
     } else {
-      $.post(getUri + _this.attr('action'), userForm)
-          .done( function(r){
-            var response = JSON.parse(r);
+      $.post(_this.attr('action'), userForm)
+          .done( function(response){
             if (response.message == 1){
               console.log(response);
               table.row.add(response.register).draw(false);
@@ -89,9 +86,12 @@ $("#registerCreateForm").on( "submit", function( event ) {
     $.get(url).done(function(response){
       $('#userCreateForm')[0].reset();
 
-      console.log(JSON.parse(response));
-      $.each( JSON.parse(response), function( key, value ) {
-        $('input[name="'+key+'"]').val(value);
+      $.each(response, function( key, value ) {
+        if ( key == 'curso') {
+          $("select#curso option[value='"+ value +"']").attr("selected", "selected");
+        } else {
+          $('input[name="'+key+'"]').val(value);
+        }
         $('#registerCreateForm').attr('action', _td.attr('data-href') + _data.id);
         $('#registerCreateForm').removeClass();
         $('#registerCreateForm').addClass('update');
@@ -177,9 +177,7 @@ $("#tb_register").on("click", ".archive_register", function(event){
   if (r == true) {
     event.preventDefault();
     _this = $(this);
-    $.get($(this).attr('href')).done(function (response){
-      r = JSON.parse(response);
-      console.log(r);
+    $.get($(this).attr('href')).done(function (r){
       if (r.message == 1 || r.message == '1') {
         table
         .row( _this.parents('tr') )

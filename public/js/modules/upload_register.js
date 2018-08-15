@@ -20,8 +20,6 @@ $("#formFile").on('submit', function(event){
     }).done(response => {
         toastr.remove();
         let i = 0, a = 0;
-        response = JSON.parse(response);
-        console.log(response);
         $("#tableResult tbody").html("");
         renderData(response.creators, 'creators', formOk);
         renderData(response.alerts, 'alerts');
@@ -35,6 +33,8 @@ $("#formFile").on('submit', function(event){
         $("form")[0].reset();
 
     }).fail(error => {
+        toastr.remove();
+        toastr.error("Error analizando el archivo, vuelve a intentarlo", "Error", {timeOut: 5000000});
 
     });
 });
@@ -44,7 +44,7 @@ $(".download_archive").on('click', function(event){
     var wb = XLSX.utils.table_to_book(tbl);
     var wopts = { bookType:'xlsx', bookSST:false, type:'array' };
     var wbout = XLSX.write(wb,wopts);
-    saveAs(new Blob([wbout],{type:"application/octet-stream"}), "usuarios_no_registrados.xlsx");
+    saveAs(new Blob([wbout],{type:"application/octet-stream"}), "resultado_de_analisis_anexo2.xlsx");
 
 });
 $("#cargar").on('click', function(event){
@@ -66,6 +66,7 @@ function renderData(value, classes, saveData = []) {
             "<td>"+value.instancia+"</td>"+
             "<td>"+value.usuario+"</td>"+
             "<td>"+value.rol+"</td>"+
+            "<td>"+value.codigo+"</td>"+
             "<td>"+value.message+"</td>"+
             "</tr>");
         saveData[i] = {'curso' : value.curso, 'instancia' : value.instancia, 'usuario' : value.usuario, 'rol' : value.rol};

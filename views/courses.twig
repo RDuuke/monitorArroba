@@ -22,7 +22,8 @@
     <div class="separator"></div>
     {% if (getPermission(modulo_cursos, auth.user.id) == 3)  %}
     <div class="ed-item s-100">
-        <button class="btn btn-primary addcourse" data-href="{{ path_for('admin.courses.store') }}"><i class="icon icon-plus-circle"></i> Agregar curso</button>
+        <button class="btn btn-primary addcourse" data-href="{{ path_for('admin.courses.store') }}"><i class="icon icon-plus-circle"></i> Agregar curso</button> -
+        <a class="btn btn-success" href="{{ path_for('admin.upload.courses') }}"> <i class="icon icon-file-text-o"></i> Cargar archivo</a>
     </div>
     {% endif %}
     <div class="ed-item s-100">
@@ -52,7 +53,6 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 <script>
-var getUri = "http://"+window.location.host;
 var _td = null;
 var table = $('table').DataTable({
         lengthMenu: [ 25, 50, 75, 100 ],
@@ -81,7 +81,7 @@ var table = $('table').DataTable({
             { data: 'id' },
             { data: 'codigo' },
             { data: 'nombre' },
-            { data: 'programa' },
+            { data: 'id_programa' },
             {% if (getPermission(modulo_cursos, auth.user.id) == 3)  %}
             { "data": "id",
                 "render": function (data, type, row, meta) {
@@ -92,6 +92,6 @@ var table = $('table').DataTable({
           ]
     });
 </script>
-<script src="{{ base_url }}/js/function.js"></script>
-<script src="{{ base_url }}/js/modules/course.js"></script>
+<script src="{{ base_url }}/monitor/public/js/function.js"></script>
+<script src="{{ base_url }}/monitor/public/js/modules/course.js"></script>
 {% endblock %}

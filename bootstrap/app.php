@@ -48,6 +48,18 @@ $app = new App([
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
+            'options' => [\PDO::ATTR_EMULATE_PREPARES => true],
+        ],
+        'db_moodle' => [
+            'driver' => 'mysql',
+            'host' => '195.190.82.247',
+            'database' => 'zadmin_mdlmainsiteproduccion',
+            'username' => 'arrobamedellin',
+            'password' => 'vex3SP83xLeGQFNZ',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'options' => [\PDO::ATTR_EMULATE_PREPARES => true],
         ]
     ]
 ]);
@@ -55,6 +67,7 @@ $app = new App([
 $container = $app->getContainer();
 $capsule = new Manager;
 $capsule->addConnection($container['settings']['db']);
+$capsule->addConnection($container['settings']['db_moodle'], "db_moodle");
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 $container['db'] = function ($container) use ($capsule) {
@@ -100,7 +113,10 @@ $container['view'] = function ($container) {
 
     $function = new Twig_SimpleFunction('getPermission', function ($module, $user) {
         $permission = \App\Models\Permission::where("modulo_id", $module)->where("user_id", $user)->first();
-        return $permission->permiso;
+        if ($permission->permiso != null) {
+            return $permission->permiso;
+        }
+        return 0;
     });
     $view->getEnvironment()->addFunction($function);
 
@@ -125,13 +141,12 @@ $container['notFoundHandler'] = function ($container) {
             ->render($container['response'], "errors/404.twig");
     };
 };
-/*$container['phpErrorHandler'] = function ($container) {
+$container['phpErrorHandler'] = function ($container) {
     return function ($request, $response) use ($container) {
         return $container['view']
-            ->render($container['response'], "errors/404.twig");
+            ->render($container['response'], "errors/500.twig");
     };
 };
-*/
 
 $container['AppController'] = function ($container)
 {

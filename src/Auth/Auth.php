@@ -8,12 +8,12 @@ class Auth
 {
     public function attempt($email, $password)
     {
-        $user = User::where('usuario', '=', $email)->first();
+        $user = (object) User::where('usuario', '=', $email)->first()->toArray();
         if (!$user) {
             return false;
         }
         if (password_verify($password, $user->clave)) {
-            $_SESSION['user'] = $user->id;
+            $_SESSION['user'] = $user;
             return true;
         }
         return false;
@@ -24,7 +24,7 @@ class Auth
     }
     public function user()
     {
-        return User::find($_SESSION['user']);
+        return $_SESSION['user'];
     }
     public function logout()
     {

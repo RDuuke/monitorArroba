@@ -1,0 +1,80 @@
+var formOk = new Array;
+var formAlert = new Array;
+$("#formFile").on('submit', function(event){
+    event.preventDefault();
+    var _this = $(this);
+    var form = new FormData(_this[0]);
+    console.log(form);
+
+    $.ajax({
+        type : "POST",
+        url : _this.attr('action'),
+        cache: false,
+        processData: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        beforeSend: function () {
+            toastr.info("Analizando el archivo... ", "Info", {timeOut: 5000000});
+        },
+        data: form
+    }).done(response => {
+        toastr.remove();
+        $("#tableResult tbody").html("");
+        let i = 0, a = 0;
+        renderData(response.creators, 'creators', formOk);
+        renderData(response.errors, 'errors');
+        $("#registros").html(response.totalR);
+        $("#totalR").html(response.totalC);
+        $("#totalE").html(response.totalE);
+        $(".fadein").fadeIn();
+        $("form")[0].reset();
+    }).fail(error => {
+
+    });
+});
+$(".download_archive").on('click', function(event){
+    event.preventDefault();
+    var tbl = document.getElementById("tableResult");
+    var wb = XLSX.utils.table_to_book(tbl);
+    var wopts = { bookType:'xlsx', bookSST:false, type:'array' };
+    var wbout = XLSX.write(wb,wopts);
+    saveAs(new Blob([wbout],{type:"application/octet-stream"}), "resultado_analisis_del_anexo1.xlsx");
+});
+$("#cargar").on('click', function(event){
+    let _this = $(this);
+    event.preventDefault();
+    console.log($("#alertsT").prop('checked'));
+    if ($("#alertsT").prop('checked')) {
+        if (formOk.length == 0 && formAlert.length == 0) {
+            toastr.error('No hay registros para cargar.', 'Error', {timeOut: 500000});
+            return false;
+        } else {
+            formOk = formOk.concat(formAlert);
+            functions.proccess(formOk, _this.attr('data-action'));
+        }
+    }else {
+        if(formOk.length == 0) {
+            toastr.remove()
+            toastr.error('No hay registros para cargar.', 'Error', {timeOut: 3000});
+            return false;
+        } else {
+            functions.proccess(formOk, _this.attr('data-action'));
+        }
+    }
+});
+
+function renderData(value, classes, saveData = []) {
+    let i = 0;
+    $.each(value, function(key, value) {
+        $("#tableResult tbody").append("<tr class='"+ classes +"'>"+
+            "<td>"+value.codigo+"</td>"+
+            "<td>"+value.nombre+"</td>"+
+            "<td>"+value.id_programa+"</td>"+
+            "<td>"+value.codigo_proccess+"</td>"+
+            "<td>"+value.message+"</td>"+
+            "</tr>");
+
+        saveData[i] = {"nombre": value.nombre, "codigo": value.codigo, "id_programa": value.id_programa};
+        i++;
+    });
+}

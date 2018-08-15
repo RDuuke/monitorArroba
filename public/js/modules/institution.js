@@ -13,8 +13,7 @@ $(".addinstitution").on('click', function (event) {
   $("#institutionCreateForm").on("submit", function (event) {
     event.preventDefault();
     var userForm = $(this).serialize();
-    $.post(getUri + $(this).attr('action'), userForm).done(function (r) {
-      var response = JSON.parse(r);
+    $.post($(this).attr('action'), userForm).done(function (response) {
       if (response.message == 1) {
         table.row.add(response.institution).draw(false);
         toastr.success('Accion completada correctamente.', 'Estupendo!!!', { timeOut: 3000 });
@@ -66,8 +65,7 @@ $(".addinstitution").on('click', function (event) {
     var url = _td.attr('href');
     $.get(url).done(function (response) {
       $('#institutionCreateForm')[0].reset();
-      console.log(JSON.parse(response));
-      $.each(JSON.parse(response), function (key, value) {
+      $.each(response, function (key, value) {
         $('input[name="'+key+'"]').val(value);
       });
       $('#institutionCreateForm').attr('action', _td.attr('data-href') + _data.id);

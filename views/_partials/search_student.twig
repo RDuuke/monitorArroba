@@ -1,0 +1,9 @@
+{% for student in students %}
+<tr>
+    <td>{{ student.documento }}</td>
+    <td><a href="{{ path_for( "admin.search.program.course.student.data", { 'id' : student.id }) }}">{{ student.usuario }}</a></td>
+    <td>{{ student.nombres }}</td>
+    <td>{{ student.apellidos }}</td>
+    <td>{{ student.telefono }}</td>
+</tr>
+{% endfor %}

@@ -20,7 +20,7 @@
               <input name="nombre_corto" type="text" class="form-control" {{ getPermission(modulo_cursos, auth.user.id) == 3 ? '' : 'readonly' }}>
             </div>
             <label for="programa">Programa</label>
-            <select name="programa" id="programa" class="form-control">
+            <select name="id_programa" id="id_programa" class="form-control">
             {% for program in programs %}
                 <option value="{{ program.codigo }}">{{ program.nombre }}</option>
             {% endfor %}

@@ -20,7 +20,7 @@
             <tr>
                 <td>{{ n }}</td>
                 <td>{{ course.codigo }}</td>
-                <td><a href="/panel/search/program/courses/usuarios/{{course.codigo}}">{{ course.nombre }}</a></td>
+                <td><a href="{{ path_for("admin.search.program.course.student", { 'id' : course.codigo} ) }}">{{ course.nombre }}</a></td>
                 <td>{{ program.institution.nombre }}</td>
             </tr>
             {% set n = n + 1 %}
@@ -45,7 +45,7 @@
             text: '<i class="icon icon-file-text-o"></i> Descargar en excel',
             className: 'btn btn-success'
         }],
-        lengthMenu: [ 25, 50, 75, 100 ],
+        lengthMenu: [15, 25, 50, 75, 100 ],
         language: {
             "lengthMenu": "Mostrar _MENU_ registros por pagina",
             "zeroRecords": "No hay resultados",

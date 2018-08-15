@@ -14,8 +14,7 @@ $(".addinstance").on('click', function (event) {
 $("#instanceCreateForm").on("submit", function (event) {
   event.preventDefault();
   var userForm = $(this).serialize();
-  $.post(getUri + $(this).attr('action'), userForm).done(function (r) {
-    var response = JSON.parse(r);
+  $.post($(this).attr('action'), userForm).done(function (response) {
     if (response.message == 1) {
       table.row.add(response.instance).draw(false);
       toastr.success('Accion completada correctamente.', 'Estupendo!!!', { timeOut: 3000 });
@@ -66,8 +65,7 @@ $("#tb_instance").on('click', '.instanceShow', function (event) {
   var url = _td.attr('href');
   $.get(url).done(function (response) {
     $('#instanceCreateForm')[0].reset();
-    console.log(JSON.parse(response));
-    $.each(JSON.parse(response), function (key, value) {
+    $.each(response, function (key, value) {
       $('input[name="' + key + '"]').val(value);
     });
     $('#instanceCreateForm').attr('action', _td.attr('data-href') + _data.id);

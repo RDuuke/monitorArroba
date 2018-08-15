@@ -1,0 +1,7 @@
+{% for course in courses %}
+    <tr>
+        <td>{{ course.codigo }}</td>
+        <td><a href="{{ path_for("admin.search.program.course.student", { 'id' : course.codigo} )}}">{{ course.nombre }}</a></td>
+        <td>{{ getInstitution(course.codigo) }}</td>
+    </tr>
+{% endfor %}

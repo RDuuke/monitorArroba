@@ -6,7 +6,7 @@ class Course extends Model
 {
     protected $table = "curso";
 
-    protected $fillable = ['codigo', 'nombre', 'nombre_corto', 'programa'];
+    protected $fillable = ['codigo', 'nombre', 'nombre_corto', 'id_programa'];
 
     public $timestamps = false;
 
@@ -20,9 +20,9 @@ class Course extends Model
         return $this->belongsTo(Program::class, 'programa', 'codigo');
     }
 
-    public function getProgramaAttribute($value)
+    public function getProgramaAttribute()
     {
-        $programa = Program::where('codigo', $value)->first();
+        $programa = Program::where('codigo', $this->id_programa)->first();
         return $programa->nombre;
     }
 

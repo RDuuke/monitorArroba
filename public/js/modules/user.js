@@ -2,8 +2,7 @@
 $("#userCreateForm").on( "submit", function( event ) {
     event.preventDefault();
     var userForm = $(this).serialize();
-    $.post(getUri + $(this).attr('action'), userForm).done( function(r){
-      var response = JSON.parse(r);
+    $.post($(this).attr('action'), userForm).done( function(response){
       if (response.message == 1){
         table.row.add(response.user).draw(false);
         toastr.success('Accion completada correctamente.', 'Estupendo!!!', {timeOut: 3000});
@@ -31,8 +30,7 @@ $("#tb_user").on('click', '.userShow', function(event){
     var url = _td.attr('href');
     $.get(url).done(function(response){
       $('#userCreateForm')[0].reset();
-      console.log(JSON.parse(response));
-      $.each( JSON.parse(response), function( key, value ) {
+      $.each(response, function( key, value ) {
         if ( key == 'id_institucion') {
             $('#institucion option[value='+value+']').attr('selected','selected');
         } else if ( key == 'id_rol') {
@@ -82,15 +80,18 @@ $("#tb_user").on("click", ".userPermission", function(event){
   event.preventDefault();
   let _this = $(this);
   var _data = functions.getDataTable(_this);
+    $("#tablePermission tbody").html("");
   $("#permission").attr("data-id", _data.id);
   $.get(_this.attr('href')).done(function(response){
     $("#tablePermission tbody").append(response);
     $('#addPermissionModal').modal('show');
   });
 });
+
 $("#writing").on('change', function (event) {
   $("#reading").prop('checked', true);
 });
+
 $("#permission").on('click', function(event){
   event.preventDefault();
   var data = $("#addPermissionForm").serialize();
@@ -100,7 +101,7 @@ $("#permission").on('click', function(event){
     data : data,
     method : "POST"
   }).done( function(response){
-    let jsonResponse = JSON.parse(response);
+    let jsonResponse = response;
     if(jsonResponse.writing == 2){ w = "Sí"}else{w = "No"};
     if(jsonResponse.reading == 1){ r = "Sí"}else{r = "No"};
     if(jsonResponse.status == 1){
@@ -117,8 +118,7 @@ $("#permission").on('click', function(event){
 $("#addPermissionModal").on('click', '.permissionRemove', function(event){
   event.preventDefault();
   let _this = $(this);
-  $.get(_this.attr('href')).done(function (response){
-    r = JSON.parse(response);
+  $.get(_this.attr('href')).done(function (r){
     if (r.status == 1) {
       _this.parents('tr').remove();
     }
