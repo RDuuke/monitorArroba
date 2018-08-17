@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@Monitor</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="https://file.myfontastic.com/kZG9QvRJMKAn2R8hcARNEH/icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ base_url }}/monitor/public/css/ed-grid.min.css" />
@@ -23,13 +22,13 @@
         </div>
         <div class="ed-item l-60 flex">
             <ul class="flex">
-                <li><a href="">Inicio</a></li>
                 {% if auth.check %}
-                <li><a href="">Acceso al sistema de informes</a></li>
-                <li><a href="">Panel de control</a></li>
-                <li><a href="">Reportes</a></li>
-                <li><a href="">Herramientas</a></li>
-                <li><a href="{{ path_for('signout') }}">Cerrar sesión</a></li>
+                    <li><a href="">Inicio</a></li>
+                    <li><a href="">Módulos</a></li>
+                    <li><a href="">Herramientas</a></li>
+                    <li><a href="{{ path_for('signout') }}">Cerrar sesión</a></li>
+                {% else %}
+                    <li><a href="">Inicio</a></li>
                 {% endif %}
             </ul>
         </div>

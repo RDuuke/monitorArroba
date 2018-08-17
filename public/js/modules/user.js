@@ -45,7 +45,22 @@ $("#tb_user").on('click', '.userShow', function(event){
       });
     });
 });
+$("#tb_user").on('click', '.userChangePaswword', function (event) {
+    event.preventDefault();
+    var r = confirm("¿Esta seguro que deseas restablecer la contraseña de este usuario?");
+    if (r == true) {
+      $.get($(this).attr('href'))
+          .done(function (response) {
+          if (response.message == 1) {
+            toastr.success("Contraseña restablecida correctamente", "Info", {timeOut : 3000});
+          }
+          }).fail( function (response) {
 
+      });
+    } else {
+      return false;
+    }
+});
 $("#tb_user").on('click', '.userEliminar', function(event) {
   event.preventDefault();
     var r = confirm("¿Está seguro que desea eliminar este registro de forma permanente?");

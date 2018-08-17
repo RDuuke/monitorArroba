@@ -117,7 +117,7 @@ class StudentController extends Controller
                     for ($row=2; $row <= $highestRow; $row++) {
                         $data = [
                             "usuario" => trim($worksheet->getCell('A'. $row)->getvalue()),
-                            "clave" => trim($worksheet->getCell('B'. $row)->getvalue()),
+                            "clave" => trim($worksheet->getCell('E'. $row)->getvalue()),
                             "nombres" => trim($worksheet->getCell('C'. $row)->getvalue()),
                             "apellidos" => trim($worksheet->getCell('D'. $row)->getvalue()),
                             "correo" => trim($worksheet->getCell('A'. $row)->getvalue()),

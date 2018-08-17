@@ -15,8 +15,12 @@ class AuthController extends Controller
             $request->getParam('usuario'),
             $request->getParam('clave')
         );
+
         if (! $auth) {
             return $response->withRedirect($this->router->pathFor('home'));
+        }
+        if (! $this->auth->firstSingIn($request->getParam('usuario'))) {
+            return $response->withRedirect($this->router->pathFor('firstsingin'));
         }
         return $response->withRedirect($this->router->pathFor('admin.home'));
     }

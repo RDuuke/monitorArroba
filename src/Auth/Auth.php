@@ -1,5 +1,6 @@
 <?php
 namespace App\Auth;
+use App\Models\FirstSingIn;
 use App\Models\Module;
 use App\Models\User;
 use App\Tools\Tools;
@@ -47,5 +48,14 @@ class Auth
     public function getCodigoInstitution()
     {
         return $this->user()->id_institucion;
+    }
+
+    public function firstSingIn(String $user) : bool
+    {
+        $user = FirstSingIn::find($user);
+        if ( $user->singin == 0 ) {
+            return false;
+        }
+        return true;
     }
 }

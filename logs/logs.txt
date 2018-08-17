@@ -36,3 +36,9 @@ INFO[10-08-2018 03:16:20]: [Creación] El usuario_monitor juuanduuke@gmail.com r
 INFO[10-08-2018 03:28:40]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus y.molinare@pascualbravo.edu.co en módulo usuarios campus 
 ERROR[13-08-2018 05:20:35]: [Creación] usuario giselle.tamayo@arrobamedellin.edu.co registro al samayda.herrera@arrobamedellin.edu.co en el módulo usuarios plataforma 
 INFO[13-08-2018 05:21:01]: [Creación] usuario giselle.tamayo@arrobamedellin.edu.co registro al samayda.herrera@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[15-08-2018 03:32:52]: [Actualización] <<<<<<<<< samayda.herrera@arrobamedellin.edu.co actualizo al samayda.herrera@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[15-08-2018 03:34:32]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al samayda.herrera@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[16-08-2018 11:54:49]: [Creación] usuario juuanduuke@gmail.com registro al juan.duque@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[16-08-2018 04:48:29]: [Creación] usuario juuanduuke@gmail.com registro al sadia.giraldo@pascualbravo.edu.co en el módulo usuarios plataforma 
+INFO[17-08-2018 11:43:49]: [Creación] usuario juuanduuke@gmail.com registro al julio.martinez@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[17-08-2018 01:39:29]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co registro al pablo.barrientos@arrobamedellin.edu.co en el módulo usuarios plataforma 

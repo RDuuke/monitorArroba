@@ -3,6 +3,8 @@
 $app->get("/", "AppController:index")->setName("home");
 $app->post("/signin", "AuthController:signin")->setName("signin");
 $app->get("/signout", "AuthController:signout")->setName("signout");
+
+$app->get("/api/v1/student", "ApiController:alluser");
 $app->group("/panel", function (){
     /** Controller for view */
     $this->get("", "AppController:home")->setName("admin.home");
@@ -20,6 +22,8 @@ $app->group("/panel", function (){
     $this->get("/search/student", "AppController:searchStudent")->setName("admin.search.student");
     $this->get("/search/course", "AppController:searchCourse")->setName("admin.search.course");
     $this->get("/search/program", "AppController:searchProgram")->setName("admin.search.program");
+    $this->get("/first", "AppController:firstIn")->setName("firstsingin");
+    $this->post("/first", "AppController:changePassword")->setName("firstsingin");
 
     /** Controller actions estudiante */
     $this->post("/students/upload", "StudentController:upload")->setName("admin.upload.students");
@@ -43,6 +47,7 @@ $app->group("/panel", function (){
     $this->get('/users/delete/{id}', 'UserController:delete')->setName('admin.users.delete');
     $this->get('/users/show/{id}', 'UserController:show')->setName('admin.users.show');
     $this->post('/users/update/{id}', 'UserController:update')->setName('admin.users.update');
+    $this->get('/users/reset/{id}', 'UserController:reset')->setName('admin.users.reset');
 
     /** Controller actions instance */
     $this->get("/instances/all", "InstanceController:all")->setName('admin.instance.all');

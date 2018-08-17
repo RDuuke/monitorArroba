@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\FirstSingIn;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\User;
@@ -43,6 +44,7 @@ class UserController extends Controller
             $user = User::create(array_map('trim', $request->getParams()));
             $user->clave = password_hash($request->getParam("documento"), PASSWORD_DEFAULT);
             $user->save();
+            FirstSingIn::create(['usuario' => $user->usuario, "singin" => 0]);
             Log::i("usuario " . $this->auth->user()->usuario . " registro al " . $request->getParam('usuario') . " en el ". Tools::getMessageModule(0));
             $data = ['message' => 1, 'user' => $user];
             return $newResponse->withJson($data, 200);
@@ -96,5 +98,17 @@ class UserController extends Controller
             Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $usuario->usuario . " en el " . Tools::getMessageModule(0), 2);
             return $response->withStatus(500)->write('0');
         }
+    }
+
+    function reset(Request $request, Response $response)
+    {
+        $router = $request->getAttribute('route');
+        $usuario = User::find($router->getArguments()['id']);
+        $usuario->clave =  password_hash($usuario->documento, PASSWORD_DEFAULT);
+        if ($usuario->save()) {
+            $newResponse = $response->withHeader('Content-type', 'application/json');
+            return $newResponse->withJson(['message' => 1], 200);
+        }
+        return $response->withStatus(500)->write('0');
     }
 }

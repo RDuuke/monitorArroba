@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\FirstSingIn;
+use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Student;
@@ -47,6 +49,10 @@ class AppController extends Controller
         return $this->view->render($response, "user.twig", ['roles' => $rols, "instituciones" => $institutions, "modules" => $modules]);
     }
 
+    public function firstIn(Request $request, Response $response)
+    {
+        return $this->view->render($response, "change_password.twig");
+    }
     public function registers(Request $request, Response $response)
     {
         return $this->view->render($response, "register.twig");
@@ -95,6 +101,19 @@ class AppController extends Controller
         return $this->view->render($response, "search_program.twig");
     }
 
+    public function changePassword(Request $request, Response $response)
+    {
+        if ($request->getParam('password_confirmacion') == $request->getParam('password')) {
+            $user = User::find($request->getParam('id'));
+            $user->clave = password_hash($request->getParam("password"), PASSWORD_DEFAULT);
+            $user->save();
+            $first = FirstSingIn::find($user->usuario);
+            $first->singin = 1;
+            $first->save();
+            return $response->withRedirect($this->router->pathFor('signout'));
+        }
+        return $response->withRedirect($this->router->pathFor('firstsingin'));
+    }
     public function searchStudentsForCourse(Request $request, Response $response)
     {
 

@@ -15,6 +15,7 @@ use App\Controllers\InstanceController;
 use App\Controllers\ProgramController;
 use App\Controllers\InstitutionController;
 use App\Controllers\CourseController;
+use App\Controllers\ApiController;
 use App\Auth\Auth;
 use Slim\Flash\Messages;
 /*
@@ -191,6 +192,10 @@ $container['InstitutionController'] = function($container)
 $container['CourseController'] = function($container)
 {
     return new CourseController($container);
+};
+$container['ApiController'] = function($container)
+{
+    return new ApiController($container);
 };
 
 require_once dirname(__DIR__) . "/src/routes.php";
