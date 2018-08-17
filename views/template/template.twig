@@ -40,7 +40,9 @@
     <div class="ed-container full bg_imagen banner_logo flex">
         <img src="http://campusdigital.arrobamedellin.edu.co/campus/monitor/images/template/logo_peq.png" alt="">
     </div>
-     {% block content %}{% endblock %}
+    <span class="badge badge-info">{{ auth.user.usuario }}</span>
+
+    {% block content %}{% endblock %}
     <footer>
     </footer>
     {% block modales %}{% endblock %}

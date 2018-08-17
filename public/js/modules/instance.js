@@ -66,7 +66,12 @@ $("#tb_instance").on('click', '.instanceShow', function (event) {
   $.get(url).done(function (response) {
     $('#instanceCreateForm')[0].reset();
     $.each(response, function (key, value) {
-      $('input[name="' + key + '"]').val(value);
+      if (key == 'codigo') {
+          $('input[name="' + key + '"]').val(value);
+          $('input[name="' + key + '"]').attr('readonly', true);
+      } else {
+          $('input[name="' + key + '"]').val(value);
+      }
     });
     $('#instanceCreateForm').attr('action', _td.attr('data-href') + _data.id);
     $('#instanceCreateForm').removeClass();
