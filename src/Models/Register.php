@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Tools\Tools;
+
 class Register extends Model
 {
     protected $table = "matricula";
@@ -9,6 +11,12 @@ class Register extends Model
     protected $fillable = ['curso', 'instancia', 'usuario', 'rol', 'fecha'];
 
     public $timestamps = false;
+
+    public function getFechaAttribute($value)
+    {
+        $date = new \DateTime($value);
+        return $date->format('d-m-Y');
+    }
 
     function student()
     {
@@ -25,19 +33,21 @@ class Register extends Model
         return $this->belongsTo(Course::class, 'curso', 'codigo');
     }
 
-    function getFechaAttribute($value)
-    {
-        return array_shift(explode(" ", $value));
-    }
     function getRolAttribute($value)
     {
         return $value == 'student' ? 'Estudiante' : 'Profesor';
     }
+
     function scopePublic($query)
     {
         return $query->whereIn('instancia', [1, 2, 3]);
     }
 
+    function getInstanciaAttribute($value)
+    {
+        //return $value;
+        return Tools::getInstanceForCodigo($value);
+    }
     public function scopeRuta($query)
     {
         return $query->where('instancia', 4);
@@ -46,6 +56,7 @@ class Register extends Model
     {
         return $query->where('curso','LIKE', "101%")
             ->orWhere('curso','LIKE', "201%")
+            ->orWhere('curso','LIKE', "6%")
             ->orWhere('curso','LIKE', "301%");
     }
 
@@ -53,6 +64,7 @@ class Register extends Model
     {
         return $query->where('curso','LIKE', "102%")
             ->orWhere('curso','LIKE', "202%")
+            ->orWhere('curso','LIKE', "8%")
             ->orWhere('curso','LIKE', "302%");
     }
 
@@ -60,6 +72,7 @@ class Register extends Model
     {
         return $query->where('curso','LIKE', "103%")
             ->orWhere('curso','LIKE', "203%")
+            ->orWhere('curso','LIKE', "9%")
             ->orWhere('curso','LIKE', "303%");
     }
 
@@ -67,6 +80,7 @@ class Register extends Model
     {
         return $query->where('curso','LIKE', "104%")
             ->orWhere('curso','LIKE', "204%")
+            ->orWhere('curso','LIKE', "4%")
             ->orWhere('curso','LIKE', "304%");
     }
 

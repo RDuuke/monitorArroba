@@ -1,0 +1,17 @@
+<form id="institutionCreateForm" action="{{ path_for('admin.instance.store') }}" method="post">
+    <div class="ed-container">
+        <div class="ed-item s-100 l-100">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input name="nombre" type="text" class="form-control" {{ getP(modulo_instituciones) == 3 ? '' : 'readonly' }}>
+            </div>
+            <div class="form-group">
+                <label for="codigo">Codigo</label>
+                <input name="codigo" type="number" placeholder="ej: 01" class="form-control" {{ getP(modulo_instituciones) == 3 ? '' : 'readonly' }} min="00" max="99">
+            </div>
+            {% if getP(modulo_instituciones) == 3  %}
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            {% endif %}
+        </div>
+    </div>
+</form>

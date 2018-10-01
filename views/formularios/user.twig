@@ -7,47 +7,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form id="userCreateForm" action="{{ path_for('admin.users.store') }}">
-        <div class="ed-container">
-          <div class="ed-item s-100 l-100">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Usuario</label>
-              <input name="usuario" type="text" class="form-control" {{ getPermission(modulo_plataforma, auth.user.id) == 3 ? '' : 'readonly' }} >
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Nombres</label>
-              <input name="nombres" type="text" class="form-control" {{ getPermission(modulo_plataforma, auth.user.id) == 3 ? '' : 'readonly' }}>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Apellidos</label>
-              <input name="apellidos" type="text" class="form-control" {{ getPermission(modulo_plataforma, auth.user.id) == 3 ? '' : 'readonly' }}>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Documento</label>
-              <input name="documento" type="number" class="form-control" {{ getPermission(modulo_plataforma, auth.user.id) == 3 ? '' : 'readonly' }}>
-            </div>
-            <div class="form-group">
-              <label for="institucion">Institucion</label>
-              {% if getPermission(modulo_plataforma, auth.user.id) == 3 %}
-                  {% if auth.user.id_institucion != "05" %}
-                    <input name="id_institucion" type="text" class="form-control" value="{{ auth.user.institution.nombre }}" readonly >
-                  {% else %}
-                    <select name="id_institucion" id="institucion" class="form-control">
-                    {% for institucion in instituciones %}
-                        <option value="{{ institucion.codigo }}">{{ institucion.nombre }}</option>
-                    {% endfor %}
-                    </select>
-                  {% endif %}
-                {% else %}
-                    <input name="institucion" type="text" class="form-control" readonly value="{{ auth.user.institution.nombre }}" >
-              {% endif %}
-            </div>
-            {% if getPermission(modulo_plataforma, auth.user.id) == 3  %}
-              <button type="submit" class="btn btn-primary">Guardar</button>
-            {% endif %}
-          </div>
-        </div>
-        </form>
+        {% include '_partials/user.twig' %}
     </div>
   </div>
 </div>

@@ -1,6 +1,8 @@
 <?php
 namespace App\Tools;
 
+use App\Models\Permission;
+
 class Tools {
 
     const codigoUsuarioPlataforma = 1;
@@ -11,6 +13,8 @@ class Tools {
     const codigoCursos = 6;
     const codigoMatriculas = 7;
     const codigoBusqueda = 8;
+    const Lectura = 1;
+    const LecturaEscritura = 3;
 
     static protected $UserMessage = [
         0 => "El usuario correcto.",
@@ -18,11 +22,12 @@ class Tools {
         2 => "El usuario no pertenece a tu institución.",
         3 => "El usuario existe con ese documento y correo.",
         4 => "El usuario existe con ese documento, pero con este correo :usuario",
-        5 => "El registro no tiene la estructura de un correo valido en el campo usuario"
+        5 => "El registro no tiene la estructura de un correo valido en el campo usuario",
+        6 => "El usuario no tiene un documento de identidad"
     ];
 
     static protected $UserCodigo = [
-        "C01", "A01", "E01", "E02", "E03", "E04"
+        "C01", "A01", "E01", "E02", "E03", "E04", "E05"
     ];
 
     static protected $RegisterMessage = [
@@ -54,14 +59,18 @@ class Tools {
             1 => "Institución Universitaria Colegio Mayor de Antioquia",
             2 => "Institución Universitaria ITM",
             3 => "Ruta N",
-            4 => "@Medellín"
+            4 => "@Medellín",
+            5 => "Secretaría de Salud",
+            6 => "secretaría de la Mujer"
         ],
         "codigo" => [
             0 => "01",
             1 => "02",
             2 => "03",
             3 => "04",
-            4 => "05"
+            4 => "05",
+            5 => "06",
+            6 => "07"
         ]
     ];
 
@@ -70,7 +79,9 @@ class Tools {
         "02" => "Institución Universitaria Colegio Mayor de Antioquia",
         "03" => "Institución Universitaria ITM",
         "04" => "Ruta N",
-        "05" => "@Medellín"
+        "05" => "@Medellín",
+        "06" => "Secretaría de Salud",
+        "07" => "Secretaría de la Mujer"
     ];
 
     static protected $Instance = [
@@ -80,16 +91,22 @@ class Tools {
             3 => "FTDH",
             4 => "Ruta N",
             5 => "SandBox",
-            6 => "Mainsite"
+            6 => "IUPB",
+            8 => "Colmayor",
+            9 => "ITM"
         ]
     ];
 
     static public $Modules = [
-        "usuarios plataforma" , "usuarios campus", "matriculas", "instancias", "instituciones", "programas"
+        "Usuarios @Monitor" , "Usuarios Campus", "matriculas", "instancias", "instituciones", "programas", "búsqueda", "cursos"
+    ];
+
+    static public $MenuActive = [
+        "Módulo", "Búsqueda", "Herramientas"
     ];
 
     static public $Roles = [
-      "student", "teacher", "editingteacher"
+      "student", "teacher", "editingteacher", "manager"
     ];
     static function moveUploadedFile($uploadedFile, $dir)
     {
@@ -111,6 +128,11 @@ class Tools {
         return self::$InstitutionForCodigo[$codigo];
     }
 
+    static function getInstanceForCodigo(Int $codigo)
+    {
+        return self::$Instance['nombre'][$codigo];
+    }
+    
     static function getMessageUser($i)
     {
         return self::$UserMessage[$i];
@@ -189,6 +211,10 @@ class Tools {
         return self::$Institution['codigo'][3];
     }
 
+    static function codigoMujeres()
+    {
+        return self::$Institution['codigo'][6];
+    }
     static function codigoMedellin()
     {
         return self::$Institution['codigo'][4];
@@ -224,4 +250,14 @@ class Tools {
         return self::$Institution['nombre'][6];
     }
 
+    static function refreshPermission($id)
+    {
+        foreach(Permission::where('user_id', '=', $id)->get()->toArray() as $k => $v){
+            foreach ($v as $k2 => $v2) {
+                $_SESSION['permission']['modules'][$v2] = $v;
+                break;
+            }
+
+        }
+    }
 }

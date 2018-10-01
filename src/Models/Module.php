@@ -14,7 +14,7 @@ class Module extends Model
     public function scopePublic()
     {
         return Capsule\Manager::table('modulos')
-            ->whereNotIn('id', [3, 4, 5])
+            ->whereNotIn('id', [3, 4])
             ->get();
     }
 }

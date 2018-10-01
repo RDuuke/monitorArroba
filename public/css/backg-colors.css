@@ -6,12 +6,13 @@
     background: #1493B2;
 }
 
-.bg_gris_claro {
+.bg_gris_claro, .bg-gray {
     background: #F2F2F2;
 }
+
 .bg_morado
 {
-    background-color: #591778;
+    background-color: #732881;
 }
 .bg_morado_ligth
 {
@@ -20,7 +21,9 @@
 .bg_naranja, .bg_naranja:hover{
   background: #FF9900;
 }
-
+.bg-green {
+    background-color: #58AF93 !important;
+}
 .btn_campus:hover, .btn_campus2:hover {
     background: #FFCC33;
     webkit-transition: all .5s;

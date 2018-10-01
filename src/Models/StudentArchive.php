@@ -1,13 +1,13 @@
 <?php
-// TODO crear action de archive
 
 namespace App\Models;
 
 
 class StudentArchive extends Model
 {
-    protected $table = "matricula_historico";
-    protected $fillable = [""];
+    protected $table = "usuario_historico";
+    protected $primaryKey = "usuario";
+    protected $fillable = ['usuario', 'clave', 'nombres', 'correo', 'apellidos', 'documento', 'institucion', 'genero', 'ciudad', 'departamento', 'pais', 'telefono', 'celular', 'direccion'];
     public $timestamps = false;
 
 }

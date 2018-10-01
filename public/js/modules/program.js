@@ -4,7 +4,8 @@ $("form").keypress(function(e) {
   }
 });
 $(".addprogram").on('click', function (event) {
-  event.preventDefault();
+    $(".content_visible").show();
+    event.preventDefault();
   $('#programCreateForm')[0].reset();
   $('#programCreateForm').attr('action', $(this).attr('data-href'));
   $('#programCreateModal').modal('show');
@@ -60,6 +61,7 @@ $("#tb_programs").on('click', '.programEliminar', function(event) {
 $("#tb_programs").on('click', '.programshow', function (event) {
   event.preventDefault();
   _td = $(this);
+  $(".content_visible").hide();
   var _data = functions.getDataTable(_td);
   var url = _td.attr('href');
   $.get(url).done(function (response) {
@@ -83,11 +85,20 @@ $("#tb_programs").on('click', '.programshow', function (event) {
 $("#codigo_institucion").change(function(e){
   console.log('S');
   $('input[name="codigo_forma"]').html("");
-  let codigo = $(this).val() + $('input[name="codigo_program"]').val();
+  let codigo = $("#instance").val() + $(this).val() + $('input[name="codigo_program"]').val();
   $('input[name="codigo_forma"]').val(codigo);
 });
+
+$("#instance").change(function(e){
+    console.log('S');
+    $('input[name="codigo_forma"]').html("");
+    let codigo = $(this).val() + $("#codigo_institucion").val() + $('input[name="codigo_program"]').val();
+    $('input[name="codigo_forma"]').val(codigo);
+});
+
 $('input[name="codigo_program"]').blur(function(e){
   $('input[name="codigo_forma"]').html("");
-  let codigo =  $('#codigo_institucion').val() + $(this).val();
+  let codigo =  $("#instance").val() + $('#codigo_institucion').val() + $(this).val();
   $('input[name="codigo_forma"]').val(codigo);
 });
+

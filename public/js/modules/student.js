@@ -38,7 +38,8 @@ $("#tb_user").on('click', '.studentEliminar', function(event) {
             .draw();    }
         }).
         fail(function(response){
-          toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+            console.log(response);
+          toastr.error(response, 'Error!!', {timeOut: 3000});
         });
       } else {
         return false;
@@ -57,6 +58,56 @@ $("#tb_user").on('click', '.studentShow', function(event){
       });
     });
 });
+
+$("#tb_user").on('click', '.studentChangePaswword', function(event){
+    var r = confirm("¿Está seguro que desea restablecer la contraseña?");
+    if (r == true) {
+
+        event.preventDefault();
+        _td = $(this);
+        var _data = functions.getDataTable(_td);
+        var url = _td.attr('href') + _data.id
+        $.get(url).done(function(response){
+            functions.removeToast();
+            if (response.response == 1) {
+                toastr.success(response.message, 'Finalizado', {timeOut : 3000});
+            } else {
+                toastr.error(response.message, 'Error', {timeOut : 3000});
+            }
+        });
+    } else {
+        return false;
+    }
+});
+
+$("#tb_user").on('click', '.studentArchive', function(event){
+    var r = confirm("¿Está seguro que desea archivar este registro de forma permanente?");
+    if (r == true) {
+        event.preventDefault();
+        _td = $(this);
+        var _data = functions.getDataTable(_td);
+        var url = _td.attr('href') + _data.id
+        $.get(url).done(function(response){
+            functions.removeToast();
+            console.log(response);
+            if (response.response == 1) {
+                toastr.success(response.message, 'Finalizado', {timeOut : 3000});
+                table
+                    .row( _td.parents('tr') )
+                    .remove()
+                    .draw();
+            } else if(response.response == 2) {
+                toastr.info(response.message, 'Info', {timeOut : 3000});
+
+            }
+            else {
+                toastr.error(response.message, 'Error', {timeOut : 3000});
+            }
+        });
+    } else {
+        return false;
+    }
+});
 $("#tb_user").on('click', '.searchRegister', function(event){
   let n = 0;
   event.preventDefault();
@@ -65,15 +116,15 @@ $("#tb_user").on('click', '.searchRegister', function(event){
   $("#name_student").html(_data.nombres + ' ' + _data.apellidos);
   var url = _td.attr('href') + _data.id
   $.get(url).done(function(response){
-      $("#result_student_register_table tbody").html("");
-      $("#result_student_register_table tbody").html(response);
+      $("#content_student_register").html("");
+      $("#content_student_register").html(response);
       $("#studentRegister").modal('show');
   });
 
 });
-$("#result_student_register_table").on("click", ".archive_register", function(event){
+$("#content_student_register").on("click", ".archive_register", function(event){
   event.preventDefault();
-  var r = confirm("¿Está seguro que desea archivar este registro de forma permanente?");
+  var r = confirm("¿Está seguro que quiere desmatricular?");
   if (r == true) {
     _this = $(this);
     //$("#name_student").html(data.nombres + ' ' + data.apellidos);

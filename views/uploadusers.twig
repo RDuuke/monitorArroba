@@ -7,23 +7,32 @@
 {% block content %}
 <div class="ed-container full">
     <div class="ed-item s-100 l-100">
+        <div class="separator"></div>
         <h2>Análisis de archivo de carga de usuarios</h2>
         <div class="separator"></div>
         <div class="ed-container ed-item s-100">
-            <a href="{{ path_for('admin.students') }}" class="btn btn-info"> <i class="fa fa-long-arrow-left"></i> Volver</a>
+            <a href="{{ path_for('admin.students') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
         </div>
-        <p>
-            Esta aplicación, permitirá analizar un archivo <a download href="{{ path_for('admin.student.anexo') }}">Anexo 1</a>, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 1 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".
+        <div class="separator"></div>
+        <p> Esta herramienta, permitirá analizar un archivo <a download href="{{ path_for('admin.student.anexo') }}">Anexo 1</a>, para identificar usuarios repetidos o errores en la carga, luego los registros correctos podran ser cargados a la base de datos, y tambien descargar en el excel el informe.
         </p>
-        <form action="{{ path_for('admin.upload.students') }}" enctype="multipart/form-data" method="post" id="formFile">
+        <form action="{{ path_for('admin.upload.students') }}" enctype="multipart/form-data" method="post" id="formFile" class="flex align-item-center">
+            {% if auth.user.id_institucion == "05" %}
+                <select name="codigo_institucion" id="codigo_institucion" required style="margin-right: 1em;padding: .3em;border-radius: 25px">
+                    {% for institution in institutions %}
+                        <option value="{{ institution.codigo }}">{{ institution.nombre }}</option>
+                    {% endfor %}
+                </select>
+            {% endif %}
             <input type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-            <button class="btn btn-primary">Analizar</button>
+            <button class="btn btn-info margin-1-em-horizontal">Analizar</button>
         </form>
         <br>
         <p class="none fadein">Registros: <span data-toggle='tooltip' title='Matriculas' id="registros"></span> - Correctos: <span id="totalR"></span> - Alertas: <span id="totalA"></span>  - Errores: <span id="totalE"></span> - <button data-toggle='tooltip' title='Descargar registros de la tabla' class="btn none fadein download_archive btn-info">Descargar</button> - <button data-toggle='tooltip' title='Registrar usuarios correctos' id="cargar" class="btn btn-success" data-action="{{ path_for('admin.student.proccess') }}">Cargar</button> -
             <label for="alertsT">¿Cargar las alertas? <input type="checkbox" name="alertsT" value="1" id="alertsT" /></label>
 </p>
         <br>
+
         <table id="tableResult" class="fadein">
             <thead>
                 <tr>

@@ -13,22 +13,21 @@
 {% endblock %}
 {% block content %}
 <div class="ed-container full">
-    <div class="ed-item s-100 l-offset-15 l-70">
-        <h2 class="text-left text-info">Módulo busqueda cursos</h2>
+    <div class="ed-item s-100 l-100 margin-2-em-vertical">
+        <h2 class="text-black text-bold">Módulo búsqueda cursos</h2>
     </div>
     <div class="separator"></div>
     <div class="ed-item s-100">
-        <a href="{{ path_for('admin.search') }}" class="btn btn-info"> <i class="fa fa-long-arrow-left"></i> Volver</a>
+        <a href="{{ path_for('admin.search') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
     </div>
     <div class="separator"></div>
     <div class="ed-item s-100 l-70 l-offset-15">
         <div class="form-group flex">
-            <input type="text" class="form-control box-search no-border-radius" placeholder="Codigo del curso">
-            <button id="box-search" class="bg_naranja text-white" route-get="/panel/courses/search/" base-route-item="/panel/search/program/courses/usuarios/" tipo="list">Enviar</button>
+            <input type="text" class="form-control box-search border-radius-left-25-px-all no-border-radius-right-all" placeholder="Búsqueda por nombre ó codigo">
+            <button id="box-search" class="bg_naranja text-white no-border-radius-left-all" route-get="/panel/courses/search/" base-route-item="/panel/search/program/courses/usuarios/" tipo="list">Buscar</button>
         </div>
     </div>
-    <div class="ed-item s-100 l-70 l-offset-15">
-        <div class="list-group">
+    <div class="ed-item s-100 l-70 l-offset-15 padding-2-em-botom">
             <div id="load" class="none">
                 <div class="sk-circle">
                     <div class="sk-circle1 sk-child"></div>
@@ -45,23 +44,14 @@
                     <div class="sk-circle12 sk-child"></div>
                 </div>
             </div>
-            <table id="table_result">
-                <thead>
-                    <tr>
-                        <td>Código</td>
-                        <td>Nombre</td>
-                        <td>Institución</td>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
     </div>
+    <div class="ed-item s-100 list-group"></div>
 </div>
 {% endblock %}
 {% block scripts %}
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-<script src="{{ base_url }}/monitor/public/js/function.js"></script>
-<script src="{{ base_url }}/monitor/public/js/modules/search.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+    <script src="{{ base_url }}/monitor/public/js/function.js"></script>
+    <script src="{{ base_url }}/monitor/public/js/modules/search.js"></script>
+
 {% endblock %}

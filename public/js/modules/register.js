@@ -126,8 +126,7 @@ $("#tb_register").on('click', '.registertEliminar', function(event) {
 $("#userCreateForm").on( "submit", function( event ) {
   event.preventDefault();
   var userForm = $(this).serialize();
-  $.post($(this).attr('action'), userForm).done( function(r){
-    var response = JSON.parse(r);
+  $.post($(this).attr('action'), userForm).done( function(response){
     if (response.message == 1){
       toastr.success('Usuario registrado correctamente.', 'Estupendo!!!', {timeOut: 3000});
       $("#userCreateModal").modal('hide');
@@ -148,8 +147,7 @@ $("#userCreateForm").on( "submit", function( event ) {
 $("#tb_register").on('click', '.showUserRegister', function(event){
   event.preventDefault();
   var url = getUri + "/panel/students/email";
-  $.get(url, {'usuario' : $(this).attr('data-usuario')}).done(function(response){
-    var r = JSON.parse(response);
+  $.get(url, {'usuario' : $(this).attr('data-usuario')}).done(function(r){
     $('#userCreateForm').attr('action', getUri + '/panel/students/update/' + r.id);
     $.each( r, function( key, value ) {
       $('input[name="'+key+'"]').val(value);
@@ -190,8 +188,4 @@ $("#tb_register").on("click", ".archive_register", function(event){
     return false;
   }
 });
-$(function(){
-  functions.getCourses();
-  //functions.select_search("#curso");
 
-});

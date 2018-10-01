@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Instance;
+use App\Models\RegisterArchive;
 use App\Models\Student;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Respect\Validation\Exceptions\PhpLabelException;
@@ -22,17 +23,20 @@ class RegisterController extends Controller
     {
             switch($this->auth->user()->id_institucion)
             {
-                case "01":
-                    $registers = Register::public()->pascual()->get();
+                case Tools::codigoPascualBravo():
+                    $registers = Register::pascual()->get();
                     break;
-                case "02":
-                    $registers = Register::public()->colegio()->get();
+                case Tools::codigoColegioMayor():
+                    $registers = Register::colegio()->get();
                     break;
-                case "03":
-                    $registers = Register::public()->itm()->get();
+                case Tools::codigoITM():
+                    $registers = Register::itm()->get();
                 break;
-                case  "04":
-                    $registers = Register::ruta()->rutan()->get();
+                case Tools::codigoRutaN():
+                    $registers = Register::rutan()->get();
+                break;
+                case Tools::codigoMujeres():
+                    $registers = Register::mujeres()->get();
                 break;
                 default :
                     $registers = Register::all();
@@ -50,20 +54,37 @@ class RegisterController extends Controller
         ])->get();
 
         if ($validate->count() != 0) {
-            $data_array = ["message" => 3, "register" => null];
-            $newResponse = $response->withHeader('Content-type', 'application/json');
-            return $newResponse->withJson($data_array, 200);
-        }
-        try{
-            $register = Register::create(array_map('trim', $request->getParams()));
-            if ($register !== false) {
-                $data_array = ["message" => 1, "register" => $register];
+            if ($request->isXhr()) {
+                $data_array = ["message" => 3, "register" => null];
                 $newResponse = $response->withHeader('Content-type', 'application/json');
                 return $newResponse->withJson($data_array, 200);
             }
-        }catch(\Exception $e) {
-            return $response->withStatus(500)->write('0');
+            $this->flash->addMessage("errors", "El usuario ".$request->getParam('usuario')." ya esta matriculado en el curso " . $request->getParam('curso'));
+            return $response->withRedirect($this->router->pathFor("admin.register.add"));
         }
+        try{
+            //$register = Register::create(array_map('trim', $request->getParams()));
+            $register = $this->saveRegister($request);
+            if ($request->isXhr()) {
+                if ($register->save()) {
+                    $register->fecha = date('Y-m-d h:i:s');
+                    $data_array = ["message" => 1, "register" => $register];
+                    $newResponse = $response->withHeader('Content-type', 'application/json');
+                    return $newResponse->withJson($data_array, 200);
+                }
+            } else {
+                if ($register->save()) {
+                    $this->flash->addMessage("creators", "Matricula creada correctamente");
+                    return $response->withRedirect($this->router->pathFor("admin.register.add"));
+                }
+            }
+        }catch(\Exception $e) {
+            if ($request->isXhr()) {
+                return $response->withStatus(500)->write(0);
+            } else {
+                $this->flash->addMessage("errors", $e->getMessage());
+                return $response->withRedirect($this->router->pathFor('admin.register.add'));
+            }        }
     }
 
     function show(Request $request, Response $response) : Response
@@ -200,6 +221,79 @@ class RegisterController extends Controller
         }
     }
 
+    function uploadDeEnRoll(Request $request, Response $response)
+    {
+        $uploadedFiles = $request->getUploadedFiles();
+        $archive = $uploadedFiles['archive'];
+        if ($archive->getError() == UPLOAD_ERR_OK) {
+            $filename = Tools::moveUploadedFile($archive, $this->tmp);
+            if ($filename != false) {
+                try {
+                    $reader = IOFactory::createReader('Xlsx');
+                    $reader->setReadDataOnly(true);
+                    $spreadsheet = $reader->load($this->tmp . DS . $filename);
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $highestRow = $worksheet->getHighestDataRow();
+                    for ($row = 2; $row <= $highestRow; $row++) {
+                        $data = [
+                            "curso" => trim($worksheet->getCell('A' . $row)->getvalue()),
+                            "usuario" => trim($worksheet->getCell('B' . $row)->getvalue())
+                        ];
+
+                        if (!filter_var(trim($data['usuario']), FILTER_VALIDATE_EMAIL)) {
+                            $data['message'] = Tools::getMessageRegister(0);
+                            $data['codigo'] = Tools::getCodigoRegister(0);
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+
+                        $student = Student::where('usuario', $data['usuario'])->get();
+
+                        if ($student->count() == 0) {
+                            $data['message'] = str_replace(':usuario', $data['usuario'], Tools::getMessageRegister(5));
+                            $data['codigo'] = Tools::getCodigoRegister(5);
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+                        $course = Course::where('codigo', $data['curso'])->get();
+                        if ($course->count() == 0) {
+                            $data['message'] = str_replace(':codigo', $data['curso'], Tools::getMessageRegister(1));
+                            $data['codigo'] = Tools::getCodigoRegister(1);
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+                        $register = Register::where(['curso' => $data['curso'], 'usuario' => $data['usuario']])->first();
+                        if ($register instanceof Register) {
+                            $data['instancia'] = $register->instancia;
+                            $data['rol'] = $register->rol;
+                            $data['message'] = "Registro correcto para desmatricular";
+                            $data['codigo'] = "C01";
+                            array_push($this->creators, $data);
+                            unset($data);
+                            continue;
+                        }
+                    }
+                    $responseData = ['message' => 1, 'totalR' => ($highestRow - 1), 'totalC' => count($this->creators), 'totalE' => count($this->errors), 'creators' => $this->creators, 'errors' => $this->errors];
+                    $newResponse = $response->withHeader('Content-type', 'application/json');
+                    return $newResponse->withJson($responseData, 200);
+                } catch ( PhpLabelException $exception) {
+                    die( "Error :" . $exception->getMessage());
+                }
+            }
+        }
+    }
+
+    function proccess_register_de_en_roll(Request $request, Response $response)
+    {
+        $dataOK = $request->getParam('data');
+        for($i = 0; $i < count($dataOK); $i++){
+            Register::where(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']])->delete();
+            RegisterArchive::Create($dataOK[$i]);
+        }
+    }
     function getCourses(Request $request, Response $response) : Response
     {
         switch($this->auth->user()->id_institucion)
@@ -227,4 +321,15 @@ class RegisterController extends Controller
             return $response->withStatus(500)->write('0');
         }
     }
+
+    protected function saveRegister(Request $request)
+    {
+        $register = new Register;
+        $register->curso = $request->getParam('curso');
+        $register->instancia = substr($request->getParam('curso'), 0, 1);
+        $register->usuario = $request->getParam('usuario');
+        $register->rol = $request->getParam('rol');
+        return $register;
+    }
+
 }

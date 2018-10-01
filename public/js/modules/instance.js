@@ -8,6 +8,7 @@ $(".addinstance").on('click', function (event) {
   event.preventDefault();
   $('#instanceCreateForm')[0].reset();
   $('#instanceCreateForm').attr('action', $(this).attr('data-href'));
+  $("input[name=codigo]").attr('readonly', false);
   $('#instanceCreateModal').modal('show');
 });
 

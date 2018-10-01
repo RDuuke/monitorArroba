@@ -1,0 +1,27 @@
+<form id="registerCreateForm" action="{{ path_for('admin.store.register') }}" method="post">
+    <div class="ed-container">
+        <div class="ed-item s-100">
+            <div class="form-group">
+                <label for="curso">Código del curso</label>
+                <input type="number" name="curso" placeholder="ej: 10101000" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="usuario">usuario</label>
+                <input name="usuario" type="text" class="form-control" placeholder="ej: usuario@dominio.edu.co">
+            </div>
+            <div class="form-group">
+                <label for="rol">rol</label>
+                <select name="rol" id="rol" class="form-control" >
+                    <option value="student">student</option>
+                    <option value="teacher">teacher</option>
+                    <option value="editingteacher">editingteacher</option>
+                    {% if auth.user.id_institucion == codigo_arroba_medellin %}
+                        <option value="manager">manager</option>
+                    {% endif %}
+                </select>
+            </div>
+            <input type="hidden" name="fecha" value="{{ "now"| date("d-m-Y") }}">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</form>

@@ -24,7 +24,9 @@ color: #0093AE;
     font-size: 34px;
     color: #777777;
 }
-
+.text-black {
+    color: black;
+}
 
 .text-violeta {
     color: #591778;
@@ -34,8 +36,8 @@ color: #0093AE;
      color: #686668;
 }
 
-.text-azul{
-  color: #0099D9 !important;
+.text-azul, .text-info, .blue-light, .text-blue-light, .icon_a{
+  color: #009BDD !important;
 }
 
 #nav ul li a:hover {

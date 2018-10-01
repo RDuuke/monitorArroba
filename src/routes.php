@@ -1,15 +1,26 @@
 <?php
 
-$app->get("/", "AppController:index")->setName("home");
+$app->get("/", "AppController:index")->setName("home")->add( new \App\Middleware\GuestMiddleware($container));
 $app->post("/signin", "AuthController:signin")->setName("signin");
 $app->get("/signout", "AuthController:signout")->setName("signout");
-
+$app->get("/api/test", "ApiController:user");
 $app->get("/api/v1/student", "ApiController:alluser");
+
 $app->group("/panel", function (){
     /** Controller for view */
     $this->get("", "AppController:home")->setName("admin.home");
     $this->get("/students", "AppController:students")->setName("admin.students");
-    $this->get("/students/upload", "AppController:upload_students")->setName("admin.view.students.upload");
+    $this->get("/students/add", "AppController:studentAdd")->setName('admin.student.add');
+    $this->get("/students/upload", "AppController:upload_students")->setName('admin.upload.students');
+    $this->get("/user/add", "AppController:userAdd")->setName('admin.user.add');
+    $this->get("/register/add", "AppController:registerAdd")->setName('admin.register.add');
+    $this->get("/institution/add", "AppController:institutionAdd")->setName('admin.institution.add');
+    $this->get("/course/add", "AppController:courseAdd")->setName('admin.course.add');
+    $this->get("/program/add", "AppController:programAdd")->setName('admin.program.add');
+    $this->get("/instance/add", "AppController:instanceAdd")->setName('admin.instance.add');
+    $this->get("/instance/upload", "AppController:upload_students")->setName("admin.view.students.upload");
+    $this->get("/program/uploadarchive", "AppController:upload_students_archive")->setName("admin.view.student.upload.archive");
+    $this->get("/register/uploaddeenroll", "AppController:upload_register_de_enroll")->setName("admin.view.student.upload.deenroll");
     $this->get("/register/upload", "AppController:upload_registers")->setName("admin.upload.register");
     $this->get("/courses/upload", "AppController:upload_courses")->setName("admin.upload.courses");
     $this->get("/register", "AppController:registers")->setName("admin.register");
@@ -32,9 +43,13 @@ $app->group("/panel", function (){
     $this->post("/students/update/{id}", "StudentController:update")->setName("admin.students.update");
     $this->get("/students/all", "StudentController:all")->setName("admin.students.all");
     $this->post("/students", "StudentController:store")->setName("admin.students.store");
+    $this->get("/students/reset/{id}", "StudentController:reset")->setName("admin.students.reset");
+    $this->get("/students/archive/{id}", "StudentController:archive")->setName("admin.students.archive");
+    $this->post("/students/uploadarchive", "StudentController:uploadArchive")->setName("admin.view.student.upload.archive");
 
     /** Controller actions matricula */
     $this->post("/register/upload", "RegisterController:upload")->setName("admin.upload.register");
+    $this->post("/register/uploaddeenroll", "RegisterController:uploadDeEnRoll")->setName("admin.view.student.upload.deenroll");
     $this->get("/register/delete/{id}", "RegisterController:delete")->setName("admin.delete.register");
     $this->get("/register/show/{id}", "RegisterController:show")->setName("admin.show.register");
     $this->post("/register/update/{id}", "RegisterController:update")->setName("admin.update.register");
@@ -98,17 +113,22 @@ $app->group("/panel", function (){
     $this->get("/program/search[/{params}]", "ProgramController:search")->setName('admin.program.search');
     $this->get("/students/search[/{params}]", "StudentController:search")->setName('admin.student.search');
     $this->post("/students/upload/proccess", "StudentController:proccess")->setName('admin.student.proccess');
+    $this->post("/students/upload_archive/proccess", "StudentController:proccess_archive")->setName("admin.student.archive.proccess");
+    $this->post("/register/upload_register/proccess", "RegisterController:proccess_register_de_en_roll")->setName("admin.register.archive.proccess");
     $this->post("/register/upload/proccess", "RegisterController:proccess")->setName('admin.register.proccess');
     $this->post("/courses/upload/proccess", "CourseController:proccess")->setName('admin.course.proccess');
     $this->post("/users/permission[/{id}]", "StudentController:permission")->setName('admin.student.permission');
     $this->get("/users/permission/view/{id}", "StudentController:permissionAll")->setName('admin.student.permissionAll');
     $this->get("/users/permission/remove/{id}", "StudentController:remove")->setName('admin.student.remove');
     $this->get("/student/download/archive", "AppController:downloadStudent")->setName('admin.student.anexo');
+    $this->get("/student/download/student_archive", "AppController:downloadStudentArchive")->setName('admin.student.archive.anexo');
+    $this->get("/register/download/register_enroll", "AppController:downloadRegisterArchive")->setName('admin.register.archive.anexo');
     $this->get("/register/download/archive", "AppController:downloadArchive")->setName('admin.archive.anexo');
     $this->get("/course/download/archive", "AppController:downloadCourse")->setName('admin.course.anexo');
  })->add(new \App\Middleware\AuthMiddleware($container));
 
 $app->get("/test", function () {
     echo '<pre>';
-    print_r(\App\Models\MoodleCourse::all()->toArray());
+    $data = Illuminate\Database\Capsule\Manager::connection("db_pregrado")->select("SELECT DATE_FORMAT(FROM_UNIXTIME(la.timeaccess),'%d %b %Y') AS ultimoCur  FROM mdl_user u, mdl_role_assignments ra, mdl_context c, mdl_course co, mdl_user_lastaccess la WHERE u.id=ra.userid AND ra.contextid = c.id AND c.instanceid=co.id AND u.id=la.userid AND co.id=la.courseid AND u.username='juan.duque@arrobamedellin.edu.co' and co.idnumber=10501001");
+    print_r($data[0]->ultimoCur);
 });

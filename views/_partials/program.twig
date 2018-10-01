@@ -1,0 +1,46 @@
+<form id="programCreateForm" action="{{ path_for('admin.program.store') }}" method="post">
+    <div class="ed-container">
+        <div class="ed-item s-100 l-100">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input name="nombre" type="text" class="form-control" {{ getP(modulo_programas) == 3 ? '' : 'readonly' }}>
+            </div>
+            <div class="content_visible">
+                <label for="instance">Instancia</label>
+                {% if auth.user.id_rol >= 3 %}
+                    <input name="instance" type="text" class="form-control" {{ getP(modulo_programas) == 3 ? '' : 'readonly' }} value="{{ auth.user.institution }}" readonly >
+                {% else %}
+                    <select name="instance" id="instance" class="form-control">
+                        <option>Instancias</option>
+                        {% for instances in instances %}
+                            <option value="{{ instances.codigo }}">{{ instances.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+                <label for="institucion">institucion</label>
+                {% if auth.user.id_rol >= 3 %}
+                    <input name="codigo_institucion" type="text" class="form-control" {{ getP(modulo_programas) == 3 ? '' : 'readonly' }} value="{{ auth.user.institution }}" readonly >
+                {% else %}
+                    <select name="codigo_institucion" id="codigo_institucion" class="form-control">
+                        <option>Instituciones</option>
+                        {% for institucion in instituciones %}
+                            <option value="{{ institucion.codigo }}">{{ institucion.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+            </div>
+            <div class="content_visible">
+                <div class="form-group">
+                    <label for="codigo_program">Código</label>
+                    <input name="codigo_program" type="number" placeholder="ej: 00" class="form-control" {{ getP(modulo_programas) == 3 ? '' : 'readonly' }} min="00" max="99">
+                </div>
+                <div class="form-group">
+                    <input name="codigo_forma" type="number"  disabled class="form-control" min="00000" max="99999">
+                </div>
+            </div>
+            {% if getP(modulo_programas) == 3 %}
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            {% endif %}
+        </div>
+    </div>
+</form>

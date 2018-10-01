@@ -24,13 +24,29 @@ class InstitutionController extends Controller
 
             if (Institution::checkCodigo(trim($request->getParam('codigo')))) {
                 $institution = Institution::create(array_map('trim', $request->getParams()));
-                $data = ['message' => 1, 'institution' => $institution];
-                return $newResponse->withJson($data, 200);
+                if ($request->isXhr()) {
+                    $data = ['message' => 1, 'institution' => $institution];
+                    return $newResponse->withJson($data, 200);
+                }
+                $this->flash->addMessage("creators", "Institución creada correctamente");
+                return $response->withRedirect($this->router->pathFor("admin.institution.add"));
+            } else {
+                if ($request->isXhr()) {
+                    return $response->withStatus(500)->write("El código ingresado ya esta en uso");
+                } else {
+                    $this->flash->addMessage("errors","El código ingresado ya esta en uso");
+                    return $response->withRedirect($this->router->pathFor('admin.{.add'));
+                }
             }
             return $newResponse->withJson($data, 200);
         } catch (\Exception $e) {
-            $data['text'] = $e->getMessage();
-            return $newResponse->withJson($data, 200);
+            if ($request->isXhr()) {
+                $data['text'] = $e->getMessage();
+                return $newResponse->withJson($data, 200);
+            } else {
+                $this->flash->addMessage("errors", $e->getMessage());
+                return $response->withRedirect($this->router->pathFor('admin.institution.add'));
+            }
         }
     }
 

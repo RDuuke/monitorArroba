@@ -14,30 +14,18 @@ class UserController extends Controller
 {
     public function all(Request $request, Response $response)
     {
-        switch($this->auth->user()->id_institucion)
-            {
-                case "01":
-                    $users = User::pascual();
-                    break;
-                case "02":
-                    $users = User::colegio();
-                    break;
-                case "03":
-                    $users = User::itm();
-                break;
-                case  "04":
-                    $users = User::ruta();
-                break;
-                default :
-                    $users = User::all();
-                break;
-            }
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $users = User::where('id_institucion', $this->auth->user()->id_institucion)->get();
+        } else {
+            $users = User::all();
+        }
         $newResponse = $response->withHeader('Content-type', 'application/json');
         return $newResponse->withJson($users, 200);
     }
 
     public function store(Request $request, Response $response)
     {
+
         $data = ['message' => 0];
         $newResponse = $response->withHeader('Content-type', 'application/json');
         try {
@@ -46,8 +34,11 @@ class UserController extends Controller
             $user->save();
             FirstSingIn::create(['usuario' => $user->usuario, "singin" => 0]);
             Log::i("usuario " . $this->auth->user()->usuario . " registro al " . $request->getParam('usuario') . " en el ". Tools::getMessageModule(0));
-            $data = ['message' => 1, 'user' => $user];
-            return $newResponse->withJson($data, 200);
+            if ($request->isXhr()) {
+                $data = ['message' => 1, 'user' => $user];
+                return $newResponse->withJson($data, 200);
+            }
+            return $response->withRedirect($this->router->pathFor('admin.user.add'));
         } catch ( \Exception $e ) {
             Log::e("usuario " . $this->auth->user()->usuario . " registro al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0));
             return $newResponse->withJson($data, 200);
@@ -74,7 +65,7 @@ class UserController extends Controller
         try{
             if ($student != false) {
                 $data_array = ["message" => 2, "user" => $student];
-                Log::i("<<<<<<<<< " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+                Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
                 $newResponse = $response->withHeader('Content-type', 'application/json');
                 return $newResponse->withJson($data_array, 200);
             }
@@ -106,6 +97,7 @@ class UserController extends Controller
         $usuario = User::find($router->getArguments()['id']);
         $usuario->clave =  password_hash($usuario->documento, PASSWORD_DEFAULT);
         if ($usuario->save()) {
+            FirstSingIn::where('usuario', $usuario->usuario)->update(['singin' => 0]);
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson(['message' => 1], 200);
         }

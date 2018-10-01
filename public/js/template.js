@@ -1,58 +1,47 @@
-//$.noConflict();
-jQuery( document ).ready(function( $ ){
+$(".parent").on('click', function (e) {
+   e.preventDefault();
+    if($(this).parent('.dropdown-1') != false) {
+        $(".dropdown-2").removeClass('active-2');
+        $(this).next().addClass('active-2').slideToggle();
+        $(".dropdown-2:not(.active-2)").slideUp();
+    } else {
+        $(".dropdown-1").removeClass('active');
+        $(this).next().addClass('active').slideToggle();
+        $(".dropdown-1:not(.active)").slideUp();
+    }
+});
+$(".download-data").on('click', function (e) {
+   e.preventDefault();
+   $(".dt-buttons > .buttons-excel").trigger('click');
+});
 
-    var header = $(".head-menu");
-    var headerHeight = header.height();
-    var divContainer = header.children("div").eq(1);
-    var navHeight = divContainer.children("div").last().height();
-    var startHeight = headerHeight - navHeight;
-    var search = divContainer.children("div").first();
-    var imgHeader = divContainer.children("div").eq(1);
-    var social = divContainer.children("div").eq(2);
-    /*
-    console.log(headerHeight);
-    console.log(navHeight);
-    console.log(startHeight);
-    */
-    $(window).scroll(function(){
-        var top = $(window).scrollTop();
-        //console.log(startHeight);
-        //console.log(top);
-        if(top > 148){
-            search.addClass("d-none");
-            imgHeader.addClass("d-none");
-            social.addClass("d-none");
-            $("#slide").addClass("top-margin-215");
-            header.addClass("header-fixed");
-            header.addClass("btn_scr");
-            $("#logo").addClass("invisible");
-            $("#logo_r").removeClass("invisible");
-            $("#nav").addClass("menu_r");
-        }
-        else{
-            search.removeClass("d-none");
-            imgHeader.removeClass("d-none");
-            social.removeClass("d-none");
-            $("#slide").removeClass("top-margin-215");            
-            header.removeClass("header-fixed");  
-            header.removeClass("btn_scr");
-            $("#logo_r").addClass("invisible");
-            $("#logo").removeClass("invisible");
-            $("#nav").removeClass("menu_r");
-        }
-    });
-    
-  $('a[href^="#"]').on('click',function (e) {
-	    e.preventDefault();
+$("#codigo_institucion").change(function(e){
+    console.log('S');
+    $('input[name="codigo_forma"]').html("");
+    let codigo = $("#instance").val() + $(this).val() + $('input[name="codigo_program"]').val();
+    $('input[name="codigo_forma"]').val(codigo);
+});
 
-	    var target = this.hash;
-	    var $target = $(target);
+$("#instance").change(function(e){
+    console.log('S');
+    $('input[name="codigo_forma"]').html("");
+    let codigo = $(this).val() + $("#codigo_institucion").val() + $('input[name="codigo_program"]').val();
+    $('input[name="codigo_forma"]').val(codigo);
+});
 
-	    $('html, body').stop().animate({
-	        'scrollTop': $target.offset().top
-	    }, 900, 'swing', function () {
-	        window.location.hash = target;
-	    });
-	});
+$('input[name="codigo_program"]').blur(function(e){
+    $('input[name="codigo_forma"]').html("");
+    let codigo =  $("#instance").val() + $('#codigo_institucion').val() + $(this).val();
+    $('input[name="codigo_forma"]').val(codigo);
+});
 
+$("#id_programa").change(function(e){
+    console.log('S');
+    let codigo = $(this).val() + $('input[name="codigo"]').val();
+    $('input[name="codigo_forma"]').val(codigo);
+});
+
+$('input[name="codigo"]').blur(function(e){
+    let codigo =  $('#id_programa').val() + $(this).val();
+    $('input[name="codigo_forma"]').val(codigo);
 });

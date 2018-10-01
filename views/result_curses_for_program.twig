@@ -1,32 +1,44 @@
 {% extends "template/template.twig" %}
 {% block styles %}
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+
 {% endblock %}
 {% block content %}
-{% set n = 1 %}
-    <p>Cursos del programa {{ program.nombre | lower}}</p>
-    <p>Codigo: {{ program.codigo }}</p>
-    <table>
-        <thead>
-            <tr>
-                <th>Nro</th>
-                <th>Codigo</th>
-                <th>Cursos</th>
-                <th>Institución</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for course in curses %}
-            <tr>
-                <td>{{ n }}</td>
-                <td>{{ course.codigo }}</td>
-                <td><a href="{{ path_for("admin.search.program.course.student", { 'id' : course.codigo} ) }}">{{ course.nombre }}</a></td>
-                <td>{{ program.institution.nombre }}</td>
-            </tr>
-            {% set n = n + 1 %}
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="separator"></div>
+    <div class="ed-container full">
+        <div class="ed-item s-100 l-50">
+            <h3>Cursos por programa</h3>
+            <p><b>Programa: </b>{{ program.nombre | title }}</p>
+            <p><b>Codigo: </b>{{ program.codigo }}</p>
+        </div>
+        <div class="ed-item s-100 l-50"></div>
+    </div>
+    <div class="separator"></div>
+    <div class="ed-container full">
+        <div class="ed-item s-100">
+            <table>
+                <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Cursos</th>
+                    <th>Institución</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for course in curses %}
+                    <tr>
+                        <td>{{ course.codigo }}</td>
+                        <td><a href="{{ path_for("admin.search.program.course.student", { 'id' : course.codigo} ) }}">{{ course.nombre }}</a></td>
+                        <td>{{ getInstitution(course.id_programa, 1) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="separator"></div>
+
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
@@ -38,31 +50,38 @@
 
 <script>
      $('table').DataTable({
-        dom: 'Bfrtip',
-        buttons : [{
-            extend: 'excel',
-            title: 'Cursos del programa {{ program.nombre }}',
-            text: '<i class="icon icon-file-text-o"></i> Descargar en excel',
-            className: 'btn btn-success'
-        }],
+        dom: 'Blfrtip',
+         buttons : [{
+             extend: 'excel',
+             title: 'Usuarios',
+             text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
+             className: 'btn btn-info'
+         }],
         lengthMenu: [15, 25, 50, 75, 100 ],
-        language: {
-            "lengthMenu": "Mostrar _MENU_ registros por pagina",
-            "zeroRecords": "No hay resultados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No registros disponible",
-            "infoFiltered": "(Busqueda de _MAX_ total registros)",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "loadingRecords": "Cargando...",
-            "next" : "Siguiente",
-            "paginate": {
-                "first":      "Primera",
-                "last":       "Ultima",
-                "next":       "Siguiente",
-                "previous":   "Anterior"
-            },
-        }
+         language: {
+             "sProcessing":     "Procesando...",
+             "sLengthMenu":     "Registros por pagina: _MENU_ ",
+             "sZeroRecords":    "No se encontraron resultados",
+             "sEmptyTable":     "Ningún dato disponible en esta tabla",
+             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+             "sInfoPostFix":    "",
+             "sSearch":         "Buscar:",
+             "sUrl":            "",
+             "sInfoThousands":  ",",
+             "sLoadingRecords": "Cargando...",
+             "paginate": {
+                 "first":      "Primera",
+                 "last":       "Ultima",
+                 "next":       "Siguiente <i class='fa fa-angle-right'></i>",
+                 "previous":   "<i class='fa fa-angle-left'></i> Anterior"
+             },
+             "oAria": {
+                 "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+             }
+         },
      });
 </script>
 {% endblock %}

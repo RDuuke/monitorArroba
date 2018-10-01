@@ -6,7 +6,7 @@ class Student extends Model
 {
     protected $table = "usuario";
 
-    protected $fillable = ['usuario', 'clave', 'nombres', 'correo', 'apellidos', 'documento', 'institucion', 'genero', 'ciudad', 'departamento', 'pais', 'telefono', 'celular', 'direccion'];
+    protected $fillable = ['usuario', 'clave', 'nombres', 'correo', 'apellidos', 'documento', 'institucion', 'genero', 'ciudad', 'departamento', 'pais', 'telefono', 'celular', 'direccion', 'fecha'];
 
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -28,9 +28,19 @@ class Student extends Model
         return strtoupper($value);
     }
 
+    public function getFechaAttribute($value)
+    {
+        $date = new \DateTime($value);
+        return $date->format('d-m-Y');
+    }
     public function registers()
     {
         return $this->hasMany(Register::class, 'usuario', 'usuario');
+    }
+
+    public function registershistoricos()
+    {
+        return $this->hasMany(RegisterArchive::class, 'usuario', 'usuario');
     }
 
     public function scopeRutaN($query)
@@ -48,9 +58,10 @@ class Student extends Model
         return $query->where('institucion', 'Institución Universitaria Colegio Mayor de Antioquia')->get()->toArray();
     }
 
-    public function scopeITM($query)
+    public function scopeMujeres($query)
     {
-        return $query->where('institucion', 'Institución Universitaria ITM')->get()->toArray();
+        return $query->where('institucion', 'Secretaría de las mujeres')->get()->toArray();
     }
+
 
 }

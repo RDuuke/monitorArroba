@@ -42,3 +42,157 @@ INFO[16-08-2018 11:54:49]: [Creación] usuario juuanduuke@gmail.com registro al 
 INFO[16-08-2018 04:48:29]: [Creación] usuario juuanduuke@gmail.com registro al sadia.giraldo@pascualbravo.edu.co en el módulo usuarios plataforma 
 INFO[17-08-2018 11:43:49]: [Creación] usuario juuanduuke@gmail.com registro al julio.martinez@arrobamedellin.edu.co en el módulo usuarios plataforma 
 INFO[17-08-2018 01:39:29]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co registro al pablo.barrientos@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[17-08-2018 04:03:21]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:03:48]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:03:59]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:04:10]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:04:20]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:06:17]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:10:46]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:11:42]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:11:56]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:12:26]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:13:36]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:16:19]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+ERROR[17-08-2018 04:16:37]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+ERROR[17-08-2018 04:16:51]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+ERROR[17-08-2018 04:16:57]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+ERROR[17-08-2018 04:17:38]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+ERROR[17-08-2018 04:19:26]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+ERROR[17-08-2018 04:19:41]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+ERROR[17-08-2018 04:19:53]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+ERROR[17-08-2018 04:20:25]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+INFO[17-08-2018 04:21:32]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+INFO[17-08-2018 04:22:04]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[17-08-2018 04:22:09]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test 2 en el módulo programas 
+INFO[21-08-2018 10:11:54]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co registro al sara.lopez@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[21-08-2018 02:52:38]: [Creación] usuario giselle.tamayo@arrobamedellin.edu.co registro al oscar.durango@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[21-08-2018 02:53:43]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juan.duque@gmail.com en módulo usuarios campus 
+INFO[21-08-2018 03:12:27]: [Actualización] El usuario_monitor juuanduuke@gmail.com actualizo al usuario_campus juan.duque@gmail.com en módulo usuarios campus 
+INFO[21-08-2018 03:20:55]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juan.duque@gmail.com en módulo usuarios campus 
+INFO[21-08-2018 04:32:40]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juan.duque@gmail.com en módulo usuarios campus 
+INFO[21-08-2018 04:44:45]: [Actualización] El usuario_monitor samayda.herrera@arrobamedellin.edu.co actualizo al usuario_campus d.zapata1968@pascualbravo.edu.co en módulo usuarios campus 
+INFO[21-08-2018 04:52:47]: [Actualización] El usuario_monitor samayda.herrera@arrobamedellin.edu.co actualizo al usuario_campus m.perez1679@pascualbravo.edu.co en módulo usuarios campus 
+INFO[23-08-2018 11:11:07]: [Actualización] usuario oscar.durango@arrobamedellin.edu.co actualizo al  en el módulo usuarios plataforma 
+ERROR[24-08-2018 03:13:29]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co registro al pablo.barrientos@arrobamedellin.edu.co en el módulo usuarios plataforma 
+ERROR[24-08-2018 03:13:34]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co registro al pablo.barrientos@arrobamedellin.edu.co en el módulo usuarios plataforma 
+INFO[27-08-2018 04:01:15]: [Actualización] El usuario_monitor samayda.herrera@arrobamedellin.edu.co actualizo al usuario_campus j.barrera1583@pascualbravo.edu.co en módulo usuarios campus 
+INFO[29-08-2018 11:47:42]: [Actualización] usuario juuanduuke@gmail.com actualizo al  en el módulo usuarios plataforma 
+INFO[30-08-2018 12:00:33]: [Creación] usuario juuanduuke@gmail.com registro al juanduke@gmail.com en el módulo usuarios plataforma 
+INFO[30-08-2018 12:02:41]: [Eliminación] usuario juuanduuke@gmail.com elimino al juanduke@gmail.com en el módulo usuarios plataforma 
+INFO[30-08-2018 11:04:32]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo usuarios campus 
+ERROR[30-08-2018 11:13:17]: [Creación] 0 
+ERROR[30-08-2018 11:13:22]: [Creación] 0 
+INFO[30-08-2018 11:21:48]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo usuarios campus 
+INFO[30-08-2018 11:37:01]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo usuarios campus 
+INFO[30-08-2018 11:38:17]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo usuarios campus 
+INFO[30-08-2018 01:31:49]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juan.duque@gmail.com en módulo usuarios campus 
+INFO[30-08-2018 04:31:58]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus samayda.herrera@arrobamedellin.edu.co en módulo usuarios campus 
+INFO[30-08-2018 04:33:18]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus soporte@arrobamedellin.edu.co en módulo usuarios campus 
+INFO[03-09-2018 04:46:02]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus linavalencia@itm.edu.co en módulo usuarios campus 
+INFO[04-09-2018 11:18:33]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co creo la Pruba en el módulo instancias 
+INFO[04-09-2018 11:18:49]: [Eliminación] usuario samayda.herrera@arrobamedellin.edu.co elimino al Pruba en el módulo instancias 
+INFO[06-09-2018 02:28:31]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus loaizaoswaldo389@gmail.com en módulo Usuarios Campus 
+INFO[06-09-2018 02:44:21]: [Creación] usuario juuanduuke@gmail.com registro al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[06-09-2018 02:44:31]: [Eliminación] usuario juuanduuke@gmail.com elimino al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[07-09-2018 02:22:33]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co registro al alvaro.franco@colmayor.edu.co en el módulo Usuarios @Monitor 
+INFO[07-09-2018 02:23:08]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co registro al thilmajacobs@gmail.com en el módulo Usuarios @Monitor 
+INFO[07-09-2018 04:47:16]: [Actualización] usuario giselle.tamayo@arrobamedellin.edu.co actualizo al  en el módulo Usuarios @Monitor 
+INFO[11-09-2018 03:06:17]: [Creación] usuario juuanduuke@gmail.com registro al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[11-09-2018 03:06:43]: [Eliminación] usuario juuanduuke@gmail.com elimino al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[11-09-2018 03:11:52]: [Creación] usuario juuanduuke@gmail.com registro al yeisonbenitez268806@correo. itm.edu.co en el módulo Usuarios @Monitor 
+INFO[11-09-2018 03:12:16]: [Eliminación] usuario juuanduuke@gmail.com elimino al yeisonbenitez268806@correo. itm.edu.co en el módulo Usuarios @Monitor 
+INFO[11-09-2018 03:19:16]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[11-09-2018 03:19:36]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[11-09-2018 04:19:45]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus lina.ortiz@pascualbravo.edu.co en módulo Usuarios Campus 
+INFO[13-09-2018 02:12:07]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus erney.betancur@epm.com.co en módulo Usuarios Campus 
+INFO[13-09-2018 02:13:37]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus Ivan.Jimenez@epm.com.co en módulo Usuarios Campus 
+INFO[13-09-2018 04:57:43]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@arrobamedellin.edu.co en el módulo Usuarios @Monitor 
+INFO[14-09-2018 11:11:27]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus correo@pascualbravo.edu.co en módulo Usuarios Campus 
+INFO[14-09-2018 11:30:42]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[14-09-2018 11:31:29]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[14-09-2018 11:31:39]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[14-09-2018 11:32:16]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[14-09-2018 11:32:28]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[14-09-2018 11:38:03]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co registro al colmayor@colmayor.com en el módulo Usuarios @Monitor 
+INFO[14-09-2018 11:39:17]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co registro al pascual@pascual.com en el módulo Usuarios @Monitor 
+INFO[14-09-2018 11:40:10]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[14-09-2018 02:17:45]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co creo la Colmayor en el módulo instancias 
+INFO[17-09-2018 10:19:32]: [Creación] El usuario_monitor oscar.durango@arrobamedellin.edu.co registro al usuario_campus oscar.durango@arrobamedellin.edu.co en módulo Usuarios Campus 
+INFO[17-09-2018 10:45:39]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus samayda2@arrobamedellin.edu.co en módulo Usuarios Campus 
+INFO[17-09-2018 10:47:33]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus oscar@arrobamedellin.edu.co en módulo Usuarios Campus 
+INFO[17-09-2018 12:05:56]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 12:06:22]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 12:07:35]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 12:08:13]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 12:08:29]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 12:09:23]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 12:09:33]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 12:10:05]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 12:15:19]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+ERROR[17-09-2018 12:15:28]: [Creación] 0 
+ERROR[17-09-2018 12:16:14]: [Creación] 0 
+ERROR[17-09-2018 12:17:13]: [Creación] 0 
+ERROR[17-09-2018 12:31:32]: [Creación] 0 
+ERROR[17-09-2018 12:34:53]: [Creación] 0 
+ERROR[17-09-2018 12:35:44]: [Creación] 0 
+ERROR[17-09-2018 12:37:26]: [Creación] 0 
+ERROR[17-09-2018 12:38:16]: [Creación] 0 
+ERROR[17-09-2018 12:44:09]: [Creación] 0 
+INFO[17-09-2018 12:47:05]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 01:12:56]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus carousi123@gmail.com en módulo Usuarios Campus 
+INFO[17-09-2018 01:58:38]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus jacevedo@pascualbravo.edu.co en módulo Usuarios Campus 
+INFO[17-09-2018 02:00:38]: [Creación] usuario juuanduuke@gmail.com creo la Instancia test en el módulo instancias 
+INFO[17-09-2018 02:02:07]: [Creación] usuario juuanduuke@gmail.com creo la  en el módulo instancias 
+INFO[17-09-2018 02:02:34]: [Eliminación] usuario juuanduuke@gmail.com elimino al Instancia test en el módulo instancias 
+INFO[17-09-2018 02:02:44]: [Creación] usuario juuanduuke@gmail.com creo la Institucion test en el módulo instancias 
+INFO[17-09-2018 02:02:58]: [Eliminación] usuario juuanduuke@gmail.com elimino al Institucion test en el módulo instancias 
+INFO[17-09-2018 02:04:54]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test en el módulo programas 
+INFO[17-09-2018 02:05:24]: [Eliminación] usuario juuanduuke@gmail.com elimino al Programa test en el módulo programas 
+ERROR[17-09-2018 02:07:56]: [Creación] 0 
+INFO[17-09-2018 02:57:33]: [Eliminación] usuario juuanduuke@gmail.com elimino al thilmajacobs@gmail.com en el módulo Usuarios @Monitor 
+INFO[17-09-2018 02:57:37]: [Eliminación] usuario juuanduuke@gmail.com elimino al alvaro.franco@colmayor.edu.co en el módulo Usuarios @Monitor 
+INFO[18-09-2018 11:18:40]: [Eliminación] El usuario_monitor juuanduuke@gmail.com elimino al usuario_campus juuanduuke@gmail.com en módulo Usuarios Campus 
+INFO[18-09-2018 04:23:44]: [Creación] usuario juan.duque@arrobamedellin.edu.co registro al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:23:53]: [Actualización] <<<<<<<<< juan.duque@arrobamedellin.edu.co actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:26:08]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:26:45]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:27:04]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:27:13]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:27:21]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:27:27]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:27:30]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:28:48]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[18-09-2018 04:34:23]: [Actualización] <<<<<<<<< juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[19-09-2018 10:07:02]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus fernando.montes@medellin.gov.co en módulo Usuarios Campus 
+INFO[19-09-2018 05:06:38]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus pruebagestion1@arrobamedelllin.edu.co en módulo Usuarios Campus 
+INFO[20-09-2018 01:56:52]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus instruccional7.virtual@pascualbravo.edu.co en módulo Usuarios Campus 
+INFO[20-09-2018 02:24:48]: [Creación] El usuario_monitor colmayor@colmayor.com registro al usuario_campus danncamo@dinamicaips.com.co en módulo Usuarios Campus 
+ERROR[20-09-2018 03:27:55]: [Creación] 0 
+INFO[24-09-2018 02:51:56]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co creo la ITM en el módulo instancias 
+INFO[24-09-2018 02:52:20]: [Creación] usuario samayda.herrera@arrobamedellin.edu.co creo la Pascual Bravo en el módulo instancias 
+INFO[25-09-2018 10:36:34]: [Creación] usuario juuanduuke@gmail.com creo la Instancia en el módulo instancias 
+INFO[25-09-2018 10:37:03]: [Eliminación] usuario juuanduuke@gmail.com elimino al Instancia en el módulo instancias 
+INFO[25-09-2018 10:37:40]: [Creación] usuario juuanduuke@gmail.com creo la Instancia en el módulo instancias 
+INFO[25-09-2018 10:37:50]: [Eliminación] usuario juuanduuke@gmail.com elimino al Instancia en el módulo instancias 
+INFO[25-09-2018 11:23:23]: [Creación] usuario juuanduuke@gmail.com creo la tdea en el módulo instancias 
+INFO[25-09-2018 11:27:05]: [Eliminación] usuario juuanduuke@gmail.com elimino al tdea en el módulo instancias 
+INFO[25-09-2018 11:33:08]: [Creación] usuario juuanduuke@gmail.com creo la tdea en el módulo instancias 
+INFO[25-09-2018 11:47:56]: [Eliminación] usuario juuanduuke@gmail.com elimino al tdea en el módulo instancias 
+INFO[25-09-2018 12:15:35]: [Actualización] usuario juuanduuke@gmail.com actualizo al juan.duque@gmail.com en el módulo Usuarios @Monitor 
+INFO[25-09-2018 02:15:31]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus estudiante-iupb@pascualbravo.edu.co en módulo Usuarios Campus 
+INFO[25-09-2018 02:41:18]: [Actualización] usuario samayda.herrera@arrobamedellin.edu.co actualizo la iupb en el módulo instancias 
+INFO[25-09-2018 02:41:36]: [Actualización] usuario samayda.herrera@arrobamedellin.edu.co actualizo la mainsite en el módulo instancias 
+INFO[26-09-2018 08:41:36]: [Creación] usuario giselle.tamayo@arrobamedellin.edu.co registro al bi.arango@pascualbravo.edu.co en el módulo Usuarios @Monitor 
+INFO[27-09-2018 12:11:11]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus grherazo@outlook.com en módulo Usuarios Campus 
+INFO[28-09-2018 02:18:06]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus luisa.arenas@colmayor.edu.co en módulo Usuarios Campus 
+INFO[28-09-2018 02:18:33]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus daniel.castrillon@colmayor.edu.co en módulo Usuarios Campus 
+INFO[28-09-2018 02:19:19]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus dora.echavarria@colmayor.edu.co en módulo Usuarios Campus 
+INFO[28-09-2018 02:19:45]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus yanderin.mejia@colmayor.edu.co en módulo Usuarios Campus 
+INFO[28-09-2018 02:20:18]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus diego.rendon@colmayor.edu.co en módulo Usuarios Campus 
+INFO[28-09-2018 02:43:25]: [Creación] El usuario_monitor samayda.herrera@arrobamedellin.edu.co registro al usuario_campus juliomzarate5@gmail.com en módulo Usuarios Campus 
+INFO[28-09-2018 04:05:54]: [Creación] El usuario_monitor juuanduuke@gmail.com registro al usuario_campus juan.duque@gmail.com en módulo Usuarios Campus 
+INFO[28-09-2018 04:09:22]: [Creación] El usuario_monitor juan.duque@gmail.com registro al usuario_campus juan.duque@gmail.com en módulo Usuarios Campus 
+INFO[01-10-2018 10:52:29]: [Creación] El usuario_monitor giselle.tamayo@arrobamedellin.edu.co registro al usuario_campus Claudia en módulo Usuarios Campus 
+INFO[01-10-2018 10:53:54]: [Actualización] El usuario_monitor giselle.tamayo@arrobamedellin.edu.co actualizo al usuario_campus claudia.giraldo@sapiencia.gov.co en módulo Usuarios Campus 
+INFO[01-10-2018 10:54:51]: [Actualización] El usuario_monitor giselle.tamayo@arrobamedellin.edu.co actualizo al usuario_campus claudia.giraldo@sapiencia.gov.co en módulo Usuarios Campus 

@@ -2,16 +2,16 @@
 $("#box-search").on("click", async function(e){
     e.preventDefault();
     let param = $(".box-search").val();
-    let element = $("#table_result tbody");
+    let element = $(".list-group");
     let route = $(this).attr('route-get');
     let route_item = $(this).attr('base-route-item');
     let type = $(this).attr("tipo");
     if (param == '') {
-        $("#table_result tbody").html('');
+        element.html('');
         return true;
     }
     //console.log(result);
-    $("#table_result tbody").html("");
+    element.html("");
     functions.searchRender(route + param, element);
     //console.log(result);
     $("#load").removeClass('none').addClass('block');

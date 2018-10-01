@@ -18,6 +18,8 @@ $("#formFile").on('submit', function(event){
         },
         data: form
     }).done(response => {
+        delete formOk;
+        delete formAlert;
         toastr.remove();
         $("#tableResult tbody").html("");
         let i = 0, a = 0;
@@ -28,6 +30,7 @@ $("#formFile").on('submit', function(event){
         $("#totalR").html(response.totalc);
         $("#totalE").html(response.totale);
         $("#totalA").html(response.totala);
+        $("p.fadein").addClass('flex').addClass('align-items-center');
         $(".fadein").fadeIn();
         $("form")[0].reset();
     }).fail(error => {
@@ -79,8 +82,8 @@ function renderData(value, classes, saveData = []) {
             "<td>"+value.correo+"</td>"+
             "<td>"+value.documento+"</td>"+
             "<td>"+value.genero+"</td>"+
-            "<td>"+value.institucion+"</td>"+
             "<td>"+value.ciudad+"</td>"+
+            "<td>"+value.institucion+"</td>"+
             "<td>"+value.departamento+"</td>"+
             "<td>"+value.pais+"</td>"+
             "<td>"+value.telefono+"</td>"+

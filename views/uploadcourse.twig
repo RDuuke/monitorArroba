@@ -6,11 +6,11 @@
 {% endblock %}
 {% block content %}
     <div class="ed-container full">
-        <div class="ed-item s-100 l-100">
+        <div class="ed-item s-100 l-100 padding-2-em-botom">
             <h2>Análisis de archivo de carga de matriculas</h2>
             <div class="separator"></div>
             <div class="ed-container ed-item s-100">
-                <a href="{{ path_for('admin.courses') }}" class="btn btn-info"> <i class="fa fa-long-arrow-left"></i> Volver</a>
+                <a href="{{ path_for('admin.courses') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
             </div>
             <p>
                 Esta aplicación, permitirá analizar un archivo <a download href="{{ path_for('admin.course.anexo') }}">Anexo 3</a>, para identificar usuarios repetidos o errores en la carga. <br> Descargue el formato Anexo 3 a continuación y una vez diligenciado, adjúntelo haciendo clic en el botón "Seleccionar archivo".

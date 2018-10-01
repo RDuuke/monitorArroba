@@ -32,4 +32,9 @@ class Institution extends Model
         }
         return false;
     }
+
+    static function getNameInstitutionForCodigo($codigo)
+    {
+        return Institution::where("codigo", $codigo)->first()->nombre;
+    }
 }

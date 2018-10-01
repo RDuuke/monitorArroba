@@ -1,7 +1,7 @@
 <?php
 namespace App\Auth;
 use App\Models\FirstSingIn;
-use App\Models\Module;
+use App\Models\Permission;
 use App\Models\User;
 use App\Tools\Tools;
 
@@ -9,12 +9,20 @@ class Auth
 {
     public function attempt($email, $password)
     {
-        $user = (object) User::where('usuario', '=', $email)->first()->toArray();
+        $user = User::where('usuario', '=', $email)->first();
         if (!$user) {
             return false;
         }
+        $user = (object) $user->toArray();
         if (password_verify($password, $user->clave)) {
             $_SESSION['user'] = $user;
+            foreach(Permission::where('user_id', '=', $user->id)->get()->toArray() as $k => $v){
+                foreach ($v as $k2 => $v2) {
+                    $_SESSION['permission']['modules'][$v2] = $v;
+                    break;
+                }
+
+            }
             return true;
         }
         return false;
@@ -29,13 +37,9 @@ class Auth
     }
     public function logout()
     {
-        unset($_SESSION['user']);
+        session_destroy();
     }
 
-    public function getPermission($module)
-    {
-        return $module;
-    }
 
     public function getInstitution()
     {
@@ -57,5 +61,10 @@ class Auth
             return false;
         }
         return true;
+    }
+
+    public function getPermissionForModule($module)
+    {
+        return $_SESSION['permission']['modules'][$module]['permiso'];
     }
 }

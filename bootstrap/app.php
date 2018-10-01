@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__DIR__) . DS . "vendor" . DS ."autoload.php";
 
+use App\Models\Program;
 use App\Tools\Tools;
-use Slim\App;
 use Illuminate\Database\Capsule\Manager;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
@@ -18,59 +18,22 @@ use App\Controllers\CourseController;
 use App\Controllers\ApiController;
 use App\Auth\Auth;
 use Slim\Flash\Messages;
-/*
-$app = new App([
-    'settings' => [
-        'determineRouteBeforeAppMiddeware' => false,
-        'displayErrorDetails' => true,
-    'db' => [
-            'driver' => 'mysql',
-            'host' => 'localhost',
-            'database' => 'arroba_monitor',
-            'username' => 'root',
-            'password' => '',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-        ]
-    ]
-]);
-*/
-$app = new App([
-    'settings' => [
-        'determineRouteBeforeAppMiddeware' => false,
-        'displayErrorDetails' => true,
-        'db' => [
-            'driver' => 'mysql',
-            'host' => '195.190.82.247',
-            'database' => 'gestion_arroba',
-            'username' => 'arrobamedellin',
-            'password' => 'vex3SP83xLeGQFNZ',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'options' => [\PDO::ATTR_EMULATE_PREPARES => true],
-        ],
-        'db_moodle' => [
-            'driver' => 'mysql',
-            'host' => '195.190.82.247',
-            'database' => 'zadmin_mdlmainsiteproduccion',
-            'username' => 'arrobamedellin',
-            'password' => 'vex3SP83xLeGQFNZ',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'options' => [\PDO::ATTR_EMULATE_PREPARES => true],
-        ]
-    ]
-]);
+
+$app = new Slim\App(include_once dirname(__DIR__) . DS . "bootstrap" . DS . "database.php");
 
 $container = $app->getContainer();
 $capsule = new Manager;
 $capsule->addConnection($container['settings']['db']);
-$capsule->addConnection($container['settings']['db_moodle'], "db_moodle");
+$capsule->addConnection($container['settings']['db_pregrado'], "db_pregrado");
+$capsule->addConnection($container['settings']['db_postgrado'], "db_postgrado");
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
+$whoopsGuard = new \Zeuxisoo\Whoops\Provider\Slim\WhoopsGuard();
+$whoopsGuard->setApp($app);
+$whoopsGuard->setRequest($container['request']);
+$whoopsGuard->setHandlers([]);
+$whoopsGuard->install();
+
 $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
@@ -94,6 +57,9 @@ $container['view'] = function ($container) {
         $container->router,
         $container->request->getUri()
     ));
+    $view->addExtension(new Knlv\Slim\Views\TwigMessages(
+        new Slim\Flash\Messages()
+    ));
     $view->getEnvironment()->addGlobal('modulo_plataforma', Tools::codigoUsuarioPlataforma);
     $view->getEnvironment()->addGlobal('modulo_campus', Tools::codigoUsuarioCampus);
     $view->getEnvironment()->addGlobal('modulo_instancias', Tools::codigoInstancias);
@@ -102,15 +68,19 @@ $container['view'] = function ($container) {
     $view->getEnvironment()->addGlobal('modulo_cursos', Tools::codigoCursos);
     $view->getEnvironment()->addGlobal('modulo_matriculas', Tools::codigoMatriculas);
     $view->getEnvironment()->addGlobal('modulo_busqueda', Tools::codigoBusqueda);
+    $view->getEnvironment()->addGlobal('codigo_arroba_medellin', Tools::codigoMedellin());
+    $view->getEnvironment()->addGlobal('lectura', Tools::Lectura);
+    $view->getEnvironment()->addGlobal('lectura_escritura', Tools::LecturaEscritura);
+    $view->getEnvironment()->addGlobal('session', $_SESSION);
 
     $view->getEnvironment()->addGlobal('auth', [
         'check' => $container->auth->check(),
         'user' => $container->auth->user(),
     ]);
+    $view->getEnvironment()->addGlobal('tools', Tools::$Modules);
 
     $view->getEnvironment()->addGlobal('base_url', (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST']. "");
 
-    $view->getEnvironment()->addGlobal('flash', $container->flash);
 
     $function = new Twig_SimpleFunction('getPermission', function ($module, $user) {
         $permission = \App\Models\Permission::where("modulo_id", $module)->where("user_id", $user)->first();
@@ -128,12 +98,53 @@ $container['view'] = function ($container) {
     });
     $view->getEnvironment()->addFunction($function);
 
-    $function = new Twig_SimpleFunction('getInstitution', function ($codigo) {
-        $i = substr($codigo,1, 2);
-        $nombre = \App\Models\Institution::where("codigo", $i)->first();
-        return $nombre->nombre;
+    $function = new Twig_SimpleFunction('getInstitution', function ($codigo, $type = 0) {
+        if ($type == 0) {
+            $nombre = \App\Models\Institution::where("codigo", $codigo)->first();
+            return $nombre->nombre;
+        } else if ($type == 1) {
+            $program = \App\Models\Program::where("codigo", $codigo)->first();
+            return $program->codigo_institucion;
+        }
+        $curso = \App\Models\Course::where("codigo", $codigo)->first();
+        return $curso->programs->codigo_institucion;
+    });
+
+
+    $view->getEnvironment()->addFunction($function);
+
+    $function = new Twig_SimpleFunction('getPrograma', function ($codigo) {
+        $program = Program::where("codigo", $codigo)->first();
+        return $program->nombre;
+    });
+
+
+    $view->getEnvironment()->addFunction($function);
+
+    $function = new Twig_SimpleFunction('getP', function ($modulo) {
+
+        return isset($_SESSION['permission']['modules'][$modulo]['permiso']) ? $_SESSION['permission']['modules'][$modulo]['permiso'] : false;
     });
     $view->getEnvironment()->addFunction($function);
+
+    $function = new Twig_simpleFunction("getLastEntry", function ($codigo, $username){
+        $sql = "SELECT DATE_FORMAT(FROM_UNIXTIME(la.timeaccess),'%d %b %Y') AS ultimoCur  FROM mdl_user u, mdl_role_assignments ra, mdl_context c, mdl_course co,
+                                                        mdl_user_lastaccess la 
+                                                        WHERE u.id=ra.userid AND ra.contextid = c.id AND c.instanceid=co.id AND u.id=la.userid AND co.id=la.courseid AND u.username='$username'
+                                                        AND co.idnumber=$codigo";
+
+        if (substr($codigo, 0, 1) == 1) {
+            $data = Manager::connection("db_pregrado")->select($sql);
+        } else if($codigo == "") {
+          return "no registro";
+        } else {
+            $data = Manager::connection("db_postgrado")->select($sql);
+        }
+        return $data[0]->ultimoCur != "" ? $data[0]->ultimoCur : 'Nunca';
+    });
+
+    $view->getEnvironment()->addFunction($function);
+
     return $view;
 };
 $container['notFoundHandler'] = function ($container) {
@@ -142,13 +153,14 @@ $container['notFoundHandler'] = function ($container) {
             ->render($container['response'], "errors/404.twig");
     };
 };
+/*
 $container['phpErrorHandler'] = function ($container) {
     return function ($request, $response) use ($container) {
         return $container['view']
             ->render($container['response'], "errors/500.twig");
     };
 };
-
+*/
 $container['AppController'] = function ($container)
 {
     return new AppController($container);

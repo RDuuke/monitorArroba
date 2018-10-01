@@ -8,41 +8,7 @@
             </button>
         </div>
         <div id="message_form"></div>
-        <form id="programCreateForm" action="{{ path_for('admin.courses.store') }}">
-        <div class="ed-container">
-          <div class="ed-item s-100 l-100">
-            <div class="form-group">
-              <label for="nombre">Nombre</label>
-              <input name="nombre" type="text" class="form-control" {{ getPermission(modulo_cursos, auth.user.id) == 3 ? '' : 'readonly' }}>
-            </div>
-            <div class="form-group">
-              <label for="nombre_corto">Nombre corto</label>
-              <input name="nombre_corto" type="text" class="form-control" {{ getPermission(modulo_cursos, auth.user.id) == 3 ? '' : 'readonly' }}>
-            </div>
-            <label for="programa">Programa</label>
-            <select name="id_programa" id="id_programa" class="form-control">
-            {% for program in programs %}
-                <option value="{{ program.codigo }}">{{ program.nombre }}</option>
-            {% endfor %}
-            </select>
-            {% if getPermission(modulo_cursos, auth.user.id) == 3  %}
-                <div class="form-group">
-                  <label for="codigo">Codigo</label>
-                  <input name="codigo" id="input_codigo" type="number" placeholder="000" class="form-control" {{ getPermission(modulo_cursos, auth.user.id) == 3 ? '' : 'readonly' }} min="000" max="999">
-                </div>
-                <div class="form-group">
-                  <input name="codigo_forma" type="number"  disabled placeholder="00000" class="form-control" min="00000" max="99999">
-                </div>
-            {% endif %}
-              {% if getPermission(modulo_cursos, auth.user.id) == 3 %}
-                <div class="form-group">
-                <br>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-              {% endif %}
-          </div>
-        </div>
-        </form>
+        {% include "_partials/course.twig" %}
     </div>
   </div>
 </div>

@@ -8,46 +8,7 @@
             </button>
         </div>
         <div id="message_form"></div>
-        <form id="programCreateForm" action="{{ path_for('admin.program.store') }}">
-        <div class="ed-container">
-          <div class="ed-item s-100 l-100">
-            <div class="form-group">
-              <label for="nombre">Nombre</label>
-              <input name="nombre" type="text" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }}>
-            </div>
-            <label for="institucion">Instancia</label>
-              {% if auth.user.id_rol >= 3 %}
-                <input name="instance" type="text" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }} value="{{ auth.user.institution }}" readonly >
-              {% else %}
-                <select name="instance" id="instance" class="form-control">
-                  {% for instances in instances %}
-                  <option value="{{ instances.codigo }}">{{ instances.nombre }}</option>
-                  {% endfor %}
-                </select>
-              {% endif %}
-              <label for="institucion">institucion</label>
-              {% if auth.user.id_rol >= 3 %}
-                <input name="codigo_institucion" type="text" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }} value="{{ auth.user.institution }}" readonly >
-              {% else %}
-                <select name="codigo_institucion" id="codigo_institucion" class="form-control">
-                  {% for institucion in instituciones %}
-                  <option value="{{ institucion.codigo }}">{{ institucion.nombre }}</option>
-                  {% endfor %}
-                </select>
-              {% endif %}
-            <div class="form-group">
-              <label for="codigo_program">Codigo</label>
-              <input name="codigo_program" type="number" placeholder="00" class="form-control" {{ auth.user.id_rol < 5 ? '' : 'readonly' }} min="00" max="99">
-            </div>
-            <div class="form-group">
-              <input name="codigo_forma" type="number"  disabled class="form-control" min="00000" max="99999">
-            </div>
-            {% if auth.user.id_rol  < 5  %}
-              <button type="submit" class="btn btn-primary">Guardar</button>
-            {% endif %}
-          </div>
-        </div>
-        </form>
+        {% include "_partials/program.twig" %}
     </div>
   </div>
 </div>

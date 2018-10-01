@@ -17,6 +17,7 @@ class AuthController extends Controller
         );
 
         if (! $auth) {
+            $this->flash->addMessage("errors", "Usuario o contraseña incorrectos");
             return $response->withRedirect($this->router->pathFor('home'));
         }
         if (! $this->auth->firstSingIn($request->getParam('usuario'))) {

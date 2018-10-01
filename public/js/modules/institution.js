@@ -7,6 +7,7 @@ $(".addinstitution").on('click', function (event) {
     event.preventDefault();
     $('#institutionCreateForm')[0].reset();
     $('#institutionCreateForm').attr('action', $(this).attr('data-href'));
+    $('input[name="codigo"]').attr('readonly', false);
     $('#institutionCreateModal').modal('show');
   });
 
@@ -66,7 +67,12 @@ $(".addinstitution").on('click', function (event) {
     $.get(url).done(function (response) {
       $('#institutionCreateForm')[0].reset();
       $.each(response, function (key, value) {
-        $('input[name="'+key+'"]').val(value);
+          if (key == 'codigo') {
+              $('input[name="' + key + '"]').val(value);
+              $('input[name="' + key + '"]').attr('readonly', true);
+          } else {
+              $('input[name="' + key + '"]').val(value);
+          }
       });
       $('#institutionCreateForm').attr('action', _td.attr('data-href') + _data.id);
       $('#institutionCreateForm').removeClass();

@@ -7,7 +7,7 @@ class Instance extends Model
 {
     protected $table = "instancia";
 
-    protected $fillable = ['codigo', 'nombre'];
+    protected $fillable = ['codigo', 'nombre', 'bd'];
 
     public $timestamps = false;
 

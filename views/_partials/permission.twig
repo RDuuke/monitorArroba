@@ -12,7 +12,7 @@
                 <td class="text-center">No</td>
                 <td class="text-center">No</td>
             {% endif %}
-            {% if getPermission(modulo_plataforma, auth.user.id) == 3  %}
+            {% if getP(modulo_plataforma) == 3  %}
             <td class="text-right"><a class="permissionRemove" href="{{ path_for('admin.student.remove', { 'id' : permission.id}) }}" class="text-danger"><i class="fa fa-remove"></i></a></td>
             {% endif %}
         </tr>

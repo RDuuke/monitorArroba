@@ -19,24 +19,28 @@ class CourseController extends Controller
     {
         switch($this->auth->user()->id_institucion)
             {
-                case "01":
+                case Tools::codigoPascualBravo():
                     $courses = Course::pascual()->get();
+
                     break;
-                case "02":
+                case Tools::codigoColegioMayor():
                     $courses = Course::colegio()->get();
                     break;
-                case "03":
+                case Tools::codigoITM():
                     $courses = Course::itm()->get();
                 break;
-                case  "04":
+                case Tools::codigoRutaN():
                     $courses = Course::ruta()->get();
+                break;
+                case Tools::codigoMujeres():
+                    $courses = Course::mujeres()->get();
                 break;
                 default :
                     $courses = Course::all();
                 break;
             }
         $newResponse = $response->withHeader('Content-type', 'application/json');
-        return $response->withJson($courses, 200);
+        return $newResponse->withJson($courses, 200);
     }
 
     function store(Request $request, Response $response)
@@ -49,13 +53,27 @@ class CourseController extends Controller
                 $course = Course::create(array_map('trim', $request->getParams()));
                 $course->codigo = $codigo_evaluate;
                 $course->save();
-                $data = ['message' => 1, 'course' => $course];
-                return $newResponse->withJson($data, 200);
+                if ($request->isXhr()) {
+                    $data = ['message' => 1, 'course' => $course];
+                    return $newResponse->withJson($data, 200);
+                }
+                $this->flash->addMessage("creators", "Curso creado correctamente");
+                return $response->withRedirect($this->router->pathFor("admin.course.add"));
+            } else {
+                if ($request->isXhr()) {
+                    return $response->withStatus(500)->write("El código ingresado ya esta en uso");
+                } else {
+                    $this->flash->addMessage("errors","El código ingresado ya esta en uso");
+                    return $response->withRedirect($this->router->pathFor('admin.course.add'));
+                }
             }
-            return $newResponse->withJson($data, 200);
         } catch (\Exception $e) {
-            return $newResponse->withJson($data, 200);
-        }
+            if ($request->isXhr()) {
+                return $response->withStatus(500)->write($e->getMessage());
+            } else {
+                $this->flash->addMessage("errors", $e->getMessage());
+                return $response->withRedirect($this->router->pathFor('admin.course.add'));
+            }        }
     }
 
     function show(Request $request, Response $response)
@@ -127,23 +145,22 @@ class CourseController extends Controller
 
         switch($this->auth->user()->id_institucion)
         {
-                case "01":
-                    $all_coruses = Course::pascual()->where("codigo", "LIKE", $param)->get()->toArray();
+                case Tools::codigoPascualBravo():
+                    $all_courses = Course::pascual()->where("nombre","LIKE", $param)->orwhere("codigo", "LIKE", $param)->get()->toArray();
                     break;
-                case "02":
-                    $all_coruses = Course::colegio()->where("codigo","LIKE", $param)->get();
+                case Tools::codigoColegioMayor():
+                    $all_courses = Course::colegio()->where("nombre","LIKE", $param)->orwhere("codigo","LIKE", $param)->get();
                     break;
-                case "03":
-                    $all_coruses = Course::itm()->where("codigo","LIKE", $param)->get();
+                case Tools::codigoITM():
+                    $all_courses = Course::itm()->where("nombre","LIKE", $param)->orwhere("codigo","LIKE", $param)->get();
                     break;
-                case  "04":
-                    $all_coruses = Course::ruta()->where("codigo","LIKE", $param)->get();
+                case Tools::codigoRutaN():
+                    $all_courses = Course::ruta()->where("nombre","LIKE", $param)->orwhere("codigo","LIKE", $param)->get();
                 default :
-                    $all_coruses = Course::where("codigo","LIKE", $param)->get()->toArray();
-
+                    $all_courses = Course::where("nombre","LIKE", $param)->orwhere("codigo","LIKE", $param)->get()->toArray();
                     break;
             }
-            $courses = $all_coruses;
+            $courses = $all_courses;
 
         try {
             return $this->view->render($response, "_partials/search_course.twig", ["courses" => $courses]);
