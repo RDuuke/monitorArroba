@@ -196,3 +196,5 @@ INFO[28-09-2018 04:09:22]: [Creación] El usuario_monitor juan.duque@gmail.com r
 INFO[01-10-2018 10:52:29]: [Creación] El usuario_monitor giselle.tamayo@arrobamedellin.edu.co registro al usuario_campus Claudia en módulo Usuarios Campus 
 INFO[01-10-2018 10:53:54]: [Actualización] El usuario_monitor giselle.tamayo@arrobamedellin.edu.co actualizo al usuario_campus claudia.giraldo@sapiencia.gov.co en módulo Usuarios Campus 
 INFO[01-10-2018 10:54:51]: [Actualización] El usuario_monitor giselle.tamayo@arrobamedellin.edu.co actualizo al usuario_campus claudia.giraldo@sapiencia.gov.co en módulo Usuarios Campus 
+INFO[02-10-2018 10:39:09]: [Actualización] El usuario_monitor samayda.herrera@arrobamedellin.edu.co actualizo al usuario_campus Rossme1993@hotmail.com en módulo Usuarios Campus 
+INFO[02-10-2018 04:28:27]: [Creación] El usuario_monitor oscar.durango@arrobamedellin.edu.co registro al usuario_campus foronda.milenaesther@gmail.com en módulo Usuarios Campus 
