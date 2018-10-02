@@ -33,14 +33,14 @@ class UserController extends Controller
             $user->clave = password_hash($request->getParam("documento"), PASSWORD_DEFAULT);
             $user->save();
             FirstSingIn::create(['usuario' => $user->usuario, "singin" => 0]);
-            Log::i("usuario " . $this->auth->user()->usuario . " registro al " . $request->getParam('usuario') . " en el ". Tools::getMessageModule(0));
+            Log::i(Tools::getMessageCreatorRegisterModule(Tools::codigoUsuarioPlataforma), $this->auth->user()->usuario, $request->getParam('usuario'), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 $data = ['message' => 1, 'user' => $user];
                 return $newResponse->withJson($data, 200);
             }
             return $response->withRedirect($this->router->pathFor('admin.user.add'));
         } catch ( \Exception $e ) {
-            Log::e("usuario " . $this->auth->user()->usuario . " registro al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0));
+            Log::e(Tools::getMessageCreatorRegisterModule(Tools::codigoUsuarioPlataforma), $this->auth->user()->usuario, $request->getParam('usuario'), Tools::getTypeCreatorAction());
             return $newResponse->withJson($data, 200);
 
         }
@@ -65,12 +65,12 @@ class UserController extends Controller
         try{
             if ($student != false) {
                 $data_array = ["message" => 2, "user" => $student];
-                Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+                Log::i(Tools::getMessageUpdateRegisterModule(Tools::codigoUsuarioPlataforma, $this->auth->user()->usuario, $student->usuario), Tools::getTypeUpdateAction());
                 $newResponse = $response->withHeader('Content-type', 'application/json');
                 return $newResponse->withJson($data_array, 200);
             }
         }catch(\Exception $e) {
-            Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoUsuarioPlataforma, $this->auth->user()->usuario, $student->usuario), Tools::getTypeUpdateAction());
             return $response->withStatus(500)->write('0');
         }
     }
@@ -82,11 +82,11 @@ class UserController extends Controller
         $usuario= User::find($router->getArguments()['id']);
         try {
             if ($usuario->delete()) {
-                Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $usuario->usuario . " en el " . Tools::getMessageModule(0), 2);
+                Log::i(Tools::getMessageDeleteRegisterModule(Tools::codigoUsuarioPlataforma, $this->auth->user()->usuario, $usuario->usuario), Tools::getTypeDeleteAction());
                 return $response->withStatus(200)->write('1');
             }
         } catch(\Exception $e) {
-            Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $usuario->usuario . " en el " . Tools::getMessageModule(0), 2);
+            Log::i(Tools::getMessageDeleteRegisterModule(Tools::codigoUsuarioPlataforma, $this->auth->user()->usuario, $usuario->usuario), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write('0');
         }
     }

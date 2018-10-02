@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers;
 
+use App\Tools\Log;
+use App\Tools\Tools;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Institution;
@@ -24,6 +26,7 @@ class InstitutionController extends Controller
 
             if (Institution::checkCodigo(trim($request->getParam('codigo')))) {
                 $institution = Institution::create(array_map('trim', $request->getParams()));
+                Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoInstituciones, $this->auth->user()->usuario, $request->getParam('nombre')), Tools::getTypeCreatorAction());
                 if ($request->isXhr()) {
                     $data = ['message' => 1, 'institution' => $institution];
                     return $newResponse->withJson($data, 200);
@@ -40,6 +43,7 @@ class InstitutionController extends Controller
             }
             return $newResponse->withJson($data, 200);
         } catch (\Exception $e) {
+            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoInstituciones, $this->auth->user()->usuario, $request->getParam('nombre')), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 $data['text'] = $e->getMessage();
                 return $newResponse->withJson($data, 200);
@@ -70,13 +74,13 @@ class InstitutionController extends Controller
             if ($institution->programs->count() < 1) {
 
                 if ($institution->delete()) {
-                    //Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+                    Log::i(Tools::getMessageDeleteRegisterModule(Tools::codigoInstituciones, $this->auth->user()->usuario, $institution->nombre), Tools::getTypeDeleteAction());
                     return $response->withStatus(200)->write('1');
                 }
             }
             return $response->withStatus(500)->write('0');
         } catch(\Exception $e) {
-            //Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoInstituciones, $this->auth->user()->usuario, $institution->nombre), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write('0');
         }
     }
@@ -84,16 +88,16 @@ class InstitutionController extends Controller
     function update(Request $request, Response $response) : Response
     {
         $router = $request->getAttribute('route');
+        $institution = Institution::updateOrCreate(['id' => $router->getArguments()['id']], $request->getParams());
         try {
-            $institution = Institution::updateOrCreate(['id' => $router->getArguments()['id']], $request->getParams());
 
             $data_array = ["message" => 2, "institution" => $institution];
-                //Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::i(Tools::getMessageUpdateRegisterModule(Tools::codigoInstituciones, $this->auth->user()->usuario, $institution->nombre), Tools::getTypeUpdateAction());
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($data_array, 200);
 
         } catch (\Exception $e) {
-            //Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoInstituciones, $this->auth->user()->usuario, $institution->nombre), Tools::getTypeUpdateAction());
             return $response->withStatus(500)->write('0');
         }
     }

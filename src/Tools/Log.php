@@ -3,19 +3,16 @@ namespace App\Tools;
 
 class Log implements InterfaceLog
 {
-    static protected $tipo = [
-        "Creación", "Actualización", "Eliminación", "Ingresos", "Salida", "Carga"
-    ];
 
-    static function i (string $message, int $type = 0) : bool
+    static function i (string $message, String $type) : bool
     {
-        $log = "INFO[".date('d-m-Y h:i:s')."]: [" . self::$tipo[$type]  . "] " . $message . " " . "\n";
+        $log = "INFO[".date('d-m-Y h:i:s')."]: [" . $type  . "] " . $message . " " . "\n";
         return self::write($log);
     }
 
-    static function e (string $message, int $type = 0) : bool
+    static function e (string $message, String $type) : bool
     {
-        $log = "ERROR[".date('d-m-Y h:i:s')."]: [" . self::$tipo[$type]  . "] " . $message . " " . "\n";
+        $log = "ERROR[".date('d-m-Y h:i:s')."]: [" . $type  . "] " . $message . " " . "\n";
         return self::write($log);
     }
 

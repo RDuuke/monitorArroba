@@ -29,7 +29,7 @@ class InstanceController extends Controller
             if (Instance::checkCodigo(trim($request->getParam('codigo')))) {
                 //$this->writeArchiveDatabase($request);
                 $instance = Instance::create(array_map('trim', $request->getParams()));
-                Log::i("usuario " . $this->auth->user()->usuario . " creo la " . $instance->nombre . " en el " . Tools::getMessageModule(3), 0);
+                Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoInstancias, $this->auth->user()->usuario, $request->getParam('nombre')), Tools::getTypeCreatorAction());
                 if($request->isXhr()) {
                     $data = ['message' => 1, 'instance' => $instance];
                     return $newResponse->withJson($data, 200);
@@ -45,7 +45,7 @@ class InstanceController extends Controller
                 }
             }
         } catch (\Exception $e) {
-            Log::i("usuario " . $this->auth->user()->usuario . " creo la " . $instance->nombre . " en el " . Tools::getMessageModule(3), 0);
+            Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoInstancias, $this->auth->user()->usuario, $request->getParam('nombre')), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 return $response->withStatus(500)->write($e->getMessage());
             } else {
@@ -70,15 +70,15 @@ class InstanceController extends Controller
     function update(Request $request, Response $response) : Response
     {
         $router = $request->getAttribute('route');
+        $instance = Instance::updateOrCreate(['id' => $router->getArguments()['id']], $request->getParams());
         try {
-            $instance = Instance::updateOrCreate(['id' => $router->getArguments()['id']], $request->getParams());
             $data_array = ["message" => 2, "instance" => $instance];
-            Log::i("usuario " . $this->auth->user()->usuario . " actualizo la " . $instance->nombre . " en el " . Tools::getMessageModule(3), 1);
+            Log::i(Tools::getMessageUpdateRegisterModule(Tools::codigoInstancias, $this->auth->user()->usuario, $instance->nombre), Tools::getTypeUpdateAction());
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($data_array, 200);
 
         } catch (\Exception $e) {
-            Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(3), 1);
+            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoInstancias, $this->auth->user()->usuario, $instance->nombre), Tools::getTypeUpdateAction());
             return $response->withStatus(500)->write('0');
         }
     }
@@ -90,13 +90,13 @@ class InstanceController extends Controller
         try {
             if(Institution::checkinstance($instance->codigo)) {
                 if ($instance->delete()) {
-                    Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $instance->nombre . " en el " . Tools::getMessageModule(3), 2);
+                    Log::i(Tools::getMessageDeleteRegisterModule(Tools::codigoInstancias, $this->auth->user()->usuario, $instance->nombre), Tools::getTypeDeleteAction());
                     return $response->withStatus(200)->write('1');
                 }
             }
             return $response->withStatus(500)->write('0');
         } catch(\Exception $e) {
-            Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $instance->nombre . " en el " . Tools::getMessageModule(3), 2);
+            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoInstancias, $this->auth->user()->usuario, $instance->nombre), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write('0');
         }
     }

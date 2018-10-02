@@ -35,6 +35,7 @@ class ProgramController extends Controller
                 $program->codigo = $codigo_evaluate;
                 $program->save();
                 $program->fecha = date('Y-m-d h:i:s');
+                Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoProgramas, $this->auth->user()->usuario, $request->getParam('nombre')), Tools::getTypeCreatorAction());
                 if ($request->isXhr()) {
                     $data = ['message' => 1, 'program' => $program];
                     return $newResponse->withJson($data, 200);
@@ -50,6 +51,7 @@ class ProgramController extends Controller
                 }
             }
         } catch (\Exception $e) {
+            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoProgramas, $this->auth->user()->usuario, $request->getParam('nombre')), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 return $response->withStatus(500)->write($e->getMessage());
             } else {
@@ -78,13 +80,13 @@ class ProgramController extends Controller
             if ($programs->course->count() < 1) {
 
                 if ($programs->delete()) {
-                    Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $programs->nombre . " en el " . Tools::getMessageModule(5), 2);
+                    Log::i(Tools::getMessageDeleteRegisterModule(Tools::codigoProgramas, $this->auth->user()->usuario, $programs->nombre), Tools::getTypeDeleteAction());
                     return $response->withStatus(200)->write('1');
                 }
             }
             return $response->withStatus(500)->write($programs->course->count());
         } catch(\Exception $e) {
-            Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $programs->nombre . " en el " . Tools::getMessageModule(5), 2);
+            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoProgramas, $this->auth->user()->usuario, $programs->nombre), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write($e->getMessage());
         }
     }
@@ -95,12 +97,12 @@ class ProgramController extends Controller
         try {
             $program = Program::updateOrCreate(['id' => $router->getArguments()['id']], $request->getParams());
             $data_array = ["message" => 2, "program" => $program];
-            Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::i(Tools::getMessageUpdateRegisterModule(Tools::codigoProgramas, $this->auth->user()->usuario, $program->nombre), Tools::getTypeUpdateAction());
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($data_array, 200);
 
         } catch (\Exception $e) {
-            Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoProgramas, $this->auth->user()->usuario, $program->nombre), Tools::getTypeUpdateAction());
             return $response->withStatus(500)->write('0');
         }
     }

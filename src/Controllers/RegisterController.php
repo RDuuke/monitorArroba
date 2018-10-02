@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Instance;
 use App\Models\RegisterArchive;
 use App\Models\Student;
+use App\Tools\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Respect\Validation\Exceptions\PhpLabelException;
 use Slim\Http\Request;
@@ -67,6 +68,7 @@ class RegisterController extends Controller
             $register = $this->saveRegister($request);
             if ($request->isXhr()) {
                 if ($register->save()) {
+                    Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $request->getParam('curso') . "  " . $request->getParam('usuario')), Tools::getTypeCreatorAction());
                     $register->fecha = date('Y-m-d h:i:s');
                     $data_array = ["message" => 1, "register" => $register];
                     $newResponse = $response->withHeader('Content-type', 'application/json');
@@ -74,11 +76,13 @@ class RegisterController extends Controller
                 }
             } else {
                 if ($register->save()) {
+                    Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $request->getParam('curso') . "  " . $request->getParam('usuario')), Tools::getTypeCreatorAction());
                     $this->flash->addMessage("creators", "Matricula creada correctamente");
                     return $response->withRedirect($this->router->pathFor("admin.register.add"));
                 }
             }
         }catch(\Exception $e) {
+            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $request->getParam('codigo') . "  " . $request->getParam('usuario')));
             if ($request->isXhr()) {
                 return $response->withStatus(500)->write(0);
             } else {
@@ -105,11 +109,13 @@ class RegisterController extends Controller
         $register = Register::updateOrCreate(['id' => $router->getArguments()['id']],$request->getParams());
         try{
             if ($register != false) {
+                Log::i(Tools::getMessageUpdateRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario), Tools::getTypeUpdateAction());
                 $data_array = ["message" => 2, "register" => $register];
                 $newResponse = $response->withHeader('Content-type', 'application/json');
                 return $newResponse->withJson($data_array, 200);
             }
         }catch(\Exception $e) {
+            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario), Tools::getTypeUpdateAction());
             return $response->withStatus(500)->write('0');
         }
     }
@@ -121,9 +127,11 @@ class RegisterController extends Controller
         try {
 
             if ($register->delete()) {
+                Log::i(Tools::getMessageDeleteRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario), Tools::getTypeDeleteAction());
                 return $response->withStatus(200)->write('1');
             }
         } catch(\Exception $e) {
+            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write('0');
         }
     }
