@@ -37,7 +37,7 @@ class AppController extends Controller
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
         $institutions =Institution::all();
-        return $this->view->render($response, "student.twig", ['module_name' => Tools::$Modules[1], "menu_active" => Tools::$MenuActive[0], "instituciones" => $institutions]);
+        return $this->view->render($response, "student.twig", ['module_name' => Tools::$Modules[Tools::codigoUsuarioCampus], "menu_active" => Tools::$MenuActive[0], "instituciones" => $institutions]);
     }
 
     public function users(Request $request, Response $response)
@@ -53,7 +53,7 @@ class AppController extends Controller
         } else {
             $modules = Module::all();
         }
-        return $this->view->render($response, "user.twig", ['roles' => $rols, "instituciones" => $institutions, "modules" => $modules, 'module_name' => Tools::$Modules[0], "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "user.twig", ['roles' => $rols, "instituciones" => $institutions, "modules" => $modules, 'module_name' => Tools::$Modules[Tools::codigoUsuarioPlataforma], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function firstIn(Request $request, Response $response)
@@ -65,7 +65,7 @@ class AppController extends Controller
         if (!$this->accessModuleRead($response,Tools::codigoMatriculas)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "register.twig", ['module_name' => Tools::$Modules[2], "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "register.twig", ['module_name' => Tools::$Modules[Tools::codigoMatriculas], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function instance(Request $request, Response $response)
@@ -73,7 +73,7 @@ class AppController extends Controller
         if (!$this->accessModuleRead($response,Tools::codigoInstancias)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "instance.twig", ['module_name' => Tools::$Modules[3], "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "instance.twig", ['module_name' => Tools::$Modules[Tools::codigoInstancias], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function program(Request $request, Response $response)
@@ -83,7 +83,7 @@ class AppController extends Controller
         }
         $institutions =Institution::all();
         $instances =Instance::all();
-        return $this->view->render($response, "program.twig", ["instituciones" => $institutions, 'instances' => $instances, 'module_name' => Tools::$Modules[5], "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "program.twig", ["instituciones" => $institutions, 'instances' => $instances, 'module_name' => Tools::$Modules[Tools::codigoProgramas], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function institution(Request $request, Response $response)
@@ -91,7 +91,7 @@ class AppController extends Controller
         if (!$this->accessModuleRead($response,Tools::codigoInstituciones)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "institution.twig", ['module_name' => Tools::$Modules[4], "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "institution.twig", ['module_name' => Tools::$Modules[Tools::codigoInstituciones], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function courses(Request $request, Response $response)
@@ -101,7 +101,7 @@ class AppController extends Controller
         }
 
         $programs = Program::all();
-        return $this->view->render($response, "courses.twig", ['programs' => $programs,'module_name' => Tools::$Modules[7], "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "courses.twig", ['programs' => $programs,'module_name' => Tools::$Modules[Tools::codigoCursos], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function search(Request $request, Response $response)
@@ -109,7 +109,7 @@ class AppController extends Controller
         if (!$this->accessModuleRead($response,Tools::codigoBusqueda)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "search.twig", ['module_name' => Tools::$Modules[6], "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "search.twig", ['module_name' => Tools::$Modules[Tools::codigoBusqueda], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function searchStudent(Request $request, Response $response)
