@@ -98,7 +98,14 @@ class Tools {
     ];
 
     static public $Modules = [
-        "Usuarios @Monitor" , "Usuarios Campus", "matriculas", "instancias", "instituciones", "programas", "búsqueda", "cursos"
+        1 => "Usuarios @Monitor" ,
+        2 => "Usuarios Campus",
+        7 => "Matriculas",
+        3 => "Instancias",
+        4 => "Instituciones",
+        5 => "Programas",
+        8 => "Búsqueda",
+        6 => "Cursos"
     ];
 
     static public $MenuActive = [
@@ -108,6 +115,12 @@ class Tools {
     static public $Roles = [
       "student", "teacher", "editingteacher", "manager"
     ];
+
+    static protected $tipo = [
+        "Creación", "Actualización", "Eliminación", "Ingresos", "Salida", "Carga"
+    ];
+
+
     static function moveUploadedFile($uploadedFile, $dir)
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
@@ -248,6 +261,36 @@ class Tools {
     static function Mainsite()
     {
         return self::$Institution['nombre'][6];
+    }
+
+    static function getMessageCreaterRegisterModule(Int $module, String $user, String $valor)
+    {
+        return "El usuario $user creando el registro $valor en el modulo " . self::$Modules[$module];
+    }
+
+    static function getMessageUpdateRegisterModule(Int $module, String $user, String $valor)
+    {
+        return "El usuario $user actualizando el registro $valor en el modulo " . self::$Modules[$module];
+    }
+
+    static function getMessageDeleteRegisterModule(Int $module, String $user, String $valor)
+    {
+        return "El usuario $user eliminando el registro $valor en el modulo " . self::$Modules[$module];
+    }
+
+    static function getTypeCreatorAction() : String
+    {
+        return self::$tipo[0];
+    }
+
+    static function getTypeUpdateAction() : String
+    {
+        return self::$tipo[1];
+    }
+
+    static function getTypeDeleteAction() : String
+    {
+        return self::$tipo[2];
     }
 
     static function refreshPermission($id)

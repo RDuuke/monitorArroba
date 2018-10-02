@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Tools\Log;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Course;
@@ -53,6 +54,7 @@ class CourseController extends Controller
                 $course = Course::create(array_map('trim', $request->getParams()));
                 $course->codigo = $codigo_evaluate;
                 $course->save();
+                Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario,  $request->getParam('nombre')), Tools::getTypeCreatorAction());
                 if ($request->isXhr()) {
                     $data = ['message' => 1, 'course' => $course];
                     return $newResponse->withJson($data, 200);
@@ -68,6 +70,7 @@ class CourseController extends Controller
                 }
             }
         } catch (\Exception $e) {
+            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario, $request->getParam('nombre')), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 return $response->withStatus(500)->write($e->getMessage());
             } else {
@@ -100,13 +103,13 @@ class CourseController extends Controller
             if($courses->registers->count() < 1) {
 
                 if ($courses->delete()) {
-                    //Log::i("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+                    Log::i(Tools::getMessageDeleteRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario, $courses->nombre), Tools::getTypeDeleteAction());
                     return $response->withStatus(200)->write('1');
                 }
             }
             return $response->withStatus(500)->write('0');
         } catch(\Exception $e) {
-            //Log::e("usuario " . $this->auth->user()->usuario . " elimino al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 2);
+            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario, $courses->nombre), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write('0');
         }
     }
@@ -121,6 +124,7 @@ class CourseController extends Controller
                 if (Course::checkCodigo($codigo_evaluate)) {
                     $course->codigo = $codigo_evaluate;
                     $course->save();
+                    Log::i(Tools::getMessageUpdateRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario, $course->nombre), Tools::getTypeUpdateAction());
                     $data_array = ["message" => 2, "course" => $course];
                 } else {
                     $data_array = ["message" => 4, "course" => $course];
@@ -128,12 +132,13 @@ class CourseController extends Controller
                 $newResponse = $response->withHeader('Content-type', 'application/json');
                 return $newResponse->withJson($data_array, 200);
             }
+            $data_array = ["message" => 4, "course" => $course];
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($data_array, 200);
                 //Log::i("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
 
         } catch (\Exception $e) {
-            //Log::e("usuario " . $this->auth->user()->usuario . " actualizo al " . $request->getParam('usuario') . " en el " . Tools::getMessageModule(0), 1);
+            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario,$request->getParam('nombre')), Tools::getTypeUpdateAction());
             return $response->withStatus(500)->write('0');
         }
     }

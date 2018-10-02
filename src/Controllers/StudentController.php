@@ -27,7 +27,7 @@ class StudentController extends Controller
             $student->correo = trim($request->getParam('usuario'));
             if ($student->save()) {
                 $student->fecha = date('Y-m-d h:i:s');
-                Log::i("El usuario_monitor " . $this->auth->user()->usuario . " registro al usuario_campus " . $student->usuario . " en " . Tools::getMessageModule(1));
+                Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $request->getParam('usuario')), Tools::getTypeCreatorAction());
                 if($request->isXhr()) {
 
                     $data_array = ["message" => 1, "user" => $student];
@@ -38,7 +38,7 @@ class StudentController extends Controller
                 return $response->withRedirect($this->router->pathFor('admin.student.add'));
             }
         }catch(QueryException  $e) {
-            Log::e("El usuario_monitor " . $this->auth->user()->usuario . " no registro al usuario_campus ".$student->usuario." por " +$e->getMessage() + " en " + Tools::getMessageModule(1));
+            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $request->getParam('usuario')), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 return $response->withStatus(500)->write($e->getMessage());
             } else {
@@ -56,14 +56,14 @@ class StudentController extends Controller
         try {
             if ($student->registers->count() == 0) {
                 if ($student->delete()) {
-                    Log::i("El usuario_monitor " . $this->auth->user()->usuario . " elimino al usuario_campus " . $student->usuario . " en " . Tools::getMessageModule(1), 2);
+                    Log::i(Tools::getMessageDeleteRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario), Tools::getTypeDeleteAction());
                     return $response->withStatus(200)->write('1');
                 }
                 return $response->withStatus(500)->write('Error en la operación');
             }
             return $response->withStatus(500)->write('El usuario tiene matriculas activas');
         } catch(\Exception $e) {
-            Log::e("El usuario_monitor " . $this->auth->user()->usuario . " no elimino al usuario_campus ".$student->usuario." por " + $e->getMessage() + " en " + Tools::getMessageModule(1), 2);
+            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write($e->getMessage());
         }
     }
@@ -88,11 +88,11 @@ class StudentController extends Controller
             if ($student != false) {
                 $data_array = ["message" => 2, "user" => $student];
                 $newResponse = $response->withHeader('Content-type', 'application/json');
-                Log::i("El usuario_monitor " . $this->auth->user()->usuario . " actualizo al usuario_campus " . $student->usuario . " en " . Tools::getMessageModule(1), 1);
+                Log::i(Tools::getMessageUpdateRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario), Tools::getTypeUpdateAction());
                 return $newResponse->withJson($data_array, 200);
             }
         }catch(\Exception $e) {
-            Log::e("El usuario_monitor " . $this->auth->user()->usuario . " no actualizo al usuario_campus ".$student->usuario." por " + $e->getMessage() + " en " + Tools::getMessageModule(1), 1);
+            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario), Tools::getTypeUpdateAction());
             return $response->withStatus(500)->write('0');
         }
     }
@@ -181,12 +181,13 @@ class StudentController extends Controller
                             }
                         }
                         $student = Student::where('usuario', '=', $data['usuario'])->get();
-
                         if ($student->count() == 0) {
-                                $data['message'] = Tools::getMessageUser(0);
+                            $data['message'] = Tools::getMessageUser(0);
                                 $data['codigo'] = Tools::getCodigoUser(0);
                                 array_push($this->creators, $data);
-                                //Student::create($data);
+                                unset($data);
+                                continue;
+                            //Student::create($data);
                         } else {
                             $filter = $student->where('documento',$data['documento']);
 
@@ -198,8 +199,9 @@ class StudentController extends Controller
                                 $data['codigo'] = Tools::getCodigoUser(3);
                             }
                             array_push($this->errors, $data);
+                            unset($data);
+                            continue;
                         }
-                        unset($data);
                     }
                     $responseData = ['message' => 1, 'creators' => $this->creators, 'errors' => $this->errors, 'alerts' => $this->alerts,'totalr' => ($highestRow-1), 'totalc' => count($this->creators), 'totale' => count($this->errors), 'totala' => count($this->alerts)];
                     $newResponse = $response->withHeader('Content-type', 'application/json');
@@ -260,7 +262,7 @@ class StudentController extends Controller
     {
         $dataOK = $request->getParam('data');
         for($i = 0; $i < count($dataOK); $i++){
-            Student::updateOrCreate($dataOK[$i], ['usuario' => $dataOK[$i]['usuario']]);
+            Student::updateOrCreate(['usuario' => $dataOK[$i]['usuario']], $dataOK[$i]);
         }
     }
     function permissionAll(Request $request, Response $response){
