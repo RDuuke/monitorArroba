@@ -5,7 +5,7 @@
 
 
 /vendor/
-/logs/
+*.txt
 /resource/tmp
 !bootstrap/app.php
 bootstrap/
