@@ -26,6 +26,9 @@ $capsule = new Manager;
 $capsule->addConnection($container['settings']['db']);
 $capsule->addConnection($container['settings']['db_pregrado'], "db_pregrado");
 $capsule->addConnection($container['settings']['db_postgrado'], "db_postgrado");
+$capsule->addConnection($container['settings']['db_itm'], "db_itm");
+$capsule->addConnection($container['settings']['db_colmayor'], "db_colmayor");
+$capsule->addConnection($container['settings']['db_pascual'], "db_pascual");
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 $whoopsGuard = new \Zeuxisoo\Whoops\Provider\Slim\WhoopsGuard();
@@ -68,8 +71,10 @@ $container['view'] = function ($container) {
     $view->getEnvironment()->addGlobal('modulo_cursos', Tools::codigoCursos);
     $view->getEnvironment()->addGlobal('modulo_matriculas', Tools::codigoMatriculas);
     $view->getEnvironment()->addGlobal('modulo_busqueda', Tools::codigoBusqueda);
+    $view->getEnvironment()->addGlobal('modulo_reporte', Tools::codigoReporte);
     $view->getEnvironment()->addGlobal('codigo_arroba_medellin', Tools::codigoMedellin());
     $view->getEnvironment()->addGlobal('lectura', Tools::Lectura);
+    $view->getEnvironment()->addGlobal('lectura_escritura', Tools::LecturaEscritura);
     $view->getEnvironment()->addGlobal('lectura_escritura', Tools::LecturaEscritura);
     $view->getEnvironment()->addGlobal('session', $_SESSION);
 
@@ -117,7 +122,16 @@ $container['view'] = function ($container) {
         $program = Program::where("codigo", $codigo)->first();
         return $program->nombre;
     });
+    $view->getEnvironment()->addFunction($function);
 
+    $function = new Twig_SimpleFunction('getMes', function ($mes) {
+        $meses = [
+            01 => "enero", 02 => "febrero", 03, "marzo", 04 => "abril", 05 => "mayo", 06,
+                "junio", 07 => "julio", "08" => "agosto", "09" => "septiembre", 10 => "octubre", 11 => "noviembre", 12 => "diciembre"
+        ];
+
+        return $meses[$mes];
+    });
 
     $view->getEnvironment()->addFunction($function);
 
@@ -127,6 +141,18 @@ $container['view'] = function ($container) {
     });
     $view->getEnvironment()->addFunction($function);
 
+
+    $function = new Twig_SimpleFunction('getCodigoInstance', function ($codigo) {
+        return \App\Models\Instance::where("institucion_id", $codigo)->first()->codigo;
+    });
+    $view->getEnvironment()->addFunction($function);
+
+    $function = new Twig_SimpleFunction('getNameInstance', function ($codigo) {
+        return \App\Models\Instance::where("institucion_id", $codigo)->first()->nombre;
+    });
+    $view->getEnvironment()->addFunction($function);
+
+
     $function = new Twig_simpleFunction("getLastEntry", function ($codigo, $username){
         $sql = "SELECT DATE_FORMAT(FROM_UNIXTIME(la.timeaccess),'%d %b %Y') AS ultimoCur  FROM mdl_user u, mdl_role_assignments ra, mdl_context c, mdl_course co,
                                                         mdl_user_lastaccess la 
@@ -135,10 +161,16 @@ $container['view'] = function ($container) {
 
         if (substr($codigo, 0, 1) == 1) {
             $data = Manager::connection("db_pregrado")->select($sql);
-        } else if($codigo == "") {
-          return "no registro";
-        } else {
+        } else if(substr($codigo, 0, 1) == 2) {
             $data = Manager::connection("db_postgrado")->select($sql);
+        } else if(substr($codigo, 0, 1) == 6){
+            $data = Manager::connection("db_itm")->select($sql);
+        } else if(substr($codigo, 0, 1) == 7) {
+            $data = Manager::connection("db_pascual")->select($sql);
+        } else if(substr($codigo, 0, 1) == 8) {
+            $data = Manager::connection("db_colmayor")->select($sql);
+        } else {
+            return "no registro";
         }
         return $data[0]->ultimoCur != "" ? $data[0]->ultimoCur : 'Nunca';
     });
@@ -208,6 +240,10 @@ $container['CourseController'] = function($container)
 $container['ApiController'] = function($container)
 {
     return new ApiController($container);
+};
+$container['ReportController'] = function($container)
+{
+    return new \App\Controllers\ReportController($container);
 };
 
 require_once dirname(__DIR__) . "/src/routes.php";

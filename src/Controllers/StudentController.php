@@ -37,12 +37,13 @@ class StudentController extends Controller
                 $this->flash->addMessage("creators", "Usuario campus creado correctamente");
                 return $response->withRedirect($this->router->pathFor('admin.student.add'));
             }
-        }catch(QueryException  $e) {
+        }catch(\PDOException $e) {
+
             Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $request->getParam('usuario')), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
-                return $response->withStatus(500)->write($e->getMessage());
+                return $response->withStatus(500)->write(str_replace(":correo",  $request->getParam('usuario'), Tools::$CodePDO[$e->getCode()]));
             } else {
-                $this->flash->addMessage("errors", $e->getMessage());
+                $this->flash->addMessage("errors", str_replace(":correo",  $request->getParam('usuario'), Tools::$CodePDO[$e->getCode()]));
                 return $response->withRedirect($this->router->pathFor('admin.student.add'));
             }
         }
@@ -98,15 +99,8 @@ class StudentController extends Controller
     }
     function all(Request $request, Response $response) : Response
     {
-
-            if($this->auth->user()->id_institucion == '01') {
-                $students = Student::pascualbravo();
-            } else if ($this->auth->user()->id_institucion == '02') {
-                $students = Student::colegiomayor();
-            } else if ($this->auth->user()->id_institucion == '03') {
-                $students = Student::itm();
-            } else if ($this->auth->user()->id_institucion == '04') {
-                $students = Student::rutann();
+            if($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+                $students = Student::where('institucion_id', $this->auth->user()->id_institucion)->get();
             } else {
                 $students = Student::all();
             }
@@ -118,7 +112,6 @@ class StudentController extends Controller
     {
         $uploadedFiles = $request->getUploadedFiles();
         $archive = $uploadedFiles['archive'];
-
         if ($archive->getError() == UPLOAD_ERR_OK) {
             $filename = Tools::moveUploadedFile($archive, $this->tmp);
             if ($filename != false) {
@@ -127,7 +120,7 @@ class StudentController extends Controller
                     $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
                     $worksheet = $spreadsheet->getActiveSheet();
-                    $highestRow = $worksheet->getHighestDataRow();
+                    $highestRow = Tools::getHighestDataRow($worksheet);
                     for ($row=2; $row <= $highestRow; $row++) {
                         $data = [
                             "usuario" => trim($worksheet->getCell('A'. $row)->getvalue()),
@@ -137,8 +130,8 @@ class StudentController extends Controller
                             "correo" => trim($worksheet->getCell('A'. $row)->getvalue()),
                             "documento" => trim($worksheet->getCell('E'. $row)->getvalue()),
                             "institucion" => trim($worksheet->getCell("F". $row)->getValue()),
-                            "ciudad" => trim($worksheet->getCell('G'. $row)->getvalue()),
-                            "genero" => trim($worksheet->getCell('H'. $row)->getvalue()),
+                            "genero" => trim($worksheet->getCell('G'. $row)->getvalue()),
+                            "ciudad" => trim($worksheet->getCell('H'. $row)->getvalue()),
                             "departamento" => trim($worksheet->getCell('I'. $row)->getvalue()),
                             "pais" => trim($worksheet->getCell('J'. $row)->getvalue()),
                             "telefono" => trim($worksheet->getCell('K'. $row)->getvalue()),
@@ -148,8 +141,10 @@ class StudentController extends Controller
 
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
                             $data["institucion"] = Institution::getNameInstitutionForCodigo($this->auth->user()->id_institucion);
+                            $data["institucion_id"] = $this->auth->user()->id_institucion;
                         } else {
                             $data["institucion"] = Institution::getNameInstitutionForCodigo($request->getParam('codigo_institucion'));
+                            $data["institucion_id"] = $request->getParam('codigo_institucion');
                         }
                         $data = array_map("ucwords", array_map("strtolower",$data));
                         $data['usuario'] = strtolower($data['usuario']);
@@ -187,7 +182,6 @@ class StudentController extends Controller
                                 array_push($this->creators, $data);
                                 unset($data);
                                 continue;
-                            //Student::create($data);
                         } else {
                             $filter = $student->where('documento',$data['documento']);
 
@@ -203,10 +197,12 @@ class StudentController extends Controller
                             continue;
                         }
                     }
-                    $responseData = ['message' => 1, 'creators' => $this->creators, 'errors' => $this->errors, 'alerts' => $this->alerts,'totalr' => ($highestRow-1), 'totalc' => count($this->creators), 'totale' => count($this->errors), 'totala' => count($this->alerts)];
+                    $responseData = ['message' => 1, 'creators' => $this->creators, 'errors' => $this->errors, 'alerts' => $this->alerts,'totalr' => ($highestRow), 'totalc' => count($this->creators), 'totale' => count($this->errors), 'totala' => count($this->alerts)];
                     $newResponse = $response->withHeader('Content-type', 'application/json');
+                    Log::i(Tools::getMessageImportModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     return $newResponse->withJson($responseData, 200);
                 } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+                    Log::e(Tools::getMessageImportModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     die('Error loading file: '.$e->getMessage());
                 }
 
@@ -243,7 +239,7 @@ class StudentController extends Controller
 
         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
             Student::where("usuario", "LIKE", $param)
-                ->where("institucion", Tools::getInstitutionForCodigo($this->auth->user()->id_institucion))
+                ->where("institucion_id", $this->auth->user()->id_institucion)
                 ->orWhere("documento", "LIKE", $param)
                 ->get()->toArray();
         } else {
@@ -261,9 +257,20 @@ class StudentController extends Controller
     function proccess(Request $request, Response $response)
     {
         $dataOK = $request->getParam('data');
+        $message = ["status" => 0, "creators", "errors"];
+        $c = 0;
+        $e = 0;
         for($i = 0; $i < count($dataOK); $i++){
-            Student::updateOrCreate(['usuario' => $dataOK[$i]['usuario']], $dataOK[$i]);
+            if (Student::updateOrCreate(['usuario' => $dataOK[$i]['usuario']], $dataOK[$i]) instanceof Student) {
+                $c++;
+            } else {
+                $e++;
+            }
         }
+        $message["creators"] = $c;
+        $message["errors"] = $e;
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        return $newResponse->withJson($message, 200);
     }
     function permissionAll(Request $request, Response $response){
         $router = $request->getAttribute('route');
@@ -351,7 +358,7 @@ class StudentController extends Controller
                     $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
                     $worksheet = $spreadsheet->getActiveSheet();
-                    $highestRow = $worksheet->getHighestDataRow();
+                    $highestRow = Tools::getHighestDataRow($worksheet);
                     for ($row=2; $row <= $highestRow; $row++) {
                         $data = [
                             "usuario" => trim($worksheet->getCell('A'. $row)->getvalue())
@@ -363,32 +370,44 @@ class StudentController extends Controller
                             unset($data);
                             continue;
                         };
-                        $student = Student::where("usuario", $data['usuario'])->get();
-                        if ($student[0]->registers->count() !== 0) {
-                            $data['codigo'] = "A01";
-                            $data['message'] = "El usuario tiene matriculas activas";
-                            array_push($this->alerts, $data);
+
+                        $student = Student::where("usuario", $data['usuario'])->first();
+
+                        if ($student instanceof Student) {
+                            $data = $student->toArray();
+                            if ($student->registers->count() !== 0) {
+                                $data['codigo'] = "A01";
+                                $data['message'] = "El usuario tiene matriculas activas";
+                                array_push($this->alerts, $data);
+                                unset($data);
+                                continue;
+                            }
+                            if ($student->registershistoricos->count() !== 0) {
+                                $data['codigo'] = "E02";
+                                $data['message'] = "El usuario tiene matriculas archivadas";
+                                array_push($this->alerts, $data);
+                                unset($data);
+                                continue;
+                            };
+                            $data['codigo'] = "C01";
+                            $data['message'] = "El usuario puede ser archivado correctamente";
+                            array_push($this->creators, $data);
                             unset($data);
                             continue;
-                        };
-                        if ($student[0]->registershistoricos->count() !== 0) {
-                            $data['codigo'] = "E02";
-                            $data['message'] = "El usuario tiene matriculas archivadas";
-                            array_push($this->alerts, $data);
+                        } else {
+                            $data['codigo'] = "E03";
+                            $data['message'] = "El usuario no existe";
+                            array_push($this->errors, $data);
                             unset($data);
                             continue;
-                        };
-                        $d = $student[0]->toArray();
-                        $d['codigo'] = "C01";
-                        $d['message'] = "El usuario puede ser archivado correctamente";
-                        array_push($this->creators, $d);
-                        unset($data);
-                        continue;
+                        }
 
                     }
                     $responseData = ['message' => 1, 'creators' => $this->creators, 'errors' => $this->errors, 'alerts' => $this->alerts,'totalr' => ($highestRow-1), 'totalc' => count($this->creators), 'totale' => count($this->errors), 'totala' => count($this->alerts)];
+                    Log::i(Tools::getMessageImportModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     return $newResponse->withJson($responseData, 200);
                 } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+                    Log::e(Tools::getMessageImportModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     return $newResponse->withJson(['message' => 0, "info" => $e->getMessage()], 500);
                 }
             }
@@ -404,4 +423,17 @@ class StudentController extends Controller
             $student_archive = StudentArchive::create($dataOK[$i]);
         }
     }
+
+    protected function isRowEmpty($row) :  bool
+    {
+        foreach ($row->getCellIterator() as  $cell) {
+            if ($cell->getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
 }

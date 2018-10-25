@@ -3,42 +3,48 @@
         <div class="ed-item s-100 l-100">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input name="nombre" type="text" class="form-control" {{ getP(modulo_programas) == 3 ? '' : 'readonly' }}>
+                <input name="nombre" type="text" class="form-control" {{ getP(modulo_programas) == lectura_escritura ? '' : 'readonly' }} required>
             </div>
             <div class="content_visible">
+                <div class="form-group">
                 <label for="instance">Instancia</label>
-                {% if auth.user.id_rol >= 3 %}
-                    <input name="instance" type="text" class="form-control" {{ getP(modulo_programas) == 3 ? '' : 'readonly' }} value="{{ auth.user.institution }}" readonly >
-                {% else %}
-                    <select name="instance" id="instance" class="form-control">
-                        <option>Instancias</option>
-                        {% for instances in instances %}
-                            <option value="{{ instances.codigo }}">{{ instances.nombre }}</option>
-                        {% endfor %}
-                    </select>
-                {% endif %}
+                    {% if auth.user.id_institucion != codigo_arroba_medellin %}
+                        <input type="text" name="instance_fake" class="form-control" required value="{{ getNameInstance(auth.user.id_institucion) }}" readonly>
+                        <input type="hidden" id="instance" name="instance" class="form-control" value="{{ getCodigoInstance(auth.user.id_institucion) }}" {{ getP(modulo_programas) == lectura_escritura ? '' : 'readonly' }} required>
+                    {% else %}
+                        <select name="instance" id="instance" class="form-control" {{ getP(modulo_programas) == lectura_escritura ? '' : 'readonly' }} required>
+                            <option>Seleccione</option>
+                            {% for instances in instances %}
+                                <option value="{{ instances.codigo }}">{{ instances.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+                <div class="form-group">
                 <label for="institucion">institucion</label>
-                {% if auth.user.id_rol >= 3 %}
-                    <input name="codigo_institucion" type="text" class="form-control" {{ getP(modulo_programas) == 3 ? '' : 'readonly' }} value="{{ auth.user.institution }}" readonly >
+                {% if auth.user.id_institucion != codigo_arroba_medellin %}
+                    <input name="institucion_fake" type="text" class="form-control" value="{{ getInstitution(auth.user.id_institucion) }}" readonly >
+                    <input name="codigo_institucion" id="codigo_institucion" type="hidden" class="form-control" value="{{ auth.user.id_institucion }}" readonly >
                 {% else %}
-                    <select name="codigo_institucion" id="codigo_institucion" class="form-control">
-                        <option>Instituciones</option>
+                    <select name="codigo_institucion" id="codigo_institucion" class="form-control" required>
+                        <option>Seleccione</option>
                         {% for institucion in instituciones %}
                             <option value="{{ institucion.codigo }}">{{ institucion.nombre }}</option>
                         {% endfor %}
                     </select>
                 {% endif %}
+                </div>
             </div>
             <div class="content_visible">
                 <div class="form-group">
                     <label for="codigo_program">Código</label>
-                    <input name="codigo_program" type="number" placeholder="ej: 00" class="form-control" {{ getP(modulo_programas) == 3 ? '' : 'readonly' }} min="00" max="99">
+                    <input name="codigo_program" type="number" placeholder="ej: 00" class="form-control" {{ getP(modulo_programas) == lectura_escritura ? '' : 'readonly' }} min="00" max="99" required>
                 </div>
                 <div class="form-group">
-                    <input name="codigo_forma" type="number"  disabled class="form-control" min="00000" max="99999">
+                    <input name="codigo" type="number" readonly class="form-control" min="00000" max="99999">
                 </div>
             </div>
-            {% if getP(modulo_programas) == 3 %}
+            {% if getP(modulo_programas) == lectura_escritura %}
                 <button type="submit" class="btn btn-primary">Guardar</button>
             {% endif %}
         </div>

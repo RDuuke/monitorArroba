@@ -36,23 +36,23 @@ class Program extends Model
 
     public function scopeITM($query)
     {
-        return $query->where("codigo_institucion", "=", 03)->get();
+        return $query->where("codigo_institucion", "=", Tools::codigoITM())->get();
     }
     public function scopeColegio($query)
     {
-        return $query->where("codigo_institucion", "=", 02)->get();
+        return $query->where("codigo_institucion", "=", Tools::codigoColegioMayor())->get();
     }
     public function scopePascual($query)
     {
-        return $query->where("codigo_institucion", "=", 01)->get();
+        return $query->where("codigo_institucion", "=", Tools::codigoPascualBravo())->get();
     }
     public function scopeRuta($query)
     {
-        return $query->where("codigo_institucion", "=", 04)->get();
+        return $query->where("codigo_institucion", "=", Tools::codigoRutaN())->get();
     }
     public function scopeMujeres($query)
     {
-        return $query->where('curso','LIKE', 07)->get();
+        return $query->where('curso','LIKE', Tools::codigoMujeres())->get();
     }
     static function checkCodigo($codigo)
     {

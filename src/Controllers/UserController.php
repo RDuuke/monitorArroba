@@ -29,19 +29,25 @@ class UserController extends Controller
         $data = ['message' => 0];
         $newResponse = $response->withHeader('Content-type', 'application/json');
         try {
-            $user = User::create(array_map('trim', $request->getParams()));
-            $user->clave = password_hash($request->getParam("documento"), PASSWORD_DEFAULT);
-            $user->save();
+            $data = $request->getParams();
+            $data['clave'] = password_hash($data['documento'], PASSWORD_DEFAULT);
+            $user = User::create(array_map('trim', $data));
             FirstSingIn::create(['usuario' => $user->usuario, "singin" => 0]);
-            Log::i(Tools::getMessageCreatorRegisterModule(Tools::codigoUsuarioPlataforma), $this->auth->user()->usuario, $request->getParam('usuario'), Tools::getTypeCreatorAction());
+            Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoUsuarioPlataforma, $this->auth->user()->usuario, $request->getParam('usuario')), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 $data = ['message' => 1, 'user' => $user];
                 return $newResponse->withJson($data, 200);
             }
+            $this->flash->addMessage("creators", "Usuario @monitor creado correctamente");
             return $response->withRedirect($this->router->pathFor('admin.user.add'));
-        } catch ( \Exception $e ) {
-            Log::e(Tools::getMessageCreatorRegisterModule(Tools::codigoUsuarioPlataforma), $this->auth->user()->usuario, $request->getParam('usuario'), Tools::getTypeCreatorAction());
-            return $newResponse->withJson($data, 200);
+        } catch ( \PDOException $e ) {
+            if ($request->isXhr()) {
+                Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoUsuarioPlataforma, $this->auth->user()->usuario, $request->getParam('usuario')), Tools::getTypeCreatorAction());
+                return $newResponse->withJson($data, 200);
+            }
+
+            $this->flash->addMessage("errors", str_replace(":correo",  $request->getParam('usuario'), Tools::$CodePDO[$e->getCode()]));
+            return $response->withRedirect($this->router->pathFor('admin.user.add'));
 
         }
     }

@@ -6,7 +6,7 @@ class User extends Model
 {
     protected $table = "usuario_gestion";
 
-    protected $fillable = ['usuario', 'nombres', 'apellidos', 'documento', 'id_institucion'];
+    protected $fillable = ['usuario', 'nombres', 'apellidos', 'documento', 'id_institucion', 'clave'];
 
     function institution()
     {

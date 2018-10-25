@@ -3,15 +3,16 @@
         <div class="ed-item s-100">
             <div class="form-group">
                 <label for="curso">Código del curso</label>
-                <input type="number" name="curso" placeholder="ej: 10101000" class="form-control">
+                <input type="number" name="curso" placeholder="ej: 10101000" class="form-control" required>
             </div>
             <div class="form-group">
                 <label for="usuario">usuario</label>
-                <input name="usuario" type="text" class="form-control" placeholder="ej: usuario@dominio.edu.co">
+                <input name="usuario" type="text" class="form-control" placeholder="ej: usuario@dominio.edu.co" required>
             </div>
             <div class="form-group">
                 <label for="rol">rol</label>
                 <select name="rol" id="rol" class="form-control" >
+                    <option disabled>Seleccione</option>
                     <option value="student">student</option>
                     <option value="teacher">teacher</option>
                     <option value="editingteacher">editingteacher</option>
@@ -20,6 +21,19 @@
                     {% endif %}
                 </select>
             </div>
+            {% if auth.user.id_institucion == codigo_arroba_medellin %}
+                <div class="form-group">
+                    <label for="rol">Institución</label>
+                    <select name="institucion_id" id="institucion_id" class="form-control" required>
+                        <option>Seleccione</option>
+                        {% for institution in institutions %}
+                            <option value="{{ institution.codigo }}">{{ institution.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% else %}
+                <input type="hidden" name="institucion_id" value="{{ auth.user.id_institucion }}">
+            {% endif %}
             <input type="hidden" name="fecha" value="{{ "now"| date("d-m-Y") }}">
             <button type="submit" class="btn btn-primary">Guardar</button>
         </div>

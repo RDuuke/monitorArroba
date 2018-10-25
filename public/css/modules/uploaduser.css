@@ -1,32 +1,5 @@
-#tableResult
-{
-    width: 100%;
-    display: none;
-}
-#tableResult tr {
-    border: 1px solid black;
-    background: #d9edf7;
-    color: black;
-    box-sizing: border-box;
-}
-#tableResult td,
-#tableResult th {
-    box-sizing: border-box;
-    padding: 1em .5em;
-    text-align: center;
-    border-right-color: #000000;
-    border-right-width: 1px;
-    border-right-style: solid;
 
-}
-#tableResult th{
-    color: black;
-}
-#tableResult td:last-child,
-#tableResult th:last-child
-{
-    border-right-style: none;
-}
+
 .errors
 {
     background-color: #f2dede !important;

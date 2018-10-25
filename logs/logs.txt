@@ -11,4 +11,122 @@ INFO[02-10-2018 03:22:04]: [Eliminación] El usuario juuanduuke@gmail.com elimin
 INFO[02-10-2018 03:23:06]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro Curso test en el modulo Cursos 
 INFO[02-10-2018 03:25:45]: [Creación] El usuario juuanduuke@gmail.com creando el registro   juan.duque@arrobamedellin.edu.co en el modulo Matriculas 
 INFO[02-10-2018 03:26:34]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro 10101001  juan.duque@arrobamedellin.edu.co en el modulo Matriculas 
-
+INFO[03-10-2018 04:48:26]: [Creación] El usuario juan.duque@gmail.com creando el registro Curso test en el modulo Cursos 
+INFO[03-10-2018 04:48:41]: [Eliminación] El usuario juan.duque@gmail.com eliminando el registro Curso test en el modulo Cursos 
+ERROR[03-10-2018 05:10:53]: [Creación] El usuario juuanduuke@gmail.com creando el registro juan.duque@arrobamedellin.edu.co en el modulo Usuarios Campus 
+ERROR[04-10-2018 11:36:58]: [Creación] El usuario juuanduuke@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+ERROR[04-10-2018 11:39:49]: [Creación] El usuario juuanduuke@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+ERROR[04-10-2018 11:43:59]: [Creación] El usuario juuanduuke@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+ERROR[04-10-2018 11:49:46]: [Creación] El usuario juuanduuke@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+ERROR[04-10-2018 11:50:46]: [Creación] El usuario juuanduuke@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+INFO[04-10-2018 11:51:03]: [Creación] El usuario juuanduuke@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+INFO[04-10-2018 11:51:41]: [Creación] El usuario juuanduuke@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+INFO[04-10-2018 11:52:14]: [Creación] El usuario juan.duque@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+INFO[04-10-2018 11:52:54]: [Creación] El usuario juan.duque@gmail.com creando el registro Programa test en el modulo Programas 
+INFO[04-10-2018 11:53:39]: [Creación] El usuario juan.duque@gmail.com creando el registro Programa test en el modulo Programas 
+INFO[04-10-2018 11:53:48]: [Eliminación] El usuario juan.duque@gmail.com eliminando el registro Programa test en el modulo Programas 
+INFO[04-10-2018 11:54:06]: [Creación] El usuario juan.duque@gmail.com creando el registro Curso test en el modulo Cursos 
+INFO[04-10-2018 11:54:30]: [Creación] El usuario juan.duque@gmail.com creando el registro Curso test en el modulo Cursos 
+INFO[04-10-2018 11:54:36]: [Eliminación] El usuario juan.duque@gmail.com eliminando el registro Curso test en el modulo Cursos 
+ERROR[04-10-2018 12:00:06]: [Creación] El usuario juan.duque@gmail.com creando el registro   dmespinosa@est.colmayor.edu.co en el modulo Matriculas 
+ERROR[04-10-2018 12:09:20]: [Creación] El usuario juan.duque@gmail.com creando el registro   dmespinosa@est.colmayor.edu.co en el modulo Matriculas 
+INFO[04-10-2018 12:10:46]: [Creación] El usuario juan.duque@gmail.com creando el registro 10201001  dmespinosa@est.colmayor.edu.co en el modulo Matriculas 
+INFO[04-10-2018 12:12:03]: [Creación] El usuario juan.duque@gmail.com creando el registro 10201001  dmespinosa@est.colmayor.edu.co en el modulo Matriculas 
+INFO[04-10-2018 12:15:28]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro 10201001  dmespinosa@est.colmayor.edu.co en el modulo Matriculas 
+INFO[04-10-2018 12:15:42]: [Creación] El usuario juuanduuke@gmail.com creando el registro 10201001  dmespinosa@est.colmayor.edu.co en el modulo Matriculas 
+INFO[04-10-2018 03:52:12]: [Creación] El usuario juuanduuke@gmail.com creando el registro Curso test en el modulo Cursos 
+INFO[04-10-2018 03:52:45]: [Creación] El usuario juuanduuke@gmail.com creando el registro Curso test en el modulo Cursos 
+ERROR[04-10-2018 03:54:57]: [Creación] El usuario juuanduuke@gmail.com creando el registro  en el modulo Cursos 
+ERROR[04-10-2018 03:57:07]: [Creación] El usuario juuanduuke@gmail.com creando el registro Curso test en el modulo Cursos 
+INFO[04-10-2018 03:57:41]: [Creación] El usuario juuanduuke@gmail.com creando el registro Curso test en el modulo Cursos 
+INFO[04-10-2018 03:58:12]: [Creación] El usuario juuanduuke@gmail.com creando el registro Curso test en el modulo Cursos 
+ERROR[04-10-2018 03:58:27]: [Creación] El usuario juuanduuke@gmail.com creando el registro  en el modulo Programas 
+INFO[04-10-2018 04:01:53]: [Creación] El usuario juuanduuke@gmail.com creando el registro Programa test en el modulo Programas 
+INFO[04-10-2018 04:02:41]: [Creación] El usuario juuanduuke@gmail.com creando el registro 60001000   en el modulo Matriculas 
+INFO[04-10-2018 04:04:04]: [Creación] El usuario juuanduuke@gmail.com creando el registro 60001000  juan.duque@arrobamedellin.edu.co en el modulo Matriculas 
+INFO[04-10-2018 04:05:55]: [Creación] El usuario juuanduuke@gmail.com creando el registro Programa test en el modulo Programas 
+INFO[04-10-2018 04:06:09]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro Programa test en el modulo Programas 
+INFO[04-10-2018 04:12:18]: [Creación] El usuario juuanduuke@gmail.com creando el registro Curso test en el modulo Cursos 
+INFO[04-10-2018 04:13:25]: [Creación] El usuario juuanduuke@gmail.com creando el registro 50001003  juan.duque@arrobamedellin.edu.co en el modulo Matriculas 
+INFO[05-10-2018 03:14:42]: [Creación] El usuario juuanduuke@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+INFO[05-10-2018 03:15:32]: [Creación] El usuario juuanduuke@gmail.com creando el registro 10707001  juuanduuke@gmail.com en el modulo Matriculas 
+INFO[05-10-2018 03:18:56]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro 10707001  juuanduuke@gmail.com en el modulo Matriculas 
+INFO[05-10-2018 03:25:06]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+INFO[05-10-2018 03:39:42]: [Creación] El usuario juuanduuke@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+INFO[08-10-2018 11:33:58]: [Creación] El usuario juan.duque@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+ERROR[08-10-2018 02:46:04]: [Creación] El usuario juan.duque@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+ERROR[08-10-2018 02:46:26]: [Creación] El usuario juan.duque@gmail.com creando el registro juuanduuke@gmail.com en el modulo Usuarios Campus 
+INFO[08-10-2018 03:50:52]: [Actualización] El usuario juuanduuke@gmail.com actualizando el registro fernando.tellez@colmayor.edu.co en el modulo Usuarios Campus 
+INFO[08-10-2018 03:52:01]: [Actualización] El usuario juuanduuke@gmail.com actualizando el registro fernando.tellez@colmayor.edu.co en el modulo Usuarios Campus 
+INFO[08-10-2018 03:55:42]: [Actualización] El usuario juuanduuke@gmail.com actualizando el registro andres.montoya@colmayor.edu.co en el modulo Usuarios Campus 
+INFO[08-10-2018 03:58:11]: [Actualización] El usuario juuanduuke@gmail.com actualizando el registro andres.montoya@colmayor.edu.co en el modulo Usuarios Campus 
+INFO[08-10-2018 03:58:52]: [Actualización] El usuario juuanduuke@gmail.com actualizando el registro andrea.tamayo@colmayor.edu.co en el modulo Usuarios Campus 
+INFO[08-10-2018 04:00:27]: [Actualización] El usuario juuanduuke@gmail.com actualizando el registro andres.montoya@colmayor.edu.co en el modulo Usuarios Campus 
+INFO[08-10-2018 04:02:25]: [Actualización] El usuario juuanduuke@gmail.com actualizando el registro andres.montoya@colmayor.edu.co en el modulo Usuarios Campus 
+INFO[08-10-2018 04:03:20]: [Actualización] El usuario juuanduuke@gmail.com actualizando el registro andres.montoya@colmayor.edu.co en el modulo Usuarios Campus 
+INFO[08-10-2018 04:16:13]: [Actualización] El usuario juuanduuke@gmail.com actualizando el registro k.cadavid460@pascualbravo.edu.co en el modulo Usuarios Campus 
+INFO[16-10-2018 11:20:44]: [Actualización] El usuario samayda.herrera@arrobamedellin.edu.co actualizando el registro samayda.herrera.p@arrobamedellin.edu.co en el modulo Usuarios @Monitor 
+INFO[16-10-2018 11:21:02]: [Actualización] El usuario samayda.herrera@arrobamedellin.edu.co actualizando el registro colmayor.p@colmayor.com en el modulo Usuarios @Monitor 
+INFO[16-10-2018 11:21:14]: [Actualización] El usuario samayda.herrera@arrobamedellin.edu.co actualizando el registro pascual.p@pascual.com en el modulo Usuarios @Monitor 
+INFO[16-10-2018 11:21:22]: [Actualización] El usuario samayda.herrera@arrobamedellin.edu.co actualizando el registro colmayor.p@colmayor.com en el modulo Usuarios @Monitor 
+INFO[16-10-2018 11:21:38]: [Actualización] El usuario samayda.herrera@arrobamedellin.edu.co actualizando el registro samayda.herrera.p@arrobamedellin.edu.co en el modulo Usuarios @Monitor 
+INFO[16-10-2018 11:33:51]: [Creación] El usuario samayda.herrera.p@arrobamedellin.edu.co creando el registro estudiante.pruebas1@arrobamdellin.edu.co en el modulo Usuarios Campus 
+INFO[16-10-2018 11:35:55]: [Actualización] El usuario samayda.herrera.p@arrobamedellin.edu.co actualizando el registro prueba.monitor@arrobamedellin.edu.co en el modulo Usuarios @Monitor 
+INFO[16-10-2018 11:36:25]: [Actualización] El usuario samayda.herrera.p@arrobamedellin.edu.co actualizando el registro prueba.monitor@arrobamedellin.edu.co en el modulo Usuarios @Monitor 
+INFO[16-10-2018 11:36:58]: [Actualización] El usuario samayda.herrera.p@arrobamedellin.edu.co actualizando el registro estudiante.pruebas1@arrobamdellin.edu.co en el modulo Usuarios Campus 
+INFO[16-10-2018 11:37:09]: [Actualización] El usuario samayda.herrera.p@arrobamedellin.edu.co actualizando el registro estudiante.pruebas1@arrobamdellin.edu.co en el modulo Usuarios Campus 
+INFO[16-10-2018 11:39:40]: [Creación] El usuario samayda.herrera.p@arrobamedellin.edu.co creando el registro Curso test1 en el modulo Cursos 
+INFO[19-10-2018 04:05:21]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro juan.duque@ggmail.com en el modulo Usuarios @Monitor 
+INFO[19-10-2018 04:05:45]: [Creación] El usuario juuanduuke@gmail.com creando el registro jorge.zapata@gmail.com en el modulo Usuarios @Monitor 
+INFO[19-10-2018 04:06:02]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro jorge.zapata@gmail.com en el modulo Usuarios @Monitor 
+INFO[19-10-2018 04:06:18]: [Creación] El usuario juuanduuke@gmail.com creando el registro jorge.zapata@gmail.com en el modulo Usuarios @Monitor 
+INFO[22-10-2018 02:35:35]: [Actualización] El usuario samayda.herrera.p@arrobamedellin.edu.co actualizando el registro colmayor.p@colmayor.com en el modulo Usuarios @Monitor 
+INFO[22-10-2018 02:54:26]: [Creación] El usuario colmayor.p@colmayor.com creando el registro programa de prueba en el modulo Programas 
+ERROR[22-10-2018 02:55:21]: [Creación] El usuario colmayor.p@colmayor.com creando el registro curso de prueba media técnica en el modulo Cursos 
+ERROR[22-10-2018 02:58:01]: [Creación] El usuario colmayor.p@colmayor.com creando el registro curso de prueba media tecnica en el modulo Cursos 
+ERROR[22-10-2018 02:58:05]: [Creación] El usuario colmayor.p@colmayor.com creando el registro curso de prueba media tecnica en el modulo Cursos 
+INFO[22-10-2018 03:01:17]: [Creación] El usuario juuanduuke@gmail.com creando el registro Curso test en el modulo Cursos 
+INFO[22-10-2018 03:01:32]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro Curso test1 en el modulo Cursos 
+INFO[22-10-2018 03:01:36]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro Curso test en el modulo Cursos 
+INFO[22-10-2018 03:03:04]: [Creación] El usuario colmayor.p@colmayor.com creando el registro prueba cursso 1 en el modulo Cursos 
+INFO[22-10-2018 03:04:46]: [Creación] El usuario colmayor.p@colmayor.com creando el registro prueba curso 2 en el modulo Cursos 
+INFO[22-10-2018 03:09:52]: [Creación] El usuario colmayor.p@colmayor.com creando el registro prueba.monitor1@arrobamedellin.edu.co en el modulo Usuarios Campus 
+INFO[22-10-2018 03:41:37]: [Actualización] El usuario colmayor.p@colmayor.com actualizando el registro mariacamila0172@gmail.com en el modulo Usuarios Campus 
+INFO[23-10-2018 11:56:27]: [Creación] El usuario juuanduuke@gmail.com creando el registro  en el modulo Usuarios Campus 
+ERROR[23-10-2018 11:56:38]: [Creación] El usuario juuanduuke@gmail.com creando el registro  en el modulo Usuarios Campus 
+ERROR[23-10-2018 11:56:41]: [Creación] El usuario juuanduuke@gmail.com creando el registro  en el modulo Usuarios Campus 
+INFO[23-10-2018 12:01:20]: [Eliminación] El usuario juuanduuke@gmail.com eliminando el registro  en el modulo Usuarios Campus 
+INFO[25-10-2018 02:20:18]: [Creación] El usuario juuanduuke@gmail.com utilizo la herramienta masiva en el modulo Usuarios Campus 
+INFO[25-10-2018 02:22:15]: [Carga] El usuario juuanduuke@gmail.com utilizo la herramienta masiva en el modulo Usuarios Campus 
+INFO[25-10-2018 02:24:56]: [Carga] El usuario juuanduuke@gmail.com utilizo la herramienta masiva en el modulo Matriculas 
+INFO[25-10-2018 02:30:21]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al modulo Instancias 
+INFO[25-10-2018 02:30:22]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al modulo Instancias 
+INFO[25-10-2018 02:39:39]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Instancias 
+INFO[25-10-2018 02:39:39]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Instancias 
+INFO[25-10-2018 02:39:40]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Instancias 
+INFO[25-10-2018 02:39:44]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Usuarios @Monitor 
+INFO[25-10-2018 02:39:45]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Usuarios @Monitor 
+INFO[25-10-2018 02:43:25]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 02:43:26]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 02:43:47]: [Alerta] El usuario juan.duque@gmail.com intentó ingresar al módulo Cursos 
+INFO[25-10-2018 02:47:58]: [Alerta] El usuario juan.duque@gmail.com intentó ingresar al módulo Cursos sin tener permisos. 
+INFO[25-10-2018 02:52:10]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 02:52:10]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+ALERTA[25-10-2018 02:52:13]: [Ingreso] El usuario juan.duque@gmail.com intentó ingresar al módulo Cursos sin tener permisos. 
+INFO[25-10-2018 03:25:18]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Matriculas 
+INFO[25-10-2018 03:25:18]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Matriculas 
+INFO[25-10-2018 03:25:33]: [Creación] El usuario juan.duque@gmail.com creando el registro 10201001  juuanduuke@gmail.com en el módulo Matriculas 
+INFO[25-10-2018 03:25:36]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Matriculas 
+INFO[25-10-2018 03:25:37]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Matriculas 
+INFO[25-10-2018 03:26:06]: [Creación] El usuario juan.duque@gmail.com creando el registro juan.duque@gmail.com en el módulo Usuarios Campus 
+INFO[25-10-2018 03:26:08]: [Creación] El usuario juan.duque@gmail.com creando el registro 10201001  juan.duque@gmail.com en el módulo Matriculas 
+INFO[25-10-2018 03:26:29]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 03:26:29]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 03:28:30]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 03:28:32]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 03:29:09]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 03:29:27]: [Eliminación] El usuario juan.duque@gmail.com eliminando el registro juan.duque@gmail.com en el módulo Usuarios Campus 
+INFO[25-10-2018 03:29:50]: [Eliminación] El usuario juan.duque@gmail.com eliminando el registro juuanduuke@gmail.com en el módulo Usuarios Campus 
+INFO[25-10-2018 03:29:51]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 03:29:51]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 03:42:57]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 

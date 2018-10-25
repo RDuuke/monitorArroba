@@ -5,7 +5,7 @@ $(function(){
             return table.row(tr.parents('tr')).data();
         },
         getCourses : function() {
-            ;
+
             $.get(getUri + "/panel/register/courses").done(function(response){
                 return response;
             });
@@ -46,9 +46,11 @@ $(function(){
                 data: {data : data},
                 cache: false
             }).done(function(response){
+                console.log(response);
                 functions.removeToast();
                 toastr.success('Carga terminada.', 'Finalizado', {timeOut: 3000});
             }).fail( function (response) {
+                console.log(response);
                 toastr.remove();
                 toastr.error("Error cargando los datos, vuelve ha intentarlo", "Error", {timeOut: 5000000});
             });
@@ -59,6 +61,18 @@ $(function(){
 
         removeToast : function () {
             toastr.remove();
+        },
+
+        getReportStudent :  function (url) {
+            let labels = [];
+            let dataset = [];
+            $.get(url).done(function (response) {
+                $.each(response, function (key, value) {
+                    labels.push(value.nombre);
+                    dataset.push(value.cantidad);
+                });
+            });
+            return {labels, dataset};
         }
 
     }

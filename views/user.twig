@@ -11,37 +11,37 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class="ed-container full">
-    <div class="ed-item s-100 l-20 margin-2-em-vertical">
-        <h2 class="text-black text-bold">{{ module_name | title }}</h2>
-    </div>
-    <div class="separator"></div>
-    <div class="ed-item s-100 flex">
-        <a href="{{ path_for('admin.home') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
-        {% if getP(modulo_plataforma) == lectura_escritura  %}
-        <button class="btn btn-primary addstudent" data-href="{{ path_for('admin.users.store') }}">Agregar usuario <i class="fa fa-plus"></i></button>
-        {% endif %}
-    </div>
+    <div class="ed-container full">
+        <div class="ed-item s-100 l-20 margin-2-em-vertical">
+            <h2 class="text-black text-bold">{{ module_name | title }}</h2>
+        </div>
+        <div class="separator"></div>
+        <div class="ed-item s-100 flex">
+            <a href="{{ path_for('admin.home') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
+            {% if getP(modulo_plataforma) == lectura_escritura  %}
+            <button class="btn btn-primary addstudent" data-href="{{ path_for('admin.users.store') }}">Agregar usuario <i class="fa fa-plus"></i></button>
+            {% endif %}
+        </div>
 
-    <div class="ed-item s-100">
-    <br>
-        <table id="tb_user" class="display">
-            <thead>
-                <tr>
-                    <th>ID:</th>
-                    <th> {{ "Usuario" | title }}</th>
-                    <th> {{ "nombres" | title }}</th>
-                    <th> {{ "Apellidos" | title }}</th>
-                    <th> {{ "Documento" | title }}</th>
-                    <th> {{ "Institución" | title }}</th>
-                    <th> {{ "Acciones" | title }}</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="ed-item s-100">
+        <br>
+            <table id="tb_user" class="display">
+                <thead>
+                    <tr>
+                        <th>ID:</th>
+                        <th> {{ "Usuario" | title }}</th>
+                        <th> {{ "nombres" | title }}</th>
+                        <th> {{ "Apellidos" | title }}</th>
+                        <th> {{ "Documento" | title }}</th>
+                        <th> {{ "Institución" | title }}</th>
+                        <th> {{ "Acciones" | title }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 {% endblock %}
 {% block modales %}
 {% include "formularios/user.twig" %}

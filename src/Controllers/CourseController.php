@@ -18,28 +18,11 @@ class CourseController extends Controller
 
     function all(Request $request, Response $response)
     {
-        switch($this->auth->user()->id_institucion)
-            {
-                case Tools::codigoPascualBravo():
-                    $courses = Course::pascual()->get();
-
-                    break;
-                case Tools::codigoColegioMayor():
-                    $courses = Course::colegio()->get();
-                    break;
-                case Tools::codigoITM():
-                    $courses = Course::itm()->get();
-                break;
-                case Tools::codigoRutaN():
-                    $courses = Course::ruta()->get();
-                break;
-                case Tools::codigoMujeres():
-                    $courses = Course::mujeres()->get();
-                break;
-                default :
-                    $courses = Course::all();
-                break;
-            }
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $courses = Course::where('institucion_id', $this->auth->user()->id_institucion)->get();
+        } else {
+            $courses = Course::all();
+        }
         $newResponse = $response->withHeader('Content-type', 'application/json');
         return $newResponse->withJson($courses, 200);
     }
@@ -54,6 +37,8 @@ class CourseController extends Controller
                 $course = Course::create(array_map('trim', $request->getParams()));
                 $course->codigo = $codigo_evaluate;
                 $course->save();
+                $course->fecha = date('Y-m-d h:i:s');
+
                 Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario,  $request->getParam('nombre')), Tools::getTypeCreatorAction());
                 if ($request->isXhr()) {
                     $data = ['message' => 1, 'course' => $course];
@@ -148,24 +133,11 @@ class CourseController extends Controller
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params'] . "%";
 
-        switch($this->auth->user()->id_institucion)
-        {
-                case Tools::codigoPascualBravo():
-                    $all_courses = Course::pascual()->where("nombre","LIKE", $param)->orwhere("codigo", "LIKE", $param)->get()->toArray();
-                    break;
-                case Tools::codigoColegioMayor():
-                    $all_courses = Course::colegio()->where("nombre","LIKE", $param)->orwhere("codigo","LIKE", $param)->get();
-                    break;
-                case Tools::codigoITM():
-                    $all_courses = Course::itm()->where("nombre","LIKE", $param)->orwhere("codigo","LIKE", $param)->get();
-                    break;
-                case Tools::codigoRutaN():
-                    $all_courses = Course::ruta()->where("nombre","LIKE", $param)->orwhere("codigo","LIKE", $param)->get();
-                default :
-                    $all_courses = Course::where("nombre","LIKE", $param)->orwhere("codigo","LIKE", $param)->get()->toArray();
-                    break;
-            }
-            $courses = $all_courses;
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $courses = Course::where("nombre", "LIKE", $param)->orWhere("codigo", "LIKE", $param)->where("institucion_id", $this->auth->user()->id_institucion)->get();
+        } else {
+            $courses = Course::where("nombre","LIKE", $param)->orwhere("codigo","LIKE", $param)->get();
+        }
 
         try {
             return $this->view->render($response, "_partials/search_course.twig", ["courses" => $courses]);
@@ -187,13 +159,19 @@ class CourseController extends Controller
                     $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
                     $worksheet = $spreadsheet->getActiveSheet();
-                    $highestRow = $worksheet->getHighestDataRow();
+                    $highestRow = Tools::getHighestDataRow($worksheet);
                     for ($row = 2; $row <= $highestRow; $row++) {
                         $data = [
                             "id_programa" => substr(trim($worksheet->getCell('A' . $row)->getvalue()), 0 , 5),
                             "codigo" => trim($worksheet->getCell('A' . $row)->getvalue()),
                             "nombre" => trim($worksheet->getCell('B' . $row)->getvalue()),
                         ];
+                        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+                            $data['institucion_id'] = $this->auth->user()->id_institucion;
+                        } else {
+                            $data['institucion_id'] = $request->getParam('codigo_institucion');
+
+                        }
                         if (! Program::checkCodigo($data['id_programa'])) {
                             if (Course::checkCodigo($data['codigo'])) {
                                 $data['message'] = str_replace(":codigo", $data['codigo'], Tools::getMessageCourse(2));
@@ -215,8 +193,10 @@ class CourseController extends Controller
                     }
                     $responseData = ['message' => 1, 'totalR' => ($highestRow - 1), 'totalC' => count($this->creators), 'totalE' => count($this->errors), 'creators' => $this->creators, 'errors' => $this->errors];
                     $newResponse = $response->withHeader('Content-type', 'application/json');
+                    Log::i(Tools::getMessageImportModule(Tools::codigoCursos, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     return $newResponse->withJson($responseData, 200);
                 } catch ( PhpLabelException $exception) {
+                    Log::e(Tools::getMessageImportModule(Tools::codigoCursos, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     die( "Error :" . $exception->getMessage());
                 }
             }

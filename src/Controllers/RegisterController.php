@@ -22,26 +22,10 @@ class RegisterController extends Controller
 
     function all(Request $request, Response $response) : Response
     {
-            switch($this->auth->user()->id_institucion)
-            {
-                case Tools::codigoPascualBravo():
-                    $registers = Register::pascual()->get();
-                    break;
-                case Tools::codigoColegioMayor():
-                    $registers = Register::colegio()->get();
-                    break;
-                case Tools::codigoITM():
-                    $registers = Register::itm()->get();
-                break;
-                case Tools::codigoRutaN():
-                    $registers = Register::rutan()->get();
-                break;
-                case Tools::codigoMujeres():
-                    $registers = Register::mujeres()->get();
-                break;
-                default :
-                    $registers = Register::all();
-                break;
+            if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+                $registers = Register::where('institucion_id', $this->auth->user()->id_institucion)->get();
+            } else {
+                $registers = Register::all();
             }
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($registers, 200);
@@ -64,7 +48,6 @@ class RegisterController extends Controller
             return $response->withRedirect($this->router->pathFor("admin.register.add"));
         }
         try{
-            //$register = Register::create(array_map('trim', $request->getParams()));
             $register = $this->saveRegister($request);
             if ($request->isXhr()) {
                 if ($register->save()) {
@@ -82,7 +65,7 @@ class RegisterController extends Controller
                 }
             }
         }catch(\Exception $e) {
-            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $request->getParam('codigo') . "  " . $request->getParam('usuario')));
+            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $request->getParam('codigo') . "  " . $request->getParam('usuario')), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 return $response->withStatus(500)->write(0);
             } else {
@@ -148,7 +131,8 @@ class RegisterController extends Controller
                     $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
                     $worksheet = $spreadsheet->getActiveSheet();
-                    $highestRow = $worksheet->getHighestDataRow();
+                    $highestRow = Tools::getHighestDataRow($worksheet);
+                    //$highestRow = $worksheet->getHighestDataRow();
                     for ($row = 2; $row <= $highestRow; $row++) {
                         $data = [
                             "curso" => trim($worksheet->getCell('A' . $row)->getvalue()),
@@ -156,6 +140,11 @@ class RegisterController extends Controller
                             "usuario" => trim($worksheet->getCell('C' . $row)->getvalue()),
                             "rol" => trim($worksheet->getCell('D' . $row)->getvalue()),
                         ];
+                        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+                            $data['institucion_id'] = $this->auth->user()->id_institucion;
+                        } else {
+                            $data['institucion_id'] = $request->getParam('codigo_institucion');
+                        }
                         if (!filter_var(trim($data['usuario']), FILTER_VALIDATE_EMAIL)) {
                             $data['message'] = Tools::getMessageRegister(0);
                             $data['codigo'] = Tools::getCodigoRegister(0);
@@ -164,7 +153,6 @@ class RegisterController extends Controller
                             continue;
                         }
                         $student = Student::where('usuario', $data['usuario'])->get();
-
                         if ($student->count() == 0) {
                             $data['message'] = str_replace(':usuario', $data['usuario'], Tools::getMessageRegister(5));
                             $data['codigo'] = Tools::getCodigoRegister(5);
@@ -211,9 +199,11 @@ class RegisterController extends Controller
                     }
                     $responseData = ['message' => 1, 'totalR' => ($highestRow - 1), 'totalC' => count($this->creators), 'totalA' => count($this->alerts), 'totalE' => count($this->errors), 'creators' => $this->creators, 'alerts' => $this->alerts, 'errors' => $this->errors];
                     $newResponse = $response->withHeader('Content-type', 'application/json');
+                    Log::i(Tools::getMessageImportModule(Tools::codigoMatriculas, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     return $newResponse->withJson($responseData, 200);
 
                 } catch ( PhpLabelException $exception) {
+                    Log::e(Tools::getMessageImportModule(Tools::codigoMatriculas, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     die( "Error :" . $exception->getMessage());
                 }
             }
@@ -223,10 +213,24 @@ class RegisterController extends Controller
 
     function proccess(Request $request, Response $response)
     {
+        $data = [
+          "status" => 1,
+          "creators" => 0,
+          "errors" => 0
+        ];
+        $c = 0;
+        $e = 0;
         $dataOK = $request->getParam('data');
         for($i = 0; $i < count($dataOK); $i++){
-            Register::updateOrCreate(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']], $dataOK[$i]);
+            if (Register::updateOrCreate(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']], $dataOK[$i]) instanceof Register){
+               $c++;
+            }
+            $e++;
         }
+        $data["creators"] = $c;
+        $data["errors"] = $e;
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        return $newResponse->withJson($data, 200);
     }
 
     function uploadDeEnRoll(Request $request, Response $response)
@@ -241,7 +245,7 @@ class RegisterController extends Controller
                     $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
                     $worksheet = $spreadsheet->getActiveSheet();
-                    $highestRow = $worksheet->getHighestDataRow();
+                    $highestRow = Tools::getHighestDataRow($worksheet);
                     for ($row = 2; $row <= $highestRow; $row++) {
                         $data = [
                             "curso" => trim($worksheet->getCell('A' . $row)->getvalue()),
@@ -286,8 +290,10 @@ class RegisterController extends Controller
                     }
                     $responseData = ['message' => 1, 'totalR' => ($highestRow - 1), 'totalC' => count($this->creators), 'totalE' => count($this->errors), 'creators' => $this->creators, 'errors' => $this->errors];
                     $newResponse = $response->withHeader('Content-type', 'application/json');
+                    Log::i(Tools::getMessageImportModule(Tools::codigoMatriculas, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     return $newResponse->withJson($responseData, 200);
                 } catch ( PhpLabelException $exception) {
+                    Log::e(Tools::getMessageImportModule(Tools::codigoMatriculas, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     die( "Error :" . $exception->getMessage());
                 }
             }
@@ -337,6 +343,7 @@ class RegisterController extends Controller
         $register->instancia = substr($request->getParam('curso'), 0, 1);
         $register->usuario = $request->getParam('usuario');
         $register->rol = $request->getParam('rol');
+        $register->institucion_id = $request->getParam('institucion_id');
         return $register;
     }
 

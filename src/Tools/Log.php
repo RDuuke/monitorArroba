@@ -15,6 +15,11 @@ class Log implements InterfaceLog
         $log = "ERROR[".date('d-m-Y h:i:s')."]: [" . $type  . "] " . $message . " " . "\n";
         return self::write($log);
     }
+    static function a (string $message, String $type) : bool
+    {
+        $log = "ALERTA[".date('d-m-Y h:i:s')."]: [" . $type  . "] " . $message . " " . "\n";
+        return self::write($log);
+    }
 
     static function write(string $message) : bool
     {

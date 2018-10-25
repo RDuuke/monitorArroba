@@ -8,7 +8,7 @@ class Register extends Model
 {
     protected $table = "matricula";
 
-    protected $fillable = ['curso', 'instancia', 'usuario', 'rol', 'fecha'];
+    protected $fillable = ['curso', 'instancia', 'usuario', 'rol', 'fecha', 'institucion_id'];
 
     public $timestamps = false;
 

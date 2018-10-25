@@ -18,8 +18,8 @@ $app->group("/panel", function (){
     $this->get("/course/add", "AppController:courseAdd")->setName('admin.course.add');
     $this->get("/program/add", "AppController:programAdd")->setName('admin.program.add');
     $this->get("/instance/add", "AppController:instanceAdd")->setName('admin.instance.add');
-    $this->get("/instance/upload", "AppController:upload_students")->setName("admin.view.students.upload");
-    $this->get("/program/uploadarchive", "AppController:upload_students_archive")->setName("admin.view.student.upload.archive");
+    $this->get("/student/upload", "AppController:upload_students")->setName("admin.view.students.upload");
+    $this->get("/students/uploadarchive", "AppController:upload_students_archive")->setName("admin.view.student.upload.archive");
     $this->get("/register/uploaddeenroll", "AppController:upload_register_de_enroll")->setName("admin.view.student.upload.deenroll");
     $this->get("/register/upload", "AppController:upload_registers")->setName("admin.upload.register");
     $this->get("/courses/upload", "AppController:upload_courses")->setName("admin.upload.courses");
@@ -33,6 +33,7 @@ $app->group("/panel", function (){
     $this->get("/search/student", "AppController:searchStudent")->setName("admin.search.student");
     $this->get("/search/course", "AppController:searchCourse")->setName("admin.search.course");
     $this->get("/search/program", "AppController:searchProgram")->setName("admin.search.program");
+    $this->get("/search/report", "AppController:searchReport")->setName("admin.search.report");
     $this->get("/first", "AppController:firstIn")->setName("firstsingin");
     $this->post("/first", "AppController:changePassword")->setName("firstsingin");
 
@@ -125,6 +126,9 @@ $app->group("/panel", function (){
     $this->get("/register/download/register_enroll", "AppController:downloadRegisterArchive")->setName('admin.register.archive.anexo');
     $this->get("/register/download/archive", "AppController:downloadArchive")->setName('admin.archive.anexo');
     $this->get("/course/download/archive", "AppController:downloadCourse")->setName('admin.course.anexo');
+    $this->get("/search/report/student/consolidated", "ReportController:consolidated")->setName("admin.report.student.consolidated");
+    $this->get("/search/report/student/moth", "ReportController:studentForMonth")->setName("admin.report.student.month");
+    $this->get("/search/report/filter[/{incial}[/{final}]]", "ReportController:filterForMonth")->setName("admin.report.filter.month");
  })->add(new \App\Middleware\AuthMiddleware($container));
 
 $app->get("/test", function () {

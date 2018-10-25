@@ -6,7 +6,7 @@ class Course extends Model
 {
     protected $table = "curso";
 
-    protected $fillable = ['codigo', 'nombre', 'nombre_corto', 'id_programa', 'fecha'];
+    protected $fillable = ['codigo', 'nombre', 'nombre_corto', 'id_programa', 'fecha', 'institucion_id'];
 
     public $timestamps = false;
 

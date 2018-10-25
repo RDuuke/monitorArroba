@@ -29,11 +29,8 @@ class ProgramController extends Controller
         $data = ['message' => 0];
         $newResponse = $response->withHeader('Content-type', 'application/json');
         try {
-            $codigo_evaluate = $request->getParam('instance') . $request->getParam('codigo_institucion') . $request->getParam('codigo_program');
-            if (Program::checkCodigo(trim($codigo_evaluate))) {
+            if (Program::checkCodigo(trim($request->getParam('codigo')))) {
                 $program = Program::create(array_map('trim', $request->getParams()));
-                $program->codigo = $codigo_evaluate;
-                $program->save();
                 $program->fecha = date('Y-m-d h:i:s');
                 Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoProgramas, $this->auth->user()->usuario, $request->getParam('nombre')), Tools::getTypeCreatorAction());
                 if ($request->isXhr()) {
@@ -111,7 +108,7 @@ class ProgramController extends Controller
     {
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params']. "%";
-        if ($this->auth->user()->id_institucion != "05") {
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
             $programs = Program::where("nombre","LIKE", $param)->orWhere("codigo", "LIKE", $param)->where("codigo_institucion", $this->auth->user()->id_institucion)->get();
         } else {
             $programs = Program::where("nombre","LIKE", $param)->orWhere("codigo", "LIKE", $param)->get();

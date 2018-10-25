@@ -2,33 +2,53 @@
 {% block styles %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
-    <link rel="stylesheet" href="{{ base_url}}/monitor/public/css/modules/uploaduser.css">
+    <link rel="stylesheet" href="{{ base_url }}/monitor/public/css/modules/uploaduser.css">
 {% endblock %}
 {% block content %}
     <div class="ed-container full">
         <div class="ed-item s-100 l-100 padding-2-em-botom">
-            <h2>Análisis del anexo10 para archivar usuarios</h2>
             <div class="separator"></div>
-            <div class="ed-container ed-item s-100">
-                <a href="{{ path_for('admin.students') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
-            </div>
-            <p>
+            <h2>Análisis del para archivar usuarios</h2>
+        </div>
+        <div class="ed-item s-100">
+            <a href="{{ path_for('admin.students') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
+        </div>
+        <div class="separator"></div>
+        <div class="ed-item s-100">
             <p>
                 Esta aplicación, permitirá analizar un archivo <a download href="{{ path_for('admin.student.archive.anexo') }}">Anexo 10</a>
             </p>
-            </p>
-            <form action="{{ path_for('admin.view.student.upload.archive') }}" enctype="multipart/form-data" method="post" id="formFile">
-                <input type="file" name="archive" required  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            <br>
+            <form action="{{ path_for('admin.view.student.upload.archive') }}" enctype="multipart/form-data"
+                  method="post" id="formFile">
+                <input type="file" name="archive" required
+                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                 <button class="btn btn-primary">Analizar</button>
             </form>
+        </div>
+        <div class="ed-item s-100 none" id="content-result">
             <br>
-            <p class="none fadein">Registros: <span data-toggle='tooltip' title='Matriculas' id="registros"></span> - Correctos: <span id="totalR"></span> - Alertas: <span id="totalA"></span>  - Errores: <span id="totalE"></span> - <button data-toggle='tooltip' title='Descargar registros de la tabla' class="btn none fadein download_archive btn-info">Descargar</button> - <button data-toggle='tooltip' title='Archivar usuarios correctos' id="cargar" class="btn btn-success" data-action="{{ path_for('admin.student.archive.proccess') }}">Procesar resultados</button>
+            <p class="none fadein tools-p">Registros: <span data-toggle='tooltip' title='Matriculas'
+                                                            id="registros"></span> - Correctos: <span
+                        id="totalR"></span> - Alertas: <span id="totalA"></span> - Errores: <span id="totalE"></span> -
+                <button data-toggle='tooltip' title='Descargar registros de la tabla'
+                        class="btn none fadein download-data btn-info">Descargar
+                </button>
+                -
+                <button data-toggle='tooltip' title='Archivar usuarios correctos' id="cargar" class="btn btn-success"
+                        data-action="{{ path_for('admin.student.archive.proccess') }}">Procesar resultados
+                </button>
             </p>
             <br>
-            <table id="tableResult" class="fadein">
+            <table id="tableResult">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th> {{ "Usuario" | title }}</th>
+                    <th> {{ "nombres" | title }}</th>
+                    <th> {{ "Apellidos" | title }}</th>
+                    <th> {{ "Documento" | title }}</th>
+                    <th> {{ "institucion" | title }}</th>
                     <th> {{ "Codigo" | title }}</th>
                     <th> {{ "Mensaje" | title }}</th>
                 </tr>
@@ -37,16 +57,17 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
-    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
     <script src="{{ base_url }}/monitor/public/js/function.js"></script>
-
     <script src="{{ base_url }}/monitor/public/js/modules/upload_users_archive.js"></script>
 {% endblock %}

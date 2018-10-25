@@ -1,7 +1,13 @@
 <?php
 namespace App\Tools;
 
+use App\Models\Course;
 use App\Models\Permission;
+use App\Models\Program;
+use App\Models\Register;
+use App\Models\Student;
+use Illuminate\Database\Capsule\Manager;
+use Illuminate\Support\Str;
 
 class Tools {
 
@@ -13,6 +19,7 @@ class Tools {
     const codigoCursos = 6;
     const codigoMatriculas = 7;
     const codigoBusqueda = 8;
+    const codigoReporte = 9;
     const Lectura = 1;
     const LecturaEscritura = 3;
 
@@ -61,7 +68,8 @@ class Tools {
             3 => "Ruta N",
             4 => "@Medellín",
             5 => "Secretaría de Salud",
-            6 => "secretaría de la Mujer"
+            6 => "secretaría de la Mujer",
+            7 => "Sapiencia"
         ],
         "codigo" => [
             0 => "01",
@@ -70,7 +78,8 @@ class Tools {
             3 => "04",
             4 => "05",
             5 => "06",
-            6 => "07"
+            6 => "07",
+            7 => "08"
         ]
     ];
 
@@ -81,7 +90,8 @@ class Tools {
         "04" => "Ruta N",
         "05" => "@Medellín",
         "06" => "Secretaría de Salud",
-        "07" => "Secretaría de la Mujer"
+        "07" => "Secretaría de la Mujer",
+        "08" => "Sapiencia"
     ];
 
     static protected $Instance = [
@@ -105,7 +115,12 @@ class Tools {
         4 => "Instituciones",
         5 => "Programas",
         8 => "Búsqueda",
-        6 => "Cursos"
+        6 => "Cursos",
+        9 => "Reportes"
+    ];
+
+    static public $CodePDO = [
+        23000 => "Ya existe un usuario con el correo :correo"
     ];
 
     static public $MenuActive = [
@@ -117,7 +132,7 @@ class Tools {
     ];
 
     static protected $tipo = [
-        "Creación", "Actualización", "Eliminación", "Ingresos", "Salida", "Carga"
+        "Creación", "Actualización", "Eliminación", "Ingreso", "Salida", "Carga", "Alerta"
     ];
 
 
@@ -233,6 +248,14 @@ class Tools {
         return self::$Institution['codigo'][4];
     }
 
+    static function codigoSalud()
+    {
+        return self::$Institution['codigo'][5];
+    }
+    static function codigoSapiencia()
+    {
+        return self::$Institution['codigo'][7];
+    }
     static function Pregado()
     {
         return self::$Institution['nombre'][1];
@@ -265,19 +288,32 @@ class Tools {
 
     static function getMessageCreaterRegisterModule(Int $module, String $user, String $valor)
     {
-        return "El usuario $user creando el registro $valor en el modulo " . self::$Modules[$module];
+        return "El usuario $user creando el registro $valor en el módulo " . self::$Modules[$module];
     }
 
     static function getMessageUpdateRegisterModule(Int $module, String $user, String $valor)
     {
-        return "El usuario $user actualizando el registro $valor en el modulo " . self::$Modules[$module];
+        return "El usuario $user actualizando el registro $valor en el módulo " . self::$Modules[$module];
     }
 
     static function getMessageDeleteRegisterModule(Int $module, String $user, String $valor)
     {
-        return "El usuario $user eliminando el registro $valor en el modulo " . self::$Modules[$module];
+        return "El usuario $user eliminando el registro $valor en el módulo " . self::$Modules[$module];
+    }
+    static function getMessageImportModule(Int $module, String $user) : String
+    {
+        return "El usuario $user utilizo la herramienta masiva en el módulo " . self::$Modules[$module];
     }
 
+    static function getEnterModuleMessage(int $module, String $user) : String
+    {
+        return "El usuario $user ingreso al módulo " . self::$Modules[$module];
+    }
+
+    static function getTryEnterModuleMessage(Int $module, String $user) : String
+    {
+        return "El usuario $user intentó ingresar al módulo " . self::$Modules[$module] . " sin tener permisos.";
+    }
     static function getTypeCreatorAction() : String
     {
         return self::$tipo[0];
@@ -293,6 +329,10 @@ class Tools {
         return self::$tipo[2];
     }
 
+    static function getTypeAction(int $valor) : String {
+        return self::$tipo[$valor];
+    }
+
     static function refreshPermission($id)
     {
         foreach(Permission::where('user_id', '=', $id)->get()->toArray() as $k => $v){
@@ -303,4 +343,98 @@ class Tools {
 
         }
     }
+
+    static function getDataGeneralForMonth(int $type, string $firstDate, string $lastDate) : array
+    {
+        if ( $type == 1) {
+            return $dataTable = [
+                "cursos" => [
+                    "pascual" => Course::where('institucion_id', Tools::codigoPascualBravo())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "sapiencia" => Course::where('institucion_id', Tools::codigoSapiencia())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "itm" => Course::where('institucion_id', Tools::codigoITM())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "colmayor" => Course::where('institucion_id', Tools::codigoColegioMayor())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "secremujer" => Course::where('institucion_id', Tools::codigoMujeres())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "secresalud" => Course::where('institucion_id', Tools::codigoSalud())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "total" => Course::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()
+                ],
+                "matriculas" => [
+                    "pascual" => Register::where('institucion_id', Tools::codigoPascualBravo())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "sapiencia" => Register::where('institucion_id', Tools::codigoSapiencia())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "itm" => Register::where('institucion_id', Tools::codigoITM())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "colmayor" => Register::where('institucion_id', Tools::codigoColegioMayor())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "secremujer" => Register::where('institucion_id', Tools::codigoMujeres())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "secresalud" => Register::where('institucion_id', Tools::codigoSalud())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "total" => Register::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()
+                ],
+                "programas" => [
+                    "pascual" => Program::where('codigo_institucion', Tools::codigoPascualBravo())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "sapiencia" => Program::where('codigo_institucion', Tools::codigoSapiencia())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "itm" => Program::where('codigo_institucion', Tools::codigoITM())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "colmayor" => Program::where('codigo_institucion', Tools::codigoColegioMayor())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "secremujer" => Program::where('codigo_institucion', Tools::codigoMujeres())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "secresalud" => Program::where('codigo_institucion', Tools::codigoSalud())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "total" => Program::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()
+                ],
+                "usuarios" => [
+                    "pascual" => Student::where('institucion_id', Tools::codigoPascualBravo())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "sapiencia" => Student::where('institucion_id', Tools::codigoSapiencia())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "itm" => Student::where('institucion_id', Tools::codigoITM())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "colmayor" => Student::where('institucion_id', Tools::codigoColegioMayor())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "secremujer" => Student::where('institucion_id', Tools::codigoMujeres())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "secresalud" => Student::where('institucion_id', Tools::codigoSalud())
+                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
+                    "total" => Student::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()
+                ]
+            ];
+        }
+    }
+
+    static function studentData(int $type = 0, string $firstDate = '', string $lastDate = "") : array
+    {
+        if ($type == 0) {
+            $data = Manager::table("usuario")
+                ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
+                ->select("institucion.nombre", Manager::raw("COUNT(institucion.codigo) AS cantidad"))
+                ->groupBy("institucion.nombre")
+                ->get();
+        } else {
+            $data = Manager::table("usuario")
+                ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
+                ->select("institucion.nombre", Manager::raw("COUNT(institucion.codigo) AS cantidad"))
+                ->whereBetween("usuario.fecha", [$firstDate, $lastDate])
+                ->groupBy("institucion.nombre")
+                ->get();
+        }
+
+        return $data->all();
+    }
+
+    static function getHighestDataRow($worksheet) : int
+    {
+        return count(array_filter(array_map("array_filter",$worksheet->toArray())));
+    }
+
 }

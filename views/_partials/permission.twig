@@ -2,17 +2,17 @@
     {% for permission in permissions %}
         <tr data-id="{{ permission.id }}">
             <td>{{ permission.module.nombre }}</td>
-            {% if (permission.permiso == 3) %}
+            {% if (permission.permiso == lectura_escritura) %}
                 <td class="text-center">Sí</td>
                 <td class="text-center">Sí</td>
-            {% elseif (permission.permiso == 1) %}
+            {% elseif (permission.permiso == lectura) %}
                 <td class="text-center">Sí</td>
                 <td class="text-center">No</td>
             {% else %}
                 <td class="text-center">No</td>
                 <td class="text-center">No</td>
             {% endif %}
-            {% if getP(modulo_plataforma) == 3  %}
+            {% if getP(modulo_plataforma) == lectura_escritura  %}
             <td class="text-right"><a class="permissionRemove" href="{{ path_for('admin.student.remove', { 'id' : permission.id}) }}" class="text-danger"><i class="fa fa-remove"></i></a></td>
             {% endif %}
         </tr>

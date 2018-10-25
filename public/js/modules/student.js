@@ -39,7 +39,7 @@ $("#tb_user").on('click', '.studentEliminar', function(event) {
         }).
         fail(function(response){
             console.log(response);
-          toastr.error(response, 'Error!!', {timeOut: 3000});
+            toastr.error(response.responseText, 'Error!!', {timeOut: 3000});
         });
       } else {
         return false;
@@ -52,8 +52,14 @@ $("#tb_user").on('click', '.studentShow', function(event){
     var url = _td.attr('href') + _data.id
     $.get(url).done(function(response){
       $.each(response, function( key, value ) {
-        $('input[name="'+key+'"]').val(value);
-        $('#userCreateForm').attr('action', _td.attr('data-href') + _data.id);
+          if (key == 'institucion_id' && value != ''){
+              $('#institucion_user option[value='+value+']').attr('selected','selected');
+          } else if ( key == 'genero' && value != "") {
+              $("select#genero option[value="+value+"]").prop("selected", true);
+          } else {
+              $('input[name="'+key+'"]').val(value);
+          }
+          $('#userCreateForm').attr('action', _td.attr('data-href') + _data.id);
         $('#userCreateModal').modal('show');
       });
     });

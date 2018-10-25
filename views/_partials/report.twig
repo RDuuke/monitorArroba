@@ -1,0 +1,95 @@
+<table id="report-data">
+    <thead>
+    <tr>
+        <th>Módulos</th>
+        <th>Pascual Bravo</th>
+        <th>Sapiencia</th>
+        <th>ITM</th>
+        <th>Colegio Mayor</th>
+        <th>Secretaría de las Mujeres</th>
+        <th>Secretaría de la Juventud</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Usuarios</td>
+        <td>{{ data_table.usuarios.pascual }}</td>
+        <td>{{ data_table.usuarios.sapiencia }}</td>
+        <td>{{ data_table.usuarios.itm }}</td>
+        <td>{{ data_table.usuarios.colmayor }}</td>
+        <td>{{ data_table.usuarios.secremujer }}</td>
+        <td>{{ data_table.usuarios.secresalud }}</td>
+        <td>{{ data_table.usuarios.total }}</td>
+    </tr>
+    <tr>
+        <td>Matrículas</td>
+        <td>{{ data_table.matriculas.pascual }}</td>
+        <td>{{ data_table.matriculas.sapiencia }}</td>
+        <td>{{ data_table.matriculas.itm }}</td>
+        <td>{{ data_table.matriculas.colmayor }}</td>
+        <td>{{ data_table.matriculas.secremujer }}</td>
+        <td>{{ data_table.matriculas.secresalud }}</td>
+        <td>{{ data_table.matriculas.total }}</td>
+    </tr>
+    <tr>
+        <td>Cursos</td>
+        <td>{{ data_table.cursos.pascual }}</td>
+        <td>{{ data_table.cursos.sapiencia }}</td>
+        <td>{{ data_table.cursos.itm }}</td>
+        <td>{{ data_table.cursos.colmayor }}</td>
+        <td>{{ data_table.cursos.secremujer }}</td>
+        <td>{{ data_table.cursos.secresalud }}</td>
+        <td>{{ data_table.cursos.total }}</td>
+    </tr>
+    <tr>
+        <td>Programas</td>
+        <td>{{ data_table.programas.pascual }}</td>
+        <td>{{ data_table.programas.sapiencia }}</td>
+        <td>{{ data_table.programas.itm }}</td>
+        <td>{{ data_table.programas.colmayor }}</td>
+        <td>{{ data_table.programas.secremujer }}</td>
+        <td>{{ data_table.programas.secresalud }}</td>
+        <td>{{ data_table.programas.total }}</td>
+    </tr>
+    </tbody>
+</table>
+<script>
+    var table = $('table').DataTable({
+        lengthMenu: [ 25, 50, 75, 100 ],
+        language: {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Registros por pagina: _MENU_ ",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "paginate": {
+                "first":      "Primera",
+                "last":       "Ultima",
+                "next":       "Siguiente <i class='fa fa-angle-right'></i>",
+                "previous":   "<i class='fa fa-angle-left'></i> Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        dom: 'Blfrtip',
+        buttons : [
+            {
+                extend: 'excel',
+                title: 'Matriculas',
+                text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
+                className: 'btn btn-info'
+            },
+        ],
+
+    });
+</script>

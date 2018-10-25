@@ -1,11 +1,45 @@
 var formOk = new Array;
 var formAlert = new Array;
+var table = $('#tableResult').DataTable({
+    lengthMenu: [25, 50, 75, 100],
+    language: {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Registros por pagina: _MENU_ ",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "paginate": {
+            "first": "Primera",
+            "last": "Ultima",
+            "next": "Siguiente <i class='fa fa-angle-right'></i>",
+            "previous": "<i class='fa fa-angle-left'></i> Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    },
+    dom: 'Blfrtip',
+    buttons : [{
+        extend: 'excel',
+        title: 'resultado_de_analisis_anexo3.xlsx',
+        text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
+        className: 'btn btn-info'
+    }],
+});
 $("#formFile").on('submit', function(event){
     event.preventDefault();
     var _this = $(this);
     var form = new FormData(_this[0]);
     console.log(form);
-
+    table.clear().draw();
     $.ajax({
         type : "POST",
         url : _this.attr('action'),
@@ -19,19 +53,20 @@ $("#formFile").on('submit', function(event){
         data: form
     }).done(response => {
         toastr.remove();
-        $("#tableResult tbody").html("");
-        let i = 0, a = 0;
-        renderData(response.creators, 'creators', formOk);
-        renderData(response.errors, 'errors');
+        let i = 1;
+        renderData(i, response.creators, 'creators', formOk);
+        renderData(i, response.errors, 'errors');
         $("#registros").html(response.totalR);
         $("#totalR").html(response.totalC);
         $("#totalE").html(response.totalE);
         $(".fadein").fadeIn();
         $("form")[0].reset();
+        $("#content-result").fadeIn();
     }).fail(error => {
 
     });
 });
+/*
 $(".download_archive").on('click', function(event){
     event.preventDefault();
     var tbl = document.getElementById("tableResult");
@@ -40,6 +75,7 @@ $(".download_archive").on('click', function(event){
     var wbout = XLSX.write(wb,wopts);
     saveAs(new Blob([wbout],{type:"application/octet-stream"}), "resultado_analisis_del_anexo1.xlsx");
 });
+*/
 $("#cargar").on('click', function(event){
     let _this = $(this);
     event.preventDefault();
@@ -63,18 +99,22 @@ $("#cargar").on('click', function(event){
     }
 });
 
-function renderData(value, classes, saveData = []) {
-    let i = 0;
+function renderData(i, value, classes, saveData = []) {
+    let a = 0;
     $.each(value, function(key, value) {
-        $("#tableResult tbody").append("<tr class='"+ classes +"'>"+
-            "<td>"+value.codigo+"</td>"+
-            "<td>"+value.nombre+"</td>"+
-            "<td>"+value.id_programa+"</td>"+
-            "<td>"+value.codigo_proccess+"</td>"+
-            "<td>"+value.message+"</td>"+
-            "</tr>");
 
-        saveData[i] = {"nombre": value.nombre, "codigo": value.codigo, "id_programa": value.id_programa};
+        var trDom = table.row.add([
+            i,
+            value.codigo,
+            value.nombre,
+            value.id_programa,
+            value.codigo_proccess,
+            value.message
+        ]).draw(false).node();
+        $(trDom).addClass(classes);
+
+        saveData[a] = {"nombre": value.nombre, "codigo": value.codigo, "id_programa": value.id_programa, 'institucion_id' :  value.institucion_id};
         i++;
+        a++;
     });
 }

@@ -11,9 +11,9 @@
     {% for program in programs %}
     <tr>
         <td>{{ program.codigo }}</td>
-        <td><a href="{{ path_for("admin.search.program.course", { 'id' : program.codigo} ) }}">{{ program.nombre  }}</a></td>
+        <td><a href="{{ path_for("admin.search.program.course", { 'id' : program.codigo} ) }}">{{ program.nombre }}</a></td>
         <td>{{ getInstance(program.codigo) }}</td>
-        <td>{{ program.institution.nombre }}</td>
+        <td>{{ getInstitution(program.codigo, 1) }}</td>
     </tr>
     {% endfor %}
     </tbody>

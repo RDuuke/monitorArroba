@@ -68,8 +68,9 @@ $("#tb_programs").on('click', '.programshow', function (event) {
     $('#programCreateForm')[0].reset();
     $.each(response, function (key, value) {
       if ( key == 'codigo_institucion') {
-        $('#codigo_institucion option[value='+value+']').attr('selected','selected');
+        $('#institucion_fake').val(value);
       } else if ( key == 'codigo') {
+          $('input[name="codigo"]').val(value);
           $('select#instance option[value='+value.substr(0, 1)+']').attr('selected','selected');
           $('input[name="codigo_program"]').val(value.substr(3));
       } else {

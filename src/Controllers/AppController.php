@@ -3,7 +3,10 @@ namespace App\Controllers;
 
 use App\Models\FirstSingIn;
 use App\Models\User;
+use App\Tools\Log;
 use App\Tools\Tools;
+use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\Eloquent\Collection;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Student;
@@ -34,25 +37,29 @@ class AppController extends Controller
     public function students(Request $request,Response $response)
     {
         if (!$this->accessModuleRead($response,Tools::codigoUsuarioCampus)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoUsuarioCampus, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
         $institutions =Institution::all();
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoUsuarioCampus, $this->auth->user()->usuario), Tools::getTypeAction(3));
         return $this->view->render($response, "student.twig", ['module_name' => Tools::$Modules[Tools::codigoUsuarioCampus], "menu_active" => Tools::$MenuActive[0], "instituciones" => $institutions]);
     }
 
     public function users(Request $request, Response $response)
     {
         if (!$this->accessModuleRead($response,Tools::codigoUsuarioPlataforma)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoUsuarioPlataforma, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-
         $rols = Rol::all();
         $institutions =Institution::all();
-        if ($this->auth->user()->id_institucion != 05) {
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
             $modules = Module::public();
         } else {
             $modules = Module::all();
         }
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoUsuarioPlataforma, $this->auth->user()->usuario), Tools::getTypeAction(3));
+
         return $this->view->render($response, "user.twig", ['roles' => $rols, "instituciones" => $institutions, "modules" => $modules, 'module_name' => Tools::$Modules[Tools::codigoUsuarioPlataforma], "menu_active" => Tools::$MenuActive[0]]);
     }
 
@@ -63,52 +70,72 @@ class AppController extends Controller
     public function registers(Request $request, Response $response)
     {
         if (!$this->accessModuleRead($response,Tools::codigoMatriculas)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoMatriculas, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "register.twig", ['module_name' => Tools::$Modules[Tools::codigoMatriculas], "menu_active" => Tools::$MenuActive[0]]);
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoMatriculas, $this->auth->user()->usuario), Tools::getTypeAction(3));
+        return $this->view->render($response, "register.twig", ['module_name' => Tools::$Modules[Tools::codigoMatriculas], "menu_active" => Tools::$MenuActive[0], "institutions" => Institution::all()]);
     }
 
     public function instance(Request $request, Response $response)
     {
         if (!$this->accessModuleRead($response,Tools::codigoInstancias)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoInstancias, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoInstancias, $this->auth->user()->usuario), Tools::getTypeAction(3));
         return $this->view->render($response, "instance.twig", ['module_name' => Tools::$Modules[Tools::codigoInstancias], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function program(Request $request, Response $response)
     {
         if (!$this->accessModuleRead($response,Tools::codigoProgramas)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoProgramas, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $instances = Manager::table('instancia')->whereIn('codigo', [1, 2])->orWhere('institucion_id', $this->auth->user()->id_institucion)->get();
+        }else {
+            $instances = Instance::all();
+        }
         $institutions =Institution::all();
-        $instances =Instance::all();
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoProgramas, $this->auth->user()->usuario), Tools::getTypeAction(3));
         return $this->view->render($response, "program.twig", ["instituciones" => $institutions, 'instances' => $instances, 'module_name' => Tools::$Modules[Tools::codigoProgramas], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function institution(Request $request, Response $response)
     {
         if (!$this->accessModuleRead($response,Tools::codigoInstituciones)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoInstituciones, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoInstituciones, $this->auth->user()->usuario), Tools::getTypeAction(3));
         return $this->view->render($response, "institution.twig", ['module_name' => Tools::$Modules[Tools::codigoInstituciones], "menu_active" => Tools::$MenuActive[0]]);
     }
 
     public function courses(Request $request, Response $response)
     {
         if (!$this->accessModuleRead($response,Tools::codigoCursos)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoCursos, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-
-        $programs = Program::all();
-        return $this->view->render($response, "courses.twig", ['programs' => $programs,'module_name' => Tools::$Modules[Tools::codigoCursos], "menu_active" => Tools::$MenuActive[0]]);
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $programs = Program::where('codigo_institucion', $this->auth->user()->id_institucion)->get();
+        } else {
+            $programs = Program::all();
+        }
+        $institutions = Institution::all();
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoCursos, $this->auth->user()->usuario), Tools::getTypeAction(3));
+        return $this->view->render($response, "courses.twig", ['programs' => $programs,'module_name' => Tools::$Modules[Tools::codigoCursos], "menu_active" => Tools::$MenuActive[0], "institutions" => $institutions]);
     }
 
     public function search(Request $request, Response $response)
     {
         if (!$this->accessModuleRead($response,Tools::codigoBusqueda)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoBusqueda, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoBusqueda, $this->auth->user()->usuario), Tools::getTypeAction(3));
         return $this->view->render($response, "search.twig", ['module_name' => Tools::$Modules[Tools::codigoBusqueda], "menu_active" => Tools::$MenuActive[0]]);
     }
 
@@ -137,6 +164,14 @@ class AppController extends Controller
         return $this->view->render($response, "search_program.twig", ["module_name" => ["Búsqueda#admin.search", "Búsqueda Programa"], "menu_active" => Tools::$MenuActive[1]]);
     }
 
+    public function searchReport(Request $request, Response $response)
+    {
+        $firstDate = date("Y") . "-" . date("m") . "-" . "1";
+        $lastDate = date("Y") . "-" . date("m") . "-" . "31";
+
+        $dataTable = Tools::getDataGeneralForMonth(1, $firstDate, $lastDate);
+        return $this->view->render($response, "report.twig", ["module_name" => ["Búsqueda#admin.search", "Cifras del Campus Digital @Medellín"], "menu_active" => Tools::$MenuActive[1], "data_table" => $dataTable]);
+    }
     public function userAdd(Request $request, Response $response)
     {
         if (!$this->accessModuleReadAndWrite($response,Tools::codigoBusqueda)) {
@@ -159,8 +194,12 @@ class AppController extends Controller
         if (!$this->accessModuleReadAndWrite($response,Tools::codigoProgramas)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $instances = Manager::table('instancia')->whereIn('codigo', [1, 2])->orWhere('institucion_id', $this->auth->user()->id_institucion)->get();
+        }else {
+            $instances = Instance::all();
+        }
         $institutions =Institution::all();
-        $instances =Instance::all();
         return $this->view->render($response, "content_form_add.twig", ["form" => "program.twig", "instances" => $instances, "instituciones" => $institutions, "module_name" => ["Programas#admin.program", "Agregar Programas"], "menu_active" => Tools::$MenuActive[0]]);
     }
 
@@ -169,8 +208,14 @@ class AppController extends Controller
         if (!$this->accessModuleReadAndWrite($response,Tools::codigoCursos)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        $programs = Program::all();
-        return $this->view->render($response, "content_form_add.twig", ["form" => "course.twig", "module_name" => ["Cursos#admin.courses", "Agregar curso"], "programs" => $programs, "menu_active" => Tools::$MenuActive[0]]);
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $programs = Program::where('codigo_institucion', $this->auth->user()->id_institucion)->get();
+        } else {
+
+            $programs = Program::all();
+        }
+        $institutions = Institution::all();
+        return $this->view->render($response, "content_form_add.twig", ["form" => "course.twig", "module_name" => ["Cursos#admin.courses", "Agregar curso"], "programs" => $programs, "menu_active" => Tools::$MenuActive[0],  "institutions" => $institutions]);
     }
 
     public function instanceAdd(Request $request, Response $response)
@@ -195,25 +240,7 @@ class AppController extends Controller
         if (!$this->accessModuleReadAndWrite($response,Tools::codigoMatriculas)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        switch($this->auth->user()->id_institucion)
-        {
-            case "01":
-                $courses = Course::pascual()->get();
-                break;
-            case "02":
-                $courses = Course::colegio()->get();
-                break;
-            case "03":
-                $courses = Course::itm()->get();
-                break;
-            case  "04":
-                $courses = Course::ruta()->get();
-                break;
-            default :
-                $courses = Course::all();
-                break;
-        }
-        return $this->view->render($response, "content_form_add.twig", ["form" =>"register.twig", "module_name" => ["Matriculas#admin.register","agregar matricula"], "courses" => $courses, "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "content_form_add.twig", ["form" =>"register.twig", "module_name" => ["Matriculas#admin.register","agregar matricula"], "institutions" => Institution::all(), "menu_active" => Tools::$MenuActive[0]]);
 
     }
     public function changePassword(Request $request, Response $response)
@@ -283,7 +310,7 @@ class AppController extends Controller
 
             }
         } catch(\Exception $e) {
-            return $response->withStatus(500)->write('0');
+            return $response->withStatus(500)->write($e->getMessage());
         }
     }
     function upload_students(Request $request, Response $response)
@@ -301,15 +328,16 @@ class AppController extends Controller
         if (!$this->accessModuleReadAndWrite($response,Tools::codigoMatriculas)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-
-        return $this->view->render($response, "uploadregister.twig", ["module_name" => ["Matriculas#admin.register", "Creación Masivamente"], "menu_active" => Tools::$MenuActive[2]]);
+        $institutions = Institution::all();
+        return $this->view->render($response, "uploadregister.twig", ["module_name" => ["Matriculas#admin.register", "Creación Masivamente"], "menu_active" => Tools::$MenuActive[2], "institutions" => $institutions]);
     }
     function upload_courses(Request $request, Response $response)
     {
         if (!$this->accessModuleReadAndWrite($response,Tools::codigoCursos)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "uploadcourse.twig", ["module_name" => ["Cursos#admin.courses", "Creación Masivamente"], "menu_active" => Tools::$MenuActive[2]]);
+        $institutions = Institution::all();
+        return $this->view->render($response, "uploadcourse.twig", ["module_name" => ["Cursos#admin.courses", "Creación Masivamente"], "menu_active" => Tools::$MenuActive[2], "institutions" => $institutions]);
     }
 
     function upload_students_archive(Request $request, Response $response)
@@ -373,18 +401,16 @@ class AppController extends Controller
         return $this->view->render($response, "content_form_add.twig", ['form' => $partial, 'module_name' => $module_name]);
     }
 
-    protected function accessModuleRead(Response $response, Int $module)
+    protected function accessModuleRead(Response $response, Int $module) : bool
     {
-
         if (! $this->auth->getPermissionForModule($module) || $this->auth->getPermissionForModule($module) == 0) {
             return false;
         }
         return true;
     }
-    protected function accessModuleReadAndWrite(Response $response, Int $module)
+    protected function accessModuleReadAndWrite(Response $response, Int $module) : bool
     {
-
-        if (! $this->auth->getPermissionForModule($module) == 3) {
+        if (! $this->auth->getPermissionForModule($module) == Tools::LecturaEscritura) {
             return false;
         }
         return true;

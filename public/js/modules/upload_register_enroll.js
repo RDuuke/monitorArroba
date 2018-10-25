@@ -1,6 +1,39 @@
 var formOk = new Array();
 //var formAlert = new Array();
-
+var table = $('#tableResult').DataTable({
+    lengthMenu: [25, 50, 75, 100],
+    language: {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Registros por pagina: _MENU_ ",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "paginate": {
+            "first": "Primera",
+            "last": "Ultima",
+            "next": "Siguiente <i class='fa fa-angle-right'></i>",
+            "previous": "<i class='fa fa-angle-left'></i> Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    },
+    dom: 'Blfrtip',
+    buttons : [{
+        extend: 'excel',
+        title: 'resultado_de_analisis_anexo11.xlsx',
+        text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
+        className: 'btn btn-info'
+    }],
+});
 $("#formFile").on('submit', function(event){
     event.preventDefault();
     var _this = $(this);
@@ -19,7 +52,7 @@ $("#formFile").on('submit', function(event){
         data: form
     }).done(response => {
         toastr.remove();
-        let i = 0, a = 0;
+        let i = 1;
         $("#tableResult tbody").html("");
         renderData(response.creators, 'creators', formOk);
         renderData(response.errors, 'errors');
@@ -28,7 +61,10 @@ $("#formFile").on('submit', function(event){
         $("#totalR").html(response.totalC);
         $("#totalE").html(response.totalE);
         $(".fadein").fadeIn();
+        $(".tools-p").fadeIn().addClass('visible');
         $("form")[0].reset();
+        $("#content-result").fadeIn();
+
 
     }).fail(error => {
         toastr.remove();
@@ -36,6 +72,7 @@ $("#formFile").on('submit', function(event){
 
     });
 });
+/*
 $(".download_archive").on('click', function(event){
     event.preventDefault();
     var tbl = document.getElementById("tableResult");
@@ -45,6 +82,7 @@ $(".download_archive").on('click', function(event){
     saveAs(new Blob([wbout],{type:"application/octet-stream"}), "resultado_de_analisis_anexo2.xlsx");
 
 });
+*/
 $("#cargar").on('click', function(event){
     let _this = $(this);
     event.preventDefault();
@@ -57,15 +95,21 @@ $("#cargar").on('click', function(event){
 });
 
 function renderData(value, classes, saveData = []) {
-    let i = 0;
+    let a = 0;
     $.each(value, function(key, value) {
-        $("#tableResult tbody").append("<tr class='"+classes+"'>"+
-            "<td>"+value.curso+"</td>"+
-            "<td>"+value.usuario+"</td>"+
-            "<td>"+value.codigo+"</td>"+
-            "<td>"+value.message+"</td>"+
-            "</tr>");
-        saveData[i] = {'curso' : value.curso, 'instancia' : value.instancia, 'usuario' : value.usuario, 'rol' : value.rol};
+        var trDom = table.row.add([
+            i,
+            value.curso,
+            value.instancia,
+            value.usuario,
+            value.rol,
+            value.codigo,
+            value.message
+        ]).draw(false).node();
+        $(trDom).addClass(classes);
+
+        saveData[a] = {'curso' : value.curso, 'instancia' : value.instancia, 'usuario' : value.usuario, 'rol' : value.rol};
         i++;
+        a++;
     });
 }

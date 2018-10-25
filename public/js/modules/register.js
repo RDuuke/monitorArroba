@@ -1,5 +1,5 @@
 
- $("form").keypress(function(e) {
+$("form").keypress(function(e) {
   if (e.which == 13) {
       return false;
   }
@@ -152,8 +152,10 @@ $("#tb_register").on('click', '.showUserRegister', function(event){
     $.each( r, function( key, value ) {
       $('input[name="'+key+'"]').val(value);
       if (key =='genero' && value != '') {
-        console.log(key);
         $("select#genero option[value="+value+"]").prop("selected", true);
+      }
+      if (key == 'institucion_id' ){
+        $("select#institucion_user option[value="+value+"]").prop("selected", true);
       }
     });
     $("#userCreateForm input[name='usuario']").attr('readonly', true);

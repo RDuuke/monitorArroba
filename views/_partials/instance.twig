@@ -3,17 +3,17 @@
         <div class="ed-item s-100 l-100">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input name="nombre" type="text" class="form-control" {{ getP(modulo_instancias) == 3 ? '' : 'readonly' }}>
+                <input name="nombre" type="text" class="form-control" {{ getP(modulo_instancias) == lectura_escritura ? '' : 'readonly' }} required>
             </div>
             <div class="form-group">
                 <label for="codigo">Codigo</label>
-                <input name="codigo" type="number" placeholder="00" class="form-control" {{ getP(modulo_instancias) == 3 ? '' : 'readonly' }} min="00" max="99">
+                <input name="codigo" type="number" placeholder="00" class="form-control" {{ getP(modulo_instancias) == lectura_escritura ? '' : 'readonly' }} min="00" max="99" required>
             </div>
             <div class="form-group">
                 <label for="bd">Base de datos</label>
-                <input name="bd" type="text" class="form-control" {{ getP(modulo_instancias) == 3 ? '' : 'readonly' }}>
+                <input name="bd" type="text" class="form-control" {{ getP(modulo_instancias) == lectura_escritura ? '' : 'readonly' }}>
             </div>
-            {% if getP(modulo_instancias) < 5  %}
+            {% if getP(modulo_instancias) == lectura_escritura  %}
                 <button type="submit" class="btn btn-primary">Guardar</button>
             {% endif %}
         </div>
