@@ -5,10 +5,10 @@ return [
         'displayErrorDetails' => true,
         'db' => [
             'driver' => 'mysql',
-            'host' => 'localhost',
+            'host' => '10.0.4.30',
             'database' => 'gestion_arroba',
-            'username' => 'monitor',
-            'password' => 'monitor2018',
+            'username' => 'arrobamedellin',
+            'password' => 'vex3SP83xLeGQFNZ',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

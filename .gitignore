@@ -8,4 +8,4 @@
 /logs/
 /resource/tmp
 !bootstrap/app.php
-/bootstrap
+bootstrap/
