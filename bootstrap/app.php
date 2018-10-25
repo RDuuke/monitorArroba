@@ -31,11 +31,7 @@ $capsule->addConnection($container['settings']['db_colmayor'], "db_colmayor");
 $capsule->addConnection($container['settings']['db_pascual'], "db_pascual");
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
-$whoopsGuard = new \Zeuxisoo\Whoops\Provider\Slim\WhoopsGuard();
-$whoopsGuard->setApp($app);
-$whoopsGuard->setRequest($container['request']);
-$whoopsGuard->setHandlers([]);
-$whoopsGuard->install();
+
 
 $container['db'] = function ($container) use ($capsule) {
     return $capsule;
@@ -74,7 +70,6 @@ $container['view'] = function ($container) {
     $view->getEnvironment()->addGlobal('modulo_reporte', Tools::codigoReporte);
     $view->getEnvironment()->addGlobal('codigo_arroba_medellin', Tools::codigoMedellin());
     $view->getEnvironment()->addGlobal('lectura', Tools::Lectura);
-    $view->getEnvironment()->addGlobal('lectura_escritura', Tools::LecturaEscritura);
     $view->getEnvironment()->addGlobal('lectura_escritura', Tools::LecturaEscritura);
     $view->getEnvironment()->addGlobal('session', $_SESSION);
 

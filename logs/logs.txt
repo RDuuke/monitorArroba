@@ -153,3 +153,11 @@ INFO[25-10-2018 05:04:49]: [Carga] El usuario colmayor.p@colmayor.com utilizo la
 INFO[25-10-2018 05:05:18]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Usuarios Campus 
 INFO[25-10-2018 05:05:53]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Matriculas 
 INFO[25-10-2018 05:08:43]: [Ingreso] El usuario colmayor.p@colmayor.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 05:53:27]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Búsqueda 
+INFO[25-10-2018 05:53:27]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Búsqueda 
+INFO[25-10-2018 05:53:42]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Matriculas 
+INFO[25-10-2018 05:53:44]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Matriculas 
+INFO[25-10-2018 05:53:54]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Instancias 
+INFO[25-10-2018 05:53:54]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Instancias 
+INFO[25-10-2018 05:54:09]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Búsqueda 
+INFO[25-10-2018 05:54:09]: [Ingreso] El usuario juuanduuke@gmail.com ingreso al módulo Búsqueda 
