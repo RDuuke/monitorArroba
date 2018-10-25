@@ -130,3 +130,26 @@ INFO[25-10-2018 03:29:50]: [Eliminación] El usuario juan.duque@gmail.com elimin
 INFO[25-10-2018 03:29:51]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
 INFO[25-10-2018 03:29:51]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
 INFO[25-10-2018 03:42:57]: [Ingreso] El usuario juan.duque@gmail.com ingreso al módulo Usuarios Campus 
+INFO[25-10-2018 04:22:44]: [Ingreso] El usuario samayda.herrera.p@arrobamedellin.edu.co ingreso al módulo Usuarios @Monitor 
+INFO[25-10-2018 04:24:15]: [Ingreso] El usuario colmayor.p@colmayor.com ingreso al módulo Cursos 
+INFO[25-10-2018 04:25:37]: [Creación] El usuario colmayor.p@colmayor.com creando el registro programa prueba 2 en el módulo Programas 
+INFO[25-10-2018 04:26:00]: [Ingreso] El usuario colmayor.p@colmayor.com ingreso al módulo Programas 
+INFO[25-10-2018 04:26:13]: [Ingreso] El usuario colmayor.p@colmayor.com ingreso al módulo Cursos 
+ERROR[25-10-2018 04:28:07]: [Creación] El usuario colmayor.p@colmayor.com creando el registro Francisco Toro Lengua Materna 10 en el módulo Cursos 
+INFO[25-10-2018 04:28:25]: [Ingreso] El usuario colmayor.p@colmayor.com ingreso al módulo Cursos 
+ERROR[25-10-2018 04:29:02]: [Creación] El usuario colmayor.p@colmayor.com creando el registro Francisco Toro Lengua Materna 10 en el módulo Cursos 
+ERROR[25-10-2018 04:36:23]: [Creación] El usuario colmayor.p@colmayor.com creando el registro Francisco Toro Lengua Materna 10 en el módulo Cursos 
+INFO[25-10-2018 04:36:59]: [Creación] El usuario colmayor.p@colmayor.com creando el registro Francisco Toro Lengua Materna 10 en el módulo Cursos 
+INFO[25-10-2018 04:37:03]: [Ingreso] El usuario colmayor.p@colmayor.com ingreso al módulo Cursos 
+INFO[25-10-2018 04:38:33]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Usuarios Campus 
+INFO[25-10-2018 04:39:18]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Matriculas 
+INFO[25-10-2018 04:39:59]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Usuarios Campus 
+INFO[25-10-2018 04:40:56]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Usuarios Campus 
+INFO[25-10-2018 05:02:58]: [Ingreso] El usuario colmayor.p@colmayor.com ingreso al módulo Cursos 
+INFO[25-10-2018 05:03:17]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Matriculas 
+INFO[25-10-2018 05:03:41]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Matriculas 
+INFO[25-10-2018 05:03:53]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Matriculas 
+INFO[25-10-2018 05:04:49]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Usuarios Campus 
+INFO[25-10-2018 05:05:18]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Usuarios Campus 
+INFO[25-10-2018 05:05:53]: [Carga] El usuario colmayor.p@colmayor.com utilizo la herramienta masiva en el módulo Matriculas 
+INFO[25-10-2018 05:08:43]: [Ingreso] El usuario colmayor.p@colmayor.com ingreso al módulo Usuarios Campus 

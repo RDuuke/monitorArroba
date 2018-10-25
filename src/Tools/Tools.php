@@ -102,8 +102,9 @@ class Tools {
             4 => "Ruta N",
             5 => "SandBox",
             6 => "IUPB",
-            8 => "Colmayor",
-            9 => "ITM"
+            8 => "Colegio Mayor",
+            6 => "ITM",
+            7 => "Pascual Bravo"
         ]
     ];
 
