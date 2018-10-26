@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models\Institution;
 use App\Models\StudentArchive;
+use App\Models\User;
 use App\Tools\Log;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -275,7 +276,8 @@ class StudentController extends Controller
     function permissionAll(Request $request, Response $response){
         $router = $request->getAttribute('route');
         $permissions = Permission::where('user_id',"=",$router->getArguments()['id'])->get();
-        return $this->view->render($response, "_partials/permission.twig", ['permissions' => $permissions]);
+        $usuario = User::find($router->getArguments()['id'])->first();
+        return $this->view->render($response, "_partials/permission.twig", ['permissions' => $permissions, "usuario" => $usuario]);
     }
     function permission(Request $request, Response $response)
     {

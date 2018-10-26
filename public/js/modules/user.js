@@ -115,27 +115,39 @@ $("#permission").on('click', function(event){
     url : _this.attr('href') + "/" +  _this.attr('data-id'),
     data : data,
     method : "POST"
-  }).done( function(response){
-    let jsonResponse = response;
-    if(jsonResponse.writing == 2){ w = "Sí"}else{w = "No"};
-    if(jsonResponse.reading == 1){ r = "Sí"}else{r = "No"};
-    if(jsonResponse.status == 1){
-      if ($("#tablePermission tbody tr[data-id="+jsonResponse.id+"]").length == 1){
-        $("#tablePermission tbody tr[data-id="+jsonResponse.id+"]").html("<td class='text-left'>"+jsonResponse.module+"</td><td class='text-center'>"+r+"</td><td class='text-center'>"+w+"</td><td class='text-right'><a class='permissionRemove' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"' class='text-danger'><i class='fa fa-remove'></i></a></td>");
+  }).done( function(jsonResponse){
+      if (jsonResponse.status == 1) {
+          if(jsonResponse.writing == 2){ w = "Sí"}else{w = "No"};
+          if(jsonResponse.reading == 1){ r = "Sí"}else{r = "No"};
+          if ($("#tablePermission tbody tr[data-id="+jsonResponse.id+"]").length == 1){
+              $("#tablePermission tbody tr[data-id="+jsonResponse.id+"]").html("<td class='text-left'>"+jsonResponse.module+"</td><td class='text-center'>"+r+"</td><td class='text-center'>"+w+"</td><td class='text-right'><a class='permissionRemove icon_a text-danger' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"'><i class='fa fa-remove'></i></a></td>");
+          } else {
+              $("#tablePermission tbody").append("<tr data-id='"+jsonResponse.id+"'><td class='text-left'>"+jsonResponse.module+"</td><td class='text-center'>"+r+"</td><td class='text-center'>"+w+"</td><td class='text-right'><a class='permissionRemove icon_a text-danger' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"'><i class='fa fa-remove'></i></a></td><tr>");
+          }
+          toastr.success('Permisos asignados correctamente.', 'Estupendo!!!', {timeOut: 3000});
       } else {
-        $("#tablePermission tbody").append("<tr data-id='"+jsonResponse.id+"'><td class='text-left'>"+jsonResponse.module+"</td><td class='text-center'>"+r+"</td><td class='text-center'>"+w+"</td><td class='text-right'><a class='permissionRemove' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"' class='text-danger'><i class='fa fa-remove'></i></a></td><tr>");
+          toastr.error('No se pudo agregar los permisos.', 'Estupendo!!!', {timeOut: 3000});
       }
-      console.log(jsonResponse);
-    }
+  }).fail( function (response) {
+        toastr.error('No se pudo agregar los permisos.', 'Error!', {timeOut: 3000});
   });
 });
 
 $("#addPermissionModal").on('click', '.permissionRemove', function(event){
-  event.preventDefault();
-  let _this = $(this);
-  $.get(_this.attr('href')).done(function (r){
-    if (r.status == 1) {
-      _this.parents('tr').remove();
+
+    event.preventDefault();
+    var r = confirm("¿Esta seguro que deseas eliminar los permisos?");
+    if (r == true) {
+        let _this = $(this);
+        $.get(_this.attr('href')).done(function (r){
+            if (r.status == 1) {
+                _this.parents('tr').remove();
+                toastr.success('Permisos elimados correctamente.', 'Estupendo!!!', {timeOut: 3000});
+            } else {
+                toastr.error('No se pudo elimadar los permisos .', 'Error!', {timeOut: 3000});
+            }
+        })
+    } else {
+        return false;
     }
-  })
 });

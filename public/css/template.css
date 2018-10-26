@@ -96,6 +96,9 @@ header>.ed-container>div, header>.ed-container  {
 .text-bold {
     font-weight: bold;
 }
+.text-capitalize{
+    text-transform: capitalize !important;
+}
 .banner_logo
 {
     min-height: 300px;

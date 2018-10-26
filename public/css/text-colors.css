@@ -39,7 +39,9 @@ color: #0093AE;
 .text-azul, .text-info, .blue-light, .text-blue-light, .icon_a{
   color: #009BDD !important;
 }
-
+.red {
+    color: #dc3545 !important;
+}
 #nav ul li a:hover {
     color: #8BBDC1;
       webkit-transition: all .5s;
