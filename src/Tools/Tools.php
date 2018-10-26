@@ -433,6 +433,14 @@ class Tools {
         return $data->all();
     }
 
+     static function getTotalStudent() : int
+     {
+         $data = Manager::table("usuario")
+             ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
+             ->select(Manager::raw("COUNT(usuario.id) AS total"))
+             ->first();
+         return $data->total;
+     }
     static function getHighestDataRow($worksheet) : int
     {
         return count(array_filter(array_map("array_filter",$worksheet->toArray())));

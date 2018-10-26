@@ -37,12 +37,12 @@
             </form>
         </div>
         <div class="ed-item s-100 none" id="content-result">
-            <p class="tools-p">Registros: <span id="registros"></span> - Correctas: <span
-                        id="totalR"></span> - Errores: <span id="totalE"></span> -
-                <button class="btn none fadein download-data btn-info">Descargar</button>
+            <p class="tools-p">Registros: <span id="registros" data-toggle='tooltip' title='Total de registros'></span> - Correctas: <span
+                        id="totalR" data-toggle='tooltip' title='Total de cursos correctos'></span> - Errores: <span id="totalE" data-toggle='tooltip' title='Total de cursos ya existentes'></span> -
+                <button class="btn none fadein download-data btn-info" data-toggle='tooltip' title='Descargar registros de la tabla'>Descargar</button>
                 -
                 <button data-toggle='tooltip' title='Registrar usuarios correctos' id="cargar" class="btn btn-success"
-                        data-action="{{ path_for('admin.course.proccess') }}">Cargar
+                        data-action="{{ path_for('admin.course.proccess') }}">Procesar resultados
                 </button>
             </p>
             <br>

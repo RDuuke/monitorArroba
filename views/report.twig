@@ -19,13 +19,14 @@
             <div id="area-graphic" class="ed-item ed-container full">
                 <div class="ed-item s-100 l-50">
                     <h3 class="text-center">Usuarios por institución por mes.</h3>
-                    <p class="text-center">Periodo actual <b style="text-decoration: underline">{{ getMes('now' | date("m")) }}</b></p>
+                    <p class="text-center">Periodo actual <b style="text-decoration: underline">{{ getMes('now' | date("m")) | title}}</b></p>
                     <br>
                     <span id="url-moth" data-url="{{ path_for('admin.report.student.month') }}" style="visibility: hidden"></span>
                     <canvas id="usuariosMes" width="100%"></canvas>
                 </div>
                 <div class="ed-item s-100 l-50">
                     <h3 class="text-center">Consolidado de usuarios por institución</h3>
+                    <p class="text-center">Total de usuarios: <b style="text-decoration: underline">{{ total }}</b></p>
                     <br>
                     <span id="url" data-url="{{ path_for('admin.report.student.consolidated') }}" style="visibility: hidden"></span>
                     <canvas id="usuariosConsolidado" width="100%"></canvas>

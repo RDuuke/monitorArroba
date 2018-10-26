@@ -155,6 +155,9 @@
                                     {% if getP(modulo_busqueda) >= lectura %}
                                         <li><a href="{{ path_for('admin.search') }}">Búsqueda </a></li>
                                     {% endif %}
+                                    {% if getP(modulo_reporte) >= lectura %}
+                                        <li><a href="{{ path_for('admin.search.report') }}">Reportes </a></li>
+                                    {% endif %}
                                 </ul>
                             </li>
                             {% if getP(modulo_busqueda) >= lectura %}

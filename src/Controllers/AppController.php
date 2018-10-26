@@ -170,7 +170,8 @@ class AppController extends Controller
         $lastDate = date("Y") . "-" . date("m") . "-" . "31";
 
         $dataTable = Tools::getDataGeneralForMonth(1, $firstDate, $lastDate);
-        return $this->view->render($response, "report.twig", ["module_name" => ["Búsqueda#admin.search", "Cifras del Campus Digital @Medellín"], "menu_active" => Tools::$MenuActive[1], "data_table" => $dataTable]);
+        $total = Tools::getTotalStudent();
+        return $this->view->render($response, "report.twig", ["module_name" => "Reportes", "menu_active" => Tools::$MenuActive[1], "data_table" => $dataTable, "total" => $total]);
     }
     public function userAdd(Request $request, Response $response)
     {

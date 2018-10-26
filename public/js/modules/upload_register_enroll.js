@@ -54,8 +54,8 @@ $("#formFile").on('submit', function(event){
         toastr.remove();
         let i = 1;
         $("#tableResult tbody").html("");
-        renderData(response.creators, 'creators', formOk);
-        renderData(response.errors, 'errors');
+        renderData(i, response.creators, 'creators', formOk);
+        renderData(i, response.errors, 'errors');
 
         $("#registros").html(response.totalR);
         $("#totalR").html(response.totalC);
@@ -94,7 +94,7 @@ $("#cargar").on('click', function(event){
     return true;
 });
 
-function renderData(value, classes, saveData = []) {
+function renderData(i, value, classes, saveData = []) {
     let a = 0;
     $.each(value, function(key, value) {
         var trDom = table.row.add([
