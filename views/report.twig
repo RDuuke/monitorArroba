@@ -18,7 +18,7 @@
         <div class="ed-item s-100">
             <div id="area-graphic" class="ed-item ed-container full">
                 <div class="ed-item s-100 l-50">
-                    <h3 class="text-center">Usuarios por institución por mes.</h3>
+                    <h3 class="text-center">Usuarios por institución por mes</h3>
                     <p class="text-center">Periodo actual <b style="text-decoration: underline">{{ getMes('now' | date("m")) | title}}</b></p>
                     <br>
                     <span id="url-moth" data-url="{{ path_for('admin.report.student.month') }}" style="visibility: hidden"></span>
@@ -38,6 +38,11 @@
         <div class="ed-item s-100">
             <br>
             <br>
+            <div class="ed-container s-100 l-30 l-offset-35 flex justify-center">
+                <h3 class="text-center">Información por institución por mes</h3>
+                <p class="text-center">Periodo actual <b style="text-decoration: underline">{{ getMes('now' | date("m")) | title}}</b></p>
+            </div>
+            <br><br>
             <div class="ed-container s-100 l-30 l-offset-35" style="flex-direction: column">
                 <p class="text-center">Filtrar por fecha</p>
                 <form id="formLimitDate" action="{{ path_for('admin.report.filter.month') }}" class="text-center">
