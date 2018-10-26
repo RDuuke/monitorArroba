@@ -79,11 +79,21 @@
             <div class="ed-item s-100 l-25 text-center">
                 <div class="content-icon">
                     <a href="{{ path_for('admin.search') }}">
-                        <i data-toggle="tooltip" data-placement="top" title="Búsqueda y reportes" class="size_3em fa fa-search"></i><br>
-                        Módulo de búsqueda y reportes
+                        <i data-toggle="tooltip" data-placement="top" title="Búsqueda" class="size_3em fa fa-search"></i><br>
+                        Módulo de búsqueda
                     </a>
                 </div>
             </div>
+            {% endif %}
+            {%  if (getP(modulo_reporte) >= lectura) %}
+                <div class="ed-item s-100 l-25 text-center">
+                    <div class="content-icon">
+                        <a href="{{ path_for('admin.search.report') }}">
+                            <i data-toggle="tooltip" data-placement="top" title="Reportes" class="size_3em fa fa-area-chart"></i><br>
+                            Módulo de reportes
+                        </a>
+                    </div>
+                </div>
             {% endif %}
         </div>
     </div>
