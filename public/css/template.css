@@ -415,3 +415,24 @@ border-radius: 25px;
 :-ms-input-placeholder {
     font-style: italic;
 }
+input#reading,
+input#writing{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #A8CED2;
+    border: 1px solid #0093AE;
+    display: inline-block;
+    padding: .8em;
+    position: relative;
+    border-radius: 25px;
+}
+input#reading:checked:after,
+input#writing:checked:after{
+    content: '\2714';
+    font-size: 1.3em;
+    position: absolute;
+    top: -2px;
+    left: 4px;
+    color: #007bff;
+}
