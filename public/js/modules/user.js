@@ -120,9 +120,9 @@ $("#permission").on('click', function(event){
           if(jsonResponse.writing == 2){ w = "Sí"}else{w = "No"};
           if(jsonResponse.reading == 1){ r = "Sí"}else{r = "No"};
           if ($("#tablePermission tbody tr[data-id="+jsonResponse.id+"]").length == 1){
-              $("#tablePermission tbody tr[data-id="+jsonResponse.id+"]").html("<td class='text-left'>"+jsonResponse.module+"</td><td class='text-center'>"+r+"</td><td class='text-center'>"+w+"</td><td class='text-right'><a class='permissionRemove icon_a text-danger' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"'><i class='fa fa-remove'></i></a></td>");
+              $("#tablePermission tbody tr[data-id="+jsonResponse.id+"]").html("<td class='text-left text-capitalize'>"+jsonResponse.module+"</td><td class='text-center text-capitalize'>"+r+"</td><td class='text-center text-capitalize'>"+w+"</td><td class='text-right'><a class='permissionRemove icon_a text-danger' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"'><i class='fa fa-remove'></i></a></td>");
           } else {
-              $("#tablePermission tbody").append("<tr data-id='"+jsonResponse.id+"'><td class='text-left'>"+jsonResponse.module+"</td><td class='text-center'>"+r+"</td><td class='text-center'>"+w+"</td><td class='text-right'><a class='permissionRemove icon_a text-danger' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"'><i class='fa fa-remove'></i></a></td><tr>");
+              $("#tablePermission tbody").append("<tr data-id='"+jsonResponse.id+"'><td class='text-left text-capitalize'>"+jsonResponse.module+"</td><td class='text-center text-capitalize'>"+r+"</td><td class='text-center'>"+w+"</td><td class='text-right'><a class='permissionRemove icon_a text-danger' href='"+getUri+"/panel/users/permission/remove/"+jsonResponse.id+"'><i class='fa fa-remove'></i></a></td><tr>");
           }
           toastr.success('Permisos asignados correctamente.', 'Estupendo!!!', {timeOut: 3000});
       } else {
