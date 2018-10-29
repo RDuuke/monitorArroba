@@ -2,56 +2,29 @@
     <thead>
     <tr>
         <th>Módulos</th>
-        <th>Pascual Bravo</th>
-        <th>Sapiencia</th>
-        <th>ITM</th>
-        <th>Colegio Mayor</th>
-        <th>Secretaría de las Mujeres</th>
-        <th>Secretaría de la Juventud</th>
-        <th>Total</th>
+        <th>Usuarios</th>
+        <th>Matrículas</th>
+        <th>Cursos</th>
+        <th>Programas</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>Usuarios</td>
-        <td>{{ data_table.usuarios.pascual }}</td>
-        <td>{{ data_table.usuarios.sapiencia }}</td>
-        <td>{{ data_table.usuarios.itm }}</td>
-        <td>{{ data_table.usuarios.colmayor }}</td>
-        <td>{{ data_table.usuarios.secremujer }}</td>
-        <td>{{ data_table.usuarios.secresalud }}</td>
-        <td>{{ data_table.usuarios.total }}</td>
-    </tr>
-    <tr>
-        <td>Matrículas</td>
-        <td>{{ data_table.matriculas.pascual }}</td>
-        <td>{{ data_table.matriculas.sapiencia }}</td>
-        <td>{{ data_table.matriculas.itm }}</td>
-        <td>{{ data_table.matriculas.colmayor }}</td>
-        <td>{{ data_table.matriculas.secremujer }}</td>
-        <td>{{ data_table.matriculas.secresalud }}</td>
-        <td>{{ data_table.matriculas.total }}</td>
-    </tr>
-    <tr>
-        <td>Cursos</td>
-        <td>{{ data_table.cursos.pascual }}</td>
-        <td>{{ data_table.cursos.sapiencia }}</td>
-        <td>{{ data_table.cursos.itm }}</td>
-        <td>{{ data_table.cursos.colmayor }}</td>
-        <td>{{ data_table.cursos.secremujer }}</td>
-        <td>{{ data_table.cursos.secresalud }}</td>
-        <td>{{ data_table.cursos.total }}</td>
-    </tr>
-    <tr>
-        <td>Programas</td>
-        <td>{{ data_table.programas.pascual }}</td>
-        <td>{{ data_table.programas.sapiencia }}</td>
-        <td>{{ data_table.programas.itm }}</td>
-        <td>{{ data_table.programas.colmayor }}</td>
-        <td>{{ data_table.programas.secremujer }}</td>
-        <td>{{ data_table.programas.secresalud }}</td>
-        <td>{{ data_table.programas.total }}</td>
-    </tr>
+        {% for i in institutions %}
+            <tr>
+                <td>{{ i.nombre }}</td>
+                <td>{{ data_table[i.codigo].usuarios }}</td>
+                <td>{{ data_table[i.codigo].matriculas }}</td>
+                <td>{{ data_table[i.codigo].cursos }}</td>
+                <td>{{ data_table[i.codigo].programas }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>Total</td>
+            <td>{{ data_table[0].usuarios }}</td>
+            <td>{{ data_table[0].matriculas }}</td>
+            <td>{{ data_table[0].cursos }}</td>
+            <td>{{ data_table[0].programas }}</td>
+        </tr>
     </tbody>
 </table>
 <script>

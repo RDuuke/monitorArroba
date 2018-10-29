@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 
+use App\Models\Institution;
 use App\Models\Student;
 use App\Tools\Tools;
 use Illuminate\Database\Capsule\Manager;
@@ -25,7 +26,8 @@ class ReportController extends Controller
             ->get();
         print_r($data->all());*/
         $dataTable = Tools::getDataGeneralForMonth(1, $args['incial'], $args['final']);
-        return $this->view->render($response, "_partials/report.twig", ["data_table" => $dataTable]);
+        $institutions = Institution::all(["nombre", "codigo"])->sortBy("nombre");
+        return $this->view->render($response, "_partials/report.twig", ["data_table" => $dataTable, "institutions" =>$institutions]);
 
     }
 

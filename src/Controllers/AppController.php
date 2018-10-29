@@ -171,7 +171,8 @@ class AppController extends Controller
 
         $dataTable = Tools::getDataGeneralForMonth(1, $firstDate, $lastDate);
         $total = Tools::getTotalStudent();
-        return $this->view->render($response, "report.twig", ["module_name" => "Reportes", "menu_active" => Tools::$MenuActive[1], "data_table" => $dataTable, "total" => $total]);
+        $institutions = Institution::all(["nombre", "codigo"])->sortBy("nombre");
+        return $this->view->render($response, "report.twig", ["module_name" => "Reportes", "menu_active" => Tools::$MenuActive[1], "data_table" => $dataTable, "total" => $total, "institutions" => $institutions]);
     }
     public function userAdd(Request $request, Response $response)
     {

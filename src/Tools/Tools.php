@@ -2,6 +2,7 @@
 namespace App\Tools;
 
 use App\Models\Course;
+use App\Models\Institution;
 use App\Models\Permission;
 use App\Models\Program;
 use App\Models\Register;
@@ -348,70 +349,32 @@ class Tools {
 
     static function getDataGeneralForMonth(int $type, string $firstDate, string $lastDate) : array
     {
-
-
+        $data = null;
+        $total = [];
+        $dataTable = [];
         if ( $type == 1) {
-            return $dataTable = [
-                "cursos" => [
-                    "pascual" => Course::where('institucion_id', Tools::codigoPascualBravo())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "sapiencia" => Course::where('institucion_id', Tools::codigoSapiencia())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "itm" => Course::where('institucion_id', Tools::codigoITM())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "colmayor" => Course::where('institucion_id', Tools::codigoColegioMayor())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "secremujer" => Course::where('institucion_id', Tools::codigoMujeres())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "secresalud" => Course::where('institucion_id', Tools::codigoSalud())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "total" => Course::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()
-                ],
-                "matriculas" => [
-                    "pascual" => Register::where('institucion_id', Tools::codigoPascualBravo())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "sapiencia" => Register::where('institucion_id', Tools::codigoSapiencia())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "itm" => Register::where('institucion_id', Tools::codigoITM())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "colmayor" => Register::where('institucion_id', Tools::codigoColegioMayor())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "secremujer" => Register::where('institucion_id', Tools::codigoMujeres())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "secresalud" => Register::where('institucion_id', Tools::codigoSalud())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "total" => Register::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()
-                ],
-                "programas" => [
-                    Manager::table("programa")
-                        ->join("institucion", "programa.codigo_institucion", "=", "institucion.codigo")
-                        ->select("institucion.nombre", Manager::raw("COUNT(programa.codigo_institucion) AS cantidad"), "programa.codigo_institucion")
-                        ->whereBetween("programa.fecha", [$firstDate, $lastDate])
-                        ->groupBy("programa.codigo_institucion")
-                        ->orderBy("programa.codigo_institucion", "DESC")
-                        ->get()
-                   /* "pascual" => Program::where('codigo_institucion', Tools::codigoPascualBravo())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "sapiencia" => Program::where('codigo_institucion', Tools::codigoSapiencia())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "itm" => Program::where('codigo_institucion', Tools::codigoITM())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "colmayor" => Program::where('codigo_institucion', Tools::codigoColegioMayor())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "secremujer" => Program::where('codigo_institucion', Tools::codigoMujeres())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "secresalud" => Program::where('codigo_institucion', Tools::codigoSalud())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "total" => Program::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()*/
-                ],
-                "usuarios" => Manager::table("usuario")
-                    ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
-                    ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad"), "usuario.institucion_id")
-                    ->whereBetween("usuario.fecha", [$firstDate, $lastDate])
-                    ->groupBy("usuario.institucion_id")
-                    ->orderBy("cantidad", "DESC")
-                    ->get()
-            ];
+            $institutions = Institution::all(["nombre", "codigo"])->sortBy("nombre");
+            foreach ($institutions as $institution){
+
+                $data['cursos'] = Course::where('institucion_id', $institution->codigo)
+                    ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
+                $data['matriculas'] = Register::where('institucion_id', $institution->codigo)
+                    ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
+                $data['programas'] = Program::where('codigo_institucion', $institution->codigo)
+                    ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
+                $data['usuarios'] = Course::where('institucion_id', $institution->codigo)
+                    ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
+
+                $total['cursos'] = $total['cursos'] + $data['cursos'];
+                $total['matriculas'] = $total['matriculas'] + $data['matriculas'];
+                $total['programas'] = $total['programas'] + $data['programas'];
+                $total['usuarios'] = $total['usuarios'] + $data['usuarios'];
+
+                $dataTable[$institution->codigo] =  $data;
+                unset($data);
+            }
+            array_push($dataTable, $total);
+            return $dataTable;
         }
     }
 
