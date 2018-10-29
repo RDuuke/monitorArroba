@@ -418,15 +418,15 @@ class Tools {
         if ($type == 0) {
             $data = Manager::table("usuario")
                 ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
-                ->select("institucion.nombre", Manager::raw("COUNT(institucion.codigo) AS cantidad"))
-                ->groupBy("institucion.nombre")
+                ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad"))
+                ->groupBy("usuario.institucion_id")
                 ->get();
         } else {
             $data = Manager::table("usuario")
                 ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
-                ->select("institucion.nombre", Manager::raw("COUNT(institucion.codigo) AS cantidad"))
+                ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad"))
                 ->whereBetween("usuario.fecha", [$firstDate, $lastDate])
-                ->groupBy("institucion.nombre")
+                ->groupBy("usuario.institucion_id")
                 ->get();
         }
 

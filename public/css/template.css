@@ -436,3 +436,6 @@ input#writing:checked:after{
     left: 4px;
     color: #007bff;
 }
+#modules {
+    padding: .5em;
+}
