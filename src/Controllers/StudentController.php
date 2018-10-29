@@ -237,9 +237,8 @@ class StudentController extends Controller
 
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params']. "%";
-
         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
-            Student::where("usuario", "LIKE", $param)
+            $students = Student::where("usuario", "LIKE", $param)
                 ->where("institucion_id", $this->auth->user()->id_institucion)
                 ->orWhere("documento", "LIKE", $param)
                 ->get()->toArray();
@@ -424,16 +423,6 @@ class StudentController extends Controller
             $student = Student::where("usuario", $dataOK[$i]['usuario'])->delete();
             $student_archive = StudentArchive::create($dataOK[$i]);
         }
-    }
-
-    protected function isRowEmpty($row) :  bool
-    {
-        foreach ($row->getCellIterator() as  $cell) {
-            if ($cell->getValue()) {
-                return false;
-            }
-        }
-        return true;
     }
 
 
