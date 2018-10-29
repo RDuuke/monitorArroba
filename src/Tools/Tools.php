@@ -6,6 +6,7 @@ use App\Models\Permission;
 use App\Models\Program;
 use App\Models\Register;
 use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Support\Str;
 
@@ -347,6 +348,8 @@ class Tools {
 
     static function getDataGeneralForMonth(int $type, string $firstDate, string $lastDate) : array
     {
+
+
         if ( $type == 1) {
             return $dataTable = [
                 "cursos" => [
@@ -380,7 +383,14 @@ class Tools {
                     "total" => Register::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()
                 ],
                 "programas" => [
-                    "pascual" => Program::where('codigo_institucion', Tools::codigoPascualBravo())
+                    Manager::table("programa")
+                        ->join("institucion", "programa.codigo_institucion", "=", "institucion.codigo")
+                        ->select("institucion.nombre", Manager::raw("COUNT(programa.codigo_institucion) AS cantidad"), "programa.codigo_institucion")
+                        ->whereBetween("programa.fecha", [$firstDate->toDateString(), $lastDate->toDateString()])
+                        ->groupBy("programa.codigo_institucion")
+                        ->orderBy("programa.codigo_institucion", "DESC")
+                        ->get()
+                   /* "pascual" => Program::where('codigo_institucion', Tools::codigoPascualBravo())
                         ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
                     "sapiencia" => Program::where('codigo_institucion', Tools::codigoSapiencia())
                         ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
@@ -392,23 +402,15 @@ class Tools {
                         ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
                     "secresalud" => Program::where('codigo_institucion', Tools::codigoSalud())
                         ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "total" => Program::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()
+                    "total" => Program::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()*/
                 ],
-                "usuarios" => [
-                    "pascual" => Student::where('institucion_id', Tools::codigoPascualBravo())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "sapiencia" => Student::where('institucion_id', Tools::codigoSapiencia())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "itm" => Student::where('institucion_id', Tools::codigoITM())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "colmayor" => Student::where('institucion_id', Tools::codigoColegioMayor())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "secremujer" => Student::where('institucion_id', Tools::codigoMujeres())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "secresalud" => Student::where('institucion_id', Tools::codigoSalud())
-                        ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count(),
-                    "total" => Student::whereBetween("fecha", [$firstDate, $lastDate])->get()->count()
-                ]
+                "usuarios" => Manager::table("usuario")
+                    ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
+                    ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad"), "usuario.institucion_id")
+                    ->whereBetween("usuario.fecha", ["2018-10-01", "2018-10-31"])
+                    ->groupBy("usuario.institucion_id")
+                    ->orderBy("cantidad", "DESC")
+                    ->get()
             ];
         }
     }
@@ -418,15 +420,17 @@ class Tools {
         if ($type == 0) {
             $data = Manager::table("usuario")
                 ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
-                ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad"))
+                ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad"), "usuario.institucion_id")
                 ->groupBy("usuario.institucion_id")
+                ->orderBy("cantidad", "DESC")
                 ->get();
         } else {
             $data = Manager::table("usuario")
                 ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
-                ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad"))
+                ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad"), "usuario.institucion_id")
                 ->whereBetween("usuario.fecha", [$firstDate, $lastDate])
                 ->groupBy("usuario.institucion_id")
+                ->orderBy("cantidad", "DESC")
                 ->get();
         }
 
