@@ -6,7 +6,7 @@ class Student extends Model
 {
     protected $table = "usuario";
 
-    protected $fillable = ['usuario', 'nombres', 'apellidos', 'documento', 'institucion', 'genero', 'ciudad', 'departamento', 'pais', 'telefono', 'celular', 'direccion', 'fecha', 'institucion_id'];
+    protected $fillable = ['usuario', 'nombres', 'clave', 'correo', 'apellidos', 'documento', 'institucion', 'genero', 'ciudad', 'departamento', 'pais', 'telefono', 'celular', 'direccion', 'fecha', 'institucion_id'];
 
     protected $hidden = ['created_at', 'updated_at'];
 

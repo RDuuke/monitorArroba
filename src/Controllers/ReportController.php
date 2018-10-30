@@ -15,16 +15,6 @@ class ReportController extends Controller
 
     function filterForMonth(Request $request, Response $response, $args)
     {
-        /*$firstDate = date("Y") . "-" . date("m") . "-" . "1";
-        $lastDate = date("Y") . "-" . date("m") . "-" . "31";
-
-        $data = Manager::table("usuario")
-            ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
-            ->select("institucion.nombre", Manager::raw("COUNT(institucion.codigo) AS cantidad"))
-            ->whereBetween("usuario.fecha", [$firstDate, $lastDate])
-            ->groupBy("institucion.nombre")
-            ->get();
-        print_r($data->all());*/
         $dataTable = Tools::getDataGeneralForMonth(1, $args['incial'], $args['final']);
         $institutions = Institution::all(["nombre", "codigo"])->sortBy("nombre");
         return $this->view->render($response, "_partials/report.twig", ["data_table" => $dataTable, "institutions" =>$institutions]);
