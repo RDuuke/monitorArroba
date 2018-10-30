@@ -353,7 +353,6 @@ class StudentController extends Controller
             $filename = Tools::moveUploadedFile($archive, $this->tmp);
             if ($filename != false) {
                 try {
-
                     $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
                     $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
