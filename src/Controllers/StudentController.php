@@ -346,7 +346,6 @@ class StudentController extends Controller
 
     function uploadArchive(Request $request, Response $response)
     {
-
         $uploadedFiles = $request->getUploadedFiles();
         $archive = $uploadedFiles['archive'];
         $newResponse = $response->withHeader('Content-type', 'application/json');
