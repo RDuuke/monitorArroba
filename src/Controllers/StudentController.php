@@ -141,10 +141,10 @@ class StudentController extends Controller
                         ];
 
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
-                            $data["institucion"] = Institution::getNameInstitutionForCodigo($this->auth->user()->id_institucion);
+                            $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] : Institution::getNameInstitutionForCodigo($this->auth->user()->id_institucion);
                             $data["institucion_id"] = $this->auth->user()->id_institucion;
                         } else {
-                            $data["institucion"] = Institution::getNameInstitutionForCodigo($request->getParam('codigo_institucion'));
+                            $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] :  Institution::getNameInstitutionForCodigo($request->getParam('codigo_institucion'));
                             $data["institucion_id"] = $request->getParam('codigo_institucion');
                         }
                         $data = array_map("ucwords", array_map("strtolower",$data));
