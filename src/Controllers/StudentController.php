@@ -10,7 +10,8 @@ use Slim\Http\Response;
 use App\Models\Student;
 use App\Tools\Tools;
 use App\Models\Permission;
-use Illuminate\Database\QueryException;
+use ForceUTF8\Encoding;
+
 
 
 class StudentController extends Controller
@@ -109,6 +110,12 @@ class StudentController extends Controller
             return $newResponse->withJson($students, 200);
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return bool
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
     function upload(Request $request, Response $response)
     {
         $uploadedFiles = $request->getUploadedFiles();
@@ -150,6 +157,8 @@ class StudentController extends Controller
                         $data = array_map("ucwords", array_map("strtolower",$data));
                         $data['usuario'] = strtolower($data['usuario']);
                         $data['correo'] = strtolower($data['correo']);
+                        $data['usuario'] = preg_replace('/[^(\x20-\x7F)]*/', "", $data['usuario']);
+                        $data['correo'] = preg_replace('/[^(\x20-\x7F)]*/', "", $data['correo']);
                         if (!filter_var(trim($data['usuario']), FILTER_VALIDATE_EMAIL)) {
                             $data['message'] = Tools::getMessageUser(5);
                             $data['codigo'] = Tools::getCodigoUser(5);
