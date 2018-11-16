@@ -177,6 +177,7 @@ class RegisterController extends Controller
                             continue;
                         }
 
+                        $data['instancia'] = empty($data['instancia']) ? substr($data['curso'], 0, 1):$data['instancia'];
                         $instance = Instance::where('codigo', $data['instancia'])->get();
                         if ($instance->count() == 0) {
                             $data['message'] = str_replace(':instancia', $data['instancia'], Tools::getMessageRegister(3));
