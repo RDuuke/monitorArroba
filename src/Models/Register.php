@@ -46,7 +46,7 @@ class Register extends Model
     function getInstanciaAttribute($value)
     {
         //return $value;
-        return Tools::getInstanceForCodigo($value) ?? '';
+        return Tools::getInstanceForCodigo((int) $value) ?? '';
     }
     public function scopeRuta($query)
     {
