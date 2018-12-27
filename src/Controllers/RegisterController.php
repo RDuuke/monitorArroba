@@ -88,6 +88,8 @@ class RegisterController extends Controller
 
     function update(Request $request, Response $response) : Response
     {
+        print_r($request->getParams());
+        die;
         $router = $request->getAttribute('route');
         $register = Register::updateOrCreate(['id' => $router->getArguments()['id']],$request->getParams());
         try{
