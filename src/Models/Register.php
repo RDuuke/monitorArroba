@@ -32,12 +32,7 @@ class Register extends Model
     {
         return $this->belongsTo(Course::class, 'curso', 'codigo');
     }
-
-    function getRolAttribute($value)
-    {
-        return $value == 'student' ? 'Estudiante' : 'Profesor';
-    }
-
+    
     function scopePublic($query)
     {
         return $query->whereIn('instancia', [1, 2, 3]);

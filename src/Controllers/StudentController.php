@@ -146,7 +146,6 @@ class StudentController extends Controller
                             "celular" => trim($worksheet->getCell('L'. $row)->getvalue()),
                             "direccion" => trim($worksheet->getCell('M'. $row)->getvalue())
                         ];
-
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
                             $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] : Institution::getNameInstitutionForCodigo($this->auth->user()->id_institucion);
                             $data["institucion_id"] = $this->auth->user()->id_institucion;

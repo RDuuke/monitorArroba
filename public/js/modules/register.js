@@ -87,16 +87,18 @@ $("#registerCreateForm").on( "submit", function( event ) {
       $('#userCreateForm')[0].reset();
 
       $.each(response, function( key, value ) {
-        if ( key == 'curso') {
-          $("select#curso option[value='"+ value +"']").attr("selected", "selected");
-        } else {
+        if ( key == 'institucion_id') {
+          $("select#institucion_id option[value='"+ value +"']").attr("selected", "selected");
+        } else if (key == 'rol') {
+          $("select#rol option[value='"+ value +"']").attr("selected", "selected");
+        }else {
           $('input[name="'+key+'"]').val(value);
         }
+      });
         $('#registerCreateForm').attr('action', _td.attr('data-href') + _data.id);
         $('#registerCreateForm').removeClass();
         $('#registerCreateForm').addClass('update');
         $('#registerCreateModal').modal('show');
-      });
     });
 });
 
