@@ -34,7 +34,6 @@
             {% else %}
                 <input type="hidden" name="institucion_id" value="{{ auth.user.id_institucion }}">
             {% endif %}
-            <input type="hidden" name="fecha" value="{{ "now"| date("Y-d-m") }}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
             <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
     </div>

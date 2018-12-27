@@ -88,8 +88,7 @@ class RegisterController extends Controller
 
     function update(Request $request, Response $response) : Response
     {
-        print_r($request->getParams());
-        die;
+
         $router = $request->getAttribute('route');
         $register = Register::updateOrCreate(['id' => $router->getArguments()['id']],$request->getParams());
         try{
@@ -101,7 +100,7 @@ class RegisterController extends Controller
             }
         }catch(\Exception $e) {
             Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario), Tools::getTypeUpdateAction());
-            return $response->withStatus(500)->write('0');
+            return $response->withStatus(500)->write($e->getMessage());
         }
     }
 
