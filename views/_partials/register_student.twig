@@ -3,9 +3,8 @@
     <tr>
         <th>Codigo</th>
         <th>Curso</th>
-        {% if getP(modulo_busqueda) == lectura_escritura %}
+
             <th>Acciones</th>
-        {% endif %}
     </tr>
     </thead>
     <tbody>
@@ -18,7 +17,7 @@
                 <td>{{ register.course.codigo }}</td>
                 {%  if (getP(modulo_busqueda) == lectura or getP(modulo_busqueda) == lectura_escritura) %}
                     <td>
-                    <a data-toggle="tooltip" title="Ver información" href="/panel/search/program/courses/usuarios/{{register.course.codigo}}">{{ register.course.nombre }}</a>
+                    <a data-toggle="tooltip" title="Ver información" href="{{ path_for('admin.search.program.course.student', {id : register.course.codigo}) }}">{{ register.course.nombre }}</a>
                     </td>
                 {% else %}
                     <td>{{ register.course.nombre }}</a></td>
