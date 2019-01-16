@@ -56,7 +56,11 @@ $("#tb_user").on('click', '.studentShow', function(event){
               $('#institucion_user option[value='+value+']').attr('selected','selected');
           } else if ( key == 'genero' && value != "") {
               $("select#genero option[value="+value+"]").prop("selected", true);
-          } else {
+          } else if (key == 'usuario') {
+              $('input[name="'+key+'"]').val(value).attr('readonly');
+              $('input[name="'+key+'"]').attr('readonly', 'readonly');
+          }
+          else {
               $('input[name="'+key+'"]').val(value);
           }
           $('#userCreateForm').attr('action', _td.attr('data-href') + _data.id);
@@ -149,5 +153,6 @@ $(".addstudent").on('click', function(event){
     event.preventDefault();
     $('#userCreateForm')[0].reset();
     $('#userCreateForm').attr('action',$(this).attr('data-href'));
+    $('#userCreateForm input[name="usuario"]').removeAttr('readonly');
     $('#userCreateModal').modal('show');
 });
