@@ -364,6 +364,7 @@ class Tools {
                     ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
                 $data['usuarios'] = Student::where('institucion_id', $institution->codigo)
                     ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
+                
 
                 $total['cursos'] = $total['cursos'] + $data['cursos'];
                 $total['matriculas'] = $total['matriculas'] + $data['matriculas'];
