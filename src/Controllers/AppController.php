@@ -212,7 +212,8 @@ class AppController extends Controller
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
-            $programs = Program::where('codigo_institucion', $this->auth->user()->id_institucion)->get();
+            $programs = Program::where('codigo_institucion', $this->auth->user()->id_institucion)
+                ->where("estado", 1)->get();
         } else {
 
             $programs = Program::all();
