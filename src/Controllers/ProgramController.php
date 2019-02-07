@@ -13,7 +13,8 @@ class ProgramController extends Controller
     function all(Request $request, Response $response)
     {
             if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
-                $programs = Program::where('codigo_institucion', $this->auth->user()->id_institucion)->get();
+                $programs = Program::where('codigo_institucion', $this->auth->user()->id_institucion)
+                    ->where("estado", 1)->get();
 
             } else {
                 $programs = Program::all();
