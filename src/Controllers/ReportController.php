@@ -15,7 +15,7 @@ class ReportController extends Controller
 
     function filterForMonth(Request $request, Response $response, $args)
     {
-        $dataTable = Tools::getDataGeneralForMonth(1, $args['incial'], $args['final']);
+        $dataTable = Tools::getDataGeneralForMonth(1, $args['incial'] + ' 00:00:00', $args['final'] + ' 23:59:59');
         $institutions = Institution::all(["nombre", "codigo"])->sortBy("nombre");
         return $this->view->render($response, "_partials/report.twig", ["data_table" => $dataTable, "institutions" =>$institutions]);
 
