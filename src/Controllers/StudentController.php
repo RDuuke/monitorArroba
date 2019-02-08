@@ -146,6 +146,7 @@ class StudentController extends Controller
                             "celular" => trim($worksheet->getCell('L'. $row)->getvalue()),
                             "direccion" => trim($worksheet->getCell('M'. $row)->getvalue())
                         ];
+
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
                             $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] : Institution::getNameInstitutionForCodigo($this->auth->user()->id_institucion);
                             $data["institucion_id"] = $this->auth->user()->id_institucion;
@@ -197,11 +198,12 @@ class StudentController extends Controller
                             if($filter->count() == 0) {
                                 $data['message'] = str_replace(":documento", $student[0]->documento, Tools::getMessageUser(1));
                                 $data['codigo'] = Tools::getCodigoUser(1);
+                                array_push($this->alerts, $data);
                             }else {
                                 $data['message'] = Tools::getMessageUser(3);
                                 $data['codigo'] = Tools::getCodigoUser(3);
+                                array_push($this->errors, $data);
                             }
-                            array_push($this->errors, $data);
                             unset($data);
                             continue;
                         }
