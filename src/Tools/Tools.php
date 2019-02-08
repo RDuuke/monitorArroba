@@ -364,7 +364,6 @@ class Tools {
                     ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
                 $data['usuarios'] = Student::where('institucion_id', $institution->codigo)
                     ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
-                    
                 $data['usuarios_activos']  = Register::select(Manager::raw("COUNT(DISTINCT usuario) AS total"))
                     ->where('institucion_id', $institution->codigo)->whereBetween("fecha", [$firstDate, $lastDate])->first()->total;
 
