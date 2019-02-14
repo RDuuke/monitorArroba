@@ -1,0 +1,16 @@
+<table>
+    <thead>
+    <tr>
+        <th>Cursos</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for c in courses %}
+        <tr>
+            <td>{{ c.nombre }}</td>
+            <td>{{ c.registers.count }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -22,9 +22,10 @@ class Tools {
     const codigoMatriculas = 7;
     const codigoBusqueda = 8;
     const codigoReporte = 9;
+    const codigoEstadistica = 10;
     const Lectura = 1;
-    const LecturaEscritura = 3;
 
+        const LecturaEscritura = 3;
     static protected $UserMessage = [
         0 => "El usuario correcto.",
         1 => "El usuario existe, pero con este documento de identidad :documento.",
@@ -119,7 +120,8 @@ class Tools {
         5 => "Programas",
         8 => "Búsqueda",
         6 => "Cursos",
-        9 => "Reportes"
+        9 => "Reportes",
+        10 => "Estadisticas"
     ];
 
     static public $CodePDO = [

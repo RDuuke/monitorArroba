@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>Institución</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in institutions %}
+            <tr>
+                <td>{{ i.nombre }}</td>
+                <td>{{ countStudent(1, i.codigo) }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

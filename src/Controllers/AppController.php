@@ -126,8 +126,22 @@ class AppController extends Controller
             $programs = Program::all();
         }
         $institutions = Institution::all();
+        $programs = Program::all();
         Log::i(Tools::getEnterModuleMessage(Tools::codigoCursos, $this->auth->user()->usuario), Tools::getTypeAction(3));
-        return $this->view->render($response, "courses.twig", ['programs' => $programs,'module_name' => Tools::$Modules[Tools::codigoCursos], "menu_active" => Tools::$MenuActive[0], "institutions" => $institutions]);
+        return $this->view->render($response, "courses.twig", ["programs" => $programs, "module_name" => Tools::$Modules[Tools::codigoCursos], "menu_active" => Tools::$MenuActive[0], "institutions" => $institutions]);
+    }
+
+    public function stats(Request $request, Response $response)
+    {
+        if (!$this->accessModuleRead($response, Tools::codigoEstadistica)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoEstadistica, $this->auth->user()->usuario), Tools::getTypeAction(3));
+            return $response->withRedirect($this->router->pathFor('admin.home'));
+        }
+        $institutions = Institution::all();
+        $programs = Program::all();
+        $courses = Course::all();
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoEstadistica, $this->auth->user()->usuario), Tools::getTypeAction(3));
+        return $this->view->render($response, "stats.twig", ["module_name" => Tools::$Modules[Tools::codigoEstadistica], "menu_active" => Tools::$MenuActive[0], "institutions" => $institutions, "programs" => $programs, "courses" => $courses]);
     }
 
     public function search(Request $request, Response $response)
