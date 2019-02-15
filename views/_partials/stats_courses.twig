@@ -1,7 +1,9 @@
 <table>
     <thead>
     <tr>
-        <th>Cursos</th>
+        <th>Curso</th>
+        <th>Código</th>
+        <th>Fecha</th>
         <th>Total</th>
     </tr>
     </thead>
@@ -9,6 +11,8 @@
     {% for c in courses %}
         <tr>
             <td>{{ c.nombre }}</td>
+            <td>{{ c.codigo }}</td>
+            <td>{{ c.fecha }}</td>
             <td>{{ c.registers.count }}</td>
         </tr>
     {% endfor %}

@@ -37,4 +37,10 @@ class Institution extends Model
     {
         return Institution::where("codigo", $codigo)->first()->nombre;
     }
+
+    public function getFechaAttribute($value)
+    {
+        $date = new \DateTime($value);
+        return $date->format('d-m-Y');
+    }
 }

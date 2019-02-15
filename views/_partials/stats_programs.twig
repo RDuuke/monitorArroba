@@ -2,6 +2,8 @@
     <thead>
     <tr>
         <th>Programa</th>
+        <th>Código</th>
+        <th>Fecha</th>
         <th>Total</th>
     </tr>
     </thead>
@@ -9,6 +11,8 @@
     {% for p in programs %}
         <tr>
             <td>{{ p.nombre }}</td>
+            <td>{{ p.codigo }}</td>
+            <td>{{ p.fecha }}</td>
             <td>{{ countStudent(2, p.codigo) }}</td>
         </tr>
     {% endfor %}
