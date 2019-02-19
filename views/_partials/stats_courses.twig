@@ -3,6 +3,7 @@
     <tr>
         <th>Curso</th>
         <th>Código</th>
+        <th>Programa</th>
         <th>Fecha</th>
         <th>Total</th>
     </tr>
@@ -12,6 +13,7 @@
         <tr>
             <td>{{ c.nombre }}</td>
             <td>{{ c.codigo }}</td>
+            <td>{{ c.programs.nombre }}</td>
             <td>{{ c.fecha }}</td>
             <td>{{ c.registers.count }}</td>
         </tr>

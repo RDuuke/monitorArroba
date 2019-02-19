@@ -308,10 +308,12 @@ button.bg_morado:hover{
     justify-content: center;
     width: fit-content;
     align-items: center;
+    height: fit-content;
     text-transform: capitalize;
 }
 .btn-info, .btn-primary {
     background-color: #009BDD !important;
+    color: white !important;
 }
 .btn > .fa {
     font-size: 1em;
