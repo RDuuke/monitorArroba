@@ -20,7 +20,7 @@
 }
 .nav-tab .link-tab.active, .nav-tab .link-tab:hover {
     background-color: #009BDD ;
-    color: #F2F2F2;
+    color: #F2F2F2 !important;
 }
 .item-tab {
     border-left: 1px solid #CCCCCC;
