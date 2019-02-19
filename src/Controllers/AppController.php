@@ -165,7 +165,7 @@ class AppController extends Controller
         if (!$this->accessModuleRead($response,Tools::codigoBusqueda)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "search_student.twig", ["module_name" => ["Búsqueda#admin.search", "Búsqueda usuarios"], "menu_active" => Tools::$MenuActive[1]]);
+        return $this->view->render($response, "search_student.twig", ["module_name" => ["Búsqueda#admin.search", "Búsqueda usuario  s"], "menu_active" => Tools::$MenuActive[1]]);
     }
 
     public function searchCourse(Request $request, Response $response)
@@ -299,7 +299,7 @@ class AppController extends Controller
         $student = Student::find($router->getArguments()['id']);
         $student_data = Register::where('usuario', $student->usuario)->get();
         if (! $request->isXhr()) {
-            return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data, "student" => $student, "module_name" => ["Búsqueda#admin.search", "Cursos del usuarios"], "menu_active" => Tools::$MenuActive[1]]);
+            return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data, "student" => $student, "module_name" => ["Búsqueda#admin.search", "Cursos del usuario"], "menu_active" => Tools::$MenuActive[1]]);
         }
         return $this->view->render($response, '_partials/register_student.twig', ["student_data"=>$student_data, "total" => $student_data->count()]);
     }
