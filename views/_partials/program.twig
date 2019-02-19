@@ -38,7 +38,7 @@
             <div class="content_visible">
                 <div class="form-group">
                     <label for="codigo_program">Código</label>
-                    <input name="codigo_program" type="number" placeholder="ej: 00" class="form-control" {{ getP(modulo_programas) == lectura_escritura ? '' : 'readonly' }} min="00" max="99" required>
+                    <input name="codigo_program" type="number" placeholder="ej: 00" class="form-control" {{ getP(modulo_programas) == lectura_escritura ? '' : 'readonly' }} min="10" max="99" required>
                 </div>
                 <div class="form-group">
                     <input name="codigo" type="number" readonly class="form-control" min="00000" max="99999">
