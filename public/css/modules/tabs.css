@@ -10,6 +10,7 @@
     padding: 1em;
     display: block;
     flex: auto;
+    color: #009BDD !important;
     text-align: center;
     background-color: #F2F2F2;
     border-right: 1px solid #CCCCCC;
@@ -18,7 +19,7 @@
     border-right: none;
 }
 .nav-tab .link-tab.active, .nav-tab .link-tab:hover {
-    background-color: #0093AE;
+    background-color: #009BDD ;
     color: #F2F2F2;
 }
 .item-tab {

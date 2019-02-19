@@ -15,7 +15,7 @@
         <div class="separator"></div>
         <div class="ed-item s-100 flex">
             <a href="{{ path_for('admin.search') }}" class="btn btn-info"><i class="fa fa-angle-left"></i> Volver</a>
-            <a  class="btn btn-primary">Filtro avanzado &nbsp;<i class="fa fa-cogs"></i></a>
+            {#<a  class="btn btn-primary">Filtro avanzado &nbsp;<i class="fa fa-cogs"></i></a>#}
         </div>
         <div class="separator"></div>
         <div class="ed-container full ed-item s-100 container-tabs no-padding">
@@ -57,6 +57,13 @@
     <script>
         var _td = null;
         var table = $('table').DataTable({
+            dom: 'Blfrtip',
+            buttons : [{
+                extend: 'excel',
+                title: 'cantidad_de_matriculas',
+                text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
+                className: 'btn btn-info'
+            }],
             lengthMenu: [ 25, 50, 75, 100 ],
             language: {
                 "sProcessing":     "Procesando...",
@@ -82,15 +89,6 @@
                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
             },
-            dom: 'Blfrtip',
-            buttons : [
-                {
-                    extend: 'excel',
-                    title: 'Matriculas',
-                    text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
-                    className: 'btn btn-info'
-                },
-            ],
 
         });
     </script>
