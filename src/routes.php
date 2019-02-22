@@ -34,8 +34,9 @@ $app->group("/panel", function (){
     $this->get("/search/course", "AppController:searchCourse")->setName("admin.search.course");
     $this->get("/search/program", "AppController:searchProgram")->setName("admin.search.program");
     $this->get("/search/report", "AppController:searchReport")->setName("admin.search.report");
-    $this->get("/first", "AppController:firstIn")->setName("firstsingin");
     $this->get("/stats", "AppController:stats")->setName("admin.stats");
+    $this->get("/stats/register", "AppController:statsRegister")->setName("admin.stats.register");
+    $this->get("/first", "AppController:firstIn")->setName("firstsingin");
     $this->post("/first", "AppController:changePassword")->setName("firstsingin");
 
     /** Controller actions estudiante */

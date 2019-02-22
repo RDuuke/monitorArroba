@@ -150,6 +150,18 @@ class AppController extends Controller
         return $this->view->render($response, "stats.twig", ["module_name" => Tools::$Modules[Tools::codigoEstadistica], "menu_active" => Tools::$MenuActive[0], "institutions" => $institutions, "programs" => $programs, "courses" => $courses]);
     }
 
+    public function statsRegister(Request $request, Response $response)
+    {
+        if (!$this->accessModuleRead($response, Tools::codigoEstadistica)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoEstadistica, $this->auth->user()->usuario), Tools::getTypeAction(3));
+            return $response->withRedirect($this->router->pathFor('admin.home'));
+        }
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoEstadistica, $this->auth->user()->usuario), Tools::getTypeAction(3));
+        return $this->view->render($response, "stats_register.twig", ["module_name" => Tools::$Modules[Tools::codigoEstadistica], "menu_active" => Tools::$MenuActive[0]]);
+        //TODO hacer la funcionalidad del nuevo reporte
+
+    }
+
     public function search(Request $request, Response $response)
     {
         if (!$this->accessModuleRead($response,Tools::codigoBusqueda)) {
@@ -379,6 +391,12 @@ class AppController extends Controller
         }
         return $this->view->render($response, "uploaddeenroll.twig", ["module_name" => ["Matricula#admin.register", "Desmatricular Masivamente"], "menu_active" => Tools::$MenuActive[2]]);
     }
+
+
+
+    /**
+        Helpers!!!
+     */
 
     function downloadArchive(Request $request, Response $response)
     {
