@@ -19,7 +19,7 @@
             {% if getP(modulo_cursos) == lectura_escritura  %}
                 <div class="form-group">
                     <label for="codigo">Codigo</label>
-                    <input name="codigo" id="input_codigo" type="text" minlength="3"  maxlength="3" placeholder="000" pattern="[0-9]" class="form-control" {{ getP(modulo_cursos) == lectura_escritura ? '' : 'readonly' }}  required>
+                    <input name="codigo" id="input_codigo" type="text" minlength="3"  maxlength="3" placeholder="000" class="form-control" {{ getP(modulo_cursos) == lectura_escritura ? '' : 'readonly' }}  required>
                 </div>
                 <div class="form-group">
                     <input name="codigo_forma" type="number"  disabled placeholder="00000" class="form-control" min="00000" max="99999">
