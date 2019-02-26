@@ -47,6 +47,26 @@ class RegisterController extends Controller
             $this->flash->addMessage("errors", "El usuario ".$request->getParam('usuario')." ya esta matriculado en el curso " . $request->getParam('curso'));
             return $response->withRedirect($this->router->pathFor("admin.register.add"));
         }
+        $validate = Course::where("codigo", $request->getParam('curso'))->get();
+        if ($validate->count() == 0) {
+            if ($request->isXhr()) {
+                $data_array = ["message" => 3, "register" => null];
+                $newResponse = $response->withHeader('Content-type', 'application/json');
+                return $newResponse->withJson($data_array, 200);
+            }
+            $this->flash->addMessage("errors", "El curso ".$request->getParam('curso')." no existe" );
+            return $response->withRedirect($this->router->pathFor("admin.register.add"));
+        }
+        $validate = Student::where("usuario", $request->getParam('usuario'))->get();
+        if ($validate->count() == 0) {
+            if ($request->isXhr()) {
+                $data_array = ["message" => 3, "register" => null];
+                $newResponse = $response->withHeader('Content-type', 'application/json');
+                return $newResponse->withJson($data_array, 200);
+            }
+            $this->flash->addMessage("errors", "El usuario ".$request->getParam('usuario')." no existe" );
+            return $response->withRedirect($this->router->pathFor("admin.register.add"));
+        }
         try{
             $register = $this->saveRegister($request);
             if ($request->isXhr()) {
