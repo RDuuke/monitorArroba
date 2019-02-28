@@ -157,7 +157,7 @@ class AppController extends Controller
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
         Log::i(Tools::getEnterModuleMessage(Tools::codigoEstadistica, $this->auth->user()->usuario), Tools::getTypeAction(3));
-        return $this->view->render($response, "stats_register.twig", ["module_name" => Tools::$Modules[Tools::codigoEstadistica], "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "stats_register.twig", ["module_name" => Tools::$Modules[Tools::codigoEstadistica], "menu_active" => Tools::$MenuActive[0], "anos" => Tools::getAnosEvaluate()]);
         //TODO hacer la funcionalidad del nuevo reporte
 
     }

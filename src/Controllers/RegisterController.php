@@ -50,7 +50,7 @@ class RegisterController extends Controller
         $validate = Course::where("codigo", $request->getParam('curso'))->get();
         if ($validate->count() == 0) {
             if ($request->isXhr()) {
-                $data_array = ["message" => 3, "register" => null];
+                $data_array = ["message" => 4, "register" => null];
                 $newResponse = $response->withHeader('Content-type', 'application/json');
                 return $newResponse->withJson($data_array, 200);
             }
@@ -157,9 +157,9 @@ class RegisterController extends Controller
                     for ($row = 2; $row <= $highestRow; $row++) {
                         $data = [
                             "curso" => trim($worksheet->getCell('A' . $row)->getvalue()),
-                            "instancia" => trim($worksheet->getCell('B' . $row)->getvalue()),
-                            "usuario" => trim($worksheet->getCell('C' . $row)->getvalue()),
-                            "rol" => trim($worksheet->getCell('D' . $row)->getvalue()),
+                            "usuario" => trim($worksheet->getCell('B' . $row)->getvalue()),
+                            "rol" => trim($worksheet->getCell('C' . $row)->getvalue()),
+                            "instancia" => substr(trim($worksheet->getCell('A' . $row)->getvalue()), 0, 1)
                         ];
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
                             $data['institucion_id'] = $this->auth->user()->id_institucion;
@@ -193,12 +193,11 @@ class RegisterController extends Controller
                         if ($register->count() == 1) {
                             $data['message'] = str_replace(":usuario", $data['usuario'], str_replace(":curso", $data['curso'], Tools::getMessageRegister(6)));
                             $data['codigo'] = Tools::getCodigoRegister(6);
-                            array_push($this->alerts, $data);
+                            array_push($this->errors, $data);
                             unset($data);
                             continue;
                         }
 
-                        $data['instancia'] = empty($data['instancia']) ? substr($data['curso'], 0, 1):$data['instancia'];
                         $instance = Instance::where('codigo', $data['instancia'])->get();
                         if ($instance->count() == 0) {
                             $data['message'] = str_replace(':instancia', $data['instancia'], Tools::getMessageRegister(3));

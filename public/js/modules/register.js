@@ -44,7 +44,10 @@ $("#registerCreateForm").on( "submit", function( event ) {
               $("#registerCreateModal").modal('hide');
             } else if(response.message == 3) {
               toastr.info('Ya se esta matriculado', 'Info', {timeOut: 3000});
-            }else {
+            } else if (response.message == 4) {
+              toastr.error("El curso no existe", "Error", {timeOut: 3000});
+            }
+            else {
               console.log('0');
             }
           })

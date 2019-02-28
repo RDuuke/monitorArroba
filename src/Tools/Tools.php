@@ -25,7 +25,7 @@ class Tools {
     const codigoEstadistica = 10;
     const Lectura = 1;
 
-        const LecturaEscritura = 3;
+    const LecturaEscritura = 3;
     static protected $UserMessage = [
         0 => "El usuario correcto.",
         1 => "El usuario existe, pero con este documento de identidad :documento.",
@@ -416,4 +416,23 @@ class Tools {
         return count(array_filter(array_map("array_filter",$worksheet->toArray())));
     }
 
+    static function getAnosEvaluate() : array
+    {
+        $fechaStr = "2018-01-01";
+        $fechaEnteroInicio  = (int) date("Y", strtotime($fechaStr));
+        $array[] = $fechaEnteroInicio;
+        $fechaEnteraFinal = (int) date("Y");
+        $cantidad = $fechaEnteraFinal - $fechaEnteroInicio;
+        for ($i = 1; $i <= $cantidad; $i++){
+            array_push($array, $fechaEnteroInicio + $i);
+        }
+        return $array;
+    }
+
+    static function getRegisterForPeriod(string $codigo, string $first, string  $last)
+    {
+        $registers = Register::where("institucion_id", $codigo)
+            ->whereBetween("fecha", [$first, $last])->get();
+        return $registers;
+    }
 }

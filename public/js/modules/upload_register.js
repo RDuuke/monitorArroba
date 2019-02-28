@@ -56,7 +56,7 @@ $("#formFile").on('submit', function(event){
         toastr.remove();
         let i = 1;
         renderData(i,response.creators, 'creators', formOk);
-        renderData(i, response.alerts, 'alerts');
+        renderData(i, response.alerts, 'errors');
         renderData(i, response.errors, 'errors');
 
         $("#registros").html(response.totalR);
@@ -103,7 +103,6 @@ function renderData(i, value, classes, saveData = []) {
         var trDom = table.row.add([
             i,
             value.curso,
-            value.instancia,
             value.usuario,
             value.rol,
             value.codigo,

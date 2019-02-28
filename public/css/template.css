@@ -441,3 +441,8 @@ input#writing:checked:after{
 #modules {
     padding: .5em;
 }
+.select-form {
+    margin-right: 1em;
+    padding: .3em;
+    border-radius: 25px;
+}

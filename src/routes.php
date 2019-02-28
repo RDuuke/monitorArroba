@@ -131,6 +131,8 @@ $app->group("/panel", function (){
     $this->get("/search/report/student/consolidated", "ReportController:consolidated")->setName("admin.report.student.consolidated");
     $this->get("/search/report/student/moth", "ReportController:studentForMonth")->setName("admin.report.student.month");
     $this->get("/search/report/filter[/{incial}[/{final}]]", "ReportController:filterForMonth")->setName("admin.report.filter.month");
+    $this->post("/stats/register", "ReportController:statsRegister")->setName("admin.stats.period.register");
+
  })->add(new \App\Middleware\AuthMiddleware($container));
 
 $app->get("/test", function () {

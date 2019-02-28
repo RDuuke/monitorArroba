@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 
 use App\Models\Institution;
+use App\Models\Register;
 use App\Models\Student;
 use App\Tools\Tools;
 use Illuminate\Database\Capsule\Manager;
@@ -39,4 +40,12 @@ class ReportController extends Controller
 
         return $newResponse->withJson($data, 200);
     }
+
+    function statsRegister(Request $request, Response $response)
+    {
+        $periodo = explode(".", $request->getParam("semester"));
+        $registers = Tools::getRegisterForPeriod((string) $this->auth->user()->id_institucion, $periodo[0] . " 00:00:00", $periodo[1] . " 00:00:00");
+        return $this->view->render($response, "_partials/stats_register.twig", ["registers" => $registers]);
+    }
+
 }
