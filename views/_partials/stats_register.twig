@@ -31,6 +31,13 @@
 <script>
     $('table').DataTable({
         lengthMenu: [15, 25, 50, 75, 100 ],
+        dom: 'Blfrtip',
+        buttons : [{
+            extend: 'excel',
+            title: 'cantidad_de_matriculas',
+            text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
+            className: 'btn btn-info'
+        }],
         language: {
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Registros por pagina: _MENU_ ",
@@ -53,7 +60,8 @@
             "oAria": {
                 "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
+            },
+
         },
     });
 </script>
