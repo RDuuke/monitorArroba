@@ -431,10 +431,14 @@ class Tools {
 
     static function getRegisterForPeriod(string $codigo, string $first, string  $last)
     {
-        $registers = Register::where("institucion_id", $codigo)
-            ->whereBetween("fecha", [$first, $last])->get();
+        if ($codigo != Tools::codigoMedellin()) {
+            $registers = Register::where("institucion_id", $codigo)
+                ->whereBetween("fecha", [$first, $last])->get();
+        } else {
+            $registers = Register::whereBetween("fecha", [$first, $last])->get();
+        }
         return $registers;
     }
 
-    
+
 }
