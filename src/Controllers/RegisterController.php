@@ -97,7 +97,7 @@ class RegisterController extends Controller
     function show(Request $request, Response $response) : Response
     {
         $router = $request->getAttribute('route');
-        $register= Register::find($router->getArguments()['id'])->toArray();
+        $register= Register::find($router->getArguments()['id'])->first()->toArray();
         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($register, 200);
@@ -161,6 +161,10 @@ class RegisterController extends Controller
                             "rol" => trim($worksheet->getCell('C' . $row)->getvalue()),
                             "instancia" => substr(trim($worksheet->getCell('A' . $row)->getvalue()), 0, 1)
                         ];
+                        if(empty($data["usuario"])) {
+                            unset($data);
+                            continue;
+                        }
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
                             $data['institucion_id'] = $this->auth->user()->id_institucion;
                         } else {

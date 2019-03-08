@@ -435,4 +435,6 @@ class Tools {
             ->whereBetween("fecha", [$first, $last])->get();
         return $registers;
     }
+
+    
 }
