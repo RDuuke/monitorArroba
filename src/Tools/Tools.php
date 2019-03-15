@@ -21,8 +21,8 @@ class Tools {
     const codigoCursos = 6;
     const codigoMatriculas = 7;
     const codigoBusqueda = 8;
-    const codigoReporte = 9;
-    const codigoEstadistica = 10;
+    const codigoEstadistica = 9;
+    const codigoReporte = 10;
     const Lectura = 1;
 
     const LecturaEscritura = 3;
@@ -120,8 +120,8 @@ class Tools {
         5 => "Programas",
         8 => "Búsqueda",
         6 => "Cursos",
-        9 => "Reportes",
-        10 => "Estadisticas"
+        9 => "Estadisticas",
+        10 => "Reportes"
     ];
 
     static public $CodePDO = [

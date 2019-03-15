@@ -131,10 +131,10 @@ class AppController extends Controller
         return $this->view->render($response, "courses.twig", ["programs" => $programs, "module_name" => Tools::$Modules[Tools::codigoCursos], "menu_active" => Tools::$MenuActive[0], "institutions" => $institutions]);
     }
 
-    public function stats(Request $request, Response $response)
+    public function report(Request $request, Response $response)
     {
-        if (!$this->accessModuleRead($response, Tools::codigoEstadistica)) {
-            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoEstadistica, $this->auth->user()->usuario), Tools::getTypeAction(3));
+        if (!$this->accessModuleRead($response, Tools::codigoReporte)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoReporte, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
@@ -146,19 +146,18 @@ class AppController extends Controller
             $programs = Program::all();
             $courses = Course::all();
         }
-        Log::i(Tools::getEnterModuleMessage(Tools::codigoEstadistica, $this->auth->user()->usuario), Tools::getTypeAction(3));
-        return $this->view->render($response, "stats.twig", ["module_name" => Tools::$Modules[Tools::codigoEstadistica], "menu_active" => Tools::$MenuActive[0], "institutions" => $institutions, "programs" => $programs, "courses" => $courses]);
+        Log::i(Tools::getEnterModuleMessage(Tools::codigoReporte, $this->auth->user()->usuario), Tools::getTypeAction(3));
+        return $this->view->render($response, "stats.twig", ["module_name" => Tools::$Modules[Tools::codigoReporte], "menu_active" => Tools::$MenuActive[0], "institutions" => $institutions, "programs" => $programs, "courses" => $courses]);
     }
 
     public function statsRegister(Request $request, Response $response)
     {
-        if (!$this->accessModuleRead($response, Tools::codigoEstadistica)) {
-            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoEstadistica, $this->auth->user()->usuario), Tools::getTypeAction(3));
+        if (!$this->accessModuleRead($response, Tools::codigoReporte)) {
+            Log::a(Tools::getTryEnterModuleMessage(Tools::codigoReporte, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
         Log::i(Tools::getEnterModuleMessage(Tools::codigoEstadistica, $this->auth->user()->usuario), Tools::getTypeAction(3));
-        return $this->view->render($response, "stats_register.twig", ["module_name" => Tools::$Modules[Tools::codigoEstadistica], "menu_active" => Tools::$MenuActive[0], "anos" => Tools::getAnosEvaluate()]);
-        //TODO hacer la funcionalidad del nuevo reporte
+        return $this->view->render($response, "stats_register.twig", ["module_name" => Tools::$Modules[Tools::codigoReporte], "menu_active" => Tools::$MenuActive[0], "anos" => Tools::getAnosEvaluate()]);
 
     }
 
