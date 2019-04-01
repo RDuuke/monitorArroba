@@ -94,10 +94,9 @@ class RegisterController extends Controller
             }        }
     }
 
-    function show(Request $request, Response $response) : Response
+    function show(Request $request, Response $response, $args) : Response
     {
-        $router = $request->getAttribute('route');
-        $register= Register::find($router->getArguments()['id'])->first()->toArray();
+        $register= Register::find($args['id']);
         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($register, 200);

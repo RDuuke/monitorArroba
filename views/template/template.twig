@@ -236,7 +236,7 @@
                 <div class="ed-item s-100 l-85 l-cross-center">
                     <nav>
                         <ul id="breadcrumb" class="flex">
-                            <ol><a href="{{ path_for('admin.home') }}">Monitor</a></ol>
+                            <ol><a href="{{ path_for('admin.home') }}">Inicio</a></ol>
                             {% if module_name is defined %}
                                 {% if module_name is iterable %}
                                     {% for module in module_name %}
@@ -295,7 +295,7 @@
         setTime();
     $.ajaxSetup({
             // Disable caching of AJAX responses
-            cache: false
+            cache: true
         });
         $(document).ajaxStart(function () {
 
