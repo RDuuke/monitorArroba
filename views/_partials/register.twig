@@ -13,12 +13,15 @@
                 <label for="rol">rol</label>
                 <select name="rol" id="rol" class="form-control" required>
                     <option value="">Seleccione una opción</option>
-                    <option value="student">student</option>
-                    <option value="teacher">teacher</option>
-                    <option value="editingteacher">editingteacher</option>
-                    {% if auth.user.id_institucion == codigo_arroba_medellin %}
-                        <option value="manager">manager</option>
-                    {% endif %}
+                    {% for rol in roles %}
+                        {% if rol == "manager" %}
+                            {% if auth.user.id_institucion == codigo_arroba_medellin %}
+                                <option value="{{ rol }}">{{ rol }}</option>
+                            {% endif %}
+                        {% else %}
+                            <option value="{{ rol }}">{{ rol }}</option>
+                        {% endif %}
+                    {% endfor %}
                 </select>
             </div>
             {% if auth.user.id_institucion == codigo_arroba_medellin %}
