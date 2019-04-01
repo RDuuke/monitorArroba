@@ -11,7 +11,7 @@
             </div>
             <label for="programa">Programa</label>
             <select name="id_programa" id="id_programa" class="form-control" required>
-                <option>Seleccione</option>
+                <option value="">Seleccione una opción</option>
                 {% for program in programs %}
                     <option value="{{ program.codigo }}">{{ program.nombre }}</option>
                 {% endfor %}
@@ -30,7 +30,7 @@
             {% else %}
                 <div class="form-group">
                     <select name="institucion_id" id="institucion" class="form-control" required>
-                        <option disabled>Seleccione</option>
+                        <option value="">Seleccione una opción</option>
                         {% for institucion in institutions %}
                             <option value="{{ institucion.codigo }}">{{ institucion.nombre }}</option>
                         {% endfor %}

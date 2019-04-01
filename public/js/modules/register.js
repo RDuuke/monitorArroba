@@ -85,18 +85,17 @@ $("#registerCreateForm").on( "submit", function( event ) {
     event.preventDefault();
     _td = $(this);
     var _data = functions.getDataTable(_td);
-    var url = _td.attr('href');
-    $.get(url).done(function(response){
+    var url = _td.attr('href')
       $('#userCreateForm')[0].reset();
-
-      $.each(response, function( key, value ) {
-        if ( key == 'institucion_id') {
-          $("select#institucion_id option[value='"+ value +"']").attr("selected", "selected");
-        } else if (key == 'rol') {
-          $("select#rol option[value='"+ value +"']").attr("selected", "selected");
-        }else {
-          $('input[name="'+key+'"]').val(value);
-        }
+      $.get(url).done(function(response){
+        $.each(response, function( key, value ) {
+          if ( key == 'institucion_id') {
+            $("select#institucion_id option[value='"+ value +"']").attr("selected", "selected");
+          } else if (key == 'rol') {
+            $("select#rol option[value='"+ value +"']").attr("selected", "selected");
+          }else {
+            $('input[name="'+key+'"]').val(value);
+          }
       });
         $('#registerCreateForm').attr('action', _td.attr('data-href') + _data.id);
         $('#registerCreateForm').removeClass();

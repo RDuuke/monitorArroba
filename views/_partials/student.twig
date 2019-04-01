@@ -24,7 +24,7 @@
                         <input name="institucion_id" id="institucion_id" type="hidden" class="form-control" value="{{ auth.user.id_institucion }}" readonly required>
                     {% else %}
                         <select name="institucion_user" id="institucion_user" class="form-control" required>
-                            <option>Seleccione</option>
+                            <option value="">Seleccione una opción</option>
                             {% for institucion in instituciones %}
                                 <option value="{{ institucion.codigo }}">{{ institucion.nombre }}</option>
                             {% endfor %}
@@ -36,6 +36,7 @@
             <div class="form-group">
                 <label for="genero">Genero</label>
                 <select name="genero" id="genero" class="form-control" {{ getP(modulo_campus) == lectura_escritura ? '' : 'readonly' }}>
+                    <option value="">Seleccione una opción</option>
                     <option value="F">Femenino</option>
                     <option value="M">Masculino</option>
                 </select>

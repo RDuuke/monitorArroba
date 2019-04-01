@@ -25,6 +25,7 @@
                         <input name="id_institucion" type="hidden" class="form-control" value="{{ auth.user.id_institucion }}" readonly >
                     {% else %}
                         <select name="id_institucion" id="institucion" class="form-control" required>
+                            <option value="">Seleccione una opción</option>
                             {% for institucion in instituciones %}
                                 <option value="{{ institucion.codigo }}">{{ institucion.nombre }}</option>
                             {% endfor %}
