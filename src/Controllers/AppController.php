@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Models\FirstSingIn;
+use App\Models\Monitor;
 use App\Models\User;
 use App\Tools\Log;
 use App\Tools\Tools;
@@ -74,7 +75,7 @@ class AppController extends Controller
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
         Log::i(Tools::getEnterModuleMessage(Tools::codigoMatriculas, $this->auth->user()->usuario), Tools::getTypeAction(3));
-        return $this->view->render($response, "register.twig", ['module_name' => Tools::$Modules[Tools::codigoMatriculas], "menu_active" => Tools::$MenuActive[0], "institutions" => Institution::all()]);
+        return $this->view->render($response, "register.twig", ['module_name' => Tools::$Modules[Tools::codigoMatriculas], "menu_active" => Tools::$MenuActive[0], "institutions" => Institution::all(), "roles" => Tools::$Roles]);
     }
 
     public function instance(Request $request, Response $response)
@@ -176,7 +177,7 @@ class AppController extends Controller
         if (!$this->accessModuleRead($response,Tools::codigoBusqueda)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "search_student.twig", ["module_name" => ["Búsqueda#admin.search", "Búsqueda usuario  s"], "menu_active" => Tools::$MenuActive[1]]);
+        return $this->view->render($response, "search_student.twig", ["module_name" => ["Búsqueda#admin.search", "Búsqueda usuario s"], "menu_active" => Tools::$MenuActive[1]]);
     }
 
     public function searchCourse(Request $request, Response $response)
@@ -204,7 +205,7 @@ class AppController extends Controller
         $dataTable = Tools::getDataGeneralForMonth(1, $firstDate, $lastDate);
         $total = Tools::getTotalStudent();
         $institutions = Institution::all(["nombre", "codigo"])->sortBy("nombre");
-        return $this->view->render($response, "report.twig", ["module_name" => "Reportes", "menu_active" => Tools::$MenuActive[1], "data_table" => $dataTable, "total" => $total, "institutions" => $institutions]);
+        return $this->view->render($response, "report.twig", ["module_name" => "Estadisticas", "menu_active" => Tools::$MenuActive[1], "data_table" => $dataTable, "total" => $total, "institutions" => $institutions]);
     }
     public function userAdd(Request $request, Response $response)
     {
@@ -275,9 +276,20 @@ class AppController extends Controller
         if (!$this->accessModuleReadAndWrite($response,Tools::codigoMatriculas)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "content_form_add.twig", ["form" =>"register.twig", "module_name" => ["Matriculas#admin.register","agregar matricula"], "institutions" => Institution::all(), "menu_active" => Tools::$MenuActive[0]]);
+        return $this->view->render($response, "content_form_add.twig", ["form" =>"register.twig", "module_name" => ["Matriculas#admin.register","agregar matricula"], "institutions" => Institution::all(), "menu_active" => Tools::$MenuActive[0], "roles" => Tools::$Roles]);
 
     }
+    public function monitoreo(Request $request, Response $response)
+    {
+        $monitores = Monitor::all();
+        return $this->view->render($response, "monitor.twig", ["module_name" => ["Estadisticas#admin.search.report", "monitores"], "monitores"=> $monitores]);
+    }
+
+    function details(Request $request, Response $response, $args){
+        $monitor = Monitor::find($args['id']);
+        return $this->view->render($response, "details_monitor.twig", ["monitor" => $monitor, "module_name" =>["Monitores#admon.monitoreo", $monitor->name]]);
+    }
+
     public function changePassword(Request $request, Response $response)
     {
         if ($request->getParam('password_confirmacion') == $request->getParam('password')) {
