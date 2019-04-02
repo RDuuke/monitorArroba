@@ -1,4 +1,5 @@
 
+
 $("form").keypress(function(e) {
   if (e.which == 13) {
       return false;
@@ -26,13 +27,12 @@ $(".addcourse").on('click', function (event) {
         toastr.success('Accion completada correctamente.', 'Estupendo!!!', { timeOut: 3000 });
         $('#programCreateModal').modal('hide');
       } else {
-        console.log('0');
-        toastr.error('No sé pudo registrar correctamente.', 'Error!!', { timeOut: 3000 });
+        toastr.error('No sé pudo registrar correctamente, ' + response.alerta, 'Error!!', { timeOut: 3000 });
       }
 
     }).
       fail(function (response) {
-        toastr.error('Servicio no disponible intentalo luego.', 'Error!!', { timeOut: 3000 });
+        toastr.error(response.responseText, 'Error!!', { timeOut: 3000 });
       });
 
   });
@@ -54,7 +54,7 @@ $(".addcourse").on('click', function (event) {
           }
         }).
         fail(function(response){
-          toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+          toastr.error('Servicio no disponible intentalo luego. ' + response.responseText, 'Error!!', {timeOut: 3000});
         });
       } else {
         return false;

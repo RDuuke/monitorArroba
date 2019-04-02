@@ -48,7 +48,7 @@ class CourseController extends Controller
                 return $response->withRedirect($this->router->pathFor("admin.course.add"));
             } else {
                 if ($request->isXhr()) {
-                    return $response->withStatus(500)->write("El código ingresado ya esta en uso");
+                    return $response->withStatus(500)->write("El código ingresado ya esta en uso.");
                 } else {
                     $this->flash->addMessage("errors","El código ingresado ya esta en uso");
                     return $response->withRedirect($this->router->pathFor('admin.course.add'));
@@ -95,7 +95,7 @@ class CourseController extends Controller
             return $response->withStatus(500)->write('0');
         } catch(\Exception $e) {
             Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario, $courses->nombre), Tools::getTypeDeleteAction());
-            return $response->withStatus(500)->write('0');
+            return $response->withStatus(500)->write($e->getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ class CourseController extends Controller
                     Log::i(Tools::getMessageUpdateRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario, $course->nombre), Tools::getTypeUpdateAction());
                     $data_array = ["message" => 2, "course" => $course];
                 } else {
-                    $data_array = ["message" => 4, "course" => $course];
+                    $data_array = ["message" => 4, "course" => $course, "alerta" => "El código ingresado ya esta en uso."];
                 }
                 $newResponse = $response->withHeader('Content-type', 'application/json');
                 return $newResponse->withJson($data_array, 200);
@@ -124,7 +124,7 @@ class CourseController extends Controller
 
         } catch (\Exception $e) {
             Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario,$request->getParam('nombre')), Tools::getTypeUpdateAction());
-            return $response->withStatus(500)->write('0');
+            return $response->withStatus(500)->write($e->getMessage());
         }
     }
 

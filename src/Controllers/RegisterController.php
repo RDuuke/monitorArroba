@@ -87,7 +87,7 @@ class RegisterController extends Controller
         }catch(\Exception $e) {
             Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $request->getParam('codigo') . "  " . $request->getParam('usuario')), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
-                return $response->withStatus(500)->write(0);
+                return $response->withStatus(500)->write($e->getMessage());
             } else {
                 $this->flash->addMessage("errors", $e->getMessage());
                 return $response->withRedirect($this->router->pathFor('admin.register.add'));
@@ -101,7 +101,7 @@ class RegisterController extends Controller
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($register, 200);
         } catch(\Exception $e) {
-            return $response->withStatus(500)->write('0');
+            return $response->withStatus(500)->write($e->getMessage());
         }
     }
 
@@ -135,7 +135,7 @@ class RegisterController extends Controller
             }
         } catch(\Exception $e) {
             Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario), Tools::getTypeDeleteAction());
-            return $response->withStatus(500)->write('0');
+            return $response->withStatus(500)->write($e->getMessage());
         }
     }
 
@@ -332,33 +332,7 @@ class RegisterController extends Controller
             RegisterArchive::Create($dataOK[$i]);
         }
     }
-    function getCourses(Request $request, Response $response) : Response
-    {
-        switch($this->auth->user()->id_institucion)
-        {
-            case "01":
-                $courses = Course::pascual()->get();
-                break;
-            case "02":
-                $courses = Course::colegio()->get();
-                break;
-            case "03":
-                $courses = Course::itm()->get();
-                break;
-            case  "04":
-                $courses = Course::ruta()->get();
-                break;
-            default :
-                $courses = Course::all();
-                break;
-        }
-         try {
-            $newResponse = $response->withHeader('Content-type', 'application/json');
-            return $newResponse->withJson($courses, 200);
-        } catch(\Exception $e) {
-            return $response->withStatus(500)->write('0');
-        }
-    }
+
 
     protected function saveRegister(Request $request)
     {

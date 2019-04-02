@@ -17,7 +17,7 @@ $("#userCreateForm").on( "submit", function( event ) {
 
   }).
   fail(function(response){
-    toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+    toastr.error('Servicio no disponible intentalo luego.' + response.responseText, 'Error!!', {timeOut: 3000});
   });
 
 });
@@ -38,7 +38,6 @@ $("#tb_user").on('click', '.studentEliminar', function(event) {
             .draw();    }
         }).
         fail(function(response){
-            console.log(response);
             toastr.error(response.responseText, 'Error!!', {timeOut: 3000});
         });
       } else {

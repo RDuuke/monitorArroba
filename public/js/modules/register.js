@@ -52,7 +52,7 @@ $("#registerCreateForm").on( "submit", function( event ) {
             }
           })
           .fail(function(response){
-            toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+            toastr.error('Servicio no disponible intentalo luego. ' + response.responseText, 'Error!!', {timeOut: 3000});
           });
         }
       });
@@ -76,7 +76,7 @@ $("#registerCreateForm").on( "submit", function( event ) {
             }
           })
           .fail(function(response){
-            toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+            toastr.error('Servicio no disponible intentalo luego. ' + response.responseText, 'Error!!', {timeOut: 3000});
           });
     }
   });
@@ -121,7 +121,7 @@ $("#tb_register").on('click', '.registertEliminar', function(event) {
       }
     }).
     fail(function(response){
-      toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+      toastr.error('Servicio no disponible intentalo luego. ' +response.responseText , 'Error!!', {timeOut: 3000});
     });
   } else {
     return true;
@@ -143,7 +143,7 @@ $("#userCreateForm").on( "submit", function( event ) {
     }
   }).
   fail(function(response){
-    toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+    toastr.error('Servicio no disponible intentalo luego.' + response.responseText, 'Error!!', {timeOut: 3000});
   });
 
 });
