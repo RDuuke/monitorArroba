@@ -138,7 +138,7 @@ class AppController extends Controller
             Log::a(Tools::getTryEnterModuleMessage(Tools::codigoReporte, $this->auth->user()->usuario), Tools::getTypeAction(3));
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin() and $this->auth->user()->id_institucion != Tools::codigoSapiencia()) {
             $institutions = Institution::where("codigo", $this->auth->user()->id_institucion)->get();
             $programs = Program::where("codigo_institucion", $this->auth->user()->id_institucion)->get();
             $courses = Course::where("institucion_id", $this->auth->user()->id_institucion)->get();
