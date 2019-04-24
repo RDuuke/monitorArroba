@@ -303,11 +303,15 @@ class RegisterController extends Controller
                         }
                         $register = Register::where(['curso' => $data['curso'], 'usuario' => $data['usuario']])->first();
                         if ($register instanceof Register) {
-                            $data['instancia'] = $register->instancia;
-                            $data['rol'] = $register->rol;
                             $data['message'] = "Registro correcto para desmatricular";
                             $data['codigo'] = "C01";
                             array_push($this->creators, $data);
+                            unset($data);
+                            continue;
+                        } else {
+                            $data['message'] = "Usuario no esta matriculado";
+                            $data['codigo'] = "E06";
+                            array_push($this->errors, $data);
                             unset($data);
                             continue;
                         }
@@ -328,8 +332,10 @@ class RegisterController extends Controller
     {
         $dataOK = $request->getParam('data');
         for($i = 0; $i < count($dataOK); $i++){
-            Register::where(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']])->delete();
-            RegisterArchive::Create($dataOK[$i]);
+            $register = Register::where(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']])->first();
+
+            RegisterArchive::Create($register->toArray());
+            $register->delete();
         }
     }
 

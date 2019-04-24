@@ -100,15 +100,13 @@ function renderData(i, value, classes, saveData = []) {
         var trDom = table.row.add([
             i,
             value.curso,
-            value.instancia,
             value.usuario,
-            value.rol,
             value.codigo,
             value.message
         ]).draw(false).node();
         $(trDom).addClass(classes);
 
-        saveData[a] = {'curso' : value.curso, 'instancia' : value.instancia, 'usuario' : value.usuario, 'rol' : value.rol};
+        saveData[a] = {'curso' : value.curso, 'usuario' : value.usuario};
         i++;
         a++;
     });
