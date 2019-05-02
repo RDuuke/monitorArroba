@@ -39,7 +39,7 @@ color: #0093AE;
 .text-azul, .text-info, .blue-light, .text-blue-light, .icon_a{
   color: #009BDD !important;
 }
-.red {
+.red, .red i {
     color: #dc3545 !important;
 }
 #nav ul li a:hover {

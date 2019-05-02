@@ -176,7 +176,7 @@ header>.ed-container>div, header>.ed-container  {
 {
     justify-content: center;
 }
-.green{
+.green, .green > i{
     color: green !important;
 }
 .chocolate{
@@ -445,4 +445,7 @@ input#writing:checked:after{
     margin-right: 1em;
     padding: .3em;
     border-radius: 25px;
+}
+.color-200{
+    color: #28a745;
 }

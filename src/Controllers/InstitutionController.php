@@ -101,4 +101,13 @@ class InstitutionController extends Controller
             return $response->withStatus(500)->write('0');
         }
     }
+
+    function getTotalOfRegisterForDate(Request $request, Response $response)
+    {
+        $registers = Institution::with(["registers" => function($query) use ($request) {
+            $query->whereBetween("fecha", [ $request->getParam('fechainicial') .' 00:00:00', $request->getParam('fechafinal') . ' 23:59:59']);
+        }])->get();
+
+        return $this->view->render($response, "_partials/stats_institutions.twig", ["institutions" => $registers]);
+    }
 }

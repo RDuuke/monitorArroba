@@ -133,7 +133,7 @@ class Tools {
     ];
 
     static public $Roles = [
-      "student", "teacher", "editingteacher", "manager", "revisor"
+        "student", "teacher", "editingteacher", "manager", "revisor"
     ];
 
     static protected $tipo = [
@@ -440,5 +440,19 @@ class Tools {
         return $registers;
     }
 
+    static function getRegisterForCourseAndPeriod(string $codigo, string $first, string  $last)
+    {
+        if ($codigo != Tools::codigoMedellin()) {
+            $registers = Register::where("institucion_id", $codigo)
+                ->whereBetween("fecha", [$first, $last])
+                ->groupBy("curso")
+                ->get();
+        } else {
+            $registers = Register::whereBetween("fecha", [$first, $last])
+                ->groupBy("curso")
+                ->get();
+        }
+        return $registers;
+    }
 
 }

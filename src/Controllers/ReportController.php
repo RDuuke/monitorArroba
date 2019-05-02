@@ -44,8 +44,9 @@ class ReportController extends Controller
     function statsRegister(Request $request, Response $response)
     {
         $periodo = explode(".", $request->getParam("semester"));
-        $registers = Tools::getRegisterForPeriod((string) $this->auth->user()->id_institucion, $periodo[0] . " 00:00:00", $periodo[1] . " 00:00:00");
+        $registers = Tools::getRegisterForPeriod((string) $this->auth->user()->id_institucion, $periodo[0] . " 00:00:00", $periodo[1] . " 23:59:59");
         return $this->view->render($response, "_partials/stats_register.twig", ["registers" => $registers]);
     }
+    
 
 }

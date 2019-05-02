@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Illuminate\Database\Capsule\Manager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Program;
@@ -119,5 +120,28 @@ class ProgramController extends Controller
         } catch (\Exception $e) {
             return $response->withStatus(500)->write($e->getMessage());
         }
+    }
+
+    function getTotalOfRegisterForDate(Request $request, Response $response)
+    {
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin() || $this->auth->user()->id_institucion != Tools::codigoSapiencia()) {
+            $registers = Program::with(["course" => function ($query) use ($request)
+            {
+               $query->with(["registers" => function ($query) use ($request) {
+                   $query->whereBetween("fecha", [ $request->getParam('fechainicial') .' 00:00:00', $request->getParam('fechafinal') . ' 23:59:59']);
+               }]);
+            }])->where("codigo_institucion", $this->auth->user()->id_institucion)->get();
+            return $this->view->render($response, "_partials/stats_programs.twig", ["programs" => $registers]);
+        }
+        $registers = Program::with(["course" => function ($query) use ($request)
+        {
+            $query->with(["registers" => function ($query) use ($request) {
+                $query->whereBetween("fecha", [ $request->getParam('fechainicial') .' 00:00:00', $request->getParam('fechafinal') . ' 23:59:59']);
+            }]);
+        }])->get();
+        return $this->view->render($response, "_partials/stats_programs.twig", ["programs" => $registers]);
+
+
+
     }
 }

@@ -15,6 +15,11 @@ class Institution extends Model
         return $this->hasMany(Program::class, "codigo_institucion", "codigo");
     }
 
+    public function registers()
+    {
+        return $this->hasMany(Register::class, "institucion_id", "codigo");
+    }
+
     static function checkCodigo($codigo)
     {
         $result = Institution::where('codigo', '=', $codigo)->get();

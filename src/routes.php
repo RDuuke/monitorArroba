@@ -9,6 +9,7 @@ $app->get("/api/v1/student", "ApiController:alluser");
 $app->group("/panel", function (){
     /** Controller for view */
     $this->get("", "AppController:home")->setName("admin.home");
+    $this->get("/monitoreo", "AppController:monitoreo")->setName("admin.monitoreo");
     $this->get("/students", "AppController:students")->setName("admin.students");
     $this->get("/students/add", "AppController:studentAdd")->setName('admin.student.add');
     $this->get("/students/upload", "AppController:upload_students")->setName('admin.upload.students');
@@ -98,6 +99,17 @@ $app->group("/panel", function (){
     $this->post("/courses/update/{id}", "CourseController:update")->setName('admin.courses.update');
     $this->post("/courses/upload", "CourseController:upload")->setName("admin.upload.courses");
 
+    /** Controller actions monitores */
+    $this->post("/monitoreo", "MonitorController:store")->setName("admon.monitoreo");
+    $this->get("/monitoreo/all", "MonitorController:all")->setName("admin.monitoreo.all");
+    $this->get("/monitoreo/show/{id}", "MonitorController:show")->setName("admin.monitoreo.show");
+    $this->post("/monitoreo/update/{id}", "MonitorController:update")->setName("admin.monitoreo.update");
+    $this->get("/monitoreo/delete/{id}", "MonitorController:delete")->setName("admin.monitoreo.delete");
+    $this->get("/monitoreo/pause-play/{id}", "MonitorController:PausePlay")->setName("admin.monitoreo.pause-play");
+    $this->get("/monitoreo/reset/{id}", "MonitorController:reset")->setName("admin.monitoreo.pause-play");
+    $this->get("/monitoreo/details/{id}", "AppController:details")->setName("admin.monitoreo.details");
+    $this->get("/monitoreo/data/{id}", "MonitorController:detailsData")->setName("admin.monitoreo.details.data");
+
     /** Controller search general */
 
     $this->get("/search/program/courses/{id}", "AppController:searchCoursesForPogram")->setName('admin.search.program.course');
@@ -132,11 +144,9 @@ $app->group("/panel", function (){
     $this->get("/search/report/student/moth", "ReportController:studentForMonth")->setName("admin.report.student.month");
     $this->get("/search/report/filter[/{incial}[/{final}]]", "ReportController:filterForMonth")->setName("admin.report.filter.month");
     $this->post("/stats/register", "ReportController:statsRegister")->setName("admin.stats.period.register");
+    $this->post("/stats/date/course", "CourseController:getTotalOfRegisterForDate")->setName("admin.date.report.course");
+    $this->post("/stats/date/program", "ProgramController:getTotalOfRegisterForDate")->setName("admin.date.report.program");
+    $this->post("/stats/date/institution", "InstitutionController:getTotalOfRegisterForDate")->setName("admin.date.report.institution");
 
  })->add(new \App\Middleware\AuthMiddleware($container));
 
-$app->get("/test", function () {
-    echo '<pre>';
-    $data = Illuminate\Database\Capsule\Manager::connection("db_pregrado")->select("SELECT DATE_FORMAT(FROM_UNIXTIME(la.timeaccess),'%d %b %Y') AS ultimoCur  FROM mdl_user u, mdl_role_assignments ra, mdl_context c, mdl_course co, mdl_user_lastaccess la WHERE u.id=ra.userid AND ra.contextid = c.id AND c.instanceid=co.id AND u.id=la.userid AND co.id=la.courseid AND u.username='juan.duque@arrobamedellin.edu.co' and co.idnumber=10501001");
-    print_r($data[0]->ultimoCur);
-});

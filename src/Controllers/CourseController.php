@@ -211,4 +211,23 @@ class CourseController extends Controller
             Course::updateOrCreate(['codigo' => $dataOK[$i]['codigo']], $dataOK[$i]);
         }
     }
+
+    function getTotalOfRegisterForDate(Request $request, Response $response)
+    {
+
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin() || $this->auth->user()->id_institucion != Tools::codigoSapiencia()) {
+            $courses = Course::with([
+                "registers" => function($q) use ($request) {
+                    $q->whereBetween("fecha", [$request->getParam("fechainicial") . " 00:00:00", $request->getParam("fechafinal") . " 23:59:59"]);
+                }
+            ])->where("institucion_id", $this->auth->user()->id_institucion)->get();
+            return $this->view->render($response, "_partials/stats_courses.twig", ["courses" => $courses]);
+        }
+        $courses = Course::with([
+            "registers" => function($q) use ($request) {
+                $q->whereBetween("fecha", [$request->getParam("fechainicial") . " 00:00:00", $request->getParam("fechafinal") . " 23:59:59"]);
+            }
+        ])->get();
+        return $this->view->render($response, "_partials/stats_courses.twig", ["courses" => $courses]);
+    }
 }

@@ -19,27 +19,80 @@
         </div>
         <div class="separator"></div>
         <div class="ed-container full ed-item s-100 container-tabs no-padding">
+
             <div class="ed-item s-100">
                 <nav class="nav-tab">
-                    <a href="#" data-item="institution" class="link-tab active">Institución</a>
+                    {% if auth.user.id_institucion == codigo_arroba_medellin or auth.user.id_institucion == codigo_sapiencia %}
+                        <a href="#" data-item="institution" class="link-tab active">Institución</a>
+                    {% endif %}
                     <a href="#" data-item="programs" class="link-tab">Programa</a>
                     <a href="#" data-item="courses" class="link-tab">Cursos</a>
                 </nav>
             </div>
-            <div id="institution" class="ed-item s-100 item-tab active">
-                <h3>Cantidad de usuarios por institución</h3>
-                <br>
-                {% include '_partials/stats_institutions.twig' %}
-            </div>
+            {% if auth.user.id_institucion == codigo_arroba_medellin or auth.user.id_institucion == codigo_sapiencia %}
+                <div id="institution" class="ed-item s-100 item-tab active">
+                    <h3>Cantidad de matriculas por institución</h3>
+                    <br>
+                    <form class="formLimitDate" action="{{ path_for('admin.date.report.institution') }}" class="text-center">
+                        <div class="form-group">
+                            <label for="fechainicia">Inicial</label>
+                            <input type="date" name="fechainicial" class="form-control" id="fechainicia" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechafinal">Final</label>
+                            <input type="date" name="fechafinal" class="form-control" id="fechafinal" required>
+                        </div>
+                        <div class="form-group">
+                            <button class="centro btn bg_naranja text-white border-radius-all-25-px">Buscar</button>
+                        </div>
+                    </form>
+                    <div class="content"></div>
+                    {#
+                        {% include '_partials/stats_institutions.twig' %}
+                    #}
+                </div>
+            {% endif %}
             <div id="programs" class="ed-item s-100 item-tab">
-                <h3>Cantidad de usuarios por programa</h3>
+                <h3>Cantidad de matriculas por programa</h3>
                 <br>
-                {% include '_partials/stats_programs.twig' %}
+                <form class="formLimitDate" action="{{ path_for('admin.date.report.program') }}" class="text-center">
+                    <div class="form-group">
+                        <label for="fechainicia">Inicial</label>
+                        <input type="date" name="fechainicial"class="form-control" id="fechainicia" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechafinal">Final</label>
+                        <input type="date" name="fechafinal"class="form-control" id="fechafinal" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="centro btn bg_naranja text-white border-radius-all-25-px">Buscar</button>
+                    </div>
+                </form>
+                <div class="content"></div>
+                {#
+                    {% include '_partials/stats_programs.twig' %}
+                #}
             </div>
             <div id="courses" class="ed-item s-100 item-tab">
-                <h3>Cantidad de usuarios por cursos</h3>
+                <h3>Cantidad de matriculas por cursos</h3>
                 <br>
-                {% include '_partials/stats_courses.twig' %}
+                <form class="formLimitDate" action="{{ path_for('admin.date.report.course') }}" class="text-center">
+                    <div class="form-group">
+                        <label for="fechainicia">Inicial</label>
+                        <input type="date" name="fechainicial"class="form-control" id="fechainicia" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechafinal">Final</label>
+                        <input type="date" name="fechafinal"class="form-control" id="fechafinal" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="centro btn bg_naranja text-white border-radius-all-25-px">Buscar</button>
+                    </div>
+                </form>
+                <div class="content"></div>
+                {#
+                    {% include '_partials/stats_courses.twig' %}
+                #}
             </div>
         </div>
     </div>
@@ -51,47 +104,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-    <script>
-        var _td = null;
-        var table = $('table').DataTable({
-            dom: 'Blfrtip',
-            buttons : [{
-                extend: 'excel',
-                title: 'cantidad_de_matriculas',
-                text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
-                className: 'btn btn-info'
-            }],
-            lengthMenu: [ 25, 50, 75, 100 ],
-            language: {
-                "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Registros por pagina: _MENU_ ",
-                "sZeroRecords":    "No se encontraron resultados",
-                "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":    "",
-                "sSearch":         "Buscar:",
-                "sUrl":            "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "paginate": {
-                    "first":      "Primera",
-                    "last":       "Ultima",
-                    "next":       "Siguiente <i class='fa fa-angle-right'></i>",
-                    "previous":   "<i class='fa fa-angle-left'></i> Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            },
-
-        });
-    </script>
     <script src="{{ base_url }}/monitor/public/js/modules/tabs.js"></script>
     <script src="{{ base_url }}/monitor/public/js/function.js"></script>
+    <script src="{{ base_url }}/monitor/public/js/modules/stats_report.js"></script>
 {% endblock %}

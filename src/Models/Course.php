@@ -27,6 +27,10 @@ class Course extends Model
         return $this->belongsTo(Program::class, 'id_programa', 'codigo');
     }
 
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class, 'institucion_id', 'codigo');
+    }
     /*
     public function getIdProgramaAttribute($value)
     {
