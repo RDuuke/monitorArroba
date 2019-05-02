@@ -215,7 +215,7 @@ class CourseController extends Controller
     function getTotalOfRegisterForDate(Request $request, Response $response)
     {
 
-        if ($this->auth->user()->id_institucion != Tools::codigoMedellin() || $this->auth->user()->id_institucion != Tools::codigoSapiencia()) {
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin() && $this->auth->user()->id_institucion != Tools::codigoSapiencia()) {
             $courses = Course::with([
                 "registers" => function($q) use ($request) {
                     $q->whereBetween("fecha", [$request->getParam("fechainicial") . " 00:00:00", $request->getParam("fechafinal") . " 23:59:59"]);

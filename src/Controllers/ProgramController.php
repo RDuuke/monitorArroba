@@ -124,7 +124,7 @@ class ProgramController extends Controller
 
     function getTotalOfRegisterForDate(Request $request, Response $response)
     {
-        if ($this->auth->user()->id_institucion != Tools::codigoMedellin() || $this->auth->user()->id_institucion != Tools::codigoSapiencia()) {
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin() && $this->auth->user()->id_institucion != Tools::codigoSapiencia()) {
             $registers = Program::with(["course" => function ($query) use ($request)
             {
                $query->with(["registers" => function ($query) use ($request) {
