@@ -228,6 +228,7 @@ class CourseController extends Controller
                 $q->whereBetween("fecha", [$request->getParam("fechainicial") . " 00:00:00", $request->getParam("fechafinal") . " 23:59:59"]);
             }
         ])->get();
+        
         return $this->view->render($response, "_partials/stats_courses.twig", ["courses" => $courses]);
     }
 }

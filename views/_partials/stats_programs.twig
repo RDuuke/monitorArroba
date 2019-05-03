@@ -10,12 +10,14 @@
     </thead>
     <tbody>
     {% for i in programs %}
-        <tr>
-            <td>{{ i.nombre }}</td>
-            <td>{{ i.codigo }}</td>
-            <td>{{ i.fecha }}</td>
-            <td>{{ i.course.count }}</td>
-        </tr>
+        {% if i.course.count > 0 %}
+            <tr>
+                <td>{{ i.nombre }}</td>
+                <td>{{ i.codigo }}</td>
+                <td>{{ i.fecha }}</td>
+                <td>{{ i.course.count }}</td>
+            </tr>
+        {% endif %}
     {% endfor %}
     </tbody>
 </table>

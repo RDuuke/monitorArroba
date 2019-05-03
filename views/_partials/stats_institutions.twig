@@ -10,12 +10,14 @@
     </thead>
     <tbody>
         {% for i in institutions %}
-            <tr>
-                <td>{{ i.nombre }}</td>
-                <td>{{ i.codigo }}</td>
-                <td>{{ i.fecha }}</td>
-                <td>{{ i.registers.count }}</td>
-            </tr>
+            {% if i.registers.count > 0 %}
+                <tr>
+                    <td>{{ i.nombre }}</td>
+                    <td>{{ i.codigo }}</td>
+                    <td>{{ i.fecha }}</td>
+                    <td>{{ i.registers.count }}</td>
+                </tr>
+            {% endif %}
         {% endfor %}
     </tbody>
 </table>

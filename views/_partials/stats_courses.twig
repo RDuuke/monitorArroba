@@ -11,14 +11,16 @@
     </thead>
     <tbody>
     {% for c in courses %}
-        <tr>
-            <td>{{ c.codigo }}</td>
-            <td>{{ c.nombre }}</td>
-            <td>{{ c.programs.nombre }}</td>
-            <td>{{ c.institution.nombre }}</td>
-            <td>{{ c.fecha }}</td>
-            <td>{{ c.registers.count }}</td>
-        </tr>
+        {% if c.registers.count > 0 %}
+            <tr>
+                <td>{{ c.codigo }}</td>
+                <td>{{ c.nombre }}</td>
+                <td>{{ c.programs.nombre }}</td>
+                <td>{{ c.institution.nombre }}</td>
+                <td>{{ c.fecha }}</td>
+                <td>{{ c.registers.count }}</td>
+            </tr>
+        {% endif %}
     {% endfor %}
     </tbody>
 </table>
