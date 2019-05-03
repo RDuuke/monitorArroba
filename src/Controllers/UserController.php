@@ -42,6 +42,7 @@ class UserController extends Controller
             return $response->withRedirect($this->router->pathFor('admin.user.add'));
         } catch ( \PDOException $e ) {
             if ($request->isXhr()) {
+                $data["message"] = $e->getMessage();
                 Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoUsuarioPlataforma, $this->auth->user()->usuario, $request->getParam('usuario')), Tools::getTypeCreatorAction());
                 return $newResponse->withJson($data, 200);
             }

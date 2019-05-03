@@ -14,12 +14,12 @@ $("#userCreateForm").on( "submit", function( event ) {
         $('#userCreateModal').modal('hide');
       }else {
         console.log('0');
-        toastr.error('No sé pudo registrar correctamente.', 'Error!!', {timeOut: 3000});
+        toastr.error('No sé pudo registrar correctamente. '+ response.message, 'Error!!', {timeOut: 3000});
       }
-
+        $('#userCreateModal').modal('hide');
     }).
     fail(function(response){
-      toastr.error('Servicio no disponible intentalo luego.', 'Error!!', {timeOut: 3000});
+      toastr.error('Servicio no disponible intentalo luego. '+ response.message, 'Error!!', {timeOut: 3000});
     });
 
 });

@@ -32,7 +32,11 @@ class Register extends Model
     {
         return $this->belongsTo(Course::class, 'curso', 'codigo');
     }
-    
+
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class, 'institucion_id', 'codigo');
+    }
     function scopePublic($query)
     {
         return $query->whereIn('instancia', [1, 2, 3]);
