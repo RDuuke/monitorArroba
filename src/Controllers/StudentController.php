@@ -41,7 +41,7 @@ class StudentController extends Controller
             }
         }catch(\PDOException $e) {
 
-            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $request->getParam('usuario')), Tools::getTypeCreatorAction());
+            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $request->getParam('usuario')) . " INFO:" . $e->getMessage(), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 return $response->withStatus(500)->write(str_replace(":correo",  $request->getParam('usuario'), Tools::$CodePDO[$e->getCode()]));
             } else {
@@ -66,7 +66,7 @@ class StudentController extends Controller
             }
             return $response->withStatus(500)->write('El usuario tiene matriculas activas');
         } catch(\Exception $e) {
-            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario), Tools::getTypeDeleteAction());
+            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario) . " INFO:" . $e->getMessage(), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write($e->getMessage());
         }
     }
@@ -95,7 +95,7 @@ class StudentController extends Controller
                 return $newResponse->withJson($data_array, 200);
             }
         }catch(\Exception $e) {
-            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario), Tools::getTypeUpdateAction());
+            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario) . " INFO:" . $e->getMessage(), Tools::getTypeUpdateAction());
             return $response->withStatus(500)->write('0');
         }
     }
@@ -213,7 +213,7 @@ class StudentController extends Controller
                     Log::i(Tools::getMessageImportModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario), Tools::getTypeAction(5));
                     return $newResponse->withJson($responseData, 200);
                 } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
-                    Log::e(Tools::getMessageImportModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario), Tools::getTypeAction(5));
+                    Log::e(Tools::getMessageImportModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario) . " INFO:" . $e->getMessage(), Tools::getTypeAction(5));
                     die('Error loading file: '.$e->getMessage());
                 }
 

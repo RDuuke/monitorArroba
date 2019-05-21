@@ -85,7 +85,7 @@ class RegisterController extends Controller
                 }
             }
         }catch(\Exception $e) {
-            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $request->getParam('codigo') . "  " . $request->getParam('usuario')), Tools::getTypeCreatorAction());
+            Log::e(Tools::getMessageCreaterRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $request->getParam('codigo') . "  " . $request->getParam('usuario')) . " INFO:" . $e->getMessage(), Tools::getTypeCreatorAction());
             if ($request->isXhr()) {
                 return $response->withStatus(500)->write($e->getMessage());
             } else {
@@ -118,7 +118,7 @@ class RegisterController extends Controller
                 return $newResponse->withJson($data_array, 200);
             }
         }catch(\Exception $e) {
-            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario), Tools::getTypeUpdateAction());
+            Log::e(Tools::getMessageUpdateRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario) ." INFO:" . $e->getMessage(), Tools::getTypeUpdateAction());
             return $response->withStatus(500)->write($e->getMessage());
         }
     }
@@ -134,7 +134,7 @@ class RegisterController extends Controller
                 return $response->withStatus(200)->write('1');
             }
         } catch(\Exception $e) {
-            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario), Tools::getTypeDeleteAction());
+            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoMatriculas, $this->auth->user()->usuario, $register->curso . "  " . $register->usuario) . " INFO:" . $e->getMessage(), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write($e->getMessage());
         }
     }
@@ -303,15 +303,11 @@ class RegisterController extends Controller
                         }
                         $register = Register::where(['curso' => $data['curso'], 'usuario' => $data['usuario']])->first();
                         if ($register instanceof Register) {
+                            $data['instancia'] = $register->instancia;
+                            $data['rol'] = $register->rol;
                             $data['message'] = "Registro correcto para desmatricular";
                             $data['codigo'] = "C01";
                             array_push($this->creators, $data);
-                            unset($data);
-                            continue;
-                        } else {
-                            $data['message'] = "Usuario no esta matriculado";
-                            $data['codigo'] = "E06";
-                            array_push($this->errors, $data);
                             unset($data);
                             continue;
                         }
@@ -332,10 +328,8 @@ class RegisterController extends Controller
     {
         $dataOK = $request->getParam('data');
         for($i = 0; $i < count($dataOK); $i++){
-            $register = Register::where(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']])->first();
-
-            RegisterArchive::Create($register->toArray());
-            $register->delete();
+            Register::where(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']])->delete();
+            RegisterArchive::Create($dataOK[$i]);
         }
     }
 
