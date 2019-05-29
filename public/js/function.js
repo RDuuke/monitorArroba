@@ -48,7 +48,12 @@ $(function(){
             }).done(function(response){
                 console.log(response);
                 functions.removeToast();
-                toastr.success('Carga terminada.', 'Finalizado', {timeOut: 3000});
+                if (response.status == 0) {
+                    toastr.success(response.message, 'Generando archivo', {timeOut: 3000});
+                } else {
+                    toastr.err(response.message, 'Generando archivo', {timeOut: 4000});
+                }
+                functions.dowloadStudent(response);
             }).fail( function (response) {
                 console.log(response);
                 toastr.remove();
@@ -73,7 +78,51 @@ $(function(){
                 });
             });
             return {labels, dataset};
-        }
+        },  
+        
+        dowloadStudent : function (xlsRows) {
+            console.log(xlsRows);
+            var createXLSLFormatObj = [];
+            var xlsHeader = ["USUARIO", "CLAVE", "NOMBRES",	"APELLIDOS", "DOCUMENTO", "INSTITUCION", "GENERO", "CIUDAD",
+                "DEPARTAMENTO",	"PAIS",	"TELEFONO",	"CELULAR", "DIRECCIÓN", "CODIGO", "MENSAJE"];
+            createXLSLFormatObj.push(xlsHeader);
+            if (xlsRows.creators.total > 0) {
 
+                $.each(xlsRows.creators.data, function (index, value) {
+                    createXLSLFormatObj.push([
+                        value.usuario, value.clave, value.nombres, value.apellidos,
+                        value.documento, value.institucion, value.genero, value.ciudad, value.departamento, value.pais,
+                        value.telefono, value.celular, value.direccion, value.codigo, value.message
+                    ]);
+                });
+            }
+            if (xlsRows.errors.total > 0) {
+
+                $.each(xlsRows.errors.data, function (index, value) {
+                    createXLSLFormatObj.push([
+                        value.usuario, value.clave, value.nombres, value.apellidos,
+                        value.documento, value.institucion, value.genero, value.ciudad, value.departamento, value.pais,
+                        value.telefono, value.celular, value.direccion, value.codigo, value.message
+                    ]);
+                });
+            }
+
+            var filename = "usuarios_procesados.xlsx";
+
+            /* Sheet Name */
+            var ws_name = "usuariosProcesados";
+
+            if (typeof console !== 'undefined') console.log(new Date());
+            var wb = XLSX.utils.book_new(),
+                ws = XLSX.utils.aoa_to_sheet(createXLSLFormatObj);
+
+            /* Add worksheet to workbook */
+            XLSX.utils.book_append_sheet(wb, ws, ws_name);
+
+            /* Write workbook and Download */
+            if (typeof console !== 'undefined') console.log(new Date());
+            XLSX.writeFile(wb, filename);
+            if (typeof console !== 'undefined') console.log(new Date());
+        }
     }
 });

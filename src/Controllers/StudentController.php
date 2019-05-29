@@ -266,22 +266,55 @@ class StudentController extends Controller
 
     function proccess(Request $request, Response $response)
     {
-        $dataOK = $request->getParam('data');
-        $message = ["status" => 0, "creators", "errors"];
-        $c = 0;
-        $e = 0;
-        for($i = 0; $i < count($dataOK); $i++){
-            if (Student::updateOrCreate(['usuario' => $dataOK[$i]['usuario']], $dataOK[$i]) instanceof Student) {
-                $c++;
-            } else {
-                $e++;
-            }
-        }
-        $message["creators"] = $c;
-        $message["errors"] = $e;
         $newResponse = $response->withHeader('Content-type', 'application/json');
-        return $newResponse->withJson($message, 200);
+        try {
+            $dataOK = $request->getParam('data');
+            for($i = 0; $i < count($dataOK); $i++){
+
+                if (Student::updateOrCreate(['usuario' => $dataOK[$i]['usuario']], $dataOK[$i]) instanceof Student) {
+                    $dataOK[$i]["codigo"] = "C0";
+                    $dataOK[$i]["message"] = "Creado correctamente";
+                    unset($dataOK[$i]["institucion_id"]);
+                    array_push($this->creators, $dataOK[$i]);
+                } else {
+                    $dataOK[$i]["codigo"] = "E0";
+                    $dataOK[$i]["message"] = "Error al crear el usuario";
+                    unset($dataOK[$i]["institucion_id"]);
+                    array_push($this->errors, $dataOK[$i]);
+                }
+            }
+
+            return $newResponse->withJson([
+                "status" => 0,
+                "creators" => [
+                    "data" => $this->creators,
+                    "total" => count($this->creators)
+                ],
+                "errors" => [
+                    "data" => $this->errors,
+                    "total" => count($this->errors)
+                ],
+                "message" => "Se completo el proceso de creación de usuarios.",
+
+            ], 200);
+        } catch (\ErrorException $e ) {
+            return $newResponse->withJson([
+                "status" => 1,
+                "creators" => [
+                    "data" => $this->creators,
+                    "total" => count($this->creators)
+                ],
+                "errors" => [
+                    "data" => $this->errors,
+                    "total" => count($this->errors)
+                ],
+                "message" => "Se interrumpio el proceso de creación de usuarios.",
+                "messageRaw" => $e->getMessage()
+
+            ], 200);
+        }
     }
+
     function permissionAll(Request $request, Response $response){
         $router = $request->getAttribute('route');
         $permissions = Permission::where('user_id',"=",$router->getArguments()['id'])->get();
