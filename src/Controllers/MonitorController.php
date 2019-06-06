@@ -122,9 +122,14 @@ class MonitorController extends Controller
     function detailsData(Request $request, Response $response, $args)
     {
         $newResponse = $response->withHeader('Content-type', 'application/json');
-
+        echo Carbon::today()->addDay();
+        echoCarbon::today()->subDay(1)
+        echo MonitorRegistro::select(Manager::raw("DISTINCT DATE_FORMAT(created_at, '%H:%i:%m') AS labels"))->where("monitor_id", "=", $args['id'])
+            ->whereBetween("created_at", [Carbon::today()->subDay(1), Carbon::today()->addDay()])->toSql();
+        die;
         $labels = MonitorRegistro::select(Manager::raw("DISTINCT DATE_FORMAT(created_at, '%H:%i:%m') AS labels"))->where("monitor_id", "=", $args['id'])
             ->whereBetween("created_at", [Carbon::today()->subDay(1), Carbon::today()->addDay()])->get();
+
         $monitores = MonitorRegistro::select("time")->where("monitor_id", "=", $args['id'])
             ->whereBetween("created_at", [Carbon::today()->subDay(1), Carbon::today()->addDay()])->get();
 
