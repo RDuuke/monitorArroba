@@ -4,6 +4,7 @@ var id = window.location.href.split("/").pop();
 
 $.get(getUri + "/panel/monitoreo/data/" + id)
     .done( function (response) {
+        console.log(response);
         let labels = [], values = [];
         for (let label of response.labels) {
             labels.push(label.labels);
