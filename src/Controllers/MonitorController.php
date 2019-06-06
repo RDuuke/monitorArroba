@@ -123,7 +123,7 @@ class MonitorController extends Controller
     {
         $newResponse = $response->withHeader('Content-type', 'application/json');
         echo Carbon::today()->addDay();
-        echo Carbon::today()->subDay(1)
+        echo Carbon::today()->subDay(1);
         echo MonitorRegistro::select(Manager::raw("DISTINCT DATE_FORMAT(created_at, '%H:%i:%m') AS labels"))->where("monitor_id", "=", $args['id'])
             ->whereBetween("created_at", [Carbon::today()->subDay(1), Carbon::today()->addDay()])->toSql();
         die;
