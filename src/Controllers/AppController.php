@@ -127,7 +127,6 @@ class AppController extends Controller
             $programs = Program::all();
         }
         $institutions = Institution::all();
-        $programs = Program::all();
         Log::i(Tools::getEnterModuleMessage(Tools::codigoCursos, $this->auth->user()->usuario), Tools::getTypeAction(3));
         return $this->view->render($response, "courses.twig", ["programs" => $programs, "module_name" => Tools::$Modules[Tools::codigoCursos], "menu_active" => Tools::$MenuActive[0], "institutions" => $institutions]);
     }
