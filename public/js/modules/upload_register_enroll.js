@@ -90,7 +90,7 @@ $("#cargar").on('click', function(event){
         toastr.error('No hay registros para cargar.', 'Error', {timeOut: 3000});
         return false;
     }
-    functions.proccess(formOk, _this.attr('data-action'));
+    functions.proccess(formOk, _this.attr('data-action'), 2);
     return true;
 });
 

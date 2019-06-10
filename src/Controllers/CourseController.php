@@ -206,10 +206,25 @@ class CourseController extends Controller
 
     function proccess(Request $request, Response $response)
     {
+        $data = [
+            "status" => 1,
+            "creators" => 0,
+            "errors" => 0
+         ];
+        $c = 0;
+        $e = 0;
         $dataOK = $request->getParam('data');
         for($i = 0; $i < count($dataOK); $i++){
-            Course::updateOrCreate(['codigo' => $dataOK[$i]['codigo']], $dataOK[$i]);
+            if(Course::updateOrCreate(['codigo' => $dataOK[$i]['codigo']], $dataOK[$i]) instanceof Course) {
+                $c++;
+                continue;
+            }
+            $e++;
         }
+        $data["creators"] = $c;
+        $data["errors"] = $e;
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        return $newResponse->withJson($data, 200);
     }
 
     function getTotalOfRegisterForDate(Request $request, Response $response)

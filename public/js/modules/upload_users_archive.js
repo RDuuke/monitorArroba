@@ -93,7 +93,7 @@ $("#cargar").on('click', function (event) {
         toastr.error('No hay registros para procesar.', 'Error', {timeOut: 3000});
         return false;
     } else {
-        functions.proccess(formOk, _this.attr('data-action'));
+        functions.proccess(formOk, _this.attr('data-action'), 2);
     }
 });
 

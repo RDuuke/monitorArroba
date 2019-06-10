@@ -460,10 +460,28 @@ class StudentController extends Controller
     function proccess_archive(Request $request, Response $response)
     {
         $dataOK = $request->getParam('data');
+        $data = [
+            "status" => 1,
+            "creators" => 0,
+            "errors" => 0
+        ];
+        $c = 0;
+        $e = 0;
+
         for($i = 0; $i < count($dataOK); $i++){
             $student = Student::where("usuario", $dataOK[$i]['usuario'])->delete();
-            $student_archive = StudentArchive::create($dataOK[$i]);
+            if($student) {
+                if (StudentArchive::create($dataOK[$i]) instanceof StudentArchive) {
+                    $c++;
+                    continue;
+                }
+            }
+            $e++;
         }
+        $data["creators"] = $c;
+        $data["errors"] = $e;
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        return $newResponse->withJson($data, 200);
     }
 
 

@@ -248,6 +248,7 @@ class RegisterController extends Controller
         for($i = 0; $i < count($dataOK); $i++){
             if (Register::updateOrCreate(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']], $dataOK[$i]) instanceof Register){
                $c++;
+               continue;
             }
             $e++;
         }
@@ -327,10 +328,33 @@ class RegisterController extends Controller
     function proccess_register_de_en_roll(Request $request, Response $response)
     {
         $dataOK = $request->getParam('data');
+        $data = [
+            "status" => 1,
+            "creators" => 0,
+            "errors" => 0
+        ];
+        $c = 0;
+        $e = 0;
         for($i = 0; $i < count($dataOK); $i++){
-            Register::where(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']])->delete();
-            RegisterArchive::Create($dataOK[$i]);
+            $register = Register::where(['usuario' => $dataOK[$i]['usuario'], 'curso' => $dataOK[$i]['curso']])->first();
+            if ($register) {
+                $registerOnRoll = [
+                    'usuario' => $dataOK[$i]['usuario'],
+                    'curso' => $dataOK[$i]['curso'],
+                    'rol' => $register->rol,
+                    'instancia' => $register->instancia
+                ];
+                if ($register->delete() == true and RegisterArchive::create($registerOnRoll) instanceof RegisterArchive) {
+                    $c++;
+                    continue;
+                }
+            }
+            $e++;
         }
+        $data["creators"] = $c;
+        $data["errors"] = $e;
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        return $newResponse->withJson($data, 200);
     }
 
 

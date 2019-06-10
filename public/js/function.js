@@ -37,7 +37,7 @@ $(function(){
             return str.toLowerCase();
         },
 
-        proccess : function (data, url) {
+        proccess : function (data, url, type = 1) {
             toastr.info('Cargando usuarios.', 'Cargando...', {timeOut: 500000});
             $.ajax({
                 method : "POST",
@@ -48,12 +48,12 @@ $(function(){
             }).done(function(response){
                 console.log(response);
                 functions.removeToast();
-                if (response.status == 0) {
+                if (type === 1) {
                     toastr.success(response.message, 'Generando archivo', {timeOut: 3000});
+                    functions.dowloadStudent(response);
                 } else {
-                    toastr.err(response.message, 'Generando archivo', {timeOut: 4000});
+                    toastr.info("Proceso terminado", "Info", {timeOut : 3000});
                 }
-                functions.dowloadStudent(response);
             }).fail( function (response) {
                 console.log(response);
                 toastr.remove();
