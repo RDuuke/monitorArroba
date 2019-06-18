@@ -295,11 +295,7 @@ class AppController extends Controller
             $user = User::find($request->getParam('id'));
             $user->clave = password_hash($request->getParam("password"), PASSWORD_DEFAULT);
             $user->save();
-            $first = FirstSingIn::find($user->usuario);
-            print_r($first);
-            die;
-            $first->singin = 1;
-            $first->save();
+           FirstSingIn::createOrUpdate(["usuario" => $user->usuario], ["usuario" => $user->usuario, "singin" => 1]);
             return $response->withRedirect($this->router->pathFor('signout'));
         }
         return $response->withRedirect($this->router->pathFor('firstsingin'));
