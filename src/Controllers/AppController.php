@@ -297,6 +297,7 @@ class AppController extends Controller
             $user->save();
             $first = FirstSingIn::find($user->usuario);
             print_r($first);
+            die;
             $first->singin = 1;
             $first->save();
             return $response->withRedirect($this->router->pathFor('signout'));
