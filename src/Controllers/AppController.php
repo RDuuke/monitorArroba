@@ -296,6 +296,7 @@ class AppController extends Controller
             $user->clave = password_hash($request->getParam("password"), PASSWORD_DEFAULT);
             $user->save();
             $first = FirstSingIn::find($user->usuario);
+            print_r($first);
             $first->singin = 1;
             $first->save();
             return $response->withRedirect($this->router->pathFor('signout'));
