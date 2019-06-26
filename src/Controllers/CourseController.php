@@ -177,6 +177,7 @@ class CourseController extends Controller
                             $data["message"] = str_replace(":codigo", $data["codigo"], Tools::getMessageCourse(3));
                             $data["codigo_proccess"] = Tools::getCodigoCourse(3);
                             array_push($this->errors, $data);
+                            unset($data);
                             continue;
                         }
                         if (! Program::checkCodigo($data['id_programa'])) {
