@@ -76,14 +76,15 @@ $(".addcourse").on('click', function (event) {
       $.each(r.courses, function (key, value) {
         if (key == 'codigo') {
           codigo = value;
-          console.log("Juan");
           $('select#id_programa option[value='+value.toString().substr(0, 5)+']').attr('selected', 'selected');
           console.log(value.toString().substr(5));
           $('input[name="' + key + '"]').val(value.toString().substr(5));
-        } else {
-          $('input[name="' + key + '"]').val(value);
+        } else if(key == 'institucion_id') {
+            $('select#institucion option[value='+value+']').attr('selected', 'selected');
+        }else {
+            $('input[name="' + key + '"]').val(value);
         }
-        $('input[name="codigo_forma"]').val(codigo);
+          $('input[name="codigo_forma"]').val(codigo);
       });
       if (r.flag > 0) {
           console.log(r.flag);
