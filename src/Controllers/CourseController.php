@@ -173,7 +173,7 @@ class CourseController extends Controller
                             $data['institucion_id'] = $request->getParam('codigo_institucion');
 
                         }
-                        if(strlen($data["codigo"]) !== 8) {
+                        if(strlen($data["codigo"]) != 8) {
                             $data["message"] = str_replace(":codigo", $data["codigo"], Tools::getMessageCourse(3));
                             $data["codigo_proccess"] = Tools::getCodigoCourse(3);
                             array_push($this->errors, $data);
