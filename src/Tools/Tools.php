@@ -54,9 +54,9 @@ class Tools {
     ];
 
     static protected $CourseMessage = [
-        "El programa con el coódigo :codigo no existe",
+        "El programa con el código :codigo no existe",
         "El curso con el código :codigo ya existe",
-        "El curso con el código :codigo creado correctamente",
+        "El curso es correcto",
         "El código :codigo no tiene 8 digitos"
     ];
 
