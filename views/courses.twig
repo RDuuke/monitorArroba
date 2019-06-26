@@ -32,6 +32,7 @@
                     <th>ID:</th>
                     <th> {{ "código" | title }}</th>
                     <th> {{ "nombre" | title }}</th>
+                    <th> {{ "nombre corto" | title }}</th>
                     <th> {{ "programa" | title }}</th>
                     <th> {{ "fecha" | title }}</th>
                     {% if (getP(modulo_cursos) == lectura_escritura)  %}
@@ -99,6 +100,7 @@ var table = $('table').DataTable({
             { data: 'id' },
             { data: 'codigo' },
             { data: 'nombre' },
+            { data: 'nombre_corto'},
             { data: 'id_programa'},
             { data: 'fecha'},
             {% if (getP(modulo_cursos) == lectura_escritura)  %}

@@ -10,11 +10,13 @@ $(".addcourse").on('click', function (event) {
     $('#programCreateForm')[0].reset();
     $('#programCreateForm').attr('action', $(this).attr('data-href'));
     $("#input_codigo").prop('readonly', false);
+    $('select#id_programa').attr('disabled', false);
     $('#programCreateModal').modal('show');
-  });
+});
 
   $("#programCreateForm").on("submit", function (event) {
     event.preventDefault();
+    $('select#id_programa').attr('disabled', false);
     var userForm = $(this).serialize();
     $.post($(this).attr('action'), userForm).done(function (response) {
       if (response.message == 1) {
@@ -64,6 +66,8 @@ $(".addcourse").on('click', function (event) {
   $("#tb_courses").on('click', '.courseshow', function (event) {
     event.preventDefault();
     _td = $(this);
+    $("#input_codigo").prop('readonly', false);
+    $('select#id_programa').attr('disabled', false);
     var codigo = null;
     var _data = functions.getDataTable(_td);
     var url = _td.attr('href');
@@ -72,7 +76,8 @@ $(".addcourse").on('click', function (event) {
       $.each(r.courses, function (key, value) {
         if (key == 'codigo') {
           codigo = value;
-          $('select#id_programa option[value='+value.toString().substr(0, 5)+']').attr('selected','selected');
+          console.log("Juan");
+          $('select#id_programa option[value='+value.toString().substr(0, 5)+']').attr('selected', 'selected');
           console.log(value.toString().substr(5));
           $('input[name="' + key + '"]').val(value.toString().substr(5));
         } else {
@@ -83,6 +88,7 @@ $(".addcourse").on('click', function (event) {
       if (r.flag > 0) {
           console.log(r.flag);
           $("#input_codigo").prop('readonly', true);
+          $('select#id_programa').attr('disabled', true);
       }
       $('#programCreateForm').attr('action', _td.attr('data-href') + _data.id);
       $('#programCreateForm').removeClass();

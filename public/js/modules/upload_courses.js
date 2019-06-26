@@ -86,7 +86,7 @@ $("#cargar").on('click', function(event){
             return false;
         } else {
             formOk = formOk.concat(formAlert);
-            functions.proccess(formOk, _this.attr('data-action'), 2);
+            functions.proccess(formOk, _this.attr('data-action'));
         }
     }else {
         if(formOk.length == 0) {
@@ -94,7 +94,7 @@ $("#cargar").on('click', function(event){
             toastr.error('No hay registros para cargar.', 'Error', {timeOut: 3000});
             return false;
         } else {
-            functions.proccess(formOk, _this.attr('data-action'), 2);
+            functions.proccess(formOk, _this.attr('data-action'));
         }
     }
 });
@@ -107,13 +107,14 @@ function renderData(i, value, classes, saveData = []) {
             i,
             value.codigo,
             value.nombre,
+            value.nombre_corto,
             value.id_programa,
             value.codigo_proccess,
             value.message
         ]).draw(false).node();
         $(trDom).addClass(classes);
 
-        saveData[a] = {"nombre": value.nombre, "codigo": value.codigo, "id_programa": value.id_programa, 'institucion_id' :  value.institucion_id};
+        saveData[a] = {"nombre": value.nombre, "nombre_corto" : value.nombre_corto, "codigo": value.codigo, "id_programa": value.id_programa, 'institucion_id' :  value.institucion_id};
         i++;
         a++;
     });

@@ -54,16 +54,17 @@ class Tools {
     ];
 
     static protected $CourseMessage = [
-        "El programa con el codigo :codigo no existe",
-        "El curso con el codigo :codigo ya existe",
-        "El curso con el codigo :codigo creado correctamente"
+        "El programa con el coódigo :codigo no existe",
+        "El curso con el código :codigo ya existe",
+        "El curso con el código :codigo creado correctamente",
+        "El código :codigo no tiene 8 digitos"
     ];
 
     static protected $CourseCodigo = [
-        "E01", "E02", "A01"
+        "E01", "E02", "A01", "E03"
     ];
 
-    static protected $Institution = [
+    static protected $Institutions = [
         "nombres" => [
             0 => "Institución Universitaria Pascual Bravo",
             1 => "Institución Universitaria Colegio Mayor de Antioquia",
@@ -201,94 +202,94 @@ class Tools {
     }
     static function nombreColegioMayor()
     {
-        return self::$Institution['nombre'][1];
+        return self::$Institutions['nombre'][1];
     }
 
     static function nombrePascualBravo()
     {
-        return self::$Institution['nombre'][0];
+        return self::$Institutions['nombre'][0];
     }
 
     static function nombreITM()
     {
-        return self::$Institution['nombre'][2];
+        return self::$Institutions['nombre'][2];
     }
 
     static function nombreRutaN()
     {
-        return self::$Institution['nombre'][3];
+        return self::$Institutions['nombre'][3];
     }
 
     static function nombreMedellin()
     {
-        return self::$Institution['nombre'][4];
+        return self::$Institutions['nombre'][4];
     }
 
     static function codigoColegioMayor()
     {
-        return self::$Institution['codigo'][1];
+        return self::$Institutions['codigo'][1];
     }
 
     static function codigoPascualBravo()
     {
-        return self::$Institution['codigo'][0];
+        return self::$Institutions['codigo'][0];
     }
 
     static function codigoITM()
     {
-        return self::$Institution['codigo'][2];
+        return self::$Institutions['codigo'][2];
     }
 
     static function codigoRutaN()
     {
-        return self::$Institution['codigo'][3];
+        return self::$Institutions['codigo'][3];
     }
 
     static function codigoMujeres()
     {
-        return self::$Institution['codigo'][6];
+        return self::$Institutions['codigo'][6];
     }
     static function codigoMedellin()
     {
-        return self::$Institution['codigo'][4];
+        return self::$Institutions['codigo'][4];
     }
 
     static function codigoSalud()
     {
-        return self::$Institution['codigo'][5];
+        return self::$Institutions['codigo'][5];
     }
     static function codigoSapiencia()
     {
-        return self::$Institution['codigo'][7];
+        return self::$Institutions['codigo'][7];
     }
     static function Pregado()
     {
-        return self::$Institution['nombre'][1];
+        return self::$Institutions['nombre'][1];
     }
 
     static function Posgrado()
     {
-        return self::$Institution['nombre'][2];
+        return self::$Institutions['nombre'][2];
     }
 
     static function FTDH()
     {
-        return self::$Institution['nombre'][3];
+        return self::$Institutions['nombre'][3];
     }
 
     static function RutaN()
     {
-        return self::$Institution['nombre'][4];
+        return self::$Institutions['nombre'][4];
     }
 
     static function Sandbox()
     {
-        return self::$Institution['nombre'][5];
+        return self::$Institutions['nombre'][5];
     }
 
     static function Mainsite()
     {
-        return self::$Institution['nombre'][6];
+        return self::$Institutions['nombre'][6];
     }
 
     static function getMessageCreaterRegisterModule(Int $module, String $user, String $valor)

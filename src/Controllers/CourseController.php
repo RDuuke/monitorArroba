@@ -165,12 +165,19 @@ class CourseController extends Controller
                             "id_programa" => substr(trim($worksheet->getCell('A' . $row)->getvalue()), 0 , 5),
                             "codigo" => trim($worksheet->getCell('A' . $row)->getvalue()),
                             "nombre" => trim($worksheet->getCell('B' . $row)->getvalue()),
+                            "nombre_corto" => trim($worksheet->getCell('C' . $row)->getvalue()),
                         ];
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
                             $data['institucion_id'] = $this->auth->user()->id_institucion;
                         } else {
                             $data['institucion_id'] = $request->getParam('codigo_institucion');
 
+                        }
+                        if(strlen($data["codigo"]) !== 8) {
+                            $data["message"] = str_replace(":codigo", $data["codigo"], Tools::getMessageCourse(3));
+                            $data["codigo_proccess"] = Tools::getCodigoCourse(3);
+                            array_push($this->errors, $data);
+                            continue;
                         }
                         if (! Program::checkCodigo($data['id_programa'])) {
                             if (Course::checkCodigo($data['codigo'])) {
@@ -206,25 +213,10 @@ class CourseController extends Controller
 
     function proccess(Request $request, Response $response)
     {
-        $data = [
-            "status" => 1,
-            "creators" => 0,
-            "errors" => 0
-         ];
-        $c = 0;
-        $e = 0;
         $dataOK = $request->getParam('data');
         for($i = 0; $i < count($dataOK); $i++){
-            if(Course::updateOrCreate(['codigo' => $dataOK[$i]['codigo']], $dataOK[$i]) instanceof Course) {
-                $c++;
-                continue;
-            }
-            $e++;
+            Course::updateOrCreate(['codigo' => $dataOK[$i]['codigo']], $dataOK[$i]);
         }
-        $data["creators"] = $c;
-        $data["errors"] = $e;
-        $newResponse = $response->withHeader('Content-type', 'application/json');
-        return $newResponse->withJson($data, 200);
     }
 
     function getTotalOfRegisterForDate(Request $request, Response $response)
@@ -243,7 +235,7 @@ class CourseController extends Controller
                 $q->whereBetween("fecha", [$request->getParam("fechainicial") . " 00:00:00", $request->getParam("fechafinal") . " 23:59:59"]);
             }
         ])->get();
-        
+
         return $this->view->render($response, "_partials/stats_courses.twig", ["courses" => $courses]);
     }
 }
