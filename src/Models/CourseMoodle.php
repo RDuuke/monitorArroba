@@ -10,5 +10,12 @@ class CourseMoodle extends Model
     protected $fillable = [
         "visible"
     ];
-    
+
+    public function getVisibleAttribute($value)
+    {
+        if ($value == 1) {
+            return "Publicado";
+        }
+        return "No Publicado";
+    }
 }

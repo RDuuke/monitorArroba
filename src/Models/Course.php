@@ -23,12 +23,9 @@ class Course extends Model
     {
         $course = CourseMoodle::where("idnumber", $this->codigo)->select("visible")->first();
         if ($course instanceof CourseMoodle) {
-            if ($course->visible == 1) {
-                return "Publicado";
-            }
-            return "No publicado";
+            return $course;
         }
-        return "Sin dato";
+        return false;
     }
 
     public function getTimeMoodleAttribute()
