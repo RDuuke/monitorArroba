@@ -13,23 +13,25 @@
             <a href="{{ path_for('admin.search.report') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
         </div>
         <div class="separator"></div>
-        <div class="ed-item s-100">
-            <table id="tb_courses_moodle">
-                <thead>
-                <tr>
-                    <th colspan="5">Lista de cursos de las instancias de moodle</th>
-                </tr>
-                <tr>
-                    <th>{{ "código" | title }}</th>
-                    <th>{{ "nombre" | title }}</th>
-                    <th>{{ "instancia" | title }}</th>
-                    <th>{{ "estado" | title }}</th>
-                    <th>{{ "fecha" | title }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+        <div class="ed-container full search-content">
+            <div class="ed-item s-100">
+                <table id="tb_courses_moodle">
+                    <thead>
+                    <tr>
+                        <th colspan="5">Lista de cursos de las instancias de moodle</th>
+                    </tr>
+                    <tr>
+                        <th>{{ "código" | title }}</th>
+                        <th>{{ "nombre" | title }}</th>
+                        <th>{{ "instancia" | title }}</th>
+                        <th>{{ "estado" | title }}</th>
+                        <th>{{ "fecha" | title }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}
