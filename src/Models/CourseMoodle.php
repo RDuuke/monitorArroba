@@ -3,6 +3,8 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
+
 class CourseMoodle extends Model
 {
     protected $table = 'courses_moodle';
@@ -17,5 +19,15 @@ class CourseMoodle extends Model
             return "Publicado";
         }
         return "No Publicado";
+    }
+
+    public function getStartdateAttribute($value)
+    {
+        return Carbon::createFromTimestamp($value)->toDateString();
+    }
+
+    public function getidnumberAttribute($value)
+    {
+        return $value == "" ? "Sin código" : $value;
     }
 }

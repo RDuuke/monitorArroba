@@ -15,6 +15,7 @@
         <div class="ed-item s-100 flex">
             <a href="{{ path_for('admin.home') }}" class="btn btn-info"><i class="fa fa-angle-left"></i> Volver</a>
             <a href="{{ path_for('admin.monitoreo') }}" class="btn btn-primary">Monitoreo</a>
+            <a href="{{ path_for('admin.course.moodle') }}" class="btn btn-primary">Cursos Moodle</a>
         </div>
         <div class="separator"></div>
         <div class="ed-item s-100">
@@ -45,7 +46,8 @@
                 <p class="text-center">Periodo actual <b style="text-decoration: underline">{{  getMes("now" | date("m") | title) }}</b></p>
             </div>
             <br><br>
-            <div class="ed-container s-100 l-30 l-offset-35" style="flex-direction: column">
+            <div class="ed-container s-100 l-30 l-offs
+            et-35" style="flex-direction: column">
                 <p class="text-center">Filtrar por fecha</p>
                 <form id="formLimitDate" action="{{ path_for('admin.report.filter.month') }}" class="text-center">
                     <div class="form-group">

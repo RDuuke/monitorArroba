@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\CourseMoodle;
 use App\Models\FirstSingIn;
 use App\Models\Monitor;
 use App\Models\User;
@@ -280,8 +281,7 @@ class AppController extends Controller
     }
     public function monitoreo(Request $request, Response $response)
     {
-        $monitores = Monitor::all();
-        return $this->view->render($response, "monitor.twig", ["module_name" => ["Estadisticas#admin.search.report", "monitores"], "monitores"=> $monitores]);
+        return $this->view->render($response, "monitor.twig", ["module_name" => ["Estadisticas#admin.search.report", "monitores"]]);
     }
 
     function details(Request $request, Response $response, $args){
@@ -289,6 +289,16 @@ class AppController extends Controller
         return $this->view->render($response, "details_monitor.twig", ["monitor" => $monitor, "module_name" =>["Monitores#admon.monitoreo", $monitor->name]]);
     }
 
+    public function courseMoodle(Request $register, Response $response) {
+        return $this->view->render($response, "course_moodle.twig", ["module_name" => ["Estadisticas#admin.search.report", "Cursos de moodle"]]);
+    }
+
+    public function courseMoodleAll(Request $request, Response $response)
+    {
+        $couses_moodlee = CourseMoodle::all(["idnumber", "startdate", "visible", "instance", "fullname"]);
+        $response->withHeader('Content-type', 'application/json');
+        return $response->withJson($couses_moodlee, 200);
+    }
     public function changePassword(Request $request, Response $response)
     {
         if ($request->getParam('password_confirmacion') == $request->getParam('password')) {

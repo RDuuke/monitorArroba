@@ -11,7 +11,7 @@
         </div>
         <div class="separator"></div>
         <div class="ed-item s-100 flex">
-            <a href="{{ path_for('admin.home') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
+            <a href="{{ path_for('admin.search.report') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
             {% if getP(modulo_instituciones) == lectura_escritura  %}
                 <button class="btn btn-primary addmonitor" data-href="{{ path_for('admon.monitoreo') }}">Agregar monitor <i class="fa fa-plus"></i></button>
             {% endif %}

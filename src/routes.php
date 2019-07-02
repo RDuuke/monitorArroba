@@ -10,6 +10,8 @@ $app->group("/panel", function (){
     /** Controller for view */
     $this->get("", "AppController:home")->setName("admin.home");
     $this->get("/monitoreo", "AppController:monitoreo")->setName("admin.monitoreo");
+    $this->get("/course/moodle", "AppController:courseMoodle")->setName("admin.course.moodle");
+    $this->get("/course/moodle/all", "AppController:courseMoodleAll")->setName("admin.course.moodle.all");
     $this->get("/students", "AppController:students")->setName("admin.students");
     $this->get("/students/add", "AppController:studentAdd")->setName('admin.student.add');
     $this->get("/students/upload", "AppController:upload_students")->setName('admin.upload.students');

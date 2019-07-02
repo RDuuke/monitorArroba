@@ -32,7 +32,7 @@ class Course extends Model
     {
         $course = CourseMoodle::where("idnumber", $this->codigo)->select("startdate")->first();
         if ($course instanceof CourseMoodle) {
-          return Carbon::createFromTimestamp($course->startdate)->toDateString();
+          return $course->startdate;
         }
         return "Sin dato";
     }
