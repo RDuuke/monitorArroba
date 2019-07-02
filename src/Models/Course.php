@@ -2,19 +2,42 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class Course extends Model
 {
     protected $table = "curso";
+    protected $primaryKey = "idnumber";
 
     protected $fillable = ['codigo', 'nombre', 'nombre_corto', 'id_programa', 'fecha', 'institucion_id'];
 
     public $timestamps = false;
 
-
     public function getFechaAttribute($value)
     {
         $date = new \DateTime($value);
         return $date->format('d-m-Y');
+    }
+
+    public function getActiveStatusAttribute()
+    {
+        $course = CourseMoodle::where("idnumber", $this->codigo)->select("visible")->first();
+        if ($course instanceof CourseMoodle) {
+            if ($course->visible == 1) {
+                return "Publicado";
+            }
+            return "No publicado";
+        }
+        return "Sin dato";
+    }
+
+    public function getTimeMoodleAttribute()
+    {
+        $course = CourseMoodle::where("idnumber", $this->codigo)->select("startdate")->first();
+        if ($course instanceof CourseMoodle) {
+          return Carbon::createFromTimestamp($course->startdate)->toDateString();
+        }
+        return "Sin dato";
     }
     
     public function registers()
@@ -84,4 +107,5 @@ class Course extends Model
         }
         return false;
     }
+
 }

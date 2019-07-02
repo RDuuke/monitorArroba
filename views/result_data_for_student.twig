@@ -20,6 +20,9 @@
             <table>
                 <thead>
                 <tr>
+                    <th colspan="7">Listado de cursos del usuario: {{ student.usuario }}</th>
+                </tr>
+                <tr>
                     <th>Codigo</th>
                     <th>Curso</th>
                     <th>Rol</th>
@@ -37,7 +40,7 @@
                         <td>{{ course.rol }}</td>
                         <td>{{ getInstance(course.course.codigo) }}</td>
                         <td><a href="{{ path_for("admin.search.program.course", { 'id' : course.course.programs.codigo} ) }}">{{ course.course.programs.nombre }}</a></td>
-                        <td>{{ getInstitution(course.course.codigo, 2) }}</td>
+                        <td>{{ getInstitution(course.course.institucion_id ) }}</td>
                         <td>{{ getLastEntry(course.course.codigo, student.usuario) }}</td>
                     </tr>
                 {% endfor %}
@@ -61,7 +64,7 @@
         dom: 'Blfrtip',
          buttons : [{
              extend: 'excel',
-             title: 'cursos_por_usuario',
+             title: 'Listado de cursos del usuario: {{ student.usuario }}',
              text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
              className: 'btn btn-info'
          }],

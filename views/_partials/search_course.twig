@@ -4,6 +4,8 @@
         <td>Código</td>
         <td>Nombre</td>
         <td>Institución</td>
+        <td>Estado</td>
+        <td>Fecha de inicio</td>
     </tr>
     </thead>
     <tbody>
@@ -11,7 +13,9 @@
         <tr>
             <td>{{ course.codigo }}</td>
             <td><a href="{{ path_for("admin.search.program.course.student", { 'id' : course.codigo} )}}">{{ course.nombre }}</a></td>
-            <td>{{ getInstitution(course.codigo, 2) }}</td>
+            <td>{{ getInstitution(course.institucion_id) }}</td>
+            <td>{{ course.activestatus }}</td>
+            <td>{{ course.timemoodle }}</td>
         </tr>
     {% endfor %}
     </tbody>

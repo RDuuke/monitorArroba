@@ -9,6 +9,7 @@
             <h3>Listado de usuarios matriculados</h3>
             <p><b>Curso:</b> {{ course.nombre | title }}</p>
             <p><b>Código:</b> {{ course.codigo }}</p>
+            <p><b>Estado:</b> {{ course.activestatus }}</p>
         </div>
         <div class="ed-item s-100 l-30 l-offset-20">
             <!--<img src="http://sicau.pascualbravo.edu.co:5051/SICAU/Sources/img/pas.png" alt="">-->
@@ -20,6 +21,9 @@
         <div class="ed-item s-100">
             <table>
                 <thead>
+                <tr>
+                    <th colspan="7">Listado de usuarios matriculados en el curso: {{ course.nombre | title }}</th>
+                </tr>
                 <tr>
                     <th>Documento</th>
                     <th>Nombres</th>
@@ -61,7 +65,7 @@
        dom: 'Blfrtip',
          buttons : [{
              extend: 'excel',
-             title: 'usuarios_por_curso',
+             title: 'Listado de usuarios matriculados en el curso: {{ course.nombre | title }}',
              text: 'Exportar información en excel <i class="fa fa-file-excel-o"></i>',
              className: 'btn btn-info'
          }],

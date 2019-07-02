@@ -26,6 +26,7 @@ class Tools {
     const Lectura = 1;
 
     const LecturaEscritura = 3;
+
     static protected $UserMessage = [
         0 => "El usuario correcto.",
         1 => "El usuario existe, pero con este documento de identidad :documento.",
@@ -73,7 +74,8 @@ class Tools {
             4 => "@Medellín",
             5 => "Secretaría de Salud",
             6 => "secretaría de la Mujer",
-            7 => "Sapiencia"
+            7 => "Sapiencia",
+            8 => "Secretaría de la juventud"
         ],
         "codigo" => [
             0 => "01",
@@ -83,7 +85,8 @@ class Tools {
             4 => "05",
             5 => "06",
             6 => "07",
-            7 => "08"
+            7 => "08",
+            8 => "09"
         ]
     ];
 
@@ -95,7 +98,8 @@ class Tools {
         "05" => "@Medellín",
         "06" => "Secretaría de Salud",
         "07" => "Secretaría de la Mujer",
-        "08" => "Sapiencia"
+        "08" => "Sapiencia",
+        "09" => "Secretaría de la juventud"
     ];
 
     static protected $Instance = [
