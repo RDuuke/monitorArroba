@@ -9,7 +9,7 @@
             <h3>Listado de usuarios matriculados</h3>
             <p><b>Curso:</b> {{ course.nombre | title }}</p>
             <p><b>Código:</b> {{ course.codigo }}</p>
-            <p><b>Estado:</b> {{ course.activestatus }}</p>
+            <p><b>Estado:</b> {{ course.activestatus == false ? "Sin dato" :  course.activestatus.visible }}</p>
         </div>
         <div class="ed-item s-100 l-30 l-offset-20">
             <!--<img src="http://sicau.pascualbravo.edu.co:5051/SICAU/Sources/img/pas.png" alt="">-->

@@ -27,6 +27,8 @@
                     <th>Codigo</th>
                     <th>Cursos</th>
                     <th>Institución</th>
+                    <th>Estado</th>
+                    <th>Fecha de creación</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,6 +37,8 @@
                         <td>{{ course.codigo }}</td>
                         <td><a href="{{ path_for("admin.search.program.course.student", { 'id' : course.codigo} ) }}">{{ course.nombre }}</a></td>
                         <td>{{ getInstitution(course.institucion_id) }}</td>
+                        <td>{{ course.activestatus == false ? "Sin dato" :  course.activestatus.visible }}</td>
+                        <td>{{ course.timemoodle }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
