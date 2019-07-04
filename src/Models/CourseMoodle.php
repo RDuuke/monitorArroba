@@ -9,6 +9,9 @@ class CourseMoodle extends Model
 {
     protected $table = 'courses_moodle';
 
+    protected $primaryKey = "idnumber";
+
+
     protected $fillable = [
         "visible"
     ];

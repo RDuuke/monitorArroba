@@ -7,10 +7,12 @@ use Carbon\Carbon;
 class Course extends Model
 {
     protected $table = "curso";
-    protected $primaryKey = "idnumber";
 
     protected $fillable = ['codigo', 'nombre', 'nombre_corto', 'id_programa', 'fecha', 'institucion_id'];
 
+    protected  $appends = [
+        "timemoodle", "activestatus"
+    ];
     public $timestamps = false;
 
     public function getFechaAttribute($value)
