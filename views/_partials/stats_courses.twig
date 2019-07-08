@@ -3,6 +3,7 @@
     <tr>
         <th>Código</th>
         <th>Curso</th>
+        <th>Estado</th>
         <th>Programa</th>
         <th>Institución</th>
         <th>Fecha</th>
@@ -15,6 +16,7 @@
             <tr>
                 <td>{{ c.codigo }}</td>
                 <td>{{ c.nombre }}</td>
+                <td>{{ c.activestatus == false ? "Sin dato" :  c.activestatus.visible }}</td>
                 <td>{{ c.programs.nombre }}</td>
                 <td>{{ c.institution.nombre }}</td>
                 <td>{{ c.fecha }}</td>
