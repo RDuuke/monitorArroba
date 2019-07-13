@@ -92,7 +92,7 @@ class CourseController extends Controller
                     return $response->withStatus(200)->write('1');
                 }
             }
-            return $response->withStatus(500)->write('0');
+            return $response->withStatus(500)->write('El curso con el codigo:'. $course->codigo . ' tiene matriculas activadas');
         } catch(\Exception $e) {
             Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario, $courses->nombre), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write($e->getMessage());
