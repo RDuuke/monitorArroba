@@ -139,7 +139,8 @@ function renderData(i, value, classes, saveData = []) {
                 "pais": value.pais,
                 "telefono": value.telefono,
                 "celular": value.celular,
-                "direccion": value.direccion
+                "direccion": value.direccion,
+                "fecha" : value.fecha
             };
         }
         i++;
