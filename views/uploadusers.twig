@@ -8,20 +8,30 @@
     <div class="ed-container full">
         <div class="ed-item s-100 l-100 padding-2-em-botom">
             <div class="separator"></div>
-            <h2>Análisis de archivo de carga de usuarios</h2>
+            {%  if check == 1 %}
+                <h2>Análisis de archivo de carga de usuarios</h2>
+            {% else %}
+                <h2>Análisis de archivo de actualización de usuarios</h2>
+            {% endif %}
         </div>
         <div class="ed-item s-100">
             <a href="{{ path_for('admin.students') }}" class="btn btn-info"> <i class="fa fa-angle-left"></i> Volver</a>
         </div>
         <div class="separator"></div>
         <div class="ed-item s-100">
+            {% if check == 1 %}
             <p> Esta herramienta, permitirá analizar un archivo <a download
                                                                    href="{{ path_for('admin.student.anexo') }}">Anexo
                     1</a>, para identificar usuarios repetidos o errores en la carga, luego los registros correctos
                 podran ser cargados a la base de datos, y tambien descargar en el excel el informe.
             </p>
+            {% endif %}
             <br>
-            <form action="{{ path_for('admin.upload.students') }}" enctype="multipart/form-data" method="post" id="formFile" class="flex align-item-center">
+            {% if check == 1 %}
+                <form action="{{ path_for('admin.upload.students') }}" enctype="multipart/form-data" method="post" id="formFile" class="flex align-item-center">
+            {% else %}
+                <form action="{{ path_for('admin.upload.students.edit') }}" enctype="multipart/form-data" method="post" id="formFile" class="flex align-item-center">
+            {% endif %}
                 {% if auth.user.id_institucion == codigo_arroba_medellin %}
                     <select name="codigo_institucion" id="codigo_institucion" required
                             style="margin-right: 1em;padding: .3em;border-radius: 25px">
@@ -42,12 +52,20 @@
                 <button data-toggle='tooltip' title='Descargar registros de la tabla'
                         class="btn none fadein download-data btn-info">Descargar
                 </button>
+                {% if check == 1 %}
                 -
-                <button data-toggle='tooltip' title='Registrar usuarios correctos' id="cargar" class="btn btn-success"
-                        data-action="{{ path_for('admin.student.proccess') }}">Procesar resultados
-                </button>
+                    <button data-toggle='tooltip' title='Registrar usuarios correctos' id="cargar" class="btn btn-success"
+                            data-action="{{ path_for('admin.student.proccess') }}">Procesar resultados
+                    </button>
+                {% else %}
+                    <button data-toggle='tooltip' title='Actualizar usuarios correctos' id="cargar" class="btn btn-success"
+                            data-action="{{ path_for('admin.student.proccess.edit') }}">Procesar resultados
+                    </button>
+                {% endif %}
+                {% if check == 1 %}
                 -
                 <label for="alertsT" data-toggle="tooltip" title="Las alertas se procesaran, creando una nueva cuenta con los datos de la tabla">¿Cargar las alertas? <input type="checkbox" name="alertsT" value="1" id="alertsT"/></label>
+                {% endif %}
             </p>
             <br><br>
             <table id="tableResult">

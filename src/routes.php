@@ -15,6 +15,7 @@ $app->group("/panel", function (){
     $this->get("/students", "AppController:students")->setName("admin.students");
     $this->get("/students/add", "AppController:studentAdd")->setName('admin.student.add');
     $this->get("/students/upload", "AppController:upload_students")->setName('admin.upload.students');
+    $this->get("/students/upload/edit", "AppController:upload_students_edit")->setName('admin.upload.students.edit');
     $this->get("/user/add", "AppController:userAdd")->setName('admin.user.add');
     $this->get("/register/add", "AppController:registerAdd")->setName('admin.register.add');
     $this->get("/institution/add", "AppController:institutionAdd")->setName('admin.institution.add');
@@ -43,14 +44,15 @@ $app->group("/panel", function (){
     $this->post("/first", "AppController:changePassword")->setName("firstsingin");
 
     /** Controller actions estudiante */
-    $this->post("/students/upload", "StudentController:upload")->setName("admin.upload.students");
     $this->get("/students/delete/{id}", "StudentController:delete")->setName("admin.students.delete");
     $this->get("/students/show/{id}", "StudentController:show")->setName("admin.students.show");
     $this->post("/students/update/{id}", "StudentController:update")->setName("admin.students.update");
     $this->get("/students/all", "StudentController:all")->setName("admin.students.all");
-    $this->post("/students", "StudentController:store")->setName("admin.students.store");
     $this->get("/students/reset/{id}", "StudentController:reset")->setName("admin.students.reset");
     $this->get("/students/archive/{id}", "StudentController:archive")->setName("admin.students.archive");
+    $this->post("/students", "StudentController:store")->setName("admin.students.store");
+    $this->post("/students/upload", "StudentController:upload")->setName("admin.upload.students");
+    $this->post("/students/upload/edit", "StudentController:uploadEdit")->setName("admin.upload.students.edit");
     $this->post("/students/uploadarchive", "StudentController:uploadArchive")->setName("admin.view.student.upload.archive");
 
     /** Controller actions matricula */
@@ -130,6 +132,7 @@ $app->group("/panel", function (){
     $this->get("/program/search[/{params}]", "ProgramController:search")->setName('admin.program.search');
     $this->get("/students/search[/{params}]", "StudentController:search")->setName('admin.student.search');
     $this->post("/students/upload/proccess", "StudentController:proccess")->setName('admin.student.proccess');
+    $this->post("/students/upload/proccess/edit", "StudentController:proccess_update_student")->setName('admin.student.proccess.edit');
     $this->post("/students/upload_archive/proccess", "StudentController:proccess_archive")->setName("admin.student.archive.proccess");
     $this->post("/register/upload_register/proccess", "RegisterController:proccess_register_de_en_roll")->setName("admin.register.archive.proccess");
     $this->post("/register/upload/proccess", "RegisterController:proccess")->setName('admin.register.proccess');

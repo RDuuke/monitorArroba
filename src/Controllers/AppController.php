@@ -374,7 +374,17 @@ class AppController extends Controller
         }
 
         $institutions = Institution::all();
-        return $this->view->render($response, "uploadusers.twig", ["module_name" => ["Usuarios Plataforma#admin.students", "Creación Masivamente"], "institutions" => $institutions, "menu_active" => Tools::$MenuActive[2]]);
+        return $this->view->render($response, "uploadusers.twig", ["check" => 1, "module_name" => ["Usuarios Plataforma#admin.students", "Creación Masivamente"], "institutions" => $institutions, "menu_active" => Tools::$MenuActive[2]]);
+    }
+
+    function upload_students_edit(Request $request, Response $response)
+    {
+        if (!$this->accessModuleReadAndWrite($response,Tools::codigoUsuarioCampus)) {
+            return $response->withRedirect($this->router->pathFor('admin.home'));
+        }
+
+        $institutions = Institution::all();
+        return $this->view->render($response, "uploadusers.twig", ["check" => 0, "module_name" => ["Usuarios Plataforma#admin.students", "Edición Masivamente"], "institutions" => $institutions, "menu_active" => Tools::$MenuActive[2]]);
     }
 
     function upload_registers(Request $request, Response $response)

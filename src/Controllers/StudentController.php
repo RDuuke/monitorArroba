@@ -133,8 +133,8 @@ class StudentController extends Controller
                         $data = [
                             "usuario" => trim($worksheet->getCell('A'. $row)->getvalue()),
                             "clave" => trim($worksheet->getCell('E'. $row)->getvalue()),
-                            "nombres" => trim($worksheet->getCell('C'. $row)->getvalue()),
-                            "apellidos" => trim($worksheet->getCell('D'. $row)->getvalue()),
+                            "nombres" => trim($worksheet->getCell('C'. $row)->getvalue(), ' \t\n\r\0\x0B'),
+                            "apellidos" => trim($worksheet->getCell('D'. $row)->getvalue(), ' \t\n\r\0\x0B'),
                             "correo" => trim($worksheet->getCell('A'. $row)->getvalue()),
                             "documento" => trim($worksheet->getCell('E'. $row)->getvalue()),
                             "institucion" => trim($worksheet->getCell("F". $row)->getValue()),
@@ -457,6 +457,114 @@ class StudentController extends Controller
 
     }
 
+    function uploadEdit(Request $request, Response $response)
+    {
+
+        $uploadedFiles = $request->getUploadedFiles();
+        $archive = $uploadedFiles['archive'];
+        if ($archive->getError() == UPLOAD_ERR_OK) {
+            $filename = Tools::moveUploadedFile($archive, $this->tmp);
+            if ($filename != false) {
+                try {
+                    $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+                    $reader->setReadDataOnly(true);
+                    $spreadsheet = $reader->load($this->tmp . DS . $filename);
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $highestRow = Tools::getHighestDataRow($worksheet);
+                    for ($row=2; $row <= $highestRow; $row++) {
+                        $data = [
+                            "usuario" => trim($worksheet->getCell('A'. $row)->getvalue()),
+                            "clave" => trim($worksheet->getCell('E'. $row)->getvalue()),
+                            "nombres" => trim($worksheet->getCell('C'. $row)->getvalue(), ' \t\n\r\0\x0B'),
+                            "apellidos" => trim($worksheet->getCell('D'. $row)->getvalue(), ' \t\n\r\0\x0B'),
+                            "correo" => trim($worksheet->getCell('A'. $row)->getvalue()),
+                            "documento" => trim($worksheet->getCell('E'. $row)->getvalue()),
+                            "institucion" => trim($worksheet->getCell("F". $row)->getValue()),
+                            "genero" => trim($worksheet->getCell('G'. $row)->getvalue()),
+                            "ciudad" => trim($worksheet->getCell('H'. $row)->getvalue()),
+                            "departamento" => trim($worksheet->getCell('I'. $row)->getvalue()),
+                            "pais" => trim($worksheet->getCell('J'. $row)->getvalue()),
+                            "telefono" => trim($worksheet->getCell('K'. $row)->getvalue()),
+                            "celular" => trim($worksheet->getCell('L'. $row)->getvalue()),
+                            "direccion" => trim($worksheet->getCell('M'. $row)->getvalue())
+                        ];
+
+                        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+                            $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] : Institution::getNameInstitutionForCodigo($this->auth->user()->id_institucion);
+                            $data["institucion_id"] = $this->auth->user()->id_institucion;
+                        } else {
+                            $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] :  Institution::getNameInstitutionForCodigo($request->getParam('codigo_institucion'));
+                            $data["institucion_id"] = $request->getParam('codigo_institucion');
+                        }
+                        $data = array_map("ucwords", array_map("strtolower",$data));
+                        $data['usuario'] = strtolower($data['usuario']);
+                        $data['correo'] = strtolower($data['correo']);
+                        $data['usuario'] = preg_replace('/[^(\x20-\x7F)]*/', "", $data['usuario']);
+                        $data['correo'] = preg_replace('/[^(\x20-\x7F)]*/', "", $data['correo']);
+                        if (!filter_var(trim($data['usuario']), FILTER_VALIDATE_EMAIL)) {
+                            $data['message'] = Tools::getMessageUser(5);
+                            $data['codigo'] = Tools::getCodigoUser(5);
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+                        if (empty($data["documento"])) {
+                            $data['message'] = Tools::getMessageUser(6);
+                            $data['codigo'] = Tools::getCodigoUser(6);
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        }
+                        $student_document = Student::where('documento', $data['documento'])->get();
+
+                        if ($student_document->count() == 1){
+                            $filter = $student_document->where('usuario', $data['usuario']);
+                            if ($filter->count() == 0){
+                                $data['message'] = str_replace(':usuario', $student_document[0]->usuario, Tools::getMessageUser(4));
+                                $data['codigo'] = Tools::getCodigoUser(4);
+                                array_push($this->alerts, $data);
+                                unset($data);
+                                continue;
+                            }
+                        }
+                        $student = Student::where('usuario', '=', $data['usuario'])->get();
+                        if ($student->count() == 0) {
+                            $data['message'] = Tools::getMessageUser(6);
+                            $data['codigo'] = Tools::getCodigoUser(2);
+                            array_push($this->errors, $data);
+                            unset($data);
+                            continue;
+                        } else {
+                            $filter = $student->where('documento',$data['documento']);
+
+                            if($filter->count() == 0) {
+                                $data['message'] = str_replace(":documento", $student[0]->documento, Tools::getMessageUser(1));
+                                $data['codigo'] = Tools::getCodigoUser(1);
+                                array_push($this->alerts, $data);
+                            }else {
+                                $data['message'] = Tools::getMessageUser(0);
+                                $data['codigo'] = Tools::getCodigoUser(0);
+                                array_push($this->creators, $data);
+                            }
+                            unset($data);
+                            continue;
+                        }
+                    }
+                    $responseData = ['message' => 1, 'creators' => $this->creators, 'errors' => $this->errors, 'alerts' => $this->alerts,'totalr' => ($highestRow), 'totalc' => count($this->creators), 'totale' => count($this->errors), 'totala' => count($this->alerts)];
+                    $newResponse = $response->withHeader('Content-type', 'application/json');
+                    Log::i(Tools::getMessageImportModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario), Tools::getTypeAction(5));
+                    return $newResponse->withJson($responseData, 200);
+                } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+                    Log::e(Tools::getMessageImportModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario) . " INFO:" . $e->getMessage(), Tools::getTypeAction(5));
+                    die('Error loading file: '.$e->getMessage());
+                }
+
+            }
+        }
+        echo $archive->getError();
+        return false;
+
+    }
     function proccess_archive(Request $request, Response $response)
     {
         $dataOK = $request->getParam('data');
@@ -485,5 +593,33 @@ class StudentController extends Controller
     }
 
 
+    function proccess_update_student(Request $request, Response $response)
+    {
+        $dataOK = $request->getParam('data');
+        $data = [
+            "status" => 1,
+            "creators" => 0,
+            "errors" => 0
+        ];
+
+        $c = 0;
+        $e = 0;
+
+        for($i = 0; $i < count($dataOK); $i++) {
+            $student = Student::updateOrCreate(["usuario"=> $dataOK[$i]["usuario"], "documento" => $dataOK[$i]["documento"]], $dataOK[$i]);
+            if ($student instanceof  Student) {
+                $c++;
+                continue;
+            }
+            $e++;
+        }
+
+        $data["creators"] = $c;
+        $data["errors"] = $e;
+
+        $response->withHeader("Content-type", "application/json");
+        return $response->withJson($data, 200);
+
+    }
 
 }
