@@ -424,13 +424,13 @@ class StudentController extends Controller
                                 unset($data);
                                 continue;
                             }
-                            if ($student->registershistoricos->count() !== 0) {
+                            /*if ($student->registershistoricos->count() !== 0) {
                                 $data['codigo'] = "E02";
                                 $data['message'] = "El usuario tiene matriculas archivadas";
                                 array_push($this->alerts, $data);
                                 unset($data);
                                 continue;
-                            };
+                            };*/
                             $data['codigo'] = "C01";
                             $data['message'] = "El usuario puede ser archivado correctamente";
                             array_push($this->creators, $data);
