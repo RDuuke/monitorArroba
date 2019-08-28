@@ -51,7 +51,7 @@ class Tools {
         "El usuario :usuario ya esta matriculado en el curso :curso"
     ];
     static protected $RegisterCodigo = [
-        "E01", "E02", "E03", "E04", "C01", "E05", "A01"
+        "E01", "E02", "E03", "E04", "C01", "E05", "E06"
     ];
 
     static protected $CourseMessage = [
@@ -146,12 +146,12 @@ class Tools {
     ];
 
 
-    static function moveUploadedFile($uploadedFile, $dir)
+    static function moveUploadedFile($uploadedFile, $dir, $type)
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
         $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
         $filename = sprintf('%s.%0.8s', $basename, $extension);
-        $filename = date("d-m-y") ." _ ". $filename;
+        $filename = date("d-m-y") ."_".$type."_".$filename;
         try{
             $uploadedFile->moveTo($dir  . $filename);
             return $filename;
