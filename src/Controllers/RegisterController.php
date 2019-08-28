@@ -144,7 +144,7 @@ class RegisterController extends Controller
         $uploadedFiles = $request->getUploadedFiles();
         $archive = $uploadedFiles['archive'];
         if ($archive->getError() == UPLOAD_ERR_OK) {
-            $filename = Tools::moveUploadedFile($archive, $this->tmp);
+            $filename = Tools::moveUploadedFile($archive, $this->tmp, "matricula");
             if ($filename != false) {
                 try {
                     $reader = IOFactory::createReader('Xlsx');
@@ -263,7 +263,7 @@ class RegisterController extends Controller
         $uploadedFiles = $request->getUploadedFiles();
         $archive = $uploadedFiles['archive'];
         if ($archive->getError() == UPLOAD_ERR_OK) {
-            $filename = Tools::moveUploadedFile($archive, $this->tmp);
+            $filename = Tools::moveUploadedFile($archive, $this->tmp, "archive-matricula");
             if ($filename != false) {
                 try {
                     $reader = IOFactory::createReader('Xlsx');

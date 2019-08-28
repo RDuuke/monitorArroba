@@ -121,7 +121,7 @@ class StudentController extends Controller
         $uploadedFiles = $request->getUploadedFiles();
         $archive = $uploadedFiles['archive'];
         if ($archive->getError() == UPLOAD_ERR_OK) {
-            $filename = Tools::moveUploadedFile($archive, $this->tmp);
+            $filename = Tools::moveUploadedFile($archive, $this->tmp, "estudiante");
             if ($filename != false) {
                 try {
                     $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
@@ -393,7 +393,7 @@ class StudentController extends Controller
         $archive = $uploadedFiles['archive'];
         $newResponse = $response->withHeader('Content-type', 'application/json');
         if ($archive->getError() == UPLOAD_ERR_OK) {
-            $filename = Tools::moveUploadedFile($archive, $this->tmp);
+            $filename = Tools::moveUploadedFile($archive, $this->tmp, "estudiante-archivw");
             if ($filename != false) {
                 try {
                     $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
@@ -463,7 +463,7 @@ class StudentController extends Controller
         $uploadedFiles = $request->getUploadedFiles();
         $archive = $uploadedFiles['archive'];
         if ($archive->getError() == UPLOAD_ERR_OK) {
-            $filename = Tools::moveUploadedFile($archive, $this->tmp);
+            $filename = Tools::moveUploadedFile($archive, $this->tmp, "archive-edit");
             if ($filename != false) {
                 try {
                     $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');

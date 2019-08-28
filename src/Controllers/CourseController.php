@@ -152,7 +152,7 @@ class CourseController extends Controller
         $uploadedFiles = $request->getUploadedFiles();
         $archive = $uploadedFiles['archive'];
         if ($archive->getError() == UPLOAD_ERR_OK) {
-            $filename = Tools::moveUploadedFile($archive, $this->tmp);
+            $filename = Tools::moveUploadedFile($archive, $this->tmp, "Curso");
             if ($filename != false) {
                 try {
                     $reader = IOFactory::createReader('Xlsx');
