@@ -86,7 +86,7 @@ $("#cargar").on('click', function(event){
             return false;
         } else {
             formOk = formOk.concat(formAlert);
-            functions.proccess(formOk, _this.attr('data-action'));
+            functions.proccess(formOk, _this.attr('data-action'), 0);
         }
     }else {
         if(formOk.length == 0) {
@@ -94,7 +94,7 @@ $("#cargar").on('click', function(event){
             toastr.error('No hay registros para cargar.', 'Error', {timeOut: 3000});
             return false;
         } else {
-            functions.proccess(formOk, _this.attr('data-action'));
+            functions.proccess(formOk, _this.attr('data-action'), 0);
         }
     }
 });
