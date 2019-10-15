@@ -16,7 +16,8 @@
         "phpoffice/phpspreadsheet": "^1.2",
         "kanellov/slim-twig-flash": "^0.2.0",
         "neitanod/forceutf8": "~2.0",
-        "php" : "~7.0"
+        "php" : "~7.0",
+        "swiftmailer/swiftmailer": "^6.2"
     },
     "autoload": {
         "psr-4": {

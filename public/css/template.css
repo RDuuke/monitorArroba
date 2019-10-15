@@ -51,11 +51,7 @@ header
 {
     z-index: 1000;
     min-height: 250px;
-    background-repeat: no-repeat;
-    background-image: url(../../resource/img/lupa.png);
-    background-size: 311px;
-    background-position-x: 20%;
-    background-position-y: -10px;
+    background: url(../../resource/img/lupa.png) no-repeat 20% -10px, url("../../resource/img/bg_patron.jpg") repeat 0 0;
 }
 header img.lupa {
     width: 300px;
@@ -207,7 +203,7 @@ button.bg_morado:hover{
     text-transform: unset;
 }
 #tablePermission thead {
-    background: #17a2b8;
+    background: #009BDD;
     font-weight: bold;
     color: #fff;
 }
@@ -418,25 +414,34 @@ border-radius: 25px;
     font-style: italic;
 }
 input#reading,
-input#writing{
+input#writing,
+input[type='checkbox']{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-color: #A8CED2;
-    border: 1px solid #0093AE;
+    background-color: #009BDD;
+    border: 1px solid #000000;
     display: inline-block;
     padding: .8em;
     position: relative;
     border-radius: 25px;
 }
 input#reading:checked:after,
-input#writing:checked:after{
+input#writing:checked:after,
+input[type='checkbox']:checked:after{
     content: '\2714';
     font-size: 1.3em;
     position: absolute;
     top: -2px;
     left: 4px;
-    color: #007bff;
+    color: white;
+}
+.input-checkbox {
+    align-items: center;
+    margin: .5em 0;
+}
+.input-checkbox label {
+    padding-left: .5em;
 }
 #modules {
     padding: .5em;

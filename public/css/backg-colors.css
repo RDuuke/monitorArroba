@@ -46,3 +46,6 @@
   -o-transition: all .5s;
   transition: all .5s;
 }
+.bg-gray-dark {
+    background-color: #808080;
+}
