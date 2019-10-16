@@ -14,11 +14,15 @@ $today = \Carbon\Carbon::today();
 $yersterday = $today->subDay()->toDateString();
 $users = Illuminate\Database\Capsule\Manager::table("usuario")->whereDate("fecha", $yersterday)->get();
 $register = \Illuminate\Database\Capsule\Manager::table("matricula")->whereDate("fecha", $yersterday)->get();
-
+$correos = \App\Models\CorreoMonitoreo::where("estado", 1)->select(["correo"])->get();
+echo "<pre>";
+$sendCorreos = $correos->map(function ($item, $key) {
+   return $item->correo;
+});
 ob_start();
 ?>
 
-    <h3>Cifras de usuarios y matrículas realizadas el día: <i><u><?= $today->format('d-m-Y') ?></u></i>.</h3>
+    <h3>Cifras de usuarios y matrículas del día: <i><u><?= $today->format('d-m-Y') ?></u></i>.</h3>
     <table border="1" width="30%">
         <thead>
             <tr>
@@ -41,8 +45,7 @@ ob_start();
 <?php
 $template = ob_get_contents();
 ob_clean();
-echo $template;
-die;
+
 $transport = new \Swift_SmtpTransport("smtp.gmail.com", 465, "ssl");
 
 $transport->setUsername($config["smtp"]["usuario"])
@@ -59,7 +62,7 @@ $transport->setUsername($config["smtp"]["usuario"])
 $mailer = new \Swift_Mailer($transport);
 $message = (new \Swift_Message("Cifra de usuario y matriculas"))
     ->setFrom($config["smtp"]["usuario"], "@Monitor")
-    ->setTo("juuanduuke@gmail.com");
+    ->setTo($sendCorreos->toArray());
 
 $message->setBody($template, "text/html");
 
