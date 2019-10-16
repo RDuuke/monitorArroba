@@ -9,6 +9,17 @@ $(".addmonitor").on('click', function (event) {
     $('#monitroCreateModal').modal('show');
 });
 
+$(".addcorreo").on('click', function (event) {
+    event.preventDefault();
+    /*$('#programCreateForm')[0].reset();
+    $('#programCreateForm').attr('action', $(this).attr('data-href'));
+    $("#input_codigo").prop('readonly', false);*/
+    $("#correoCreateForm")[0].reset();
+    $("input[name=url]").removeAttr("readonly");
+    $("#correoCreateForm").attr("action", $(this).attr("data-href"));
+    $('#monitoreoCorreo').modal('show');
+});
+
 $("#monitor").on("click", ".deleteMonitor", function (e) {
    e.preventDefault();
    let _this = $(this);
@@ -24,6 +35,41 @@ $("#monitor").on("click", ".deleteMonitor", function (e) {
           toastr.error(response.message, 'Error!!', {timeOut: 3000});
       }
    });
+});
+
+$("#correos").on("click", ".deleteCorreo", function (e) {
+    e.preventDefault();
+    let _this = $(this);
+    var url = _this.attr("href");
+    $.get(url).done( function (response) {
+        if (response.codigo == 1) {
+            toastr.success(response.message, 'Estupendo!!!', {timeOut: 3000});
+            correos
+                .row( _this.parents('tr') )
+                .remove()
+                .draw();
+        } else {
+            toastr.error(response.message, 'Error!!', {timeOut: 3000});
+        }
+    });
+});
+
+$("#correos").on("click", ".showCorreo", function (event) {
+    event.preventDefault();
+    let _this = $(this);
+    var url = _this.attr("href");
+    $("#correoCreateForm")[0].reset();
+    $("#correoCreateForm").attr("action", _this.attr("data-href"));
+    $.get(url).done( function (response) {
+        $.each(response.data, function (key, value) {
+            if (key == "estado") {
+                $("select#estado option[value='"+ value +"']").attr("selected", "selected");
+            } else {
+                $("input[name="+key+"]").val(value);
+            }
+        });
+        $('#monitoreoCorreo').modal('show');
+    });
 });
 
 $("#monitor").on("click", ".showMonitor", function (e) {

@@ -44,12 +44,12 @@ $app->group("/panel", function (){
     $this->post("/first", "AppController:changePassword")->setName("firstsingin");
 
     /** Controller actions estudiante */
-    $this->get("/students/delete/{id}", "StudentController:delete")->setName("admin.students.delete");
+    $this->get("/students/delete/{id}[/{codigo}]", "StudentController:delete")->setName("admin.students.delete");
     $this->get("/students/show/{id}", "StudentController:show")->setName("admin.students.show");
     $this->post("/students/update/{id}", "StudentController:update")->setName("admin.students.update");
     $this->get("/students/all", "StudentController:all")->setName("admin.students.all");
     $this->get("/students/reset/{id}", "StudentController:reset")->setName("admin.students.reset");
-    $this->get("/students/archive/{id}", "StudentController:archive")->setName("admin.students.archive");
+    $this->get("/students/archive/{id}[/{codigo}]", "StudentController:archive")->setName("admin.students.archive");
     $this->post("/students", "StudentController:store")->setName("admin.students.store");
     $this->post("/students/upload", "StudentController:upload")->setName("admin.upload.students");
     $this->post("/students/upload/edit", "StudentController:uploadEdit")->setName("admin.upload.students.edit");
@@ -102,6 +102,7 @@ $app->group("/panel", function (){
     $this->get("/courses/show/{id}", "CourseController:show")->setName('admin.courses.show');
     $this->post("/courses/update/{id}", "CourseController:update")->setName('admin.courses.update');
     $this->post("/courses/upload", "CourseController:upload")->setName("admin.upload.courses");
+    $this->get("/courses/all/archive/{id}", "CourseController:archiveAllRegister")->setName("admin.upload.courses.all.register");
 
     /** Controller actions monitores */
     $this->post("/monitoreo", "MonitorController:store")->setName("admon.monitoreo");
@@ -123,7 +124,14 @@ $app->group("/panel", function (){
     /** Controller archive */
 
     $this->get("/register/archive/{id}", "AppController:registerArchive")->setName("admin.register.archive");
+    /** Correo monitoreo */
 
+    $this->post("/monitoreo/correo", "MonitorController:storeEmail")->setName("admin.monitoreo.correo");
+    $this->get("/monitoreo/correo/all", "MonitorController:allEmail")->setName("admin.monitoreo.correo");
+    $this->get("/monitoreo/correo/show/{id}", "MonitorController:showEmail")->setName("admin.monitoreo.correo.show");
+    $this->post("/monitoreo/correo/update/{id}", "MonitorController:updateEmail")->setName("admin.monitoreo.correo.update");
+    $this->get("/monitoreo/correo/delete/{id}", "MonitorController:deleteEmail")->setName("admin.monitoreo.correo.delete");
+    
     /** Controller helpers */
     $this->get("/students/check", "StudentController:checkEmailStudents")->setName('admin.check.students');
     $this->get("/students/email", "StudentController:getDataForEmailStudents")->setName('admin.data.email.students');
@@ -155,3 +163,4 @@ $app->group("/panel", function (){
 
  })->add(new \App\Middleware\AuthMiddleware($container));
 
+$app->get("/student-test", "StudentController:testI");
