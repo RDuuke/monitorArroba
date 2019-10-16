@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 
+use App\Models\CorreoMonitoreo;
 use App\Models\Monitor;
 use App\Models\MonitorRegistro;
 use Carbon\Carbon;
@@ -54,7 +55,7 @@ class MonitorController extends Controller
             return $newResponse->withJson(
                 [
                     "codigo" => 1,
-                    "message" => "Monitor eliminado correctamente",
+                    "message" => "Monitor visualizado correctamente",
                     "data" => $monitor
                 ],
                 200);
@@ -63,7 +64,7 @@ class MonitorController extends Controller
         return $newResponse->withJson(
             [
                 "codigo" => 0,
-                "message" => "Errror al eliminar el monitor",
+                "message" => "Errror al traer el monitor",
                 "data" => []
             ],
             200);
@@ -133,6 +134,66 @@ class MonitorController extends Controller
             "labels" => $labels,
             "dataset" => $monitores
         ], 200);
+    }
+
+    function storeEmail (Request $request, Response $response) {
+        CorreoMonitoreo::create($request->getParams());
+        return $response->withRedirect($this->router->pathFor("admon.monitoreo"));
+    }
+    function allEmail (Request $request, Response $response) {
+        $correos = CorreoMonitoreo::all();
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        return $newResponse->withJson($correos, 200);
+    }
+    function showEmail(Request $request, Response $response, $args)
+    {
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        $correo = CorreoMonitoreo::find($args["id"]);
+        if ($correo instanceof CorreoMonitoreo) {
+            return $newResponse->withJson(
+                [
+                    "codigo" => 1,
+                    "message" => "Correo visualizado correctamente",
+                    "data" => $correo
+                ],
+                200);
+        }
+
+        return $newResponse->withJson(
+            [
+                "codigo" => 0,
+                "message" => "Error al traer el correo",
+                "data" => []
+            ],
+            200);
+    }
+
+    function updateEmail(Request $request, Response $response, $args){
+        $monitor = CorreoMonitoreo::find($args['id']);
+        $monitor->correo = $request->getParam("correo");
+        $monitor->estado = $request->getParam("estado");
+        $monitor->save();
+        return $response->withRedirect($this->router->pathFor("admon.monitoreo"));
+    }
+
+    function deleteEmail(Request $request, Response $response, $args)
+    {
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+        if (CorreoMonitoreo::find($args["id"])->delete()) {
+            return $newResponse->withJson(
+                [
+                    "codigo" => 1,
+                    "message" => "Correo eliminado correctamente"
+                ],
+                200);
+        }
+
+        return $newResponse->withJson(
+            [
+                "codigo" => 0,
+                "message" => "Error al eliminar el correo"
+            ],
+            200);
     }
 
 }
