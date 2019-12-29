@@ -164,3 +164,4 @@ $app->group("/panel", function (){
  })->add(new \App\Middleware\AuthMiddleware($container));
 
 $app->get("/student-test", "StudentController:testI");
+$app->get("/student-test-not-register", "ReportController:test");

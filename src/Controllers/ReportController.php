@@ -47,6 +47,12 @@ class ReportController extends Controller
         $registers = Tools::getRegisterForPeriod((string) $this->auth->user()->id_institucion, $periodo[0] . " 00:00:00", $periodo[1] . " 23:59:59");
         return $this->view->render($response, "_partials/stats_register.twig", ["registers" => $registers]);
     }
-    
 
+    function test(Request $request, Response $response)
+    {
+        $data = Student::doesntHave("registers")->get();
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+
+        return $newResponse->withJson($data, 200);
+    }
 }
