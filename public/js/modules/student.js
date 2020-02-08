@@ -23,19 +23,33 @@ $("#userCreateForm").on( "submit", function( event ) {
 });
 $("#tb_user").on('click', '.studentEliminar', function(event) {
     event.preventDefault();
-    var r = confirm("¿Está seguro que desea eliminar este registro de forma permanente?");
-    if (r == true) {
-
-        _td = $(this);
-        var _data = functions.getDataTable(_td);
-        var url = _td.attr('href') + _data.id
+    let url = null, r = null;
+    let _td = $(this);
+    let _data = functions.getDataTable(_td);
+    if ($("#isA").val() === "05") {
+        r = confirm("Recuerda seleccionar la institución \n" +
+            "¿Está seguro que desea archivar este registro de forma permanente?");
+            if ($("#codigo_institucion").val() === "") {
+                alert("Recuerda seleccionar la institución");
+                return false;
+            }
+        url = _td.attr('href') + _data.id + "/" + $("#codigo_institucion").val();
+    } else {
+        r = confirm("¿Está seguro que desea archivar este registro de forma permanente?");
+    }
+    if (r === true) {
         $.get(url).done( function(response){
-        if (response == 1){
+        if (response.response === 1){
           toastr.success('Estudiante eliminado correctamente.', 'Estupendo!!!', {timeOut: 3000});
           table
             .row( _td.parents('tr') )
             .remove()
-            .draw();    }
+            .draw();
+        } else if ( response.response === 2) {
+            toastr.info(
+                response.message,
+            {timeOut: 3000});
+        }
         }).
         fail(function(response){
             toastr.error(response.responseText, 'Error!!', {timeOut: 3000});
@@ -49,6 +63,8 @@ $("#tb_user").on('click', '.studentShow', function(event){
     _td = $(this);
     var _data = functions.getDataTable(_td);
     var url = _td.attr('href') + _data.id
+    $('#userCreateForm')[0].reset();
+    $('.checkbox').attr("checked", false);
     $.get(url).done(function(response){
       $.each(response, function( key, value ) {
           if (key == 'institucion_id' && value != ''){
@@ -56,8 +72,15 @@ $("#tb_user").on('click', '.studentShow', function(event){
           } else if ( key == 'genero' && value != "") {
               $("select#genero option[value="+value+"]").prop("selected", true);
           } else if (key == 'usuario') {
-              $('input[name="'+key+'"]').val(value).attr('readonly');
+              $('input[name="'+key+'"]').val(value);
               $('input[name="'+key+'"]').attr('readonly', 'readonly');
+          } else if (key == 'pertenece') {
+              console.log(value);
+              if(value.length > 0) {
+                  value.forEach( function (i) {
+                      $('.checkbox[value="'+i.codigo+'"]').attr("checked", true);
+                  });
+              }
           }
           else {
               $('input[name="'+key+'"]').val(value);
@@ -69,7 +92,8 @@ $("#tb_user").on('click', '.studentShow', function(event){
 });
 
 $("#tb_user").on('click', '.studentChangePaswword', function(event){
-    var r = confirm("¿Está seguro que desea restablecer la contraseña?");
+    var r = confirm("Ten encuenta que si el usuario esta en otras instituciones en el campus, la contraseña se actualizara para todas \n" +
+        "¿Está seguro que desea restablecer la contraseña?");
     if (r == true) {
 
         event.preventDefault();
@@ -90,12 +114,19 @@ $("#tb_user").on('click', '.studentChangePaswword', function(event){
 });
 
 $("#tb_user").on('click', '.studentArchive', function(event){
-    var r = confirm("¿Está seguro que desea archivar este registro de forma permanente?");
+    let url = null, r = null;
+    let _td = $(this);
+    let _data = functions.getDataTable(_td);
+    if ($("#isA").val() === "05") {
+        r = confirm("Recuerda seleccionar la institución \n" +
+            "¿Está seguro que desea archivar este registro de forma permanente?");
+        url = _td.attr('href') + _data.id + "/" + $("#codigo_institucion").val();
+    } else {
+        r = confirm("¿Está seguro que desea archivar este registro de forma permanente?");
+        url = _td.attr('href') + _data.id;
+    }
     if (r == true) {
         event.preventDefault();
-        _td = $(this);
-        var _data = functions.getDataTable(_td);
-        var url = _td.attr('href') + _data.id
         $.get(url).done(function(response){
             functions.removeToast();
             console.log(response);

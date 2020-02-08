@@ -40,7 +40,7 @@
                         <td>{{ course.rol }}</td>
                         <td>{{ getInstance(course.course.codigo) }}</td>
                         <td><a href="{{ path_for("admin.search.program.course", { 'id' : course.course.programs.codigo} ) }}">{{ course.course.programs.nombre }}</a></td>
-                        <td>{{ getInstitution(course.course.institucion_id ) }}</td>
+                        <td>{{ course.course.institucion }}</td>
                         <td>{{ getLastEntry(course.course.codigo, student.usuario) }}</td>
                     </tr>
                 {% endfor %}

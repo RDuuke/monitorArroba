@@ -7,9 +7,12 @@ use App\Models\Permission;
 use App\Models\Program;
 use App\Models\Register;
 use App\Models\Student;
+use App\Models\StudentInstitutions;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Support\Str;
+use Respect\Validation\Rules\In;
 
 class Tools {
 
@@ -24,8 +27,11 @@ class Tools {
     const codigoEstadistica = 10;
     const codigoReporte = 9;
     const Lectura = 1;
-
     const LecturaEscritura = 3;
+
+    const codigoOkXhr = 1;
+    const codigoNovedadXhr = 2;
+    const codigoErrorXhr = 0;
 
     static protected $UserMessage = [
         0 => "El usuario correcto.",
@@ -369,8 +375,8 @@ class Tools {
                     ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
                 $data['programas'] = Program::where('codigo_institucion', $institution->codigo)
                     ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
-                $data['usuarios'] = Student::where('institucion_id', $institution->codigo)
-                    ->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
+                $data['usuarios'] = $institution->students()->whereBetween("fecha", [$firstDate, $lastDate])->get()->count();
+
                 $data['usuarios_activos']  = Register::select(Manager::raw("COUNT(DISTINCT usuario) AS total"))
                     ->where('institucion_id', $institution->codigo)->whereBetween("fecha", [$firstDate, $lastDate])->first()->total;
 
@@ -390,31 +396,24 @@ class Tools {
 
     static function studentData(int $type = 0, string $firstDate = '', string $lastDate = "") : array
     {
+        $data = [];
         if ($type == 0) {
-            $data = Manager::table("usuario")
-                ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
-                ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad") )
-                ->groupBy("usuario.institucion_id")
-                ->get();
+            foreach (Institution::all() as $key => $value) {
+                array_push($data, ["nombre" => $value->nombre, "cantidad" => $value->students()->count()]);
+            }
         } else {
-            $data = Manager::table("usuario")
-                ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
-                ->select("institucion.nombre", Manager::raw("COUNT(usuario.institucion_id) AS cantidad"))
-                ->whereBetween("usuario.fecha", [$firstDate, $lastDate])
-                ->groupBy("usuario.institucion_id")
-                ->get();
+            foreach (Institution::all() as $key => $value) {
+                array_push($data, ["nombre" => $value->nombre, "cantidad" => $value->students()->whereBetween("usuario.fecha", [$firstDate, $lastDate])->count()]);
+            }
         }
 
-        return $data->all();
+        return $data;
     }
 
      static function getTotalStudent() : int
      {
-         $data = Manager::table("usuario")
-             ->join("institucion", "usuario.institucion_id", "=", "institucion.codigo")
-             ->select(Manager::raw("COUNT(usuario.id) AS total"))
-             ->first();
-         return $data->total;
+
+         return StudentInstitutions::all()->count();
      }
     static function getHighestDataRow($worksheet) : int
     {

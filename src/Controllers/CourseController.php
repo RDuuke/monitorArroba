@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\RegisterArchive;
 use App\Tools\Log;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -92,7 +93,7 @@ class CourseController extends Controller
                     return $response->withStatus(200)->write('1');
                 }
             }
-            return $response->withStatus(500)->write('El curso con el codigo:'. $course->codigo . ' tiene matriculas activadas');
+            return $response->withStatus(500)->write('El curso con el codigo:'. $courses->codigo . ' tiene matriculas activadas');
         } catch(\Exception $e) {
             Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoCursos, $this->auth->user()->usuario, $courses->nombre), Tools::getTypeDeleteAction());
             return $response->withStatus(500)->write($e->getMessage());
@@ -166,6 +167,7 @@ class CourseController extends Controller
                             "codigo" => trim($worksheet->getCell('A' . $row)->getvalue()),
                             "nombre" => trim($worksheet->getCell('B' . $row)->getvalue()),
                             "nombre_corto" => trim($worksheet->getCell('C' . $row)->getvalue()),
+                            "level_formation" => trim($worksheet->getCell('D' . $row)->getvalue()),
                         ];
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
                             $data['institucion_id'] = $this->auth->user()->id_institucion;
@@ -238,5 +240,54 @@ class CourseController extends Controller
         ])->get();
 
         return $this->view->render($response, "_partials/stats_courses.twig", ["courses" => $courses]);
+    }
+
+    function archiveAllRegister(Request $request, Response $response, $args) {
+        try {
+
+            $creators = 0;
+            $course = Course::findOrFail($args['id']);
+            if ($course->registers->count() == 0) {
+                return $response->withJson(
+                    [
+                        "status" => 2,
+                        "message" => "El curso no tiene matriculas.",
+                    ], 200
+                );
+            }
+            foreach ($course->registers()->select(["curso", "instancia", "usuario", "rol", "fecha"])->get() as $k => $v) {
+                if (RegisterArchive::updateOrCreate($v->toArray(), ["curso" => $v->curso, "usuario" => $v->usuario]) instanceof RegisterArchive) {
+                    if ($v->delete()) {
+                        $creators++;
+                    };
+                }
+            }
+            if ($course->registers->count() == $creators) {
+                $course->registers()->delete();
+                return $response->withJson(
+                    [
+                        "status" => 1,
+                        "message" => "Estudiantes desmatriculados del curso.",
+                        "data" => [
+                            "creators" => $creators
+                        ]
+                    ], 200
+                );
+            }
+            return $response->withJson(
+                [
+                    "status" => 0,
+                    "message" => "Error en desmatricular los estudiantes del curso."
+                ], 200
+            );
+
+        } catch (\Exception $exception) {
+            return $response->withJson(
+                [
+                    "message" => "Se produjo un error, vuelve a intentarlo, si persiste comuníquese con soporte."
+                ], 500
+            );
+        }
+
     }
 }

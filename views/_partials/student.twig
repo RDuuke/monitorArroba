@@ -18,19 +18,12 @@
                 <input name="documento"type="number" class="form-control" {{ getP(modulo_campus) == lectura_escritura ? '' : 'readonly' }} required>
             </div>
             <div class="form-group">
-                <label for="institucion">Institucion</label>
+                <label for="institucion">Institución</label>
                     {% if auth.user.id_institucion != codigo_arroba_medellin %}
-                        <input name="institucion" id="institucion" type="text" class="form-control" value="{{ getInstitution(auth.user.id_institucion) }}" readonly required>
-                        <input name="institucion_id" id="institucion_id" type="hidden" class="form-control" value="{{ auth.user.id_institucion }}" readonly required>
+                        <input name="institucion" id="institucion" type="text" class="form-control" value="{{ getInstitution(auth.user.id_institucion) }}" required>
+                        <input name="codigo" id="codigo" type="hidden" class="form-control" value="{{ auth.user.id_institucion }}" readonly required>
                     {% else %}
-                        <select name="institucion_user" id="institucion_user" class="form-control" required>
-                            <option value="">Seleccione una opción</option>
-                            {% for institucion in instituciones %}
-                                <option value="{{ institucion.codigo }}">{{ institucion.nombre }}</option>
-                            {% endfor %}
-                        </select>
-                        <input type="hidden" name="institucion_id" id="institucion_id">
-                        <input type="hidden" name="institucion" id="institucion">
+                        <input name="institucion" id="institucion" type="text" class="form-control"  required>
                     {% endif %}
             </div>
             <div class="form-group">
@@ -67,10 +60,24 @@
                 <label for="direccion">Direccion</label>
                 <input name="direccion" type="text" class="form-control" {{ getP(modulo_campus) == lectura_escritura ? '' : 'readonly' }}>
             </div>
-            {% if getP(modulo_campus) == lectura_escritura  %}
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            {% endif %}
-
         </div>
+        {% if auth.user.id_institucion == codigo_arroba_medellin %}
+        <div class="ed-item s-100">
+            <div class="form-group">
+                <label for="">Pertenece a:</label>
+                <div class="ed-container no-padding">
+                    {% for institucion in instituciones %}
+                        <div class="flex input-checkbox ed-item l-50">
+                            <input type="checkbox" class="checkbox" name="codigo[]" value="{{ institucion.codigo }}" /> <label for="">{{ institucion.nombre }}</label></br>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if getP(modulo_campus) == lectura_escritura  %}
+            <button type="submit" class="btn btn-primary centro">Guardar</button>
+        {% endif %}
+
     </div>
 </form>

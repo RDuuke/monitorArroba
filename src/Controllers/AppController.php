@@ -327,7 +327,12 @@ class AppController extends Controller
 
         $router = $request->getAttribute('route');
         $student = Student::find($router->getArguments()['id']);
-        $student_data = Register::where('usuario', $student->usuario)->get();
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $student_data = Register::where('usuario', $student->usuario)
+            ->where("institucion_id", $this->auth->user()->id_institucion)->get();
+        } else {
+            $student_data = Register::where('usuario', $student->usuario)->get();
+        }
         if (! $request->isXhr()) {
             return $this->view->render($response, 'result_data_for_student.twig', ["student_data"=>$student_data, "student" => $student, "module_name" => ["Búsqueda#admin.search", "Cursos del usuario"], "menu_active" => Tools::$MenuActive[1]]);
         }
@@ -409,7 +414,8 @@ class AppController extends Controller
         if (!$this->accessModuleReadAndWrite($response,Tools::codigoUsuarioCampus)) {
             return $response->withRedirect($this->router->pathFor('admin.home'));
         }
-        return $this->view->render($response, "uploadarchive.twig", ["module_name" => ["Usuario Plataforma#admin.students", "Archivar Masivamente"], "menu_active" => Tools::$MenuActive[2]]);
+        $institutions = Institution::all();
+        return $this->view->render($response, "uploadarchive.twig", ["module_name" => ["Usuario Plataforma#admin.students", "Archivar Masivamente"], "menu_active" => Tools::$MenuActive[2], "institutions" => $institutions]);
     }
 
     function upload_register_de_enroll(Request $request, Response $response)

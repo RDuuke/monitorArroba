@@ -25,6 +25,15 @@
                     <input name="codigo_forma" type="number"  disabled placeholder="00000" class="form-control" min="00000" max="99999">
                 </div>
             {% endif %}
+            <label for="level_formation">Nivel de formación</label>
+            <select name="level_formation" class="form-control" id="level_formation" required {{ getP(modulo_cursos) == lectura_escritura ? '' : 'readonly' }}>
+                <option value="">Seleccione una opción</option>
+                <option value="0">Técnica Profesional</option>
+                <option value="1">Tecnología</option>
+                <option value="2">Profesional Universitario</option>
+                <option value="3">Especialización</option>
+                <option value="4">Maestría</option>
+            </select>
             {% if auth.user.id_institucion != codigo_arroba_medellin %}
                 <input name="institucion_id" type="hidden" class="form-control" value="{{ auth.user.id_institucion }}" readonly>
             {% else %}

@@ -50,7 +50,7 @@ class ReportController extends Controller
 
     function test(Request $request, Response $response)
     {
-        $data = Student::doesntHave("registers")->get();
+        $data = Student::select(["usuario"])->whereNotIn("usuario", Register::select(["usuario"])->distinct()->get()->toArray())->get();
         $newResponse = $response->withHeader('Content-type', 'application/json');
 
         return $newResponse->withJson($data, 200);

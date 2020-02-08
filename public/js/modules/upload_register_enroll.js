@@ -39,6 +39,7 @@ $("#formFile").on('submit', function(event){
     var _this = $(this);
     var form = new FormData(_this[0]);
     console.log(form);
+    table.clear().draw();
     $.ajax({
         type : "POST",
         url : _this.attr('action'),

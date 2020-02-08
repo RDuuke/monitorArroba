@@ -62,6 +62,24 @@ $(".addcourse").on('click', function (event) {
         return false;
       }
   });
+  $("#tb_courses").on('click', '.archiveRegister', function (event) {
+      event.preventDefault();
+      var r = confirm("¿Está seguro que desea desmatricular los estudiantes?");
+      if(r) {
+        _td = $(this);
+        $.get(_td.attr("href")).done( function (response) {
+            if(response.status === 1) {
+              toastr.success(response.message +" Total:"+response.data.creators, "Estupendo!!!", {timeOut: 3000});
+            } else if ( response.status === 2) {
+              toastr.warning(response.message, "Info!!!", {timeOut: 3000});
+            }
+        }).fail( function (response) {
+          toastr.success(response.message, "Error!!!", {timeOut: 3000});
+        });
+      } else {
+        return false;
+      }
+  });
 
   $("#tb_courses").on('click', '.courseshow', function (event) {
     event.preventDefault();
@@ -81,7 +99,9 @@ $(".addcourse").on('click', function (event) {
           $('input[name="' + key + '"]').val(value.toString().substr(5));
         } else if(key == 'institucion_id') {
             $('select#institucion option[value='+value+']').attr('selected', 'selected');
-        }else {
+        } else if (key == 'level_formation' && value != "") {
+            $('select#level_formation option[value='+value+']').attr('selected', 'selected');
+        } else {
             $('input[name="' + key + '"]').val(value);
         }
           $('input[name="codigo_forma"]').val(codigo);

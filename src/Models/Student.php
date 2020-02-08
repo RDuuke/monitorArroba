@@ -6,7 +6,7 @@ class Student extends Model
 {
     protected $table = "usuario";
 
-    protected $fillable = ['usuario', 'nombres', 'clave', 'correo', 'apellidos', 'documento', 'institucion', 'genero', 'ciudad', 'departamento', 'pais', 'telefono', 'celular', 'direccion', 'fecha', 'institucion_id'];
+    protected $fillable = ['usuario', 'nombres', 'clave', 'correo', 'apellidos', 'documento', 'institucion', 'genero', 'ciudad', 'departamento', 'pais', 'telefono', 'celular', 'direccion', 'fecha'];
 
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -33,9 +33,15 @@ class Student extends Model
         $date = new \DateTime($value);
         return $date->format('d-m-Y');
     }
+
     public function registers()
     {
         return $this->hasMany(Register::class, 'usuario', 'usuario');
+    }
+
+    public function institutions()
+    {
+        return $this->belongsToMany(Institution::class, 'institucion_usuario', 'usuario', 'codigo', 'usuario', 'codigo');
     }
 
     public function registershistoricos()
@@ -43,25 +49,9 @@ class Student extends Model
         return $this->hasMany(RegisterArchive::class, 'usuario', 'usuario');
     }
 
-    public function scopeRutaN($query)
+    public function archive()
     {
-        return $query->where('institucion', 'RutaN')->get()->toArray();
+        StudentArchive::create($this->toArray());
     }
-
-    public function scopePascualBravo($query)
-    {
-        return $query->where('institucion', 'Institución Universitaria Pascual Bravo')->get()->toArray();
-    }
-
-    public function scopeColegioMayor($query)
-    {
-        return $query->where('institucion', 'Institución Universitaria Colegio Mayor de Antioquia')->get()->toArray();
-    }
-
-    public function scopeMujeres($query)
-    {
-        return $query->where('institucion', 'Secretaría de las mujeres')->get()->toArray();
-    }
-
 
 }

@@ -20,6 +20,10 @@ class Institution extends Model
         return $this->hasMany(Register::class, "institucion_id", "codigo");
     }
 
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, "institucion_usuario", "codigo", "usuario", "codigo", "usuario");
+    }
     static function checkCodigo($codigo)
     {
         $result = Institution::where('codigo', '=', $codigo)->get();

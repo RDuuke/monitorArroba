@@ -140,7 +140,8 @@ function renderData(i, value, classes, saveData = []) {
                 "telefono": value.telefono,
                 "celular": value.celular,
                 "direccion": value.direccion,
-                "fecha" : value.fecha
+                "fecha" : value.fecha,
+                "institucion_carga" : value.institucion_carga
             };
         }
         i++;

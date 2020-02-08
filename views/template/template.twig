@@ -7,8 +7,8 @@
     <title>@Monitor</title>
     <link href="http://digital.arrobamedellin.edu.co/campus/monitor/templates/arrobamedellin_web_2017/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ base_url }}/monitor/public/css/ed-grid.min.css" />
     <link rel="stylesheet" href="{{ base_url }}/monitor/public/css/template.css" />
@@ -17,30 +17,6 @@
 </head>
 
 <body class="{{ auth.check == true ? '' : 'bg_azul' }}">
-    <!--<header class="bg_azul ed-container full ">
-        <div class="ed-item l-20">
-            <a href="" class="logo"><img src="http://campusdigital.arrobamedellin.edu.co/campus/monitor/images/template/logo.svg" alt=""></a>
-        </div>
-        <div class="ed-item l-60 flex">
-            <ul class="flex">
-                {% if auth.check %}
-                    <li><a href="">Inicio</a></li>
-                    <li><a href="">Módulos</a></li>
-                    <li><a href="">Herramientas</a></li>
-                    <li><a href="{{ path_for('signout') }}">Cerrar sesión</a></li>
-                {% else %}
-                    <li><a href="">Inicio</a></li>
-                {% endif %}
-            </ul>
-        </div>
-        <div class="ed-item l-20 flex">
-            <a href="#" class="btn bg_naranja">ingresar al campus</a>
-        </div>
-
-    </header>
-    <div class="ed-container full bg_imagen banner_logo flex">
-        <img src="http://campusdigital.arrobamedellin.edu.co/campus/monitor/images/template/logo_peq.png" alt="">
-    </div>-->
     {% if auth.check %}
         <header class="bg_morado">
             <div class="ed-container full">
@@ -180,22 +156,6 @@
                                     </ul>
                                 </li>
                             {% endif %}
-                            <!--<li class="{{ menu_active == 'Herramientas' ? 'in' : ''}}">
-                                <a href="" class="parent">Herramientas <i class="fa fa-caret-down"></i></a>
-                                <ul class="dropdown-1 none">
-                                    {% if getP(modulo_campus) >= lectura_escritura %}
-                                        <li><a href="{{ path_for('admin.view.students.upload') }}">Crear usuarios campus masivamente (Anexo1)</a></li>
-                                        <li><a href="{{ path_for('admin.view.student.upload.archive') }}">Archivar usuarios campus masivamente (Anexo10)</a></li>
-                                    {% endif %}
-                                    {% if getP(modulo_matriculas) >= lectura_escritura %}
-                                        <li><a href="{{ path_for('admin.upload.register') }}">Crear matrículas masivamente (Anexo2)</a></li>
-                                        <li><a href="{{ path_for('admin.view.student.upload.deenroll') }}">Desmatricular masivamente (Anexo11)</a></li>
-                                    {% endif %}
-                                    {% if modulo_cursos >= lectura_escritura  %}
-                                        <li><a href="{{ path_for('admin.upload.courses') }}">Crear cursos masivamente (Anexo3)</a></li>
-                                    {% endif %}
-                                </ul>
-                            </li>-->
                         </ul>
                     </div>
                 </nav>
@@ -263,8 +223,9 @@
 
     {% block content %}{% endblock %}
     <footer class="bg-green padding-2-em-all text-right">
-        <img class="logo-footer" src="http://arrobamedellin.edu.co/images/template/logo.svg" alt="">
+        <img class="logo-footer" src="http://digital.arrobamedellin.edu.co/campus/mainsite/theme/roshnilite/pix/logo.svg" alt="">
     </footer>
+    <input type="hidden" name="isA" value="{{ auth.user.id_institucion }}" id="isA">
     {% block modales %}{% endblock %}
     <div id="block_pantalla" class="none"></div>
     <span id="time" style="display:none"></span>
@@ -273,33 +234,16 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 
     <script>
-        let miliToMinutes = 1000/60;
-        function setTime() {
-            $("#time").html(Date.now());
-        }
-        function issingIn()
-        {
-            console.log(new Date(Date.now()));
-            let timeActual = new Date(1000*Math.round(Date.now()/1000));
 
-            let timeAnterior = new Date(1000*Math.round($("#time").html()/1000));
-
-            console.log(timeActual.getMinutes() + " - " +timeAnterior.getMinutes());
-            let minutes = timeActual.getMinutes() - timeAnterior.getMinutes();
-
-            console.log(minutes);
-
-        }
-        setTime();
-    $.ajaxSetup({
+        $.ajaxSetup({
             // Disable caching of AJAX responses
             cache: true
         });
         $(document).ajaxStart(function () {
 
-            issingIn()
             $(document.body).css({
                'cursor' : 'progress'
            });

@@ -61,3 +61,4 @@ $("#userCreateModal").on('change', '#institucion_user', function (e) {
     $(this).next().val($(this).val());
     $(this).next().next().val(select.options[select.selectedIndex].text);
 });
+

@@ -10,6 +10,7 @@ var backgroundColor = [
         'rgba(255, 159, 75)',
         'rgba(255, 12, 64)',
         'rgba(21, 159, 64)',
+        '#6B0A0E'
     ];
 
 $.get($("#url").attr('data-url')).done(function (response) {

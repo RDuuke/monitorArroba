@@ -11,6 +11,7 @@ use App\Models\Student;
 use App\Tools\Tools;
 use App\Models\Permission;
 use ForceUTF8\Encoding;
+use Symfony\Component\VarDumper\VarDumper;
 
 
 
@@ -29,6 +30,12 @@ class StudentController extends Controller
             $student->correo = trim($request->getParam('usuario'));
             if ($student->save()) {
                 $student->fecha = date('Y-m-d h:i:s');
+                if (is_array($request->getParam("codigo"))) {
+                    $institutions = Institution::whereIn("codigo", $request->getParam("codigo"))->get();
+                } else {
+                    $institutions = Institution::where("codigo", $request->getParam("codigo"))->get();
+                }
+                $student->institutions()->attach($institutions);
                 Log::i(Tools::getMessageCreaterRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $request->getParam('usuario')), Tools::getTypeCreatorAction());
                 if($request->isXhr()) {
 
@@ -51,30 +58,48 @@ class StudentController extends Controller
         }
     }
 
-    function delete(Request $request, Response $response) : Response
+    function delete(Request $request, Response $response, $args) : Response
     {
-        $router = $request->getAttribute('route');
-        $student= Student::find($router->getArguments()['id']);
-
+        $newResponse = $response->withHeader('Content-type', 'application/json');
         try {
-            if ($student->registers->count() == 0) {
-                if ($student->delete()) {
-                    Log::i(Tools::getMessageDeleteRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario), Tools::getTypeDeleteAction());
-                    return $response->withStatus(200)->write('1');
+            $s = Student::find($args['id']);
+            if (! $this->isArroba()) {
+                if ($s->registers()->where("institucion_id", $this->auth->user()->id_institucion)->get()->count() == 0) {
+                    if ($s->institutions()->count() == 1) {
+                        $s->institutions()->detach([$this->auth->user()->id_institucion]);
+                        $s->delete();
+                        return $newResponse->withJson(["response" => Tools::codigoOkXhr, "message" => "Usuario Eliminado"], 200);
+                    } else {
+                        $s->institutions()->detach([$args['codigo']]);
+                        return $newResponse->withJson(["response" => Tools::codigoOkXhr, "message" => "Usuario Eliminado"], 200);
+                    }
                 }
-                return $response->withStatus(500)->write('Error en la operación');
+                return $newResponse->withJson(['response' => 2, "message" => "El usuario tiene matrícula  activas"], 200);
             }
-            return $response->withStatus(500)->write('El usuario tiene matriculas activas');
-        } catch(\Exception $e) {
-            Log::e(Tools::getMessageDeleteRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario) . " INFO:" . $e->getMessage(), Tools::getTypeDeleteAction());
-            return $response->withStatus(500)->write($e->getMessage());
+            if ($s->registers()->where("institucion_id", $args['codigo'])->get()->count() == 0) {
+                $s->institutions()->detach([$args['codigo']]);
+                if ($s->institutions()->count() == 0) {
+                    $s->delete();
+                }
+                return $newResponse->withJson(["response" => Tools::codigoOkXhr, "message" => "Usuario eliminado"], 200);
+            }
+            return $newResponse->withJson(['response' => Tools::codigoNovedadXhr, "message" => "El usuario tiene matrícula  activas"], 200);
+
+        } catch (\Exception $e) {
+            return $newResponse->withJson(['response' => 0, "message" => $e->getMessage()], 500);
         }
     }
 
     function show(Request $request, Response $response) : Response
     {
         $router = $request->getAttribute('route');
-        $student= Student::find($router->getArguments()['id'])->toArray();
+        $s= Student::find($router->getArguments()['id']);
+        $student = $s->toArray();
+        if($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $student["pertenece"] = $s->institutions()->where("institucion_usuario.codigo", $this->auth->user()->id_institucion)->select("institucion_usuario.codigo")->first();
+        } else {
+            $student["pertenece"] = $s->institutions()->select("institucion_usuario.codigo")->get();
+        }
         try {
             $newResponse = $response->withHeader('Content-type', 'application/json');
             return $newResponse->withJson($student, 200);
@@ -89,6 +114,11 @@ class StudentController extends Controller
         $student = Student::updateOrCreate(['id' => $router->getArguments()['id']],array_map('trim',$request->getParams()));
         try{
             if ($student != false) {
+                if(is_array($request->getParam("codigo"))) {
+                    $student->institutions()->sync($request->getParam("codigo"));
+                } else {
+                    $student->institutions()->sync([$request->getParam("codigo")]);
+                }
                 $data_array = ["message" => 2, "user" => $student];
                 $newResponse = $response->withHeader('Content-type', 'application/json');
                 Log::i(Tools::getMessageUpdateRegisterModule(Tools::codigoUsuarioCampus, $this->auth->user()->usuario, $student->usuario), Tools::getTypeUpdateAction());
@@ -99,15 +129,20 @@ class StudentController extends Controller
             return $response->withStatus(500)->write('0');
         }
     }
+
     function all(Request $request, Response $response) : Response
     {
-            if($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
-                $students = Student::where('institucion_id', $this->auth->user()->id_institucion)->get();
-            } else {
-                $students = Student::all();
-            }
-            $newResponse = $response->withHeader('Content-type', 'application/json');
-            return $newResponse->withJson($students, 200);
+
+        if($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            $i = Institution::with("students")->where("codigo", "=", $this->auth->user()->id_institucion)->get();
+            $students = $i->flatMap->students->toArray();
+
+        } else {
+            $students = Student::all(["usuario", "nombres", "apellidos", "documento", "institucion", "fecha", "id"]);
+        }
+        $newResponse = $response->withHeader('Content-type', 'application/json');
+
+        return $newResponse->withJson($students, 200);
     }
 
     /**
@@ -148,12 +183,12 @@ class StudentController extends Controller
                         ];
 
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
-                            $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] : Institution::getNameInstitutionForCodigo($this->auth->user()->id_institucion);
-                            $data["institucion_id"] = $this->auth->user()->id_institucion;
+                            $institution = Institution::where("codigo", $this->auth->user()->id_institucion)->first();
                         } else {
-                            $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] :  Institution::getNameInstitutionForCodigo($request->getParam('codigo_institucion'));
-                            $data["institucion_id"] = $request->getParam('codigo_institucion');
+                            $institution = Institution::where("codigo", $request->getParam('codigo_institucion'))->first();
                         }
+                        $data["institucion"] = $institution->nombre;
+                        $data["institucion_id"] = $institution->codigo;
                         $data = array_map("ucwords", array_map("strtolower",$data));
                         $data['usuario'] = strtolower($data['usuario']);
                         $data['correo'] = strtolower($data['correo']);
@@ -244,14 +279,18 @@ class StudentController extends Controller
 
     function search(Request $request, Response $response)
     {
-
         $router = $request->getAttribute('route');
         $param = $router->getArguments()['params']. "%";
         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
-            $students = Student::where("usuario", "LIKE", $param)
-                ->where("institucion_id", $this->auth->user()->id_institucion)
+            $codigo = $this->auth->user()->id_institucion;
+            $callback = function ($query) use ($codigo) {
+                $query->where("institucion.codigo", "=", $codigo);
+            };
+            $students =  Student::where("usuario","LIKE", $param)
+                ->whereHas("institutions", $callback)
+                ->with(["institutions" => $callback])
                 ->orWhere("documento", "LIKE", $param)
-                ->get()->toArray();
+                ->get();
         } else {
             $students = Student::where("usuario","LIKE", $param)
                 ->orWhere("documento", "LIKE", $param)
@@ -269,12 +308,15 @@ class StudentController extends Controller
         $newResponse = $response->withHeader('Content-type', 'application/json');
         try {
             $dataOK = $request->getParam('data');
+            $institution = Institution::where("codigo", $dataOK[0]["institucion_id"])->first();
             for($i = 0; $i < count($dataOK); $i++){
-
-                if (Student::updateOrCreate(['usuario' => $dataOK[$i]['usuario']], $dataOK[$i]) instanceof Student) {
+                $student = Student::updateOrCreate(['usuario' => $dataOK[$i]['usuario']], $dataOK[$i]);
+                if ($student instanceof Student) {
+                    $student->institutions()->attach($institution);
                     $dataOK[$i]["codigo"] = "C0";
                     $dataOK[$i]["message"] = "Creado correctamente";
                     unset($dataOK[$i]["institucion_id"]);
+
                     array_push($this->creators, $dataOK[$i]);
                 } else {
                     $dataOK[$i]["codigo"] = "E0";
@@ -354,39 +396,51 @@ class StudentController extends Controller
 
     }
 
-    function reset(Request $request, Response $response)
+    function reset(Request $request, Response $response, $args)
     {
         $newResponse = $response->withHeader('Content-type', 'application/json');
-        $router = $request->getAttribute('route');
         try
         {
-            $s = Student::find($router->getArguments('id'));
-            $s[0]->clave = $s[0]->documento;
-            $s[0]->save();
-            return $newResponse->withJson(["response" => 1, "message" => "Contraseña restablecida"], 200);
+            $s = Student::find($args['id']);
+            $s->clave = $s->documento;
+            $s->save();
+            return $newResponse->withJson(["response" => Tools::codigoOkXhr, "message" => "Contraseña restablecida"], 200);
         } catch ( \ErrorException $e) {
-            return $newResponse->withJson(['response' => 0, "message" => $e->getMessage()], 500);
+            return $newResponse->withJson(['response' => Tools::codigoErrorXhr, "message" => $e->getMessage()], 500);
         }
     }
 
-    function archive(Request $request, Response $response)
+    function archive(Request $request, Response $response, $args)
     {
         $newResponse = $response->withHeader('Content-type', 'application/json');
-        $router = $request->getAttribute('route');
         try {
-            $s = Student::find($router->getArguments('id'));
-            if ( $s[0]->registers->count() == 0){
-                $data = $s[0]->toArray();
-                $s[0]->delete();
-                StudentArchive::create($data);
-                return $newResponse->withJson(["response" => 1, "message" => "Usuario archivado"], 200);
+            $s = Student::find($args['id']);
+            if (! $this->isArroba()) {
+                if ($s->registers()->where("institucion_id", $this->auth->user()->id_institucion)->get()->count() == 0) {
+                    $s->institutions()->detach([$this->auth->user()->id_institucion]);
+                    $s->archive();
+                    return $newResponse->withJson(["response" => Tools::codigoOkXhr, "message" => "Usuario archivado"], 200);
+                }
+                return $newResponse->withJson(['response' => 2, "message" => "El usuario tiene matrícula  activas"], 200);
             }
-            return $newResponse->withJson(['response' => 2, "message" => "El usuario tiene matrícula  activas"], 200);
+            if ($s->registers()->where("institucion_id", $args['codigo'])->get()->count() == 0) {
+                $s->institutions()->detach([$args['codigo']]);
+                $s->archive();
+                return $newResponse->withJson(["response" => Tools::codigoOkXhr, "message" => "Usuario archivado"], 200);
+            }
+            return $newResponse->withJson(['response' => Tools::codigoNovedadXhr, "message" => "El usuario tiene matrícula  activas"], 200);
+
         } catch (\Exception $e) {
             return $newResponse->withJson(['response' => 0, "message" => $e->getMessage()], 500);
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
     function uploadArchive(Request $request, Response $response)
     {
         $uploadedFiles = $request->getUploadedFiles();
@@ -405,6 +459,8 @@ class StudentController extends Controller
                         $data = [
                             "usuario" => trim($worksheet->getCell('A'. $row)->getvalue())
                         ];
+
+
                         if (!filter_var(trim($data['usuario']), FILTER_VALIDATE_EMAIL)) {
                             $data['message'] = "E01";
                             $data['codigo'] = "El usuario no tiene una estructra de un correo electronico";
@@ -417,6 +473,12 @@ class StudentController extends Controller
 
                         if ($student instanceof Student) {
                             $data = $student->toArray();
+                            if ($this->isArroba()) {
+                                $data["institucion_carga"] = $request->getParam("codigo_institucion");
+                            } else {
+                                $data["institucion_carga"] = $this->auth->user()->id_institucion;
+                            }
+
                             if ($student->registers->count() !== 0) {
                                 $data['codigo'] = "A01";
                                 $data['message'] = "El usuario tiene matriculas activas";
@@ -491,10 +553,8 @@ class StudentController extends Controller
 
                         if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
                             $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] : Institution::getNameInstitutionForCodigo($this->auth->user()->id_institucion);
-                            $data["institucion_id"] = $this->auth->user()->id_institucion;
                         } else {
                             $data["institucion"] = !empty($data["institucion"]) ? $data["institucion"] :  Institution::getNameInstitutionForCodigo($request->getParam('codigo_institucion'));
-                            $data["institucion_id"] = $request->getParam('codigo_institucion');
                         }
                         $data = array_map("ucwords", array_map("strtolower",$data));
                         $data['usuario'] = strtolower($data['usuario']);
@@ -577,9 +637,16 @@ class StudentController extends Controller
         $e = 0;
 
         for($i = 0; $i < count($dataOK); $i++){
-            $student = Student::where("usuario", $dataOK[$i]['usuario'])->delete();
-            if($student) {
+            $student = Student::where("usuario", $dataOK[$i]['usuario'])->first();
+            if($student->institutions()->count() > 0 and $student->institutions()->count() < 2) {
                 if (StudentArchive::create($dataOK[$i]) instanceof StudentArchive) {
+                    $student->delete();
+                    $c++;
+                    continue;
+                }
+            } else {
+                if (StudentArchive::create($dataOK[$i]) instanceof StudentArchive) {
+                    $student->institutions()->detach([$dataOK[$i]['institucion_carga']]);
                     $c++;
                     continue;
                 }
@@ -621,5 +688,13 @@ class StudentController extends Controller
         return $response->withJson($data, 200);
 
     }
+
+    protected function isArroba() {
+        if ($this->auth->user()->id_institucion != Tools::codigoMedellin()) {
+            return false;
+        }
+        return true;
+    }
+
 
 }

@@ -8,7 +8,7 @@ class Course extends Model
 {
     protected $table = "curso";
 
-    protected $fillable = ['codigo', 'nombre', 'nombre_corto', 'id_programa', 'fecha', 'institucion_id'];
+    protected $fillable = ['codigo', 'nombre', 'level_formation', 'nombre_corto', 'id_programa', 'fecha', 'institucion_id'];
 
     protected  $appends = [
         "timemoodle", "activestatus"

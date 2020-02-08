@@ -286,7 +286,6 @@ class RegisterController extends Controller
                         }
 
                         $student = Student::where('usuario', $data['usuario'])->get();
-
                         if ($student->count() == 0) {
                             $data['message'] = str_replace(':usuario', $data['usuario'], Tools::getMessageRegister(5));
                             $data['codigo'] = Tools::getCodigoRegister(5);
@@ -295,7 +294,7 @@ class RegisterController extends Controller
                             continue;
                         }
                         $course = Course::where('codigo', $data['curso'])->get();
-                        if ($course->count() == 0) {
+                        if ($course->count() === 0) {
                             $data['message'] = str_replace(':codigo', $data['curso'], Tools::getMessageRegister(1));
                             $data['codigo'] = Tools::getCodigoRegister(1);
                             array_push($this->errors, $data);
@@ -303,15 +302,21 @@ class RegisterController extends Controller
                             continue;
                         }
                         $register = Register::where(['curso' => $data['curso'], 'usuario' => $data['usuario']])->first();
-                        if ($register instanceof Register) {
-                            $data['instancia'] = $register->instancia;
-                            $data['rol'] = $register->rol;
-                            $data['message'] = "Registro correcto para desmatricular";
+                        if (! $register instanceof Register) {
+                            $data['message'] = "El estudiante no tiene matricula en el curso.";
                             $data['codigo'] = "C01";
-                            array_push($this->creators, $data);
+                            array_push($this->errors, $data);
                             unset($data);
                             continue;
                         }
+
+                        $data['instancia'] = $register->instancia;
+                        $data['rol'] = $register->rol;
+                        $data['message'] = "Registro correcto para desmatricular";
+                        $data['codigo'] = "C01";
+                        $data['fecha'] = $register->fecha;
+                        array_push($this->creators, $data);
+                        unset($data);
                     }
                     $responseData = ['message' => 1, 'totalR' => ($highestRow - 1), 'totalC' => count($this->creators), 'totalE' => count($this->errors), 'creators' => $this->creators, 'errors' => $this->errors];
                     $newResponse = $response->withHeader('Content-type', 'application/json');
@@ -342,7 +347,8 @@ class RegisterController extends Controller
                     'usuario' => $dataOK[$i]['usuario'],
                     'curso' => $dataOK[$i]['curso'],
                     'rol' => $register->rol,
-                    'instancia' => $register->instancia
+                    'instancia' => $register->instancia,
+                    'fecha' => $register->fecha
                 ];
                 if ($register->delete() == true and RegisterArchive::create($registerOnRoll) instanceof RegisterArchive) {
                     $c++;
