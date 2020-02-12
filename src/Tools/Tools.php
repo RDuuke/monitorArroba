@@ -144,7 +144,7 @@ class Tools {
     ];
 
     static public $Roles = [
-        "student", "teacher", "editingteacher", "manager", "revisor"
+        "student", "teacher", "editingteacher", "manager", "revisor", "investigador"
     ];
 
     static protected $tipo = [

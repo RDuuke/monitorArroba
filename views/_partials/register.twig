@@ -14,7 +14,7 @@
                 <select name="rol" id="rol" class="form-control" required>
                     <option value="">Seleccione una opción</option>
                     {% for rol in roles %}
-                        {% if rol == "manager" %}
+                        {% if rol == "manager" or rol == "investigador" %}
                             {% if auth.user.id_institucion == codigo_arroba_medellin %}
                                 <option value="{{ rol }}">{{ rol }}</option>
                             {% endif %}
