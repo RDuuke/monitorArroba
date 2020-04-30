@@ -5,6 +5,7 @@ use App\Models\Institution;
 use App\Models\StudentArchive;
 use App\Models\User;
 use App\Tools\Log;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\Student;
@@ -159,7 +160,7 @@ class StudentController extends Controller
             $filename = Tools::moveUploadedFile($archive, $this->tmp, "estudiante");
             if ($filename != false) {
                 try {
-                    $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+                    $reader = IOFactory::createReader('Xlsx');
                     $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
                     $worksheet = $spreadsheet->getActiveSheet();
@@ -168,8 +169,8 @@ class StudentController extends Controller
                         $data = [
                             "usuario" => trim($worksheet->getCell('A'. $row)->getvalue()),
                             "clave" => trim($worksheet->getCell('E'. $row)->getvalue()),
-                            "nombres" => trim($worksheet->getCell('C'. $row)->getvalue(), ' \t\n\r\0\x0B'),
-                            "apellidos" => trim($worksheet->getCell('D'. $row)->getvalue(), ' \t\n\r\0\x0B'),
+                            "nombres" => trim($worksheet->getCell('C'. $row)->getvalue()),
+                            "apellidos" => trim($worksheet->getCell('D'. $row)->getvalue()),
                             "correo" => trim($worksheet->getCell('A'. $row)->getvalue()),
                             "documento" => trim($worksheet->getCell('E'. $row)->getvalue()),
                             "institucion" => trim($worksheet->getCell("F". $row)->getValue()),
@@ -450,7 +451,7 @@ class StudentController extends Controller
             $filename = Tools::moveUploadedFile($archive, $this->tmp, "estudiante-archivw");
             if ($filename != false) {
                 try {
-                    $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+                    $reader = IOFactory::createReader('Xlsx');
                     $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
                     $worksheet = $spreadsheet->getActiveSheet();
@@ -528,7 +529,7 @@ class StudentController extends Controller
             $filename = Tools::moveUploadedFile($archive, $this->tmp, "archive-edit");
             if ($filename != false) {
                 try {
-                    $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+                    $reader = IOFactory::createReader('Xlsx');
                     $reader->setReadDataOnly(true);
                     $spreadsheet = $reader->load($this->tmp . DS . $filename);
                     $worksheet = $spreadsheet->getActiveSheet();
