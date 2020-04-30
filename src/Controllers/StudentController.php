@@ -149,7 +149,7 @@ class StudentController extends Controller
     /**
      * @param Request $request
      * @param Response $response
-     * @return bool
+     * @return Response
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     function upload(Request $request, Response $response)
@@ -169,8 +169,8 @@ class StudentController extends Controller
                         $data = [
                             "usuario" => trim($worksheet->getCell('A'. $row)->getvalue()),
                             "clave" => trim($worksheet->getCell('E'. $row)->getvalue()),
-                            "nombres" => trim($worksheet->getCell('C'. $row)->getvalue()),
-                            "apellidos" => trim($worksheet->getCell('D'. $row)->getvalue()),
+                            "nombres" => trim($worksheet->getCell('C'. $row)->getvalue(),  " \t\n\r"),
+                            "apellidos" => trim($worksheet->getCell('D'. $row)->getvalue(),  " \t\n\r"),
                             "correo" => trim($worksheet->getCell('A'. $row)->getvalue()),
                             "documento" => trim($worksheet->getCell('E'. $row)->getvalue()),
                             "institucion" => trim($worksheet->getCell("F". $row)->getValue()),
@@ -193,8 +193,8 @@ class StudentController extends Controller
                         $data = array_map("ucwords", array_map("strtolower",$data));
                         $data['usuario'] = strtolower($data['usuario']);
                         $data['correo'] = strtolower($data['correo']);
-                        $data['usuario'] = preg_replace('/[^(\x20-\x7F)]*/', "", $data['usuario']);
-                        $data['correo'] = preg_replace('/[^(\x20-\x7F)]*/', "", $data['correo']);
+                        $data['usuario'] = preg_replace("/[^(\x20-\x7F)]*/", "", $data['usuario']);
+                        $data['correo'] = preg_replace("/[^(\x20-\x7F)]*/", "", $data['correo']);
                         if (!filter_var(trim($data['usuario']), FILTER_VALIDATE_EMAIL)) {
                             $data['message'] = Tools::getMessageUser(5);
                             $data['codigo'] = Tools::getCodigoUser(5);
